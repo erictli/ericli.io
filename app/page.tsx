@@ -1,113 +1,202 @@
-import Image from 'next/image'
+// Add better way to manage sprite states in the spritesheet (e.g. rows and columns)
+// Apply the direction to standing too
+// Jumping should jump up.
+
+"use client";
+
+import React, { useState, useEffect, useRef } from "react";
+import Image from "next/image";
+
+const spritesheet = "/spritesheet-eric.svg";
+const spriteWidth = 64 * 2;
+const spriteHeight = 96 * 2;
+const standingFrameChange = [1600, 200]; // Duration in milliseconds for each standing frame
+const walkingFrameRate = 150; // Time in milliseconds for each walking frame
+const moveSpeed = 5; // Pixels to move per frame
+const jumpVelocity = -12; // Initial velocity for the jump, negative for upward
+const gravity = 0.6; // Gravity applied to the character
+
+// Define types for your state
+type SpriteState = {
+  position: number;
+  frame: number;
+  moving: boolean;
+  standingFrameIndex: number;
+  verticalPosition: number;
+  verticalVelocity: number;
+  isJumping: boolean;
+};
 
 export default function Home() {
+  // Sprite state with types
+  const [position, setPosition] = useState<SpriteState["position"]>(100);
+  const [frame, setFrame] = useState<SpriteState["frame"]>(0);
+  const [moving, setMoving] = useState<SpriteState["moving"]>(false);
+  const [standingFrameIndex, setStandingFrameIndex] =
+    useState<SpriteState["standingFrameIndex"]>(0);
+  const [verticalPosition, setVerticalPosition] =
+    useState<SpriteState["verticalPosition"]>(0);
+  const [verticalVelocity, setVerticalVelocity] =
+    useState<SpriteState["verticalVelocity"]>(0);
+  const [isJumping, setIsJumping] = useState<SpriteState["isJumping"]>(false);
+
+  const moveDirection = useRef(0); // 1 for right, -1 for left
+  const containerRef = useRef<HTMLDivElement>(null); // Ref for the scrolling container
+
+  // Handle key down and key up with proper event type
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft") {
+        setMoving(true);
+        moveDirection.current = -1;
+      } else if (e.key === "ArrowRight") {
+        setMoving(true);
+        moveDirection.current = 1;
+      }
+      if (e.key === "ArrowUp" && !isJumping) {
+        setIsJumping(true);
+        setVerticalVelocity(jumpVelocity);
+      }
+    };
+
+    const handleKeyUp = (e: KeyboardEvent) => {
+      if (
+        (e.key === "ArrowLeft" && moveDirection.current === -1) ||
+        (e.key === "ArrowRight" && moveDirection.current === 1)
+      ) {
+        setMoving(false);
+        moveDirection.current = 0;
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("keyup", handleKeyUp);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("keyup", handleKeyUp);
+    };
+  }, [isJumping]);
+
+  // Standing animation frames
+  useEffect(() => {
+    if (!moving) {
+      const timeoutId = setTimeout(() => {
+        // Toggle between the first two frames for standing
+        setStandingFrameIndex((prevIndex) => (prevIndex + 1) % 2);
+      }, standingFrameChange[standingFrameIndex]);
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, [moving, standingFrameIndex]);
+
+  // Walking animation frames
+  // Handle movement and animation
+  useEffect(() => {
+    let moveInterval: NodeJS.Timeout | null = null;
+    let frameInterval: NodeJS.Timeout | null = null;
+
+    if (moving) {
+      moveInterval = setInterval(() => {
+        setPosition((prev) => {
+          // Calculate the new position considering the move direction
+          const newPosition = prev + moveSpeed * moveDirection.current;
+          // Prevent moving past the start of the page on the left
+          return Math.max(newPosition, 0);
+        });
+      }, 1000 / 60); // 60 times per second
+
+      frameInterval = setInterval(() => {
+        setFrame((prevFrame) => {
+          // Cycle through walking frames (4 walking frames starting at frame index 2)
+          const nextFrame = prevFrame < 2 || prevFrame >= 5 ? 2 : prevFrame + 1;
+          return nextFrame;
+        });
+      }, walkingFrameRate);
+    }
+
+    return () => {
+      if (moveInterval) clearInterval(moveInterval);
+      if (frameInterval) clearInterval(frameInterval);
+    };
+  }, [moving]);
+
+  // Jumping physics effect
+  useEffect(() => {
+    let physicsInterval: NodeJS.Timeout | null = null;
+
+    if (isJumping) {
+      physicsInterval = setInterval(() => {
+        setVerticalPosition((prev) => {
+          const nextPosition = prev + verticalVelocity;
+          return nextPosition > 0 ? 0 : nextPosition; // Prevents going below the ground
+        });
+        setVerticalVelocity((prev) => prev + gravity); // Apply gravity
+
+        if (verticalPosition >= 0 && verticalVelocity > 0) {
+          setIsJumping(false); // Stop jumping when character lands
+        }
+      }, 1000 / 60); // 60 times per second for smooth physics
+    }
+
+    return () => {
+      if (physicsInterval) clearInterval(physicsInterval);
+    };
+  }, [isJumping, verticalPosition, verticalVelocity]);
+
+  // Effect for scrolling the page to follow the character
+  useEffect(() => {
+    const handleScroll = () => {
+      if (containerRef.current) {
+        const container = containerRef.current;
+        const containerCenter = container.offsetWidth / 2;
+        // Check if character position is greater than the center of the container
+        if (position > containerCenter) {
+          // Scroll the container so that the character is in the middle
+          container.scrollLeft = position - containerCenter;
+        }
+      }
+    };
+
+    // Call the scroll handler whenever the character's position changes
+    handleScroll();
+
+    // You can also call this function on window resize if needed
+    // window.addEventListener('resize', handleScroll);
+    // return () => window.removeEventListener('resize', handleScroll);
+  }, [position]);
+
+  // Calculate the background position based on the frame
+  const backgroundPositionX =
+    -(moving ? frame % 4 : standingFrameIndex) * spriteWidth;
+  const backgroundPositionY = -(moving ? 1 : 0) * spriteHeight;
+
+  // Render the sprite
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px]">
+    <main ref={containerRef} className="relative h-[100dvh] overflow-hidden">
+      <div className="relative w-[5648px]">
         <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
+          src="/background.png"
+          alt="Background"
+          height={728}
+          width={5648}
+          className="absolute top-[-80px] left-0"
         />
-      </div>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore the Next.js 13 playground.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
+        <div
+          id="sprite"
+          className="mt-[480px]"
+          style={{
+            position: "absolute",
+            left: `${position}px`,
+            // top: "100px", // Y-position on screen, adjust as needed
+            top: `${verticalPosition}px`, // Changed to bottom to make it jump
+            width: `${spriteWidth}px`, // Width of the sprite
+            height: `${spriteHeight}px`, // Height of the sprite
+            background: `url(${spritesheet}) ${backgroundPositionX}px ${backgroundPositionY}px`,
+            transform: moveDirection.current === -1 ? "scaleX(-1)" : "none", // Flips the sprite when moving left
+          }}
+        ></div>
       </div>
     </main>
-  )
+  );
 }
