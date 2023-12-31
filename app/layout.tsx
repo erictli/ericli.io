@@ -1,8 +1,16 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import localFont from "next/font/local";
 
-const inter = Inter({ subsets: ["latin"] });
+const mondwest = localFont({
+  src: "../public/fonts/PPMondwest-Regular.woff2",
+  variable: "--font-mondwest",
+});
+
+const inter = localFont({
+  src: "../public/fonts/InterVariable.woff2",
+  variable: "--font-inter",
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,7 +24,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={`${inter.variable} ${mondwest.variable}`}>
+        {children}
+      </body>
     </html>
   );
 }
