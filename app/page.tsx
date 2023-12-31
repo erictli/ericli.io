@@ -1,8 +1,12 @@
 // Add better way to manage sprite states in the spritesheet (e.g. rows and columns)
 // Apply the direction to standing too
-// Alignment for big monitors
+// Vertical alignment for big monitors
+// Make houses slightly smaller
 // When reach the end of the page no longer aligned with page center
 // New sprites
+// Animation when sprite intersects text
+// Down arrow links (crouch, animate teleportation, open new tab)
+// Special mouse cursor
 
 "use client";
 
@@ -18,24 +22,22 @@ const moveSpeed = 5; // Pixels to move per frame
 const jumpVelocity = -12; // Initial velocity for the jump, negative for upward
 const gravity = 0.6; // Gravity applied to the character
 const textBlocks = [
-  "Hi, I'm Eric",
+  "Hi, I'm Eric.",
   "I’m the co-founder of Versive, an AI-first survey platform.",
   "I’m a self-taught designer, developer, and product manager.",
-  "I’ve been a manager and individual contributor at both startups and public companies.",
-  "Most recently I worked at Vareto, Uber, and Bread.",
+  "I've worked at tiny startups and public companies. Most recently I was at Vareto, Uber, and Bread.",
   "I’m originally from the Chicago suburbs and currently live in Brooklyn, NY.",
   "Thanks for walking with me.",
 ];
 const secondBlockPosition =
-  typeof window !== "undefined" ? window.innerWidth / 2 + 65 + 384 : 0;
+  typeof window !== "undefined" ? window.innerWidth / 2 + 59 + 400 : 0;
 const textPositions = [
   0,
   secondBlockPosition,
-  secondBlockPosition + 384 * 2,
-  secondBlockPosition + 384 * 4,
-  secondBlockPosition + 384 * 6,
-  secondBlockPosition + 384 * 8,
-  secondBlockPosition + 384 * 10,
+  secondBlockPosition + 800,
+  secondBlockPosition + 800 * 2,
+  secondBlockPosition + 800 * 3,
+  secondBlockPosition + 800 * 4,
 ];
 
 // Define types for your state
@@ -253,11 +255,11 @@ export default function Home() {
           />
         </div>
 
-        <div className="relative left-[calc(100dvw/2-65px)] top-[calc(100dvh/2-80px)] flex items-center gap-96 text-3xl">
+        <div className="relative left-[calc(100dvw/2-59px)] top-[calc(100dvh/2-80px)] flex items-center gap-[440px] text-[28px] leading-snug">
           {textBlocks.map((text, index) => (
             <div
               key={index}
-              className={`font-display max-w-96 opacity-0 ${
+              className={`font-display max-w-[360px] opacity-0 ${
                 animationTriggers[index] ? "animate-fadeInUp " : ""
               }`}
             >
