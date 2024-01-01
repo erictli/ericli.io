@@ -29,14 +29,6 @@ module.exports = {
             opacity: "1",
           },
         },
-        fadeOut: {
-          "0%": {
-            opacity: "1",
-          },
-          "100%": {
-            opacity: "0",
-          },
-        },
         fadeInUp: {
           "0%": {
             opacity: "0",
@@ -47,22 +39,33 @@ module.exports = {
             transform: "translateY(0)",
           },
         },
-        fadeOutUp: {
+        fadeInUpControls: {
           "0%": {
-            opacity: "1",
-            transform: "translateY(0)",
+            opacity: "0",
+            transform: "translateY(8px) translateX(-50%)",
           },
           "100%": {
+            opacity: "1",
+            transform: "translateY(0) translateX(-50%)",
+          },
+        },
+        panIn: {
+          "0%": {
             opacity: "0",
-            transform: "translateY(-12px)",
+            transform: "translateX(-480px)",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "translateX(0)",
           },
         },
       },
       animation: {
-        fadeInUp: "fadeInUp 1s ease-out forwards",
-        fadeOutUp: "fadeOutUp 0.5s ease-out forwards",
-        fadeIn: "fadeIn 0.5s ease-out forwards",
-        fadeOut: "fadeOut 0.5s ease-out forwards",
+        fadeInText: "fadeInUp 1s ease-out forwards 0.4s",
+        fadeInBackground:
+          "panIn 2.5s cubic-bezier(0.33, 1, 0.68, 1) forwards 1.9s",
+        fadeInSprite: "fadeIn 0.4s linear forwards 4.5s",
+        fadeInControls: "fadeInUpControls 0.4s linear forwards 4.9s",
       },
     },
   },
