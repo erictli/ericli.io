@@ -127,6 +127,7 @@ module.exports = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         fadeInText: "fadeInUp 1s ease-out forwards 0.4s",
+        fadeInFigma: "fadeIn 1s ease-out forwards",
         fadeInBackground:
           "panIn 2.5s cubic-bezier(0.33, 1, 0.68, 1) forwards 1.9s",
         fadeInSprite: "fadeIn 0.5s ease-out forwards 4.5s",
@@ -137,6 +138,7 @@ module.exports = {
         1500: "1500ms",
         2000: "2000ms",
         5000: "5000ms",
+        6000: "6000ms",
         8000: "8000ms",
       },
     },
