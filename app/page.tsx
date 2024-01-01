@@ -31,12 +31,12 @@ const textPositions = [
 ];
 const textPositionTriggers = [
   0,
-  1434 + 560 / 2 - 160, // Need to subtract the width of the previous text
-  1434 + 560 / 2 + 860,
-  1434 + 560 / 2 + 860 * 2,
-  1434 + 560 / 2 + 860 * 3,
-  1434 + 560 / 2 + 860 * 4,
-  1434 + 560 / 2 + 860 * 5,
+  1434 + 560 / 2 - 160 - 111, // Need to subtract the width of the previous text
+  1434 + 560 / 2 + 860 - 111,
+  1434 + 560 / 2 + 860 * 2 - 111,
+  1434 + 560 / 2 + 860 * 3 - 111,
+  1434 + 560 / 2 + 860 * 4 - 111,
+  1434 + 560 / 2 + 860 * 5 - 111,
 ];
 const backgroundWidth = 96 * 3 + 1434 + 1334 + 1170 + 1334 + 1334 + 1200;
 
@@ -218,21 +218,41 @@ export default function Home() {
         ref={containerRef}
         className={`relative h-[calc(100dvh-32px)] w-[calc(100dvw-32px)] overflow-hidden transition-colors duration-5000 ${
           animationTriggers[1] && !animationTriggers[2]
-            ? "bg-teal-900"
+            ? "bg-teal-950"
             : "bg-black"
         }`}
       >
         <div className="relative" style={{ width: backgroundWidth + "px" }}>
           <div className="absolute top-[calc(85dvh-560px-12px)] left-0 flex items-center pointer-events-none select-none opacity-0 animate-fadeInBackground">
-            <Image
-              src="/images/background-1.png"
-              alt="Background"
-              priority
-              height={560}
-              width={1434}
-              quality={100}
-              className=""
-            />
+            <div
+              className={`relative transition-opacity duration-1000 ${
+                animationTriggers[1] && !animationTriggers[2]
+                  ? "opacity-0"
+                  : "bg-black opacity-100"
+              }`}
+            >
+              <Image
+                src="/images/backgrounds/background-street-1.png"
+                alt="Background"
+                priority
+                height={560}
+                width={1434}
+                quality={100}
+                className=""
+              />
+              <div
+                className={`absolute left-0 top-0 bottom-0 w-80 bg-gradient-to-r from-black/90 to-black/0`}
+              ></div>
+              <div
+                className={`absolute right-0 top-0 bottom-0 w-80 bg-gradient-to-l from-black/90 to-black/0`}
+              ></div>
+              <div
+                className={`absolute left-0 right-0 top-0 h-44 bg-gradient-to-b from-black/90 to-black/0`}
+              ></div>
+              <div
+                className={`absolute left-0 right-0 bottom-0 h-9 bg-gradient-to-t from-black/90 to-black/0`}
+              ></div>
+            </div>
             <div className="flex-none h-[560px] w-[560px] mr-[240px] flex items-center justify-center">
               <Image
                 src="/images/versive.svg"
@@ -262,34 +282,30 @@ export default function Home() {
               </div>
             </div>
             <Image
-              src="/images/background-office.png"
+              src="/images/backgrounds/background-office.png"
               alt="Background"
-              priority
               height={560}
               width={1170}
               quality={100}
               className=""
             />
             <Image
-              src="/images/background-campus.png"
+              src="/images/backgrounds/background-campus.png"
               alt="Background"
-              priority
               height={560}
               width={1170}
               quality={100}
             />
             <Image
-              src="/images/background-2.png"
+              src="/images/backgrounds/background-street-2.png"
               alt="Background"
-              priority
               height={560}
               width={1334}
               quality={100}
             />
             <Image
-              src="/images/background-3.png"
+              src="/images/backgrounds/background-street-3.png"
               alt="Background"
-              priority
               height={560}
               width={1170}
               quality={100}
@@ -298,7 +314,7 @@ export default function Home() {
 
           <div className="relative top-[calc(100dvh/2-80px)] flex items-center text-[25px] leading-snug">
             <div
-              className={`relative font-display w-[320px] opacity-0 left-[calc(100dvw/2-16px-160px)] text-center ${
+              className={`relative font-display w-80 opacity-0 left-[calc(100dvw/2-16px-160px)] text-center ${
                 animationTriggers[0] ? "animate-fadeInText" : ""
               }`}
             >
@@ -306,7 +322,7 @@ export default function Home() {
             </div>
 
             <div
-              className={`relative font-display w-[320px] opacity-0 text-center ${
+              className={`relative font-display w-80 opacity-0 text-center ${
                 animationTriggers[1] ? "animate-fadeInText" : ""
               }`}
               style={{ left: textPositions[1] + "px" }}
@@ -314,7 +330,7 @@ export default function Home() {
               I&apos;m the co-founder of Versive, an AI-first survey platform.
             </div>
             <div
-              className={`relative font-display w-[320px] opacity-0 text-center border border-white/10 ${
+              className={`relative font-display w-80 opacity-0 text-center border border-white/10 ${
                 animationTriggers[2] ? "animate-fadeInText" : ""
               }`}
               style={{ left: textPositions[2] + "px" }}
@@ -325,7 +341,7 @@ export default function Home() {
               </div>
             </div>
             <div
-              className={`relative font-display w-[320px] opacity-0 ${
+              className={`relative font-display w-80 opacity-0 ${
                 animationTriggers[3] ? "animate-fadeInText" : ""
               }`}
               style={{ left: textPositions[3] + "px" }}
@@ -334,7 +350,7 @@ export default function Home() {
               recently I was at Vareto, Uber, and Bread.
             </div>
             <div
-              className={`relative font-display w-[320px] opacity-0 ${
+              className={`relative font-display w-80 opacity-0 ${
                 animationTriggers[4] ? "animate-fadeInText" : ""
               }`}
               style={{ left: textPositions[4] + "px" }}
@@ -343,7 +359,7 @@ export default function Home() {
               University of Chicago.
             </div>
             <div
-              className={`relative font-display w-[320px] opacity-0 ${
+              className={`relative font-display w-80 opacity-0 ${
                 animationTriggers[5] ? "animate-fadeInText" : ""
               }`}
               style={{ left: textPositions[5] + "px" }}
@@ -352,7 +368,7 @@ export default function Home() {
               Brooklyn, NY.
             </div>
             <div
-              className={`relative font-display w-[320px] opacity-0 ${
+              className={`relative font-display w-80 opacity-0 ${
                 animationTriggers[6] ? "animate-fadeInText" : ""
               }`}
               style={{ left: textPositions[6] + "px" }}
