@@ -74,3 +74,9 @@
     @apply bg-background text-foreground;
   }
 }
+
+body {
+  @apply bg-white text-white;
+  @apply antialiased;
+  @apply font-sans;
+}
