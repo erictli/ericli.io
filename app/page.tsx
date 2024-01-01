@@ -22,21 +22,21 @@ const jumpVelocity = -12; // Initial velocity for the jump, negative for upward
 const gravity = 0.6; // Gravity applied to the character
 const textPositions = [
   0,
-  1434+560/2-160-320, // Need to subtract the width of the previous text
-  1434+560/2+860-320*2,
-  1434+560/2+860*2-320*2,
-  1434+560/2+860*3-320*2,
-  1434+560/2+860*4-320*2,
-  1434+560/2+860*5-320*2,
+  1434 + 560 / 2 - 160 - 320, // Need to subtract the width of the previous text
+  1434 + 560 / 2 + 860 - 320 * 2,
+  1434 + 560 / 2 + 860 * 2 - 320 * 2,
+  1434 + 560 / 2 + 860 * 3 - 320 * 2,
+  1434 + 560 / 2 + 860 * 4 - 320 * 2,
+  1434 + 560 / 2 + 860 * 5 - 320 * 2,
 ];
 const textPositionTriggers = [
   0,
-  1434+560/2-160, // Need to subtract the width of the previous text
-  1434+560/2+860,
-  1434+560/2+860*2,
-  1434+560/2+860*3,
-  1434+560/2+860*4,
-  1434+560/2+860*5,
+  1434 + 560 / 2 - 160, // Need to subtract the width of the previous text
+  1434 + 560 / 2 + 860,
+  1434 + 560 / 2 + 860 * 2,
+  1434 + 560 / 2 + 860 * 3,
+  1434 + 560 / 2 + 860 * 4,
+  1434 + 560 / 2 + 860 * 5,
 ];
 const backgroundWidth = 96 * 3 + 1434 + 1334 + 1170 + 1334 + 1334 + 1200;
 
@@ -216,7 +216,11 @@ export default function Home() {
     <main className="flex items-center justify-center bg-white p-4">
       <div
         ref={containerRef}
-        className={`relative h-[calc(100dvh-32px)] w-[calc(100dvw-32px)] overflow-hidden transition-colors duration-5000 ${animationTriggers[1] && !animationTriggers[2] ? 'bg-teal-900' : 'bg-black' }`}
+        className={`relative h-[calc(100dvh-32px)] w-[calc(100dvw-32px)] overflow-hidden transition-colors duration-5000 ${
+          animationTriggers[1] && !animationTriggers[2]
+            ? "bg-teal-900"
+            : "bg-black"
+        }`}
       >
         <div className="relative" style={{ width: backgroundWidth + "px" }}>
           <div className="absolute top-[calc(85dvh-560px-12px)] left-0 flex items-center pointer-events-none select-none opacity-0 animate-fadeInBackground">
@@ -236,7 +240,9 @@ export default function Home() {
                 height={440}
                 width={440}
                 alt="Versive Logo"
-                className={`animate-spin !duration-8000 mb-4 transition-opacity ${animationTriggers[1] ? 'opacity-[8%]' : 'opacity-5'}`}
+                className={`animate-spin !duration-8000 mb-4 transition-opacity ${
+                  animationTriggers[1] ? "opacity-[8%]" : "opacity-5"
+                }`}
               />
             </div>
             <div className="flex-none h-[560px] w-[880px] bg-white/[8%] rounded-md mr-10">
@@ -264,7 +270,7 @@ export default function Home() {
               quality={100}
               className=""
             />
-                        <Image
+            <Image
               src="/images/background-campus.png"
               alt="Background"
               priority
@@ -296,7 +302,7 @@ export default function Home() {
                 animationTriggers[0] ? "animate-fadeInText" : ""
               }`}
             >
-              Hi, I'm Eric.
+              Hi, I&apos;m Eric.
             </div>
 
             <div
@@ -305,7 +311,7 @@ export default function Home() {
               }`}
               style={{ left: textPositions[1] + "px" }}
             >
-              I’m the co-founder of Versive, an AI-first survey platform.
+              I&apos;m the co-founder of Versive, an AI-first survey platform.
             </div>
             <div
               className={`relative font-display w-[320px] opacity-0 text-center border border-white/10 ${
@@ -313,8 +319,10 @@ export default function Home() {
               }`}
               style={{ left: textPositions[2] + "px" }}
             >
-              I’m a self-taught designer, developer, and product manager.
-              <div className="absolute text-[10px] font-sans opacity-30 -top-4">Frame 1</div>
+              I&apos;m a self-taught designer, developer, and product manager.
+              <div className="absolute text-[10px] font-sans opacity-30 -top-4">
+                Frame 1
+              </div>
             </div>
             <div
               className={`relative font-display w-[320px] opacity-0 ${
@@ -322,8 +330,8 @@ export default function Home() {
               }`}
               style={{ left: textPositions[3] + "px" }}
             >
-              I've worked at tiny startups and public companies. Most recently I
-              was at Vareto, Uber, and Bread.
+              I&apos;ve worked at tiny startups and public companies. Most
+              recently I was at Vareto, Uber, and Bread.
             </div>
             <div
               className={`relative font-display w-[320px] opacity-0 ${
@@ -340,7 +348,7 @@ export default function Home() {
               }`}
               style={{ left: textPositions[5] + "px" }}
             >
-              I’m originally from the Chicago suburbs and currently live in
+              I&apos;m originally from the Chicago suburbs and currently live in
               Brooklyn, NY.
             </div>
             <div
@@ -354,7 +362,11 @@ export default function Home() {
           </div>
           <div
             id="sprite"
-            className={`mt-[calc(85dvh-192px)] animate-fadeInSprite opacity-0 ${animationTriggers[2] && !animationTriggers[3] ? 'border border-white/10' : '' }}`}
+            className={`mt-[calc(85dvh-192px)] animate-fadeInSprite opacity-0 ${
+              animationTriggers[2] && !animationTriggers[3]
+                ? "border border-white/10"
+                : ""
+            }}`}
             style={{
               position: "absolute",
               left: `${position}px`,
