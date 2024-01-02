@@ -1,11 +1,12 @@
 // Add text mode
 // Favicon
 // Vertical alignment for big monitors
+// Reduce border to 12px
 // Mobile controls
+// ---
 // Special mouse cursor
 // Add progress bar
 // Improve sprites
-// Closing menu resets page position
 // Down arrow to trigger actions (crouch, animate teleportation, open new tab)
 
 "use client";
@@ -176,7 +177,6 @@ export default function Home() {
       }
     };
 
-    // Call the scroll handler whenever the character's position changes
     handleScroll();
   }, [position]);
 

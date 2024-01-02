@@ -9,7 +9,13 @@ export default function Menu({ gameMode }: { gameMode: boolean }) {
           <MenuIcon className="h-5 w-5 stroke-[1.5] transition-opacity duration-300 group-hover:opacity-80" />
         </div>
       </SheetTrigger>
-      <SheetContent className="text-black text-2xl font-display flex flex-col">
+      <SheetContent
+        onOpenAutoFocus={(e) => e.preventDefault()}
+        onCloseAutoFocus={(e) => {
+          e.preventDefault();
+        }}
+        className="text-black text-2xl font-display flex flex-col"
+      >
         <div className="flex-1 flex flex-col gap-1 justify-center">
           <div
             className={`px-2 py-1 hover:opacity-100 transition-opacity duration-300 cursor-pointer ${
