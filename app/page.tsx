@@ -1,71 +1,31 @@
-// Apply the direction to standing too
+// Add text mode
+// Favicon
 // Vertical alignment for big monitors
-// New sprites
-// Down arrow links (crouch, animate teleportation, open new tab)
+// Mobile controls
 // Special mouse cursor
-// Change colors in different sections (requires moving gradients to the page)
 // Add progress bar
-// Make office smaller
+// Improve sprites
+// Closing menu resets page position
+// Down arrow to trigger actions (crouch, animate teleportation, open new tab)
 
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import Image from "next/image";
-import { Menu, HomeIcon } from "lucide-react";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-
-const spritesheet = "/images/spritesheet-eric.svg";
-const spriteWidth = 64 * 2;
-const spriteHeight = 96 * 2;
-const standingFrameChange = [1600, 200]; // Duration in milliseconds for each standing frame
-const walkingFrameRate = 150; // Time in milliseconds for each walking frame
-const moveSpeed = 6; // Pixels to move per frame
-const jumpVelocity = -12; // Initial velocity for the jump, negative for upward
-const gravity = 0.6; // Gravity applied to the character
-const textPositions = [
-  0,
-  1434 + 560 / 2 - 160 - 320, // Need to subtract the width of the previous text
-  1434 + 560 + 240 + 880 / 2 - 160 - 320 * 2,
-  1434 + 560 + 240 + 880 + 40 + 1170 / 2 - 160 - 320 * 3,
-  1434 + 560 + 240 + 880 + 40 + 1170 + 40 + 1170 / 2 - 160 - 320 * 4,
-  1434 +
-    560 +
-    240 +
-    880 +
-    40 +
-    1170 +
-    40 +
-    1170 +
-    40 +
-    1170 / 2 -
-    160 -
-    320 * 5,
-  1434 +
-    560 +
-    240 +
-    880 +
-    40 +
-    1170 +
-    40 +
-    1170 +
-    40 +
-    1170 +
-    1170 -
-    320 -
-    320 * 6 -
-    64, // Last message aligned to the right
-];
-const textPositionTriggers = [
-  0,
-  1434 - 200, // Buffer of 200px
-  1434 + 560 + 240 - 200, // Buffer of 200px
-  1434 + 560 + 240 + 880 + 40,
-  1434 + 560 + 240 + 880 + 40 + 1170,
-  1434 + 560 + 240 + 880 + 40 + 1170 + 40 + 1170,
-  1434 + 560 + 240 + 880 + 40 + 1170 + 40 + 1170 + 40 + 1170,
-];
-const backgroundWidth =
-  1434 + 560 + 240 + 880 + 40 + 1170 + 40 + 1170 + 40 + 1170 + 1170;
+import Menu from "@/components/menu";
+import Background from "@/components/background";
+import Messages from "@/components/messages";
+import {
+  spritesheet,
+  spriteWidth,
+  spriteHeight,
+  standingFrameChange,
+  walkingFrameRate,
+  moveSpeed,
+  jumpVelocity,
+  gravity,
+  textPositionTriggers,
+  backgroundWidth,
+} from "@/lib/constants";
 
 // Define types for your state
 type SpriteState = {
@@ -93,6 +53,7 @@ export default function Home() {
   const [animationTriggers, setAnimationTriggers] = useState<boolean[]>(
     new Array(textPositionTriggers.length).fill(false),
   );
+  const [showInstructions, setShowInstructions] = useState<boolean>(true);
 
   const moveDirection = useRef(0); // 1 for right, -1 for left
   const containerRef = useRef<HTMLDivElement>(null); // Ref for the scrolling container
@@ -103,9 +64,11 @@ export default function Home() {
       if (e.key === "ArrowLeft") {
         setMoving(true);
         moveDirection.current = -1;
+        setShowInstructions(false);
       } else if (e.key === "ArrowRight") {
         setMoving(true);
         moveDirection.current = 1;
+        setShowInstructions(false);
       }
       if ((e.key === "ArrowUp" || e.key === " ") && !isJumping) {
         setIsJumping(true);
@@ -119,7 +82,6 @@ export default function Home() {
         (e.key === "ArrowRight" && moveDirection.current === 1)
       ) {
         setMoving(false);
-        moveDirection.current = 0;
       }
     };
 
@@ -165,7 +127,7 @@ export default function Home() {
       frameInterval = setInterval(() => {
         setFrame((prevFrame) => {
           // Cycle through walking frames (4 walking frames starting at frame index 2)
-          const nextFrame = prevFrame < 2 || prevFrame >= 5 ? 2 : prevFrame + 1;
+          const nextFrame = prevFrame < 2 || prevFrame >= 7 ? 2 : prevFrame + 1;
           return nextFrame;
         });
       }, walkingFrameRate);
@@ -216,10 +178,6 @@ export default function Home() {
 
     // Call the scroll handler whenever the character's position changes
     handleScroll();
-
-    // You can also call this function on window resize if needed
-    // window.addEventListener('resize', handleScroll);
-    // return () => window.removeEventListener('resize', handleScroll);
   }, [position]);
 
   // Effect to trigger animations based on the sprite's position
@@ -237,7 +195,7 @@ export default function Home() {
 
   // Calculate the background position based on the frame
   const backgroundPositionX =
-    -(moving ? frame % 4 : standingFrameIndex) * spriteWidth;
+    -(moving ? frame % 6 : standingFrameIndex) * spriteWidth;
   const backgroundPositionY = -(moving ? 1 : 0) * spriteHeight;
 
   return (
@@ -251,223 +209,8 @@ export default function Home() {
         }`}
       >
         <div className="relative" style={{ width: backgroundWidth + "px" }}>
-          <div className="absolute top-[calc(85dvh-560px-12px)] left-0 h-[560px] flex items-center pointer-events-none select-none opacity-0 animate-fadeInBackground">
-            <div
-              className={`relative transition-opacity duration-1000 ${
-                animationTriggers[1] && !animationTriggers[2]
-                  ? "opacity-0"
-                  : "opacity-100"
-              }`}
-            >
-              <Image
-                src="/images/backgrounds/background-street-1.png"
-                alt="Background"
-                priority
-                height={560}
-                width={1434}
-                quality={100}
-                className=""
-              />
-              <div
-                className={`absolute left-0 top-0 bottom-0 w-80 bg-gradient-to-r from-black to-black/0`}
-              ></div>
-              <div
-                className={`absolute right-0 top-0 bottom-0 w-80 bg-gradient-to-l from-black to-black/0`}
-              ></div>
-              <div
-                className={`absolute left-0 right-0 top-0 h-44 bg-gradient-to-b from-black from-5% to-black/0`}
-              ></div>
-              <div
-                className={`absolute left-0 right-0 bottom-0 h-9 bg-gradient-to-t from-black to-black/0`}
-              ></div>
-            </div>
-            <div className="flex-none h-[560px] w-[560px] mr-60 flex items-center justify-center">
-              <Image
-                src="/images/versive.svg"
-                priority
-                height={440}
-                width={440}
-                alt="Versive Logo"
-                className={`animate-spin !duration-8000 mb-4 transition-opacity ${
-                  animationTriggers[1] ? "opacity-[8%]" : "opacity-5"
-                }`}
-              />
-            </div>
-            <div
-              className={`flex-none h-[560px] w-[880px] bg-white/[8%] rounded-md mr-10 opacity-0 ${
-                animationTriggers[2] ? "animate-fadeInFigma" : ""
-              }`}
-            >
-              <div className="w-full border-b border-white/5 flex items-center">
-                <div className="flex items-center gap-2 p-3 h-8 border-r border-white/5 ">
-                  <div className="h-[10px] w-[10px] rounded-full border border-white/[8%]"></div>
-                  <div className="h-[10px] w-[10px] rounded-full border border-white/[8%]"></div>
-                  <div className="h-[10px] w-[10px] rounded-full border border-white/[8%]"></div>
-                </div>
-                <div className="h-8 flex items-center justify-center p-3 border-r border-white/5">
-                  <HomeIcon size={12} className=" fill-white opacity-20" />
-                </div>
-                <div className="h-8 flex gap-[6px] items-center justify-center p-3 text-[9px] border-r border-white/5">
-                  <div className="h-3 w-3 bg-sky-500/30 rounded-sm"></div>
-                  ericli.io
-                </div>
-              </div>
-            </div>
-            <div
-              className={`relative transition-opacity duration-1000 ${
-                animationTriggers[3] ? "opacity-100" : "opacity-0"
-              }`}
-            >
-              <Image
-                src="/images/backgrounds/background-office.png"
-                alt="Background"
-                height={560}
-                width={1170}
-                quality={100}
-                className="h-[560px]"
-              />
-              <div
-                className={`absolute left-0 top-0 bottom-0 w-80 bg-gradient-to-r from-black to-black/0`}
-              ></div>
-              <div
-                className={`absolute right-0 top-0 bottom-0 w-80 bg-gradient-to-l from-black to-black/0`}
-              ></div>
-              <div
-                className={`absolute left-0 right-0 top-0 h-44 bg-gradient-to-b from-black from-10% to-black/0`}
-              ></div>
-              <div
-                className={`absolute left-0 right-0 bottom-0 h-9 bg-gradient-to-t from-black to-black/0`}
-              ></div>
-            </div>
-            <div className="relative mr-10">
-              <Image
-                src="/images/backgrounds/background-campus.png"
-                alt="Background"
-                height={560}
-                width={1170}
-                quality={100}
-              />
-              <div
-                className={`absolute left-0 top-0 bottom-0 w-80 bg-gradient-to-r from-black to-black/0`}
-              ></div>
-              <div
-                className={`absolute right-0 top-0 bottom-0 w-80 bg-gradient-to-l from-black to-black/0`}
-              ></div>
-              <div
-                className={`absolute left-0 right-0 top-0 h-44 bg-gradient-to-b from-black to-black/0`}
-              ></div>
-              <div
-                className={`absolute left-0 right-0 bottom-0 h-9 bg-gradient-to-t from-black to-black/0`}
-              ></div>
-            </div>
-            <div className="relative">
-              <Image
-                src="/images/backgrounds/background-street-2.png"
-                alt="Background"
-                height={560}
-                width={1170}
-                quality={100}
-              />
-              <div
-                className={`absolute left-0 top-0 bottom-0 w-80 bg-gradient-to-r from-black to-black/0`}
-              ></div>
-              <div
-                className={`absolute right-0 top-0 bottom-0 w-80 bg-gradient-to-l from-black to-black/0`}
-              ></div>
-              <div
-                className={`absolute left-0 right-0 top-0 h-44 bg-gradient-to-b from-black to-black/0`}
-              ></div>
-              <div
-                className={`absolute left-0 right-0 bottom-0 h-9 bg-gradient-to-t from-black to-black/0`}
-              ></div>
-            </div>
-            <div className="relative">
-              <Image
-                src="/images/backgrounds/background-street-3.png"
-                alt="Background"
-                height={560}
-                width={1170}
-                quality={100}
-              />
-              <div
-                className={`absolute left-0 top-0 bottom-0 w-80 bg-gradient-to-r from-black to-black/0`}
-              ></div>
-              <div
-                className={`absolute right-0 top-0 bottom-0 w-80 bg-gradient-to-l from-black to-black/0`}
-              ></div>
-              <div
-                className={`absolute left-0 right-0 top-0 h-44 bg-gradient-to-b from-black to-black/0`}
-              ></div>
-              <div
-                className={`absolute left-0 right-0 bottom-0 h-9 bg-gradient-to-t from-black to-black/0`}
-              ></div>
-            </div>
-          </div>
-
-          <div className="relative top-[calc(100dvh/2-80px)] flex items-center text-[25px] leading-snug text-center">
-            <div
-              className={`relative font-display w-80 opacity-0 left-[calc(100dvw/2-16px-160px)] ${
-                animationTriggers[0] ? "animate-fadeInText" : ""
-              }`}
-            >
-              Hi, I&apos;m Eric.
-            </div>
-
-            <div
-              className={`relative font-display w-80 opacity-0 ${
-                animationTriggers[1] ? "animate-fadeInText" : ""
-              }`}
-              style={{ left: textPositions[1] + "px" }}
-            >
-              I&apos;m the co-founder of Versive, an AI-first survey platform.
-            </div>
-            <div
-              className={`relative font-display w-80 opacity-0 border border-white/10 ${
-                animationTriggers[2] ? "animate-fadeInText" : ""
-              }`}
-              style={{ left: textPositions[2] + "px" }}
-            >
-              I&apos;m a self-taught designer, developer, and product manager.
-              <div className="absolute text-[10px] font-sans opacity-30 -top-4">
-                Frame 1
-              </div>
-            </div>
-            <div
-              className={`relative font-display w-80 opacity-0 ${
-                animationTriggers[3] ? "animate-fadeInText" : ""
-              }`}
-              style={{ left: textPositions[3] + "px" }}
-            >
-              I&apos;ve worked at tiny startups and public companies. Most
-              recently I was at Vareto, Uber, and Bread.
-            </div>
-            <div
-              className={`relative font-display w-80 opacity-0 ${
-                animationTriggers[4] ? "animate-fadeInText" : ""
-              }`}
-              style={{ left: textPositions[4] + "px" }}
-            >
-              In a past life, I worked in finance and studied economics at the
-              University of Chicago.
-            </div>
-            <div
-              className={`relative font-display w-80 opacity-0 ${
-                animationTriggers[5] ? "animate-fadeInText" : ""
-              }`}
-              style={{ left: textPositions[5] + "px" }}
-            >
-              I&apos;m originally from the Chicago suburbs and currently live in
-              Brooklyn, NY.
-            </div>
-            <div
-              className={`relative text-lg text-right font-display w-80 opacity-0 ${
-                animationTriggers[6] ? "animate-fadeInText" : ""
-              }`}
-              style={{ left: textPositions[6] + "px" }}
-            >
-              Thanks for walking with me.
-            </div>
-          </div>
+          <Background animationTriggers={animationTriggers} />
+          <Messages animationTriggers={animationTriggers} />
           <div
             className="absolute mt-[calc(85dvh-192px)] "
             style={{
@@ -484,7 +227,7 @@ export default function Home() {
                 width: `${spriteWidth}px`,
                 height: `${spriteHeight}px`,
                 background: `url(${spritesheet}) ${backgroundPositionX}px ${backgroundPositionY}px`,
-                transform: moveDirection.current === -1 ? "scaleX(-1)" : "none", // Flips the sprite when moving left
+                transform: moveDirection.current === -1 ? "scaleX(-1)" : "none", // Flips the sprite based on the last move direction
               }}
             ></div>
             <div
@@ -505,28 +248,17 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <Sheet>
-          <SheetTrigger>
-            <div className="fixed top-9 right-9 text-xs opacity-0 animate-fadeInMenu z-10">
-              <Menu size={20} className="stroke-[1.5]" />
-            </div>
-          </SheetTrigger>
-          <SheetContent className="text-black pt-10 text-2xl font-display">
-            <div className="py-1">Game mode</div>
-            <div className="py-1">Text mode</div>
-            <div className="py-1">LinkedIn</div>
-            <div className="py-1">Read.cv</div>
-            <div className="py-1">Email</div>
-            <div className="py-1">Versive</div>
-            <div>Last updated Jan 1, 2024</div>
-          </SheetContent>
-        </Sheet>
-        <div className="fixed bottom-9 text-xs left-1/2 -translate-x-1/2 text-white/50 opacity-0 animate-fadeInControls">
+        <Menu gameMode={true} />
+        <div
+          className={`fixed bottom-8 text-xs left-1/2 -translate-x-1/2 duration-500 opacity-0 animate-fadeInControls font-medium ${
+            showInstructions ? "text-white/100 " : "text-white/0"
+          }`}
+        >
           Use the arrow keys to move
         </div>
       </div>
       <div
-        className={`fixed top-4 left-4 right-4 bottom-4 transition-colors duration-8000 ${
+        className={`fixed top-4 left-4 right-4 bottom-4 transition-colors duration-5000 ${
           animationTriggers[6]
             ? "bg-indigo-800/20"
             : animationTriggers[4]
