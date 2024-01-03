@@ -15,6 +15,7 @@ import Menu from "@/components/menu";
 import Background from "@/components/background";
 import Messages from "@/components/messages";
 import Sprite from "@/components/sprite";
+import { ChevronLeft, ChevronUp, ChevronRight } from "lucide-react";
 import {
   spriteWidth,
   spriteHeight,
@@ -55,9 +56,27 @@ export default function Home() {
   );
   const [showInstructions, setShowInstructions] = useState<boolean>(true);
   const [gameMode, setGameMode] = useState<boolean>(true);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
 
   const moveDirection = useRef(0); // 1 for right, -1 for left
   const containerRef = useRef<HTMLDivElement>(null); // Ref for the scrolling container
+
+  // Calculate the background position based on the frame
+  const backgroundPositionX =
+    -(moving ? frame % 6 : standingFrameIndex) * spriteWidth;
+  const backgroundPositionY = -(moving ? 1 : 0) * spriteHeight;
+
+  const isMobileOrTablet = () => {
+    return (
+      /(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(
+        navigator.userAgent,
+      ) || /Mobile|iPhone|iPod|Android/i.test(navigator.userAgent)
+    );
+  };
+
+  useEffect(() => {
+    setIsMobile(isMobileOrTablet());
+  }, []);
 
   // Handle key down and key up with proper event type
   useEffect(() => {
@@ -193,10 +212,22 @@ export default function Home() {
     });
   }, [position, animationTriggers]);
 
-  // Calculate the background position based on the frame
-  const backgroundPositionX =
-    -(moving ? frame % 6 : standingFrameIndex) * spriteWidth;
-  const backgroundPositionY = -(moving ? 1 : 0) * spriteHeight;
+  // direction can be -1 or 1
+  const handleMoveStart = (direction: number) => {
+    setMoving(true);
+    moveDirection.current = direction;
+  };
+
+  const handleMoveEnd = () => {
+    setMoving(false);
+  };
+
+  const handleJumpStart = () => {
+    if (!isJumping) {
+      setIsJumping(true);
+      setVerticalVelocity(jumpVelocity);
+    }
+  };
 
   return (
     <main className="flex items-center justify-center bg-white p-3">
@@ -220,13 +251,45 @@ export default function Home() {
               animationTriggers={animationTriggers}
               moveDirection={moveDirection}
             />
-            <div
-              className={`fixed bottom-8 text-xs text-center left-1/2 -translate-x-1/2 duration-500 opacity-0 animate-fadeInControls font-medium ${
-                showInstructions ? "text-white/100 " : "text-white/0"
-              }`}
-            >
-              Use the arrow keys to move
-            </div>
+            {isMobile ? (
+              <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 flex gap-1 duration-500 opacity-0 animate-fadeInControls">
+                <button
+                  className="p-2 bg-white/10 border border-white/5 rounded-lg hover:bg-white/20 transition-colors duration-300"
+                  onTouchStart={() => handleMoveStart(-1)}
+                  onTouchEnd={handleMoveEnd}
+                  onMouseDown={() => handleMoveStart(-1)}
+                  onMouseUp={handleMoveEnd}
+                >
+                  <ChevronLeft className="h-5 w-5" />
+                </button>
+                <button
+                  className="p-2 bg-white/10 border border-white/5 rounded-lg hover:bg-white/20 transition-colors duration-300"
+                  onTouchStart={handleJumpStart}
+                  onTouchEnd={handleMoveEnd}
+                  onMouseDown={handleJumpStart}
+                  onMouseUp={handleMoveEnd}
+                >
+                  <ChevronUp className="h-5 w-5" />
+                </button>
+                <button
+                  className="p-2 bg-white/10 border border-white/5 rounded-lg hover:bg-white/20 transition-colors duration-300"
+                  onTouchStart={() => handleMoveStart(1)}
+                  onTouchEnd={handleMoveEnd}
+                  onMouseDown={() => handleMoveStart(1)}
+                  onMouseUp={handleMoveEnd}
+                >
+                  <ChevronRight className="h-5 w-5" />
+                </button>
+              </div>
+            ) : (
+              <div
+                className={`fixed bottom-8 text-xs text-center left-1/2 -translate-x-1/2 duration-500 opacity-0 animate-fadeInControls font-medium ${
+                  showInstructions ? "text-white/100 " : "text-white/0"
+                }`}
+              >
+                Use the arrow keys to move
+              </div>
+            )}
           </div>
         ) : (
           <div className="h-[calc(100dvh-24px)] w-full overflow-y-scroll p-5 no-scrollbar">

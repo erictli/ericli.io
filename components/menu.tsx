@@ -1,4 +1,9 @@
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+  SheetClose,
+} from "@/components/ui/sheet";
 import { MenuIcon } from "lucide-react";
 
 export default function Menu({
@@ -23,22 +28,26 @@ export default function Menu({
         className="text-black text-2xl font-display flex flex-col"
       >
         <div className="flex-1 flex flex-col gap-1 justify-center">
-          <button
-            className={`text-left px-2 py-1 hover:opacity-100 transition-opacity duration-300 cursor-pointer focus:outline-none focus:bg-black/[7%] rounded-md ${
-              gameMode ? "opacity-100" : "opacity-60"
-            }`}
-            onClick={() => setGameMode(true)}
-          >
-            Game mode
-          </button>
-          <button
-            className={`text-left px-2 py-1 hover:opacity-100 transition-opacity duration-300 cursor-pointer focus:outline-none focus:bg-black/[7%] rounded-md ${
-              !gameMode ? "opacity-100" : "opacity-60"
-            }`}
-            onClick={() => setGameMode(false)}
-          >
-            Text mode
-          </button>
+          <SheetClose asChild>
+            <button
+              className={`text-left px-2 py-1 hover:opacity-100 transition-opacity duration-300 cursor-pointer focus:outline-none focus:bg-black/[7%] rounded-md ${
+                gameMode ? "opacity-100" : "opacity-60"
+              }`}
+              onClick={() => setGameMode(true)}
+            >
+              Game mode
+            </button>
+          </SheetClose>
+          <SheetClose asChild>
+            <button
+              className={`text-left px-2 py-1 hover:opacity-100 transition-opacity duration-300 cursor-pointer focus:outline-none focus:bg-black/[7%] rounded-md ${
+                !gameMode ? "opacity-100" : "opacity-60"
+              }`}
+              onClick={() => setGameMode(false)}
+            >
+              Text mode
+            </button>
+          </SheetClose>
           <hr className="border-black/10 border-dashed my-3 mx-2" />
           <a
             href="https://getversive.com"
