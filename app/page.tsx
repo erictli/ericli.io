@@ -1,10 +1,8 @@
-// Add text mode
-// Favicon
 // Vertical alignment for big monitors
-// Reduce border to 12px
 // Mobile controls
 // ---
 // Special mouse cursor
+// Add Vesive survey link
 // Add progress bar
 // Improve sprites
 // Down arrow to trigger actions (crouch, animate teleportation, open new tab)
@@ -12,11 +10,12 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 import Menu from "@/components/menu";
 import Background from "@/components/background";
 import Messages from "@/components/messages";
+import Sprite from "@/components/sprite";
 import {
-  spritesheet,
   spriteWidth,
   spriteHeight,
   standingFrameChange,
@@ -55,6 +54,7 @@ export default function Home() {
     new Array(textPositionTriggers.length).fill(false),
   );
   const [showInstructions, setShowInstructions] = useState<boolean>(true);
+  const [gameMode, setGameMode] = useState<boolean>(true);
 
   const moveDirection = useRef(0); // 1 for right, -1 for left
   const containerRef = useRef<HTMLDivElement>(null); // Ref for the scrolling container
@@ -178,7 +178,7 @@ export default function Home() {
     };
 
     handleScroll();
-  }, [position]);
+  }, [position, gameMode]);
 
   // Effect to trigger animations based on the sprite's position
   useEffect(() => {
@@ -208,57 +208,85 @@ export default function Home() {
             : "bg-black"
         }`}
       >
-        <div className="relative" style={{ width: backgroundWidth + "px" }}>
-          <Background animationTriggers={animationTriggers} />
-          <Messages animationTriggers={animationTriggers} />
-          <div
-            className="absolute mt-[calc(85dvh-192px)] "
-            style={{
-              left: `${position}px`,
-              top: `${verticalPosition}px`,
-              width: `${spriteWidth}px`,
-              height: `${spriteHeight}px`,
-            }}
-          >
+        {gameMode ? (
+          <div className="relative" style={{ width: backgroundWidth + "px" }}>
+            <Background animationTriggers={animationTriggers} />
+            <Messages animationTriggers={animationTriggers} />
+            <Sprite
+              position={position}
+              verticalPosition={verticalPosition}
+              backgroundPositionX={backgroundPositionX}
+              backgroundPositionY={backgroundPositionY}
+              animationTriggers={animationTriggers}
+              moveDirection={moveDirection}
+            />
             <div
-              id="sprite"
-              className={`animate-fadeInSprite opacity-0`}
-              style={{
-                width: `${spriteWidth}px`,
-                height: `${spriteHeight}px`,
-                background: `url(${spritesheet}) ${backgroundPositionX}px ${backgroundPositionY}px`,
-                transform: moveDirection.current === -1 ? "scaleX(-1)" : "none", // Flips the sprite based on the last move direction
-              }}
-            ></div>
-            <div
-              className={`absolute top-3 left-4 right-4 bottom-3 border border-white/10 transition-opacity duration-1000 ${
-                animationTriggers[2] && !animationTriggers[3]
-                  ? "opacity-100"
-                  : "opacity-0"
-              }`}
-            ></div>
-            <div
-              className={`absolute text-[10px] font-sans left-4 -top-1 transition-opacity duration-1000 ${
-                animationTriggers[2] && !animationTriggers[3]
-                  ? "opacity-30"
-                  : "opacity-0"
+              className={`fixed bottom-8 text-xs text-center left-1/2 -translate-x-1/2 duration-500 opacity-0 animate-fadeInControls font-medium ${
+                showInstructions ? "text-white/100 " : "text-white/0"
               }`}
             >
-              Frame 2
+              Use the arrow keys to move
             </div>
           </div>
-        </div>
-        <Menu gameMode={true} />
-        <div
-          className={`fixed bottom-8 text-xs text-center left-1/2 -translate-x-1/2 duration-500 opacity-0 animate-fadeInControls font-medium ${
-            showInstructions ? "text-white/100 " : "text-white/0"
-          }`}
-        >
-          Use the arrow keys to move
-        </div>
+        ) : (
+          <div className="h-[calc(100dvh-24px)] w-full overflow-y-scroll p-5 no-scrollbar">
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[1434px] opacity-0 animate-fadeInFigma">
+              <Image
+                src="/images/backgrounds/background-street-1.png"
+                alt="Background"
+                priority
+                height={560}
+                width={1434}
+                quality={100}
+                className=""
+              />
+              <div
+                className={`absolute left-0 top-0 bottom-0 w-80 bg-gradient-to-r from-black to-black/0`}
+              ></div>
+              <div
+                className={`absolute right-0 top-0 bottom-0 w-96 bg-gradient-to-l from-black to-black/0`}
+              ></div>
+              <div
+                className={`absolute left-0 right-0 top-0 h-44 bg-gradient-to-b from-black from-5% to-black/0`}
+              ></div>
+              <div
+                className={`absolute left-0 right-0 bottom-0 h-9 bg-gradient-to-t from-black to-black/0`}
+              ></div>
+            </div>
+            <div className="flex flex-col gap-6 font-display text-3xl sm:text-4xl !leading-[1.4] max-w-screen-sm mx-auto pt-24 pb-24 sm:pt-32 sm:pb-48 opacity-0 animate-fadeInText">
+              <p>Hi, I&apos;m Eric.</p>
+              <p>
+                I&apos;m the co-founder of{" "}
+                <a
+                  href="https://getversive.com"
+                  target="_blank"
+                  className="focus:outline-none hover:opacity-50 transition-opacity duration-500 focus:opacity-50"
+                >
+                  Versive
+                </a>
+                , an AI-first survey platform.
+              </p>
+              <p>
+                I&apos;m a self-taught designer, developer, and product manager.
+                I&apos;ve worked at tiny startups and public companies. Most
+                recently I was at Vareto, Uber, and Bread.
+              </p>
+              <p>
+                In a past life, I worked in finance and studied economics at the
+                University of Chicago.
+              </p>
+              <p>
+                I&apos;m originally from the Chicago suburbs and currently live
+                in Brooklyn, NY.
+              </p>
+            </div>
+          </div>
+        )}
+
+        <Menu gameMode={gameMode} setGameMode={setGameMode} />
       </div>
       <div
-        className={`fixed top-3 left-3 right-3 bottom-3 transition-colors duration-5000 ${
+        className={`fixed top-3 left-3 right-3 bottom-3 transition-colors duration-5000 pointer-events-none ${
           animationTriggers[6]
             ? "bg-indigo-800/20"
             : animationTriggers[4]

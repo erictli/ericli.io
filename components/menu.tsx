@@ -1,7 +1,13 @@
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { MenuIcon } from "lucide-react";
 
-export default function Menu({ gameMode }: { gameMode: boolean }) {
+export default function Menu({
+  gameMode,
+  setGameMode,
+}: {
+  gameMode: boolean;
+  setGameMode: (gameMode: boolean) => void;
+}) {
   return (
     <Sheet>
       <SheetTrigger>
@@ -17,20 +23,22 @@ export default function Menu({ gameMode }: { gameMode: boolean }) {
         className="text-black text-2xl font-display flex flex-col"
       >
         <div className="flex-1 flex flex-col gap-1 justify-center">
-          <div
-            className={`px-2 py-1 hover:opacity-100 transition-opacity duration-300 cursor-pointer ${
+          <button
+            className={`text-left px-2 py-1 hover:opacity-100 transition-opacity duration-300 cursor-pointer focus:outline-none focus:bg-black/[7%] rounded-md ${
               gameMode ? "opacity-100" : "opacity-60"
             }`}
+            onClick={() => setGameMode(true)}
           >
             Game mode
-          </div>
-          <div
-            className={`px-2 py-1 hover:opacity-100 transition-opacity duration-300 cursor-pointer ${
+          </button>
+          <button
+            className={`text-left px-2 py-1 hover:opacity-100 transition-opacity duration-300 cursor-pointer focus:outline-none focus:bg-black/[7%] rounded-md ${
               !gameMode ? "opacity-100" : "opacity-60"
             }`}
+            onClick={() => setGameMode(false)}
           >
             Text mode
-          </div>
+          </button>
           <hr className="border-black/10 border-dashed my-3 mx-2" />
           <a
             href="https://getversive.com"
