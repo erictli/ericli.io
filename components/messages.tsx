@@ -21,7 +21,15 @@ export default function Messages({
         }`}
         style={{ left: textPositions[1] + "px" }}
       >
-        I&apos;m the co-founder of Versive, an AI-first survey platform.
+        I&apos;m the co-founder of{" "}
+        <a
+          href="https://getversive.com"
+          target="_blank"
+          className="focus:outline-none hover:opacity-50 transition-opacity duration-500 focus:opacity-50"
+        >
+          Versive
+        </a>
+        , an AI-first survey platform.
       </div>
       <div
         className={`relative font-display w-80 opacity-0 border border-white/10 ${
