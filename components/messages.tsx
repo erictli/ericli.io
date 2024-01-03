@@ -6,7 +6,7 @@ export default function Messages({
   animationTriggers: boolean[];
 }) {
   return (
-    <div className="relative top-[calc(100dvh/2-80px)] flex items-center text-[25px] leading-snug text-center">
+    <div className="relative top-[calc(50dvh-51px-40px)] flex items-center text-[25px] leading-snug text-center">
       <div
         className={`relative font-display w-80 opacity-0 left-[calc(100dvw/2-12px-160px)] ${
           animationTriggers[0] ? "animate-fadeInText" : ""

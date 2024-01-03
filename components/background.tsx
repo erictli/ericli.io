@@ -7,7 +7,7 @@ export default function Background({
   animationTriggers: boolean[];
 }) {
   return (
-    <div className="absolute top-[calc(85dvh-560px-12px)] left-0 h-[560px] flex items-center pointer-events-none select-none opacity-0 animate-fadeInBackground">
+    <div className="absolute top-[calc(50dvh-280px-40px)] left-0 h-[560px] flex items-center pointer-events-none select-none opacity-0 animate-fadeInBackground">
       <div
         className={`relative transition-opacity duration-1000 ${
           animationTriggers[1] && !animationTriggers[2]
@@ -45,7 +45,7 @@ export default function Background({
           width={440}
           alt="Versive Logo"
           className={`animate-spin !duration-8000 mb-4 transition-opacity ${
-            animationTriggers[1] ? "opacity-[8%]" : "opacity-5"
+            animationTriggers[1] ? "opacity-[8%]" : "opacity-0"
           }`}
         />
       </div>

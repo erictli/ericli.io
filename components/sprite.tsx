@@ -17,7 +17,7 @@ export default function Sprite({
 }) {
   return (
     <div
-      className="absolute mt-[calc(85dvh-192px)] "
+      className="absolute mt-[calc(50dvh-280px-40px+560px-192px+12px)] "
       style={{
         left: `${position}px`,
         top: `${verticalPosition}px`,

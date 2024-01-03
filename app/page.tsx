@@ -1,11 +1,7 @@
-// Vertical alignment for big monitors
-// Mobile controls
-// ---
 // Special mouse cursor
 // Add Vesive survey link
 // Add progress bar
-// Improve sprites
-// Down arrow to trigger actions (crouch, animate teleportation, open new tab)
+// Down arrow to trigger actions (crouch, animate teleportation, open links for Versive and Linkedin)
 
 "use client";
 
@@ -233,10 +229,10 @@ export default function Home() {
     <main className="flex items-center justify-center bg-white p-3">
       <div
         ref={containerRef}
-        className={`relative h-[calc(100dvh-24px)] w-[calc(100dvw-24px)] overflow-hidden transition-colors duration-5000 ${
-          animationTriggers[1] && !animationTriggers[2]
-            ? "bg-teal-950"
-            : "bg-black"
+        className={`relative h-[calc(100dvh-24px)] w-[calc(100dvw-24px)] overflow-hidden transition-colors ${
+          animationTriggers[1] && !animationTriggers[2] && gameMode
+            ? "bg-teal-950 duration-5000"
+            : "bg-black duration-1000"
         }`}
       >
         {gameMode ? (
@@ -295,29 +291,31 @@ export default function Home() {
             )}
           </div>
         ) : (
-          <div className="h-[calc(100dvh-24px)] w-full overflow-y-scroll p-5 no-scrollbar">
-            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[1434px] opacity-0 animate-fadeInFigma">
-              <Image
-                src="/images/backgrounds/background-street-1.png"
-                alt="Background"
-                priority
-                height={560}
-                width={1434}
-                quality={100}
-                className=""
-              />
-              <div
-                className={`absolute left-0 top-0 bottom-0 w-80 bg-gradient-to-r from-black to-black/0`}
-              ></div>
-              <div
-                className={`absolute right-0 top-0 bottom-0 w-96 bg-gradient-to-l from-black to-black/0`}
-              ></div>
-              <div
-                className={`absolute left-0 right-0 top-0 h-44 bg-gradient-to-b from-black from-5% to-black/0`}
-              ></div>
-              <div
-                className={`absolute left-0 right-0 bottom-0 h-9 bg-gradient-to-t from-black to-black/0`}
-              ></div>
+          <div className="relative h-[calc(100dvh-24px)] w-full overflow-y-scroll p-5 no-scrollbar">
+            <div className="fixed top-3 left-3 right-3 bottom-3 overflow-hidden">
+              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[1434px] opacity-0 animate-fadeInTextBg">
+                <Image
+                  src="/images/backgrounds/background-street-1.png"
+                  alt="Background"
+                  priority
+                  height={560}
+                  width={1434}
+                  quality={100}
+                  className=""
+                />
+                <div
+                  className={`absolute left-0 top-0 bottom-0 w-80 bg-gradient-to-r from-black to-black/0`}
+                ></div>
+                <div
+                  className={`absolute right-0 top-0 bottom-0 w-96 bg-gradient-to-l from-black to-black/0`}
+                ></div>
+                <div
+                  className={`absolute left-0 right-0 top-0 h-44 bg-gradient-to-b from-black from-5% to-black/0`}
+                ></div>
+                <div
+                  className={`absolute left-0 right-0 bottom-0 h-9 bg-gradient-to-t from-black to-black/0`}
+                ></div>
+              </div>
             </div>
             <div className="flex flex-col gap-6 font-display text-3xl sm:text-4xl !leading-[1.4] max-w-screen-sm mx-auto pt-24 pb-24 sm:pt-32 sm:pb-48 opacity-0 animate-fadeInText">
               <p>Hi, I&apos;m Eric.</p>

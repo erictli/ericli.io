@@ -30,8 +30,8 @@ export const textPositions = [
 ];
 export const textPositionTriggers = [
   0,
-  1434 - 200, // Buffer of 200px
-  1434 + 560 + 240 - 200, // Buffer of 200px
+  1434 - 400, // Buffer of 400px
+  1434 + 560 + 240 - 160, // Buffer of 160px
   1434 + 560 + 240 + 880 + 80,
   1434 + 560 + 240 + 880 + 80 + 896,
   1434 + 560 + 240 + 880 + 80 + 896 + 40 + 1170,
