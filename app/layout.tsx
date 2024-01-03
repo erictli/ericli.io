@@ -1,6 +1,8 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { PHProvider, PostHogPageview } from "./providers";
+import { Suspense } from "react";
 
 const mondwest = localFont({
   src: "../public/fonts/PPMondwest-Regular.woff2",
@@ -24,9 +26,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} ${mondwest.variable}`}>
-        {children}
-      </body>
+      <Suspense>
+        <PostHogPageview />
+      </Suspense>
+      <PHProvider>
+        <body className={`${inter.variable} ${mondwest.variable}`}>
+          {children}
+        </body>
+      </PHProvider>
     </html>
   );
 }

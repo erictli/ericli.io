@@ -199,10 +199,10 @@ export default function Home() {
   const backgroundPositionY = -(moving ? 1 : 0) * spriteHeight;
 
   return (
-    <main className="flex items-center justify-center bg-white p-4">
+    <main className="flex items-center justify-center bg-white p-3">
       <div
         ref={containerRef}
-        className={`relative h-[calc(100dvh-32px)] w-[calc(100dvw-32px)] overflow-hidden transition-colors duration-5000 ${
+        className={`relative h-[calc(100dvh-24px)] w-[calc(100dvw-24px)] overflow-hidden transition-colors duration-5000 ${
           animationTriggers[1] && !animationTriggers[2]
             ? "bg-teal-950"
             : "bg-black"
@@ -250,7 +250,7 @@ export default function Home() {
         </div>
         <Menu gameMode={true} />
         <div
-          className={`fixed bottom-8 text-xs left-1/2 -translate-x-1/2 duration-500 opacity-0 animate-fadeInControls font-medium ${
+          className={`fixed bottom-8 text-xs text-center left-1/2 -translate-x-1/2 duration-500 opacity-0 animate-fadeInControls font-medium ${
             showInstructions ? "text-white/100 " : "text-white/0"
           }`}
         >
@@ -258,7 +258,7 @@ export default function Home() {
         </div>
       </div>
       <div
-        className={`fixed top-4 left-4 right-4 bottom-4 transition-colors duration-5000 ${
+        className={`fixed top-3 left-3 right-3 bottom-3 transition-colors duration-5000 ${
           animationTriggers[6]
             ? "bg-indigo-800/20"
             : animationTriggers[4]

@@ -121,7 +121,7 @@ export default function Background({
           src="/images/backgrounds/background-street-2.png"
           alt="Background"
           height={560}
-          width={1170}
+          width={1092}
           quality={100}
         />
         <div

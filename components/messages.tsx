@@ -8,7 +8,7 @@ export default function Messages({
   return (
     <div className="relative top-[calc(100dvh/2-80px)] flex items-center text-[25px] leading-snug text-center">
       <div
-        className={`relative font-display w-80 opacity-0 left-[calc(100dvw/2-16px-160px)] ${
+        className={`relative font-display w-80 opacity-0 left-[calc(100dvw/2-12px-160px)] ${
           animationTriggers[0] ? "animate-fadeInText" : ""
         }`}
       >
