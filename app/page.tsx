@@ -252,13 +252,14 @@ export default function Home() {
               moveDirection={moveDirection}
             />
             {isMobile ? (
-              <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 flex gap-1 duration-500 opacity-0 animate-fadeInControls">
+              <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 flex gap-2 duration-500 opacity-0 animate-fadeInControls">
                 <button
                   className="p-2 bg-white/10 border border-white/5 rounded-lg hover:bg-white/20 transition-colors duration-300"
                   onTouchStart={() => handleMoveStart(-1)}
                   onTouchEnd={handleMoveEnd}
                   onMouseDown={() => handleMoveStart(-1)}
                   onMouseUp={handleMoveEnd}
+                  onContextMenu={(e) => e.preventDefault()} // Preventing long press menu
                 >
                   <ChevronLeft className="h-5 w-5" />
                 </button>
@@ -268,6 +269,7 @@ export default function Home() {
                   onTouchEnd={handleMoveEnd}
                   onMouseDown={handleJumpStart}
                   onMouseUp={handleMoveEnd}
+                  onContextMenu={(e) => e.preventDefault()} // Preventing long press menu
                 >
                   <ChevronUp className="h-5 w-5" />
                 </button>
@@ -277,6 +279,7 @@ export default function Home() {
                   onTouchEnd={handleMoveEnd}
                   onMouseDown={() => handleMoveStart(1)}
                   onMouseUp={handleMoveEnd}
+                  onContextMenu={(e) => e.preventDefault()} // Preventing long press menu
                 >
                   <ChevronRight className="h-5 w-5" />
                 </button>
