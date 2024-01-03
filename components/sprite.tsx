@@ -43,7 +43,7 @@ export default function Sprite({
         }`}
       ></div>
       <div
-        className={`absolute text-[10px] font-sans left-4 -top-1 transition-opacity duration-1000 ${
+        className={`absolute text-[10px] font-sans left-4 -top-1 transition-opacity duration-1000 select-none ${
           animationTriggers[2] && !animationTriggers[3]
             ? "opacity-30"
             : "opacity-0"

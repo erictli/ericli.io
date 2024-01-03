@@ -236,7 +236,10 @@ export default function Home() {
         }`}
       >
         {gameMode ? (
-          <div className="relative" style={{ width: backgroundWidth + "px" }}>
+          <div
+            className={`relative ${isMobile ? "select-none" : ""}`}
+            style={{ width: backgroundWidth + "px" }}
+          >
             <Background animationTriggers={animationTriggers} />
             <Messages animationTriggers={animationTriggers} />
             <Sprite
