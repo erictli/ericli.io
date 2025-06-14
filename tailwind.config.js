@@ -6,6 +6,52 @@ module.exports = {
     "./components/**/*.{ts,tsx}",
     "./app/**/*.{ts,tsx}",
     "./src/**/*.{ts,tsx}",
+    "./hooks/**/*.{ts,tsx}",
+    "./contexts/**/*.{ts,tsx}",
+  ],
+  safelist: [
+    // Text colors for theme switching
+    "text-stone-950",
+    "text-white",
+
+    // Border colors for links
+    "border-stone-950/20",
+    "border-stone-950/30",
+    "border-white/20",
+    "border-white/30",
+    "hover:border-stone-950/30",
+    "hover:border-white/30",
+
+    // Opacity classes
+    "opacity-60",
+    "opacity-70",
+
+    // HR border colors
+    "border-stone-950/10",
+    "border-white/10",
+
+    // Background colors for bottom nav
+    "bg-stone-950/[4%]",
+    "bg-stone-950/[6%]",
+    "bg-white/[8%]",
+
+    // Prose theme classes
+    "prose-gray",
+    "prose-invert",
+    "prose-headings:text-gray-900",
+    "prose-headings:text-white",
+    "prose-p:text-gray-800",
+    "prose-p:text-gray-200",
+    "prose-a:text-gray-900",
+    "prose-a:text-white",
+    "hover:prose-a:text-gray-600",
+    "hover:prose-a:text-gray-300",
+    "prose-strong:text-gray-900",
+    "prose-strong:text-white",
+    "prose-li:text-gray-800",
+    "prose-li:text-gray-200",
+    "prose-hr:border-gray-200",
+    "prose-hr:border-gray-700",
   ],
   prefix: "",
   theme: {
@@ -23,6 +69,9 @@ module.exports = {
         ],
         display: [
           "var(--font-mondwest), var(--font-inter), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
+        ],
+        "abc-diatype": [
+          "var(--font-abc-diatype), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
         ],
       },
       colors: {
@@ -144,5 +193,5 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
 };
