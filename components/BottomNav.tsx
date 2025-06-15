@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { HexColorPicker } from "react-colorful";
 import { useTheme, type ThemeMode } from "@/contexts/ThemeContext";
+import { IconHome, IconMail, IconBrandLinkedin } from "@tabler/icons-react";
 
 export default function BottomNav() {
   const [showColorPicker, setShowColorPicker] = useState(false);
@@ -53,18 +54,6 @@ export default function BottomNav() {
     }
   }, [showColorPicker]);
 
-  // Don't render until hydrated to prevent hydration mismatch
-  if (!isHydrated) {
-    return (
-      <div className="fixed bottom-6 left-6 flex items-center gap-6 pl-4 pr-6 py-3 text-sm rounded-full bg-stone-950/[4%] backdrop-blur-md">
-        <div className="w-6 h-6 rounded-full bg-gray-200 animate-pulse"></div>
-        <div className="font-semibold -ml-3.5">Eric Li</div>
-        <div className={getOpacityClass()}>LinkedIn</div>
-        <div className={getOpacityClass()}>hi@ericli.io</div>
-      </div>
-    );
-  }
-
   const getBottomBarClass = () => {
     return shouldUseDarkText()
       ? "bg-stone-950/[4%] backdrop-blur-md"
@@ -84,34 +73,37 @@ export default function BottomNav() {
   return (
     <>
       <div
-        className={`fixed bottom-6 left-6 flex items-center gap-6 pl-4 pr-6 py-3 text-sm rounded-full ${getBottomBarClass()}`}
+        className={`fixed bottom-4 left-4 sm:bottom-6 sm:left-6 right-4 sm:right-auto flex items-center justify-between gap-8 px-6 py-3 text-sm rounded-full ${getBottomBarClass()}`}
       >
-        <div className="relative">
-          <img
-            src="/images/color-picker.png"
-            className="w-6 h-6 rounded-full cursor-pointer hover:opacity-70 transition-opacity color-picker-trigger"
-            onClick={() => setShowColorPicker(!showColorPicker)}
-          />
-        </div>
         <Link
           href="/"
-          className={`font-semibold hover:opacity-60 transition-opacity -ml-3.5 ${getLinkColorClass()}`}
+          className={`font-semibold hover:opacity-100 transition-opacity ${getOpacityClass()} ${getLinkColorClass()}`}
         >
-          Eric Li
+          {/* Eric Li */}
+          <IconHome strokeWidth={1.5} size={22} />
         </Link>
         <Link
           href="https://linkedin.com/in/erictli"
           target="_blank"
           className={`hover:opacity-100 transition-opacity ${getOpacityClass()} ${getLinkColorClass()}`}
         >
-          LinkedIn
+          {/* LinkedIn */}
+          <IconBrandLinkedin strokeWidth={1.5} size={22} />
         </Link>
         <Link
           href="mailto:eric@getversive.com"
           className={`hover:opacity-100 transition-opacity ${getOpacityClass()} ${getLinkColorClass()}`}
         >
-          hi@ericli.io
+          {/* hi@ericli.io */}
+          <IconMail strokeWidth={1.5} size={22} />
         </Link>
+        <div className="relative">
+          <img
+            src="/images/color-picker.png"
+            className="w-[22px] h-[22px] p-[1px] rounded-full cursor-pointer hover:opacity-70 transition-opacity color-picker-trigger"
+            onClick={() => setShowColorPicker(!showColorPicker)}
+          />
+        </div>
       </div>
 
       {/* Color Picker Popup - Now a sibling */}

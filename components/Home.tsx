@@ -27,8 +27,8 @@ export default function Home({ articles }: HomeProps) {
     <main
       className={`min-h-screen w-full font-abc-diatype transition-colors duration-200 ${getTextColorClass()}`}
     >
-      <div className="flex text-[15px] p-10 justify-between gap-10 flex-col sm:flex-row">
-        <div className="max-w-[21rem] space-y-6 flex-1">
+      <div className="flex text-[15px] p-6 pb-24 sm:p-10 justify-between gap-10 flex-col sm:flex-row">
+        <div className="sm:max-w-[21rem] space-y-6 flex-1">
           <div className="space-y-3">
             <h1 className="font-semibold">
               Hi, I'm Eric, the co-founder of{" "}
@@ -84,7 +84,7 @@ export default function Home({ articles }: HomeProps) {
             </div>
           </div>
         </div>
-        <div className="max-w-[21rem] space-y-6 flex-1">
+        <div className="sm:max-w-[21rem] space-y-6 flex-1">
           <div className="space-y-3">
             <h2 className={getOpacityClass()}>Projects</h2>
 
