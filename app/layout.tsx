@@ -55,7 +55,7 @@ export default function RootLayout({
       <PHProvider>
         <ThemeProvider>
           <body
-            className={`${inter.variable} ${mondwest.variable} ${abcDiatype.variable}`}
+            className={`${inter.variable} ${mondwest.variable} ${abcDiatype.variable} transition-colors duration-800`}
           >
             {children}
           </body>

@@ -178,6 +178,10 @@ module.exports = {
         fadeInText: "fadeInUp 1s ease-out forwards 0.4s",
         fadeInFigma: "fadeIn 1s ease-out forwards",
         fadeInTextBg: "fadeIn 1s ease-out forwards 1s",
+        fadeInHome1: "fadeInUp 0.8s ease-out forwards 0.4s",
+        fadeInHome2: "fadeInUp 0.8s ease-out forwards 0.8s",
+        fadeInBack: "fadeInDown 0.8s ease-out forwards 0.8s",
+        fadeInNav: "fadeInUp 0.8s ease-out forwards 1.2s",
         fadeInBackground:
           "panIn 2.5s cubic-bezier(0.33, 1, 0.68, 1) forwards 1.9s",
         fadeInSprite: "fadeIn 0.5s ease-out forwards 4.5s",

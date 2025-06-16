@@ -22,37 +22,21 @@ export default function Article({ article }: ArticleProps) {
 
   // Show loading state until hydrated
   if (!isHydrated) {
-    return (
-      <main className="min-h-screen font-abc-diatype text-stone-950">
-        <div className="max-w-2xl mx-auto px-6 py-16">
-          <div className="animate-pulse">
-            <div className="h-4 bg-gray-200 rounded w-1/4 mb-4"></div>
-            <div className="h-8 bg-gray-200 rounded w-3/4 mb-4"></div>
-            <div className="h-4 bg-gray-200 rounded w-1/2 mb-8"></div>
-            <div className="space-y-3">
-              <div className="h-4 bg-gray-200 rounded"></div>
-              <div className="h-4 bg-gray-200 rounded"></div>
-              <div className="h-4 bg-gray-200 rounded w-5/6"></div>
-            </div>
-          </div>
-        </div>
-        <BottomNav />
-      </main>
-    );
+    return <main className="min-h-screen"></main>;
   }
 
   return (
     <main
       className={`min-h-screen font-abc-diatype transition-colors duration-200 ${getTextColorClass()}`}
     >
-      <div className="max-w-2xl mx-auto px-6 py-16">
+      <Link
+        href="/"
+        className="fixed top-6 left-6 text-sm mb-4 hover:opacity-60 transition-opacity animate-fadeInBack opacity-0"
+      >
+        Back to home
+      </Link>
+      <div className="max-w-2xl mx-auto px-6 py-16 animate-fadeInHome1 opacity-0">
         <article>
-          <Link
-            href="/"
-            className="text-sm mb-4 hover:opacity-60 transition-opacity"
-          >
-            Back to home
-          </Link>
           <header className="mb-8">
             <div
               className={`flex items-center gap-4 text-sm mb-4 ${getOpacityClass()}`}
@@ -85,14 +69,14 @@ export default function Article({ article }: ArticleProps) {
               prose-hr:my-8 prose-hr:transition-colors
               ${
                 getTextColorClass() === "text-stone-950"
-                  ? `prose-gray prose-headings:text-gray-900 prose-p:text-gray-800 
-                   prose-a:text-gray-900 hover:prose-a:text-gray-600 
-                   prose-strong:text-gray-900 prose-li:text-gray-800 
-                   prose-hr:border-gray-200`
-                  : `prose-invert prose-headings:text-white prose-p:text-gray-200 
-                   prose-a:text-white hover:prose-a:text-gray-300 
-                   prose-strong:text-white prose-li:text-gray-200 
-                   prose-hr:border-gray-700`
+                  ? `prose-stone prose-headings:text-stone-950 prose-p:text-stone-950/80 
+                   prose-a:text-stone-950/80 hover:prose-a:text-stone-950/60 
+                   prose-strong:text-stone-950 prose-li:text-stone-950/80 
+                   prose-hr:border-stone-950/10`
+                  : `prose-invert prose-headings:text-white prose-p:text-white/60 
+                   prose-a:text-white hover:prose-a:text-white/30 
+                   prose-strong:text-white prose-li:text-white/60 
+                   prose-hr:border-white/10`
               }`}
             dangerouslySetInnerHTML={{ __html: article.content }}
           />

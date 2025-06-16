@@ -73,14 +73,14 @@ export default function BottomNav() {
   return (
     <>
       <div
-        className={`fixed bottom-4 left-4 sm:bottom-6 sm:left-6 right-4 sm:right-auto flex items-center justify-between gap-8 px-6 py-3 text-sm rounded-full ${getBottomBarClass()}`}
+        className={`fixed bottom-4 left-4 sm:bottom-6 sm:left-6 right-4 sm:right-auto flex items-center justify-between gap-8 px-5 py-2.5 text-sm rounded-full animate-fadeInNav opacity-0 ${getBottomBarClass()}`}
       >
         <Link
           href="/"
           className={`font-semibold hover:opacity-100 transition-opacity ${getOpacityClass()} ${getLinkColorClass()}`}
         >
           {/* Eric Li */}
-          <IconHome strokeWidth={1.5} size={22} />
+          <IconHome strokeWidth={1.5} size={20} />
         </Link>
         <Link
           href="https://linkedin.com/in/erictli"
@@ -88,19 +88,19 @@ export default function BottomNav() {
           className={`hover:opacity-100 transition-opacity ${getOpacityClass()} ${getLinkColorClass()}`}
         >
           {/* LinkedIn */}
-          <IconBrandLinkedin strokeWidth={1.5} size={22} />
+          <IconBrandLinkedin strokeWidth={1.5} size={20} />
         </Link>
         <Link
           href="mailto:eric@getversive.com"
           className={`hover:opacity-100 transition-opacity ${getOpacityClass()} ${getLinkColorClass()}`}
         >
           {/* hi@ericli.io */}
-          <IconMail strokeWidth={1.5} size={22} />
+          <IconMail strokeWidth={1.5} size={20} />
         </Link>
         <div className="relative">
           <img
             src="/images/color-picker.png"
-            className="w-[22px] h-[22px] p-[1px] rounded-full cursor-pointer hover:opacity-70 transition-opacity color-picker-trigger"
+            className="w-5 h-5 p-[1px] rounded-full cursor-pointer hover:opacity-70 transition-opacity color-picker-trigger"
             onClick={() => setShowColorPicker(!showColorPicker)}
           />
         </div>
@@ -109,7 +109,7 @@ export default function BottomNav() {
       {/* Color Picker Popup - Now a sibling */}
       {showColorPicker && (
         <div
-          className={`fixed bottom-20 left-6 p-3 ${getColorPickerClass()} backdrop-blur-md rounded-xl color-picker-container w-60`}
+          className={`fixed bottom-16 sm:bottom-20 left-auto right-4 sm:right-auto sm:left-6 p-3 ${getColorPickerClass()} backdrop-blur-md rounded-xl color-picker-container w-60`}
         >
           <HexColorPicker
             color={themeState.color}
