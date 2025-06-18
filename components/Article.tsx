@@ -65,18 +65,18 @@ export default function Article({ article }: ArticleProps) {
               <span className="opacity-50">•</span>
               <span>{article.readTime}</span>
             </div>
-            <h1 className="text-3xl sm:text-4xl font-[550] mb-4">
+            <h1 className="text-3xl sm:text-4xl font-medium mb-4">
               {article.title}
             </h1>
           </header>
 
           <div
             className={`prose prose-base sm:prose-lg max-w-none transition-colors duration-200
-              prose-headings:font-[550] prose-headings:transition-colors
+              prose-headings:font-medium prose-headings:transition-colors
               prose-h2:text-2xl prose-h2:mt-10 sm:prose-h2:mt-12 prose-h2:mb-4 prose-h3:text-xl prose-h3:mt-6 sm:prose-h3:mt-8 prose-h3:mb-3
               prose-p:leading-[1.75] prose-p:transition-colors prose-a:no-underline
               prose-a:border-b prose-a:border-dashed prose-a:pb-0.5 prose-a:text-stone-950/80 prose-a:font-normal prose-a:transition-opacity hover:prose-a:opacity-60
-              prose-strong:font-[550] prose-strong:transition-colors
+              prose-strong:font-medium prose-strong:transition-colors
               prose-ul:my-4 prose-ol:my-4 prose-ol:pl-8 prose-ul:pl-5 prose-li:pl-0.5
               prose-li:my-2 prose-li:leading-[1.75] prose-li:transition-colors
               prose-hr:my-8 prose-hr:transition-colors

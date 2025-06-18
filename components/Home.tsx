@@ -34,7 +34,7 @@ export default function Home({ articles }: HomeProps) {
       <div className="flex text-sm p-6 pb-32 sm:pb-24 sm:p-10 justify-between gap-6 sm:gap-10 flex-col sm:flex-row">
         <div className="sm:max-w-[21rem] space-y-6 flex-1">
           <div className="space-y-3 animate-fadeInHome1 opacity-0">
-            <h1 className="font-[550] text-[15px]">
+            <h1 className="font-medium text-[15px]">
               Hi, I&apos;m Eric, the co-founder of{" "}
               <Link
                 href="https://getversive.com"
@@ -100,7 +100,7 @@ export default function Home({ articles }: HomeProps) {
                 <Link
                   href="https://getversive.com"
                   target="_blank"
-                  className={`font-[550] text-[15px] !leading-snug hover:opacity-60 transition-opacity block ${getLinkColorClass()}`}
+                  className={`font-medium text-[15px] !leading-snug hover:opacity-60 transition-opacity block ${getLinkColorClass()}`}
                 >
                   Versive
                 </Link>
@@ -113,7 +113,7 @@ export default function Home({ articles }: HomeProps) {
                 <Link
                   href="https://mirio-zeta.vercel.app/"
                   target="_blank"
-                  className={`font-[550] text-[15px] !leading-snug hover:opacity-60 transition-opacity block ${getLinkColorClass()}`}
+                  className={`font-medium text-[15px] !leading-snug hover:opacity-60 transition-opacity block ${getLinkColorClass()}`}
                 >
                   Mirio
                 </Link>
@@ -124,7 +124,7 @@ export default function Home({ articles }: HomeProps) {
               <div className="space-y-0.5">
                 <Link
                   href="/v1"
-                  className={`font-[550] text-[15px] !leading-snug hover:opacity-60 transition-opacity block ${getLinkColorClass()}`}
+                  className={`font-medium text-[15px] !leading-snug hover:opacity-60 transition-opacity block ${getLinkColorClass()}`}
                 >
                   ericli.io
                 </Link>
@@ -145,7 +145,7 @@ export default function Home({ articles }: HomeProps) {
                 <div key={article.slug} className="space-y-0.5">
                   <Link
                     href={`/writing/${article.slug}`}
-                    className={`font-[550] text-[15px] !leading-snug hover:opacity-60 transition-opacity block ${getLinkColorClass()}`}
+                    className={`font-medium text-[15px] !leading-snug hover:opacity-60 transition-opacity block ${getLinkColorClass()}`}
                   >
                     {article.title}
                   </Link>
