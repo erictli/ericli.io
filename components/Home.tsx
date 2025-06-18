@@ -29,12 +29,12 @@ export default function Home({ articles }: HomeProps) {
 
   return (
     <main
-      className={`min-h-screen w-full font-abc-diatype transition-colors duration-200 ${getTextColorClass()}`}
+      className={`min-h-screen w-full font-sans transition-colors duration-200 ${getTextColorClass()}`}
     >
-      <div className="flex text-[15px] p-6 pb-32 sm:pb-24 sm:p-10 justify-between gap-6 sm:gap-10 flex-col sm:flex-row">
+      <div className="flex text-sm p-6 pb-32 sm:pb-24 sm:p-10 justify-between gap-6 sm:gap-10 flex-col sm:flex-row">
         <div className="sm:max-w-[21rem] space-y-6 flex-1">
           <div className="space-y-3 animate-fadeInHome1 opacity-0">
-            <h1 className="font-semibold text-base">
+            <h1 className="font-[550] text-[15px]">
               Hi, I&apos;m Eric, the co-founder of{" "}
               <Link
                 href="https://getversive.com"
@@ -46,7 +46,7 @@ export default function Home({ articles }: HomeProps) {
               .
             </h1>
 
-            <div className={`space-y-3 ${getOpacityClass()}`}>
+            <div className={`space-y-3 leading-relaxed ${getOpacityClass()}`}>
               <p>
                 I&apos;m a designer and developer who&apos;s worked at startups
                 and public companies, including Uber,{" "}
@@ -93,14 +93,14 @@ export default function Home({ articles }: HomeProps) {
         />
         <div className="sm:max-w-[21rem] space-y-6 flex-1 animate-fadeInHome2 opacity-0">
           <div className="space-y-4 sm:space-y-3">
-            <h2 className={`${getOpacityClass()} text-base`}>Projects</h2>
+            <h2 className={`${getOpacityClass()} text-[15px]`}>Projects</h2>
 
             <div className="space-y-4 sm:space-y-3">
               <div className="space-y-0.5">
                 <Link
                   href="https://getversive.com"
                   target="_blank"
-                  className={`font-semibold text-base !leading-snug hover:opacity-60 transition-opacity block ${getLinkColorClass()}`}
+                  className={`font-[550] text-[15px] !leading-snug hover:opacity-60 transition-opacity block ${getLinkColorClass()}`}
                 >
                   Versive
                 </Link>
@@ -113,7 +113,7 @@ export default function Home({ articles }: HomeProps) {
                 <Link
                   href="https://mirio-zeta.vercel.app/"
                   target="_blank"
-                  className={`font-semibold text-base !leading-snug hover:opacity-60 transition-opacity block ${getLinkColorClass()}`}
+                  className={`font-[550] text-[15px] !leading-snug hover:opacity-60 transition-opacity block ${getLinkColorClass()}`}
                 >
                   Mirio
                 </Link>
@@ -124,7 +124,7 @@ export default function Home({ articles }: HomeProps) {
               <div className="space-y-0.5">
                 <Link
                   href="/v1"
-                  className={`font-semibold text-base !leading-snug hover:opacity-60 transition-opacity block ${getLinkColorClass()}`}
+                  className={`font-[550] text-[15px] !leading-snug hover:opacity-60 transition-opacity block ${getLinkColorClass()}`}
                 >
                   ericli.io
                 </Link>
@@ -138,14 +138,14 @@ export default function Home({ articles }: HomeProps) {
             className={`border-dashed ${getOpacityClass()} ${getHrColorClass()}`}
           />
           <div className="space-y-4 sm:space-y-3">
-            <h2 className={`${getOpacityClass()} text-base`}>Writing</h2>
+            <h2 className={`${getOpacityClass()} text-[15px]`}>Writing</h2>
 
             <div className="space-y-4 sm:space-y-3">
               {articles.map((article) => (
                 <div key={article.slug} className="space-y-0.5">
                   <Link
                     href={`/writing/${article.slug}`}
-                    className={`font-semibold text-base !leading-snug hover:opacity-60 transition-opacity block ${getLinkColorClass()}`}
+                    className={`font-[550] text-[15px] !leading-snug hover:opacity-60 transition-opacity block ${getLinkColorClass()}`}
                   >
                     {article.title}
                   </Link>

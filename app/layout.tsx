@@ -15,10 +15,10 @@ const inter = localFont({
   variable: "--font-inter",
 });
 
-const abcDiatype = localFont({
-  src: "../public/fonts/ABCDiatypeVariable.woff2",
-  variable: "--font-abc-diatype",
-});
+// const abcDiatype = localFont({
+//   src: "../public/fonts/ABCDiatypeVariable.woff2",
+//   variable: "--font-abc-diatype",
+// });
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://ericli.io"),
@@ -55,7 +55,7 @@ export default function RootLayout({
       <PHProvider>
         <ThemeProvider>
           <body
-            className={`${inter.variable} ${mondwest.variable} ${abcDiatype.variable} transition-colors duration-800`}
+            className={`${inter.variable} ${mondwest.variable} transition-colors duration-800`}
           >
             {children}
           </body>
