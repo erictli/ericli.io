@@ -22,13 +22,13 @@ const abcDiatype = localFont({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://ericli.io"),
-  title: "Eric Li - Designer, Developer, Co-founder of Versive",
+  title: "Hi, I'm Eric, the co-founder of Versive.",
   description:
-    "Personal website of Eric Li, designer and developer who's worked at startups and public companies, co-founder of Versive.",
+    "I'm a designer and developer who's worked at startups and public companies, including Uber, Bread, and Vareto. I'm originally from the Chicago suburbs and currently live in Brooklyn, NY.",
   openGraph: {
-    title: "Eric Li - Designer, Developer, Co-founder of Versive",
+    title: "Hi, I'm Eric, the co-founder of Versive.",
     description:
-      "Personal website of Eric Li, designer and developer who's worked at startups and public companies, co-founder of Versive.",
+      "I'm a designer and developer who's worked at startups and public companies, including Uber, Bread, and Vareto. I'm originally from the Chicago suburbs and currently live in Brooklyn, NY.",
     url: "https://ericli.io",
     siteName: "Eric Li",
     type: "website",
@@ -36,9 +36,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Eric Li - Designer, Developer, Co-founder of Versive",
+    title: "Hi, I'm Eric, the co-founder of Versive.",
     description:
-      "Personal website of Eric Li, designer and developer who's worked at startups and public companies, co-founder of Versive.",
+      "I'm a designer and developer who's worked at startups and public companies, including Uber, Bread, and Vareto. I'm originally from the Chicago suburbs and currently live in Brooklyn, NY.",
   },
 };
 
