@@ -1,7 +1,7 @@
 ---
 title: "Introducing Versive"
 description: "Versive makes gathering user insights and customer feedback easier. Our AI-powered surveys ask intelligent follow-up questions to give you interview-quality insights in a fraction of the time."
-date: "2024-10-01"
+date: "2024-01-09"
 ---
 
 Most companies don't speak to their users enough, especially as they scale. As a result, it's difficult to make informed product and marketing decisions.
