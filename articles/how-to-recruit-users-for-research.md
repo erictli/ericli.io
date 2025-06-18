@@ -1,7 +1,7 @@
 ---
 title: "How to recruit users for research, a guide for startups"
 description: "This guide is for startups looking for practical ways to recruit participants for user research. We'll cover actionable tips on how to get started."
-date: "2024-4-3"
+date: "2024-04-03"
 ---
 
 For startups, collecting insights from customers is critical (see my guide on [why and when to conduct user research](https://www.getversive.com/blog/why-and-when-conduct-research)). However, when it comes to research, figuring out how to get in front of the right users is half the battle.

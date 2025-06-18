@@ -32,7 +32,7 @@ export default function Home({ articles }: HomeProps) {
     <main
       className={`min-h-screen w-full font-abc-diatype transition-colors duration-200 ${getTextColorClass()}`}
     >
-      <div className="flex text-[15px] p-6 pb-24 sm:p-10 justify-between gap-6 sm:gap-10 flex-col sm:flex-row">
+      <div className="flex text-[15px] p-6 pb-32 sm:pb-24 sm:p-10 justify-between gap-6 sm:gap-10 flex-col sm:flex-row">
         <div className="sm:max-w-[21rem] space-y-6 flex-1">
           <div className="space-y-3 animate-fadeInHome1 opacity-0">
             <h1 className="font-semibold">
@@ -93,10 +93,10 @@ export default function Home({ articles }: HomeProps) {
           className={`sm:hidden border-dashed ${getOpacityClass()} ${getHrColorClass()}`}
         />
         <div className="sm:max-w-[21rem] space-y-6 flex-1 animate-fadeInHome2 opacity-0">
-          <div className="space-y-3">
+          <div className="space-y-4 sm:space-y-3">
             <h2 className={getOpacityClass()}>Projects</h2>
 
-            <div className="space-y-3">
+            <div className="space-y-4 sm:space-y-3">
               <div className="space-y-0.5">
                 <Link
                   href="https://getversive.com"
@@ -138,10 +138,10 @@ export default function Home({ articles }: HomeProps) {
           <hr
             className={`border-dashed ${getOpacityClass()} ${getHrColorClass()}`}
           />
-          <div className="space-y-3">
+          <div className="space-y-4 sm:space-y-3">
             <h2 className={getOpacityClass()}>Writing</h2>
 
-            <div className="space-y-3">
+            <div className="space-y-4 sm:space-y-3">
               {articles.map((article) => (
                 <div key={article.slug} className="space-y-0.5">
                   <Link

@@ -74,7 +74,7 @@ export default function BottomNav() {
   return (
     <>
       <div
-        className={`fixed bottom-4 left-4 sm:bottom-6 sm:left-6 right-4 sm:right-auto flex items-center justify-between gap-8 px-5 py-2.5 text-sm rounded-full animate-fadeInNav opacity-0 ${getBottomBarClass()}`}
+        className={`fixed bottom-5 left-4 sm:bottom-6 sm:left-6 right-4 sm:right-auto flex items-center justify-between gap-8 px-5 py-2.5 text-sm rounded-full animate-fadeInNav opacity-0 ${getBottomBarClass()}`}
       >
         <Link
           href="/"
