@@ -81,7 +81,7 @@ export default function BottomNav() {
           className={`font-semibold hover:opacity-100 transition-opacity ${getOpacityClass()} ${getLinkColorClass()}`}
         >
           {/* Eric Li */}
-          <IconHome strokeWidth={1.5} size={20} />
+          <IconHome strokeWidth={1.5} className="w-6 h-6 sm:w-5 sm:h-5" />
         </Link>
         <Link
           href="https://linkedin.com/in/erictli"
@@ -89,14 +89,17 @@ export default function BottomNav() {
           className={`hover:opacity-100 transition-opacity ${getOpacityClass()} ${getLinkColorClass()}`}
         >
           {/* LinkedIn */}
-          <IconBrandLinkedin strokeWidth={1.5} size={20} />
+          <IconBrandLinkedin
+            strokeWidth={1.5}
+            className="w-6 h-6 sm:w-5 sm:h-5"
+          />
         </Link>
         <Link
           href="mailto:eric@getversive.com"
           className={`hover:opacity-100 transition-opacity ${getOpacityClass()} ${getLinkColorClass()}`}
         >
           {/* hi@ericli.io */}
-          <IconMail strokeWidth={1.5} size={20} />
+          <IconMail strokeWidth={1.5} className="w-6 h-6 sm:w-5 sm:h-5" />
         </Link>
         <div className="relative">
           <Image
@@ -104,7 +107,7 @@ export default function BottomNav() {
             alt="Color picker"
             width={40}
             height={40}
-            className="w-5 h-5 p-[1px] rounded-full cursor-pointer opacity-80 hover:opacity-100 transition-opacity color-picker-trigger"
+            className="w-6 h-6 sm:w-5 sm:h-5 p-[1px] rounded-full cursor-pointer opacity-80 hover:opacity-100 transition-opacity color-picker-trigger"
             onClick={() => setShowColorPicker(!showColorPicker)}
           />
         </div>

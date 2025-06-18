@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useTheme } from "@/contexts/ThemeContext";
 import BottomNav from "./BottomNav";
-import { IconLoader } from "@tabler/icons-react";
 
 type Article = {
   slug: string;
@@ -35,7 +34,7 @@ export default function Home({ articles }: HomeProps) {
       <div className="flex text-[15px] p-6 pb-32 sm:pb-24 sm:p-10 justify-between gap-6 sm:gap-10 flex-col sm:flex-row">
         <div className="sm:max-w-[21rem] space-y-6 flex-1">
           <div className="space-y-3 animate-fadeInHome1 opacity-0">
-            <h1 className="font-semibold">
+            <h1 className="font-semibold text-base">
               Hi, I&apos;m Eric, the co-founder of{" "}
               <Link
                 href="https://getversive.com"
@@ -94,18 +93,18 @@ export default function Home({ articles }: HomeProps) {
         />
         <div className="sm:max-w-[21rem] space-y-6 flex-1 animate-fadeInHome2 opacity-0">
           <div className="space-y-4 sm:space-y-3">
-            <h2 className={getOpacityClass()}>Projects</h2>
+            <h2 className={`${getOpacityClass()} text-base`}>Projects</h2>
 
             <div className="space-y-4 sm:space-y-3">
               <div className="space-y-0.5">
                 <Link
                   href="https://getversive.com"
                   target="_blank"
-                  className={`font-semibold !leading-snug hover:opacity-60 transition-opacity block ${getLinkColorClass()}`}
+                  className={`font-semibold text-base !leading-snug hover:opacity-60 transition-opacity block ${getLinkColorClass()}`}
                 >
                   Versive
                 </Link>
-                <p className={`text-sm ${getOpacityClass()}`}>
+                <p className={`${getOpacityClass()}`}>
                   An AI-first user research platform
                 </p>
               </div>
@@ -114,22 +113,22 @@ export default function Home({ articles }: HomeProps) {
                 <Link
                   href="https://mirio-zeta.vercel.app/"
                   target="_blank"
-                  className={`font-semibold !leading-snug hover:opacity-60 transition-opacity block ${getLinkColorClass()}`}
+                  className={`font-semibold text-base !leading-snug hover:opacity-60 transition-opacity block ${getLinkColorClass()}`}
                 >
                   Mirio
                 </Link>
-                <p className={`text-sm ${getOpacityClass()}`}>
+                <p className={`${getOpacityClass()}`}>
                   Build interactive demos for your API products
                 </p>
               </div>
               <div className="space-y-0.5">
                 <Link
                   href="/v1"
-                  className={`font-semibold !leading-snug hover:opacity-60 transition-opacity block ${getLinkColorClass()}`}
+                  className={`font-semibold text-base !leading-snug hover:opacity-60 transition-opacity block ${getLinkColorClass()}`}
                 >
                   ericli.io
                 </Link>
-                <p className={`text-sm ${getOpacityClass()}`}>
+                <p className={`${getOpacityClass()}`}>
                   The previous version of this website
                 </p>
               </div>
@@ -139,20 +138,18 @@ export default function Home({ articles }: HomeProps) {
             className={`border-dashed ${getOpacityClass()} ${getHrColorClass()}`}
           />
           <div className="space-y-4 sm:space-y-3">
-            <h2 className={getOpacityClass()}>Writing</h2>
+            <h2 className={`${getOpacityClass()} text-base`}>Writing</h2>
 
             <div className="space-y-4 sm:space-y-3">
               {articles.map((article) => (
                 <div key={article.slug} className="space-y-0.5">
                   <Link
                     href={`/writing/${article.slug}`}
-                    className={`font-semibold !leading-snug hover:opacity-60 transition-opacity block ${getLinkColorClass()}`}
+                    className={`font-semibold text-base !leading-snug hover:opacity-60 transition-opacity block ${getLinkColorClass()}`}
                   >
                     {article.title}
                   </Link>
-                  <p className={`text-sm ${getOpacityClass()}`}>
-                    {article.readTime}
-                  </p>
+                  <p className={`${getOpacityClass()}`}>{article.readTime}</p>
                 </div>
               ))}
             </div>

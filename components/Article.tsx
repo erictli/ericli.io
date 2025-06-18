@@ -41,7 +41,7 @@ export default function Article({ article }: ArticleProps) {
       `}</style>
       <Link
         href="/"
-        className={`fixed top-3 sm:top-4 left-2 sm:left-3 text-sm mb-4 animate-fadeInBack opacity-0 z-10 px-3 py-2 bg-white/0 backdrop-blur-md rounded-full ${
+        className={`fixed top-3 sm:top-4 left-2 sm:left-3 text-[15px] mb-4 animate-fadeInBack opacity-0 z-10 px-3 py-2 bg-white/0 backdrop-blur-md rounded-full ${
           getTextColorClass() === "text-stone-950"
             ? "text-stone-950/60 hover:bg-stone-950/5"
             : "text-white/60 hover:bg-white/5"
