@@ -32,11 +32,11 @@ export default function Home({ articles }: HomeProps) {
     <main
       className={`min-h-screen w-full font-abc-diatype transition-colors duration-200 ${getTextColorClass()}`}
     >
-      <div className="flex text-[15px] p-6 pb-24 sm:p-10 justify-between gap-10 flex-col sm:flex-row">
+      <div className="flex text-[15px] p-6 pb-24 sm:p-10 justify-between gap-6 sm:gap-10 flex-col sm:flex-row">
         <div className="sm:max-w-[21rem] space-y-6 flex-1">
           <div className="space-y-3 animate-fadeInHome1 opacity-0">
             <h1 className="font-semibold">
-              Hi, I'm Eric, the co-founder of{" "}
+              Hi, I&apos;m Eric, the co-founder of{" "}
               <Link
                 href="https://getversive.com"
                 target="_blank"
@@ -49,8 +49,8 @@ export default function Home({ articles }: HomeProps) {
 
             <div className={`space-y-3 ${getOpacityClass()}`}>
               <p>
-                I'm a designer and developer who's worked at startups and public
-                companies, including Uber,{" "}
+                I&apos;m a designer and developer who&apos;s worked at startups
+                and public companies, including Uber,{" "}
                 <Link
                   href="https://www.prnewswire.com/news-releases/alliance-data-completes-acquisition-of-bread-301186414.html"
                   target="_blank"
@@ -83,12 +83,15 @@ export default function Home({ articles }: HomeProps) {
               </p>
 
               <p>
-                I'm originally from the Chicago suburbs and currently live in
-                Brooklyn, NY.
+                I&apos;m originally from the Chicago suburbs and currently live
+                in Brooklyn, NY.
               </p>
             </div>
           </div>
         </div>
+        <hr
+          className={`sm:hidden border-dashed ${getOpacityClass()} ${getHrColorClass()}`}
+        />
         <div className="sm:max-w-[21rem] space-y-6 flex-1 animate-fadeInHome2 opacity-0">
           <div className="space-y-3">
             <h2 className={getOpacityClass()}>Projects</h2>

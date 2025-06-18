@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState, useEffect } from "react";
 import { HexColorPicker } from "react-colorful";
 import { useTheme, type ThemeMode } from "@/contexts/ThemeContext";
@@ -98,9 +99,12 @@ export default function BottomNav() {
           <IconMail strokeWidth={1.5} size={20} />
         </Link>
         <div className="relative">
-          <img
+          <Image
             src="/images/color-picker.png"
-            className="w-5 h-5 p-[1px] rounded-full cursor-pointer hover:opacity-70 transition-opacity color-picker-trigger"
+            alt="Color picker"
+            width={40}
+            height={40}
+            className="w-5 h-5 p-[1px] rounded-full cursor-pointer opacity-80 hover:opacity-100 transition-opacity color-picker-trigger"
             onClick={() => setShowColorPicker(!showColorPicker)}
           />
         </div>

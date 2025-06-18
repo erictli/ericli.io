@@ -1,14 +1,14 @@
 ---
 title: "Mirio, a retrospective"
 description: "Lessons learned from building Mirio, a developer tool for API demos."
-date: "2024-08-15"
+date: "2023-12-18"
 ---
 
-This is a short product retrospective on Mirio, the first incarnation of the company that [David Correa Orozco](https://www.linkedin.com/in/correa-david/) and I started.
+This is a short product retrospective on Mirio, the first incarnation of the company that [David](https://www.linkedin.com/in/correa-david/) and I started.
 
-Now that we’ve moved on to [something new](https://www.getversive.com/), I wanted to take some time to document some of the things we created over the course of a year with a very small team. I designed everything here and David, [Gerardo](https://www.linkedin.com/in/gerardovalenciar/) and I built it.
+Now that we’ve moved on to [something new](https://www.getversive.com/), I wanted to take some time to document some of the things we created over the course of a year with a very small team. David, [Gerardo](https://www.linkedin.com/in/gerardovalenciar/) and I designed and built everything here.
 
-**Mirio 1.0**
+## Mirio 1.0
 
 We started with the idea of building better tools for teaching and learning programming. Most programming courses are just hours of video. These videos are a huge pain to produce and not engaging for learners.
 
@@ -17,14 +17,11 @@ We wanted to create a new format for learning where instructors could just recor
 We hacked together an early prototype, applied to Y Combinator, and got in.
 
 ![Prototype of lessons on Mirio](/writing/mirio-1.png)
-![Prototype of our code recorder](/writing/mirio-2.png)
 
-We chose a name and I threw together a quick brand identity.
+We also brainstormed a bunch of names, picked one, and I threw together a quick consumer-focused brand identity.
 
-![](/writing/mirio-3.png)
-![](/writing/mirio-4.png)
-![](/writing/mirio-5.png)
-![](/writing/mirio-6.png)
+![Mirio brand slides](/writing/mirio-3.png)
+![Mirio brand examples](/writing/mirio-6.png)
 
 Other the next 2-3 months, we designed and built an MVP.
 
@@ -32,10 +29,7 @@ Creators could open up our web-based editor, hit record, and start coding. This 
 
 We also build a complete intro to HTML, CSS, and JS course using Mirio.
 
-![Creators record code as video](/writing/mirio-7.png)
 ![Viewers can play, edit, and run the code](/writing/mirio-8.png)
-![Create and share lessons and projects](/writing/mirio-9.png)
-![Learn and discuss on Mirio](/writing/mirio-10.png)
 
 Viewers could also generate code and ask for help from an AI-powered assistant.
 
@@ -47,7 +41,7 @@ A few weeks before demo day, this led us to pivot to the next iteration of Mirio
 
 ![](/writing/mirio-12.png)
 
-**Mirio 2.0**
+## Mirio 2.0
 
 Over the next few months, we built a no-code platform to help sales and solutions teams create customized demos for their API products.
 
@@ -55,19 +49,24 @@ Over the next few months, we built a no-code platform to help sales and solution
 
 We created a no-code demo builder that enabled non-technical teams to build interfaces from scratch and connect them to their API.
 
-![Dashboard](/writing/mirio-14.png)
-![No-code UI builder](/writing/mirio-15.png)
-![No-code API setup](/writing/mirio-16.png)
-![Prospect-facing demos](/writing/mirio-17.png)
-
-We shipped a ton of features along the way.
-
 ![No-code app-builder for creating interactive demos](/writing/mirio-18.png)
+
+We shipped a ton of features along the way, including a presentation builder for telling multi-demo stories:
+
 ![Presentation builder for telling multi-demo stories](/writing/mirio-19.png)
+
+Interactive click-through guided demos with live and mocked API calls:
+
 ![Sharable guided demos](/writing/mirio-20.png)
+
+AI-powered creation of working demo interfaces:
+
 ![AI-powered demo creation](/writing/mirio-21.png)
+
+Automatic demo styling to match customer brands:
+
 ![Automatic demo styling](/writing/mirio-22.png)
 
-We started ramping up sales and began to see traction but it didn’t come as quickly as we hoped. We came to the conclusion that the market for API demos wasn’t going to sustain the type of business we wanted to build and, more importantly, we started losing our passion for the problem.
+We started ramping up sales and began to see traction but it didn’t come as quickly as we hoped. We came to the conclusion that the market for API demos wasn’t going to sustain the type of business we wanted to build. More importantly, we realized that this problem we stumbled on wasn't one that we were passionate enough to commit years to solving.
 
 So, around Thanksgiving, we began to consider new directions. We landed on [an idea that I'd first written down in my notebook years ago](https://www.getversive.com/blog/introducing-versive). We're more motivated than ever and can't wait to bring it into the world. You can learn more at [getversive.com](https://www.getversive.com/)

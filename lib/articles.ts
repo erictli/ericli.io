@@ -19,6 +19,24 @@ export interface Article extends ArticleMetadata {
   content: string;
 }
 
+// Function to add target="_blank" to external links
+function processExternalLinks(htmlContent: string): string {
+  // Regex to find external links (http/https) and add target="_blank" rel="noopener noreferrer"
+  return htmlContent.replace(
+    /<a\s+href="(https?:\/\/[^"]+)"([^>]*)>/gi,
+    '<a href="$1" target="_blank" rel="noopener noreferrer"$2>',
+  );
+}
+
+// Function to convert img tags with video extensions to video tags
+function processVideoFiles(htmlContent: string): string {
+  // Regex to find img tags with video file extensions (mp4, webm, mov, etc.)
+  return htmlContent.replace(
+    /<img\s+src="([^"]+\.(mp4|webm|mov|avi|mkv))"([^>]*)>/gi,
+    '<video controls class="rounded-lg" preload="metadata"><source src="$1" type="video/$2">Your browser does not support the video tag.</video>',
+  );
+}
+
 export function getAllArticles(): ArticleMetadata[] {
   // Ensure articles directory exists
   if (!fs.existsSync(articlesDirectory)) {
@@ -64,7 +82,13 @@ export async function getArticleBySlug(slug: string): Promise<Article | null> {
 
     // Convert markdown to HTML
     const processedContent = await remark().use(html).process(content);
-    const contentHtml = processedContent.toString();
+    let contentHtml = processedContent.toString();
+
+    // Process external links to open in new tab
+    contentHtml = processExternalLinks(contentHtml);
+
+    // Process video files to convert img tags to video tags
+    contentHtml = processVideoFiles(contentHtml);
 
     // Calculate reading time
     const stats = readingTime(content);
