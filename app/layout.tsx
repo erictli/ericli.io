@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { PHProvider, PostHogPageview } from "./providers";
 import { Suspense } from "react";
+import { ThemeProvider } from "@/contexts/ThemeContext";
 
 const mondwest = localFont({
   src: "../public/fonts/PPMondwest-Regular.woff2",
@@ -14,13 +15,30 @@ const inter = localFont({
   variable: "--font-inter",
 });
 
+const abcDiatype = localFont({
+  src: "../public/fonts/ABCDiatypeVariable.woff2",
+  variable: "--font-abc-diatype",
+});
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://ericli.io"),
-  title: "Hi, I'm Eric",
+  title: "Eric Li - Designer, Developer, Co-founder of Versive",
   description:
-    "I'm a Brooklyn-based designer, developer, and product manager. I'm the co-founder of Versive, an AI-first survey platform.",
+    "Personal website of Eric Li, designer and developer who's worked at startups and public companies, co-founder of Versive.",
   openGraph: {
+    title: "Eric Li - Designer, Developer, Co-founder of Versive",
+    description:
+      "Personal website of Eric Li, designer and developer who's worked at startups and public companies, co-founder of Versive.",
+    url: "https://ericli.io",
+    siteName: "Eric Li",
+    type: "website",
     images: "/opengraph-image.png",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Eric Li - Designer, Developer, Co-founder of Versive",
+    description:
+      "Personal website of Eric Li, designer and developer who's worked at startups and public companies, co-founder of Versive.",
   },
 };
 
@@ -35,9 +53,13 @@ export default function RootLayout({
         <PostHogPageview />
       </Suspense>
       <PHProvider>
-        <body className={`${inter.variable} ${mondwest.variable}`}>
-          {children}
-        </body>
+        <ThemeProvider>
+          <body
+            className={`${inter.variable} ${mondwest.variable} ${abcDiatype.variable} transition-colors duration-800`}
+          >
+            {children}
+          </body>
+        </ThemeProvider>
       </PHProvider>
     </html>
   );
