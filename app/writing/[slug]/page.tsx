@@ -20,15 +20,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   if (!article) {
     return {
-      title: "Article Not Found - Eric Li",
+      title: "Article Not Found",
     };
   }
 
   return {
-    title: `${article.title} - Eric Li`,
+    title: `${article.title}`,
     description: article.description,
     openGraph: {
-      title: `${article.title} - Eric Li`,
+      title: article.title,
       description: article.description,
       url: `https://ericli.io/writing/${article.slug}`,
       siteName: "Eric Li",
@@ -38,7 +38,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     twitter: {
       card: "summary_large_image",
-      title: `${article.title} - Eric Li`,
+      title: article.title,
       description: article.description,
       ...(article.image && { images: [article.image] }),
     },
