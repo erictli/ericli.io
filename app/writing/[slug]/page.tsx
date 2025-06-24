@@ -34,11 +34,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       siteName: "Eric Li",
       type: "article",
       publishedTime: new Date(article.date).toISOString(),
+      ...(article.image && { images: [article.image] }),
     },
     twitter: {
       card: "summary_large_image",
       title: `${article.title} - Eric Li`,
       description: article.description,
+      ...(article.image && { images: [article.image] }),
     },
   };
 }

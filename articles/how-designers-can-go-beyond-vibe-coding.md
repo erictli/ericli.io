@@ -2,6 +2,7 @@
 title: "How designers can go beyond vibe coding"
 description: "A practical guide for designers looking to effectively use AI coding tools beyond surface-level experimentation, featuring clear strategies and actionable tips for integrating AI into your development workflow."
 date: "2025-06-25"
+image: "/writing/vibe-coding.png"
 ---
 
 ![](/writing/vibe-coding.png)

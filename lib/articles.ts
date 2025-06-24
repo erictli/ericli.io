@@ -13,6 +13,7 @@ export interface ArticleMetadata {
   date: string;
   slug: string;
   readTime: string;
+  image?: string;
 }
 
 export interface Article extends ArticleMetadata {
@@ -61,6 +62,7 @@ export function getAllArticles(): ArticleMetadata[] {
         description: data.description,
         date: data.date,
         readTime: stats.text,
+        image: data.image,
       };
     });
 
@@ -100,6 +102,7 @@ export async function getArticleBySlug(slug: string): Promise<Article | null> {
       date: data.date,
       readTime: stats.text,
       content: contentHtml,
+      image: data.image,
     };
   } catch (error) {
     return null;
