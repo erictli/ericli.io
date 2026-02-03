@@ -1,14 +1,11 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useTheme } from "@/contexts/ThemeContext";
 import BottomNav from "./BottomNav";
 
-type Article = {
-  slug: string;
-  title: string;
-  readTime: string;
-};
+type Article = { slug: string; title: string; readTime: string };
 
 interface HomeProps {
   articles: Article[];
@@ -21,6 +18,7 @@ export default function Home({ articles }: HomeProps) {
     getOpacityClass,
     getHrColorClass,
     isHydrated,
+    shouldUseDarkText,
   } = useTheme();
 
   if (!isHydrated) {
@@ -29,12 +27,24 @@ export default function Home({ articles }: HomeProps) {
 
   return (
     <main
-      className={`min-h-screen w-full font-system-sans transition-colors duration-200 ${getTextColorClass()}`}
+      className={`min-h-screen sm:h-screen w-full font-system-sans transition-colors duration-200 ${getTextColorClass()}`}
     >
-      <div className="flex text-sm p-6 pb-32 sm:pb-24 sm:p-10 justify-between gap-6 sm:gap-10 flex-col sm:flex-row">
-        <div className="sm:max-w-[21rem] space-y-6 flex-1">
+      <div className="flex text-sm p-6 pb-32 sm:p-0 sm:gap-0 justify-between gap-6 flex-col sm:flex-row sm:h-full sm:overflow-hidden">
+        <div className="sm:max-w-[28rem] space-y-6 flex-1 sm:p-10">
           <div className="space-y-3 animate-fadeInHome1 opacity-0">
-            <h1 className="font-medium text-[15px]">
+            <Image
+              src="/images/typing-cat.png"
+              alt="An illustration of a cat typing on a macbook"
+              width={144}
+              height={168}
+              className={`w-[120px] mb-6 ${!shouldUseDarkText() ? "invert" : ""}`}
+              style={{
+                filter: shouldUseDarkText()
+                  ? "grayscale(1) contrast(300%) brightness(1.1)"
+                  : "invert(1) grayscale(1) contrast(300%) brightness(1.1)",
+              }}
+            />
+            <h1 className="font-medium text-[15px] tracking-[-0.005em]">
               Hi, I&apos;m Eric, the co-founder of{" "}
               <Link
                 href="https://getversive.com"
@@ -48,8 +58,8 @@ export default function Home({ articles }: HomeProps) {
 
             <div className={`space-y-3 leading-relaxed ${getOpacityClass()}`}>
               <p>
-                I&apos;m a designer and developer who&apos;s worked at startups
-                and public companies, including Uber,{" "}
+                I&apos;m a product designer and developer who&apos;s worked at
+                companies, including Uber,{" "}
                 <Link
                   href="https://www.prnewswire.com/news-releases/alliance-data-completes-acquisition-of-bread-301186414.html"
                   target="_blank"
@@ -69,8 +79,8 @@ export default function Home({ articles }: HomeProps) {
               </p>
 
               <p>
-                In a past life, I studied economics at the University of Chicago
-                and was an{" "}
+                In a past life, I studied econ at the University of Chicago and
+                was an{" "}
                 <Link
                   href="https://www.microsoft.com/en-us/microsoft-365/excel"
                   target="_blank"
@@ -78,12 +88,8 @@ export default function Home({ articles }: HomeProps) {
                 >
                   investment banker
                 </Link>
-                .
-              </p>
-
-              <p>
-                I&apos;m originally from the Chicago suburbs and currently live
-                in Brooklyn, NY.
+                . I&apos;m originally from Chicago and currently live in
+                Brooklyn.
               </p>
             </div>
           </div>
@@ -91,16 +97,16 @@ export default function Home({ articles }: HomeProps) {
         <hr
           className={`sm:hidden border-dashed ${getOpacityClass()} ${getHrColorClass()}`}
         />
-        <div className="sm:max-w-[21rem] space-y-6 flex-1 animate-fadeInHome2 opacity-0">
+        <div className="sm:max-w-[24rem] space-y-6 flex-1 animate-fadeInHome2 opacity-0 sm:overflow-y-auto sm:h-full sm:p-10 no-scrollbar">
           <div className="space-y-4 sm:space-y-3">
-            <h2 className={`${getOpacityClass()} text-[15px]`}>Projects</h2>
+            <h2 className={`${getOpacityClass()} text-sm`}>Projects</h2>
 
             <div className="space-y-4 sm:space-y-3">
               <div className="space-y-0.5">
                 <Link
                   href="https://getversive.com"
                   target="_blank"
-                  className={`font-medium text-[15px] !leading-snug hover:opacity-60 transition-opacity block ${getLinkColorClass()}`}
+                  className={`font-medium text-sm !leading-snug hover:opacity-60 transition-opacity block ${getLinkColorClass()}`}
                 >
                   Versive
                 </Link>
@@ -111,20 +117,33 @@ export default function Home({ articles }: HomeProps) {
 
               <div className="space-y-0.5">
                 <Link
-                  href="https://mirio-zeta.vercel.app/"
+                  href="https://github.com/erictli/scratch"
                   target="_blank"
-                  className={`font-medium text-[15px] !leading-snug hover:opacity-60 transition-opacity block ${getLinkColorClass()}`}
+                  className={`font-medium text-sm !leading-snug hover:opacity-60 transition-opacity block ${getLinkColorClass()}`}
                 >
-                  Mirio
+                  Scratch
                 </Link>
                 <p className={`${getOpacityClass()}`}>
-                  Build interactive demos for your API products
+                  An offline-first markdown notes app for Mac
+                </p>
+              </div>
+
+              <div className="space-y-0.5">
+                <Link
+                  href="https://github.com/getversive/whisker"
+                  target="_blank"
+                  className={`font-medium text-sm !leading-snug hover:opacity-60 transition-opacity block ${getLinkColorClass()}`}
+                >
+                  Whisker
+                </Link>
+                <p className={`${getOpacityClass()}`}>
+                  An AI-powered usability testing CLI
                 </p>
               </div>
               <div className="space-y-0.5">
                 <Link
                   href="/v1"
-                  className={`font-medium text-[15px] !leading-snug hover:opacity-60 transition-opacity block ${getLinkColorClass()}`}
+                  className={`font-medium text-sm !leading-snug hover:opacity-60 transition-opacity block ${getLinkColorClass()}`}
                 >
                   ericli.io
                 </Link>
@@ -138,14 +157,14 @@ export default function Home({ articles }: HomeProps) {
             className={`border-dashed ${getOpacityClass()} ${getHrColorClass()}`}
           />
           <div className="space-y-4 sm:space-y-3">
-            <h2 className={`${getOpacityClass()} text-[15px]`}>Writing</h2>
+            <h2 className={`${getOpacityClass()} text-sm`}>Writing</h2>
 
             <div className="space-y-4 sm:space-y-3">
               {articles.map((article) => (
                 <div key={article.slug} className="space-y-0.5">
                   <Link
                     href={`/writing/${article.slug}`}
-                    className={`font-medium text-[15px] !leading-snug hover:opacity-60 transition-opacity block ${getLinkColorClass()}`}
+                    className={`font-medium text-sm !leading-snug hover:opacity-60 transition-opacity block ${getLinkColorClass()}`}
                   >
                     {article.title}
                   </Link>

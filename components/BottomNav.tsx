@@ -74,7 +74,7 @@ export default function BottomNav() {
   return (
     <>
       <div
-        className={`fixed bottom-5 left-4 sm:bottom-6 sm:left-6 right-4 sm:right-auto flex items-center justify-between gap-8 px-5 py-2.5 text-sm rounded-full animate-fadeInNav opacity-0 ${getBottomBarClass()}`}
+        className={`fixed bottom-5 inset-x-6 mx-auto sm:bottom-6 sm:left-6 sm:right-auto sm:mx-0 max-w-xs sm:max-w-none flex items-center justify-between gap-4 sm:gap-6 px-5 py-2.5 text-sm rounded-full animate-fadeInNav opacity-0 ${getBottomBarClass()}`}
       >
         <Link
           href="/"
@@ -101,7 +101,7 @@ export default function BottomNav() {
           {/* hi@ericli.io */}
           <IconMail strokeWidth={1.5} className="w-6 h-6 sm:w-5 sm:h-5" />
         </Link>
-        <div className="relative">
+        <div className="relative flex-none">
           <Image
             src="/images/color-picker.png"
             alt="Color picker"
