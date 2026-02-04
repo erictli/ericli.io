@@ -73,9 +73,9 @@ module.exports = {
         "system-sans": [
           "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
         ],
-        // "abc-diatype": [
-        //   "var(--font-abc-diatype), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
-        // ],
+        besley: [
+          "var(--font-besley), Georgia, Cambria, 'Times New Roman', Times, serif",
+        ],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -164,6 +164,14 @@ module.exports = {
             transform: "translateY(0) translateX(-50%)",
           },
         },
+        float: {
+          "0%, 100%": {
+            transform: "translateY(1px)",
+          },
+          "50%": {
+            transform: "translateY(-1px)",
+          },
+        },
         panIn: {
           "0%": {
             opacity: "0",
@@ -190,6 +198,7 @@ module.exports = {
         fadeInSprite: "fadeIn 0.5s ease-out forwards 4.5s",
         fadeInControls: "fadeInUpControls 0.5s ease-out forwards 5.0s",
         fadeInMenu: "fadeInDown 0.5s ease-out forwards 5.5s",
+        float: "float 3s ease-in-out infinite",
       },
       transitionDuration: {
         1500: "1500ms",

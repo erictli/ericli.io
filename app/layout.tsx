@@ -1,6 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { Besley } from "next/font/google";
 import { PHProvider, PostHogPageview } from "./providers";
 import { Suspense } from "react";
 import { ThemeProvider } from "@/contexts/ThemeContext";
@@ -13,6 +14,11 @@ const mondwest = localFont({
 const inter = localFont({
   src: "../public/fonts/InterVariable.woff2",
   variable: "--font-inter",
+});
+
+const besley = Besley({
+  subsets: ["latin"],
+  variable: "--font-besley",
 });
 
 // const abcDiatype = localFont({
@@ -55,7 +61,7 @@ export default function RootLayout({
       <PHProvider>
         <ThemeProvider>
           <body
-            className={`${inter.variable} ${mondwest.variable} transition-colors duration-800`}
+            className={`${inter.variable} ${mondwest.variable} ${besley.variable} transition-colors duration-800`}
           >
             {children}
           </body>

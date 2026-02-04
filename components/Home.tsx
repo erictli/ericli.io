@@ -117,8 +117,7 @@ export default function Home({ articles }: HomeProps) {
 
               <div className="space-y-0.5">
                 <Link
-                  href="https://github.com/erictli/scratch"
-                  target="_blank"
+                  href="/scratch"
                   className={`font-medium text-sm !leading-snug hover:opacity-60 transition-opacity block ${getLinkColorClass()}`}
                 >
                   Scratch
