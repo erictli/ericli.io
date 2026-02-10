@@ -20,7 +20,7 @@ export default function ScratchPage() {
       <Link
         href="/"
         className={`fixed top-3 sm:top-4 left-2 sm:left-3 text-sm mb-4 animate-fadeInBack opacity-0 z-10 px-3 py-2 bg-white/0 backdrop-blur-md rounded-full ${
-          getTextColorClass() === "text-stone-950"
+          shouldUseDarkText()
             ? "text-stone-950/60 hover:bg-stone-950/5"
             : "text-white/60 hover:bg-white/5"
         } transition-colors`}
@@ -29,7 +29,7 @@ export default function ScratchPage() {
       </Link>
 
       <div className="min-h-screen flex flex-col items-center justify-center pt-24 sm:pt-28 pb-9">
-        <div className="max-w-3xl w-full flex flex-col items-center text-center px-5 animate-fadeInHome1 opacity-0">
+        <div className="max-w-3xl w-full flex flex-col items-center text-center px-8 animate-fadeInHome1 opacity-0">
           <Image
             src="/images/scratch/scratch-icon.png"
             alt="Scratch app icon"
@@ -54,48 +54,58 @@ export default function ScratchPage() {
             </div>
           </div>
 
-          <div className="space-y-4">
-            <h1 className="font-besley text-4xl sm:text-5xl font-regular tracking-[-0.01em] mb-6">
-              Minimalist markdown scratchpad for 
-            </h1>
+          <h1 className="font-besley text-4xl xs:text-5xl md:text-6xl font-regular tracking-[-0.01em] mb-8">
+            Minimalist markdown scratchpad for 
+          </h1>
+          <div className="flex flex-col sm:flex-row gap-2 items-center justify-center mb-16 sm:mb-20 w-full">
+            <Link
+              href="https://github.com/erictli/scratch/releases/latest/download/Scratch_0.3.0_aarch64.dmg
+"
+              className={`inline-flex w-full sm:w-auto justify-center items-center gap-2 px-5 py-2.5 rounded-xl text-base font-medium transition-opacity hover:opacity-70 ${
+                shouldUseDarkText()
+                  ? "bg-stone-950 text-white"
+                  : "bg-white text-stone-950"
+              }`}
+            >
+              <span className="text-xl leading-none"></span> Download for Mac
+            </Link>
+            <Link
+              href="https://github.com/erictli/scratch"
+              target="_blank"
+              className={`inline-flex w-full sm:w-auto justify-center items-center gap-1.5 pl-[18px] pr-5 py-2.5 rounded-xl text-base font-medium transition-opacity hover:opacity-70 ${
+                shouldUseDarkText()
+                  ? "border border-stone-950/10"
+                  : "border border-white/20"
+              }`}
+            >
+              <Github size={17} />
+              View on GitHub
+            </Link>
           </div>
-
-          <Link
-            href="https://github.com/erictli/scratch"
-            target="_blank"
-            className={`inline-flex items-center gap-2 px-5 py-3 rounded-xl text-base font-medium mb-16 transition-opacity hover:opacity-70 ${
-              shouldUseDarkText()
-                ? "bg-stone-950 text-white"
-                : "bg-white text-stone-950"
-            }`}
-          >
-            <Github size={18} />
-            Install on GitHub
-          </Link>
         </div>
 
-        <div className="w-full max-w-[960px] px-5 mb-16 sm:mb-20 animate-fadeInHome2 opacity-0">
+        <div className="w-full max-w-[960px] px-5 mb-16 sm:mb-24 animate-fadeInHome2 opacity-0">
           <Image
             src="/images/scratch/scratch-screenshot.png"
             alt="Scratch app screenshot"
             width={1080}
             height={720}
-            className="w-full rounded-xl shadow-2xl border border-black/10 min-w-[560px]"
+            className="w-full rounded-xl shadow-2xl border border-black/10 min-w-[640px]"
           />
         </div>
 
-        <div className="max-w-[800px] w-full flex flex-col px-10 animate-fadeInHome2 opacity-0 text-left sm:text-center">
-          <div className="flex flex-col gap-4 font-besley text-3xl sm:text-4xl !leading-[1.25] tracking-[-0.008em] mb-12 sm:mb-16">
+        <div className="max-w-[840px] w-full flex flex-col px-8 animate-fadeInHome2 opacity-0 text-left sm:text-center">
+          <div className="flex flex-col gap-4 font-besley text-3xl sm:text-4xl !leading-[1.25] tracking-[-0.008em] mb-10 sm:mb-16">
             <p>
               Scratch is an offline-first markdown notes app for Mac. It&apos;s
-              designed for capturing ephemeral thoughts, todos, and ideas.
+              designed for capturing quick thoughts, todos, and ideas.
             </p>
             <p>
               No accounts or subscriptions. Plus, it&apos;s lightweight and open
               source.
             </p>
           </div>
-          <ul className="space-y-3 text-base sm:text-lg leading-normal mb-24 sm:mb-28">
+          <ul className="space-y-3 text-base sm:text-lg leading-normal mb-16 sm:mb-24">
             <li>
               <span className="font-medium">Offline-first</span>: No cloud, no
               account, no internet required
@@ -124,10 +134,33 @@ export default function ScratchPage() {
               <span className="font-medium">Git integration</span>: Optional
               version control for your notes
             </li>
+            <li>
+              <span className="font-medium">Lightweight</span>: Less than 10%
+              the size of Obsidian or Notion
+            </li>
           </ul>
         </div>
-        <div className="text-base sm:text-lg opacity-60 pb-12 sm:pb-0">
-          Made with ♥ by Eric Li
+        <Image
+          src="/images/typing-cat.png"
+          alt="An illustration of a cat typing on a macbook"
+          width={144}
+          height={168}
+          className={`w-[96px] mb-4 ${!shouldUseDarkText() ? "invert" : ""}`}
+          style={{
+            filter: shouldUseDarkText()
+              ? "grayscale(1) contrast(300%) brightness(1.1)"
+              : "invert(1) grayscale(1) contrast(300%) brightness(1.1)",
+          }}
+        />
+        <div className="text-base sm:text-base pb-16 sm:pb-0">
+          Made with ♥ by{" "}
+          <Link
+            href="https://ericli.io"
+            target="_blank"
+            className="hover:opacity-60 transition-opacity"
+          >
+            Eric Li
+          </Link>
         </div>
       </div>
 
