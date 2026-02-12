@@ -118,8 +118,8 @@ export default function ScratchPage() {
               editing that saves as markdown
             </li>
             <li>
-              <span className="font-medium">AI editing with Claude Code</span>:
-              Edit notes with your local Claude Code CLI
+              <span className="font-medium">Edit with Claude Code</span>: Use
+              your local Claude Code CLI to edit notes
             </li>
             <li>
               <span className="font-medium">Works with other AI agents</span>:
