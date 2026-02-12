@@ -59,8 +59,7 @@ export default function ScratchPage() {
           </h1>
           <div className="flex flex-col sm:flex-row gap-2 items-center justify-center mb-16 sm:mb-20 w-full">
             <Link
-              href="https://github.com/erictli/scratch/releases/latest/download/Scratch_0.3.0_aarch64.dmg
-"
+              href="https://github.com/erictli/scratch/releases/latest/download/Scratch_0.4.0_universal.dmg"
               className={`inline-flex w-full sm:w-auto justify-center items-center gap-2 px-5 py-2.5 rounded-xl text-base font-medium transition-opacity hover:opacity-70 ${
                 shouldUseDarkText()
                   ? "bg-stone-950 text-white"
@@ -119,8 +118,12 @@ export default function ScratchPage() {
               editing that saves as markdown
             </li>
             <li>
-              <span className="font-medium">Works with AI agents</span>: Detects
-              external file changes
+              <span className="font-medium">AI editing with Claude Code</span>:
+              Edit notes with your local Claude Code CLI
+            </li>
+            <li>
+              <span className="font-medium">Works with other AI agents</span>:
+              Detects external file changes
             </li>
             <li>
               <span className="font-medium">Keyboard optimized</span>: Lots of
