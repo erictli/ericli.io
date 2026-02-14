@@ -7,7 +7,12 @@ import BottomNav from "@/components/BottomNav";
 import { Github } from "lucide-react";
 
 export default function ScratchPage() {
-  const { getTextColorClass, isHydrated, shouldUseDarkText } = useTheme();
+  const {
+    getTextColorClass,
+    isHydrated,
+    shouldUseDarkText,
+    getLinkColorClass,
+  } = useTheme();
 
   if (!isHydrated) {
     return <main className="min-h-screen"></main>;
@@ -59,7 +64,7 @@ export default function ScratchPage() {
           </h1>
           <div className="flex flex-col sm:flex-row gap-2 items-center justify-center mb-16 sm:mb-20 w-full">
             <Link
-              href="https://github.com/erictli/scratch/releases/latest/download/Scratch_0.4.0_universal.dmg"
+              href="https://github.com/erictli/scratch/releases/latest/download/Scratch_0.5.1_universal.dmg"
               className={`inline-flex w-full sm:w-auto justify-center items-center gap-2 px-5 py-2.5 rounded-xl text-base font-medium transition-opacity hover:opacity-70 ${
                 shouldUseDarkText()
                   ? "bg-stone-950 text-white"
@@ -140,6 +145,17 @@ export default function ScratchPage() {
             <li>
               <span className="font-medium">Lightweight</span>: Less than 10%
               the size of Obsidian or Notion
+            </li>
+            <li>
+              <span className="font-medium">Cross-platform</span>: Windows and
+              Linux versions available on{" "}
+              <a
+                href="https://github.com/erictli/scratch/releases"
+                target="_blank"
+                className={`hover:opacity-60 transition-opacity border-b border-dashed pb-0.5 ${getLinkColorClass()}`}
+              >
+                GitHub
+              </a>
             </li>
           </ul>
         </div>
