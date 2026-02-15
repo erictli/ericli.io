@@ -1,10 +1,13 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useTheme } from "@/contexts/ThemeContext";
 import BottomNav from "@/components/BottomNav";
-import { Github } from "lucide-react";
+import { Star } from "lucide-react";
+
+const VERSION = "0.5.1";
 
 export default function ScratchPage() {
   const {
@@ -13,6 +16,26 @@ export default function ScratchPage() {
     shouldUseDarkText,
     getLinkColorClass,
   } = useTheme();
+
+  const [starCount, setStarCount] = useState<number | null>(null);
+
+  useEffect(() => {
+    fetch("/api/github-stars")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.stars != null) {
+          setStarCount(data.stars);
+        }
+      })
+      .catch(() => {});
+  }, []);
+
+  const formatStarCount = (count: number) => {
+    if (count >= 1000) {
+      return `${(count / 1000).toFixed(1).replace(/\.0$/, "")}k`;
+    }
+    return count.toString();
+  };
 
   if (!isHydrated) {
     return <main className="min-h-screen"></main>;
@@ -26,8 +49,8 @@ export default function ScratchPage() {
         href="/"
         className={`fixed top-3 sm:top-4 left-2 sm:left-3 text-sm mb-4 animate-fadeInBack opacity-0 z-10 px-3 py-2 bg-white/0 backdrop-blur-md rounded-full ${
           shouldUseDarkText()
-            ? "text-stone-950/60 hover:bg-stone-950/5"
-            : "text-white/60 hover:bg-white/5"
+            ? "text-stone-950/60 hover:bg-stone-950/5 focus-visible:outline-none focus-visible:ring-stone-950/20 focus-visible:ring-2"
+            : "text-white/60 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-white/40 focus-visible:ring-2"
         } transition-colors`}
       >
         Back to home
@@ -62,13 +85,13 @@ export default function ScratchPage() {
           <h1 className="font-besley text-4xl xs:text-5xl md:text-6xl font-regular tracking-[-0.01em] mb-8">
             Minimalist markdown scratchpad for 
           </h1>
-          <div className="flex flex-col sm:flex-row gap-2 items-center justify-center mb-16 sm:mb-20 w-full">
+          <div className="flex flex-col sm:flex-row gap-2 items-center justify-center mb-3 w-full">
             <Link
-              href="https://github.com/erictli/scratch/releases/latest/download/Scratch_0.5.1_universal.dmg"
-              className={`inline-flex w-full sm:w-auto justify-center items-center gap-2 px-5 py-2.5 rounded-xl text-base font-medium transition-opacity hover:opacity-70 ${
+              href={`https://github.com/erictli/scratch/releases/latest/download/Scratch_${VERSION}_universal.dmg`}
+              className={`inline-flex w-full sm:w-auto justify-center items-center gap-2 px-5 h-12 rounded-xl text-base font-medium transition-opacity hover:opacity-70  ${
                 shouldUseDarkText()
-                  ? "bg-stone-950 text-white"
-                  : "bg-white text-stone-950"
+                  ? "bg-stone-950 text-white focus-visible:outline-none focus-visible:ring-stone-950/20 focus-visible:ring-2 "
+                  : "bg-white text-stone-950 focus-visible:outline-none focus-visible:ring-white/40 focus-visible:ring-2"
               }`}
             >
               <span className="text-xl leading-none"></span> Download for Mac
@@ -76,15 +99,36 @@ export default function ScratchPage() {
             <Link
               href="https://github.com/erictli/scratch"
               target="_blank"
-              className={`inline-flex w-full sm:w-auto justify-center items-center gap-1.5 pl-[18px] pr-5 py-2.5 rounded-xl text-base font-medium transition-opacity hover:opacity-70 ${
+              className={`inline-flex w-full sm:w-auto justify-center items-center gap-1.5 pl-[18px] pr-3 h-12 rounded-xl text-base font-medium transition-opacity hover:opacity-70 ${
                 shouldUseDarkText()
-                  ? "border border-stone-950/10"
-                  : "border border-white/20"
+                  ? "border border-stone-950/10 focus-visible:outline-none focus-visible:ring-stone-950/20 focus-visible:ring-2"
+                  : "border border-white/20 focus-visible:outline-none focus-visible:ring-white/40 focus-visible:ring-2"
               }`}
             >
-              <Github size={17} />
               View on GitHub
+              {starCount !== null && (
+                <span
+                  className={`flex items-center text-sm gap-0.5 h-5 pl-3 ml-2 sm:pl-2 sm:ml-1 border-l  border-dashed ${shouldUseDarkText() ? "border-stone-950/10" : "border-white/20"}`}
+                >
+                  <Star size={12} fill="currentColor" />
+                  {formatStarCount(starCount)}
+                </span>
+              )}
             </Link>
+          </div>
+          <div
+            className={`text-sm mb-16 sm:mb-20 ${
+              shouldUseDarkText() ? "text-stone-950/40" : "text-white/40"
+            }`}
+          >
+            v{VERSION} ·{" "}
+            <a
+              href="https://github.com/erictli/scratch/releases"
+              target="_blank"
+              className={`hover:opacity-60 transition-opacity border-b border-dashed pb-0.5 ${getLinkColorClass()}`}
+            >
+              Windows &amp; Linux also available
+            </a>
           </div>
         </div>
 
@@ -157,6 +201,16 @@ export default function ScratchPage() {
                 GitHub
               </a>
             </li>
+            <li>
+              <span className="font-medium">And lots more</span>:{" "}
+              <a
+                href="https://github.com/erictli/scratch/releases"
+                target="_blank"
+                className={`hover:opacity-60 transition-opacity border-b border-dashed pb-0.5 ${getLinkColorClass()}`}
+              >
+                View recent releases
+              </a>
+            </li>
           </ul>
         </div>
         <Image
@@ -176,7 +230,7 @@ export default function ScratchPage() {
           <Link
             href="https://ericli.io"
             target="_blank"
-            className="hover:opacity-60 transition-opacity"
+            className={`hover:opacity-60 transition-opacity ${getLinkColorClass()}`}
           >
             Eric Li
           </Link>
