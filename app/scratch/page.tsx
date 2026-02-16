@@ -7,7 +7,7 @@ import { useTheme } from "@/contexts/ThemeContext";
 import BottomNav from "@/components/BottomNav";
 import { Star } from "lucide-react";
 
-const VERSION = "0.5.1";
+const VERSION = "0.6.0";
 
 export default function ScratchPage() {
   const {
@@ -187,8 +187,8 @@ export default function ScratchPage() {
               version control for your notes
             </li>
             <li>
-              <span className="font-medium">Lightweight</span>: Less than 10%
-              the size of Obsidian or Notion
+              <span className="font-medium">Lightweight</span>: 5-10x smaller
+              than Obsidian or Notion
             </li>
             <li>
               <span className="font-medium">Cross-platform</span>: Windows and
