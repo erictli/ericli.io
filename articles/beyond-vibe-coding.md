@@ -7,6 +7,8 @@ image: "/writing/vibe-coding.png"
 
 ![](/writing/vibe-coding.png)
 
+_Written in June 2025. Things are changing quickly, so if you're reading this later, some of the specifics may no longer apply._
+
 With the rise of AI-powered coding tools like Cursor, I'm seeing more and more designers diving into development. Unfortunately, the results are mixed. Every day, I see posts that fall into one of two buckets:
 
 1. AI coding is magical, I'm basically an engineer now.

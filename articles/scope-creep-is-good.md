@@ -7,6 +7,8 @@ image: "/writing/scope-creep.png"
 
 ![](/writing/scope-creep.png)
 
+_Written in July 2025. Things are changing quickly, so if you're reading this later, some of the specifics may no longer apply._
+
 Scope creep is something teams actively try to avoid. This means prioritizing only core functionality, often at the expense of usability improvements, delightful details, and design polish.
 
 This tradeoff between speed and quality isn't great for designers. It results in noticeable gaps between polished designs in Figma and what actually gets shipped. If you're a designer, you've probably heard, "we had to cut that in development" more times than you'd like.
