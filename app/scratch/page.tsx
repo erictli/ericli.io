@@ -7,7 +7,7 @@ import { useTheme } from "@/contexts/ThemeContext";
 import BottomNav from "@/components/BottomNav";
 import { Star } from "lucide-react";
 
-const VERSION = "0.6.0";
+const VERSION = "0.7.0";
 
 export default function ScratchPage() {
   const {
@@ -167,8 +167,8 @@ export default function ScratchPage() {
               editing that saves as markdown
             </li>
             <li>
-              <span className="font-medium">Edit with Claude Code</span>: Use
-              your local Claude Code CLI to edit notes
+              <span className="font-medium">Edit with AI</span>: Use your local
+              Claude or Codex CLI to edit notes
             </li>
             <li>
               <span className="font-medium">Works with other AI agents</span>:
