@@ -129,6 +129,13 @@ export default function ScratchPage() {
             >
               Windows &amp; Linux also available
             </a>
+            {" "}·{" "}
+            <Link
+              href="/scratch/stats"
+              className={`hover:opacity-60 transition-opacity border-b border-dashed pb-0.5 ${getLinkColorClass()}`}
+            >
+              GitHub stats
+            </Link>
           </div>
         </div>
 
