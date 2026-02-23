@@ -7,7 +7,7 @@ import { useTheme } from "@/contexts/ThemeContext";
 import BottomNav from "@/components/BottomNav";
 import { Star } from "lucide-react";
 
-const VERSION = "0.7.0";
+const VERSION = "0.7.1";
 
 export default function ScratchPage() {
   const {
