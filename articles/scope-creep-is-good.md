@@ -1,5 +1,5 @@
 ---
-title: "Scope creep is good (especially if you're a designer)"
+title: "Scope creep is good"
 description: "AI coding tools make it easy for designers to polish interfaces, fix UX issues, and ship user experience improvements without slowing down development."
 date: "2025-07-31"
 image: "/writing/scope-creep.png"

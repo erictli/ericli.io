@@ -30,14 +30,14 @@ export default function Home({ articles }: HomeProps) {
       className={`min-h-screen sm:h-screen w-full font-system-sans transition-colors duration-200 ${getTextColorClass()}`}
     >
       <div className="flex text-sm p-6 pb-32 sm:p-0 sm:gap-0 justify-between gap-6 flex-col sm:flex-row sm:h-full sm:overflow-hidden">
-        <div className="sm:max-w-[28rem] space-y-6 flex-1 sm:p-10">
+        <div className="sm:max-w-[27rem] space-y-6 flex-1 sm:p-10">
           <div className="space-y-3 animate-fadeInHome1 opacity-0">
             <Image
               src="/images/typing-cat.png"
               alt="An illustration of a cat typing on a macbook"
               width={144}
               height={168}
-              className={`w-[120px] mb-6 ${!shouldUseDarkText() ? "invert" : ""}`}
+              className={`w-[112px] mb-6 ${!shouldUseDarkText() ? "invert" : ""}`}
               style={{
                 filter: shouldUseDarkText()
                   ? "grayscale(1) contrast(300%) brightness(1.1)"
@@ -97,7 +97,7 @@ export default function Home({ articles }: HomeProps) {
         <hr
           className={`sm:hidden border-dashed ${getOpacityClass()} ${getHrColorClass()}`}
         />
-        <div className="sm:max-w-[24rem] space-y-6 flex-1 animate-fadeInHome2 opacity-0 sm:overflow-y-auto sm:h-full sm:p-10 no-scrollbar">
+        <div className="sm:max-w-[25rem] space-y-6 flex-1 animate-fadeInHome2 opacity-0 sm:overflow-y-auto sm:h-full sm:p-10 no-scrollbar">
           <div className="space-y-4 sm:space-y-3">
             <h2 className={`${getOpacityClass()} text-sm`}>Projects</h2>
 
