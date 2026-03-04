@@ -134,7 +134,7 @@ export default function ScratchPage() {
 
         <div className="w-full max-w-[960px] px-5 mb-16 sm:mb-24 animate-fadeInHome2 opacity-0">
           <Image
-            src="/images/scratch/scratch-screenshot-202603.png"
+            src="/images/scratch/scratch-screenshot-v0.8.0.png"
             alt="Scratch app screenshot"
             width={1080}
             height={720}
