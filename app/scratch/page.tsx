@@ -7,7 +7,7 @@ import { useTheme } from "@/contexts/ThemeContext";
 import BottomNav from "@/components/BottomNav";
 import { Star } from "lucide-react";
 
-const VERSION = "0.7.1";
+const VERSION = "0.8.0";
 
 export default function ScratchPage() {
   const {
@@ -134,7 +134,7 @@ export default function ScratchPage() {
 
         <div className="w-full max-w-[960px] px-5 mb-16 sm:mb-24 animate-fadeInHome2 opacity-0">
           <Image
-            src="/images/scratch/scratch-screenshot.png"
+            src="/images/scratch/scratch-screenshot-202603.png"
             alt="Scratch app screenshot"
             width={1080}
             height={720}
@@ -164,35 +164,29 @@ export default function ScratchPage() {
             </li>
             <li>
               <span className="font-medium">WYSIWYG editing</span>: Rich text
-              editing that saves as markdown
+              with syntax highlighting, math, and diagrams
             </li>
             <li>
-              <span className="font-medium">Edit with AI</span>: Use your local
-              Claude or Codex CLI to edit notes
-            </li>
-            <li>
-              <span className="font-medium">Works with other AI agents</span>:
-              Detects external file changes
+              <span className="font-medium">Edit with AI</span>: Use Claude,
+              Codex, or Ollama to edit notes
             </li>
             <li>
               <span className="font-medium">Keyboard optimized</span>: Lots of
               shortcuts and a command palette
             </li>
             <li>
-              <span className="font-medium">Customizable</span>: Theme and
-              editor typography settings
+              <span className="font-medium">Customizable</span>: Theme,
+              typography, focus mode, and more
             </li>
             <li>
               <span className="font-medium">Git integration</span>: Optional
-              version control for your notes
+              version control and sync for your notes
             </li>
             <li>
-              <span className="font-medium">Lightweight</span>: 5-10x smaller
-              than Obsidian or Notion
-            </li>
-            <li>
-              <span className="font-medium">Cross-platform</span>: Windows and
-              Linux versions available on{" "}
+              <span className="font-medium">
+                Lightweight &amp; cross-platform
+              </span>
+              : Mac, Windows, and Linux on{" "}
               <a
                 href="https://github.com/erictli/scratch/releases"
                 target="_blank"
