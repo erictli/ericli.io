@@ -167,6 +167,16 @@ module.exports = {
             transform: "translateY(0) translateX(-50%)",
           },
         },
+        tooltipIn: {
+          "0%": {
+            opacity: "0",
+            transform: "translateX(-50%) translateY(8px)",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "translateX(-50%) translateY(0)",
+          },
+        },
         float: {
           "0%, 100%": {
             transform: "translateY(1px)",
@@ -201,6 +211,7 @@ module.exports = {
         fadeInSprite: "fadeIn 0.5s ease-out forwards 4.5s",
         fadeInControls: "fadeInUpControls 0.5s ease-out forwards 5.0s",
         fadeInMenu: "fadeInDown 0.5s ease-out forwards 5.5s",
+        tooltipIn: "tooltipIn 0.2s ease-out forwards",
         float: "float 3s ease-in-out infinite",
       },
       transitionDuration: {

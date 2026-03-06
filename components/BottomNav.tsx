@@ -9,6 +9,7 @@ import { IconHome, IconMail, IconBrandLinkedin } from "@tabler/icons-react";
 
 export default function BottomNav() {
   const [showColorPicker, setShowColorPicker] = useState(false);
+  const [showCopied, setShowCopied] = useState(false);
   const {
     themeState,
     updateTheme,
@@ -80,27 +81,41 @@ export default function BottomNav() {
           href="/"
           className={`font-semibold hover:opacity-100 transition-opacity ${getOpacityClass()} ${getLinkColorClass()}`}
         >
-          {/* Eric Li */}
-          <IconHome strokeWidth={1.5} className="w-6 h-6 sm:w-5 sm:h-5" />
+          <IconHome strokeWidth={1.4} className="w-6 h-6 sm:w-5 sm:h-5" />
         </Link>
         <Link
           href="https://linkedin.com/in/erictli"
           target="_blank"
           className={`hover:opacity-100 transition-opacity ${getOpacityClass()} ${getLinkColorClass()}`}
         >
-          {/* LinkedIn */}
           <IconBrandLinkedin
-            strokeWidth={1.5}
+            strokeWidth={1.4}
             className="w-6 h-6 sm:w-5 sm:h-5"
           />
         </Link>
-        <Link
-          href="mailto:eric@getversive.com"
-          className={`hover:opacity-100 transition-opacity ${getOpacityClass()} ${getLinkColorClass()}`}
-        >
-          {/* hi@ericli.io */}
-          <IconMail strokeWidth={1.5} className="w-6 h-6 sm:w-5 sm:h-5" />
-        </Link>
+        <div className="relative flex items-center">
+          <button
+            onClick={() => {
+              navigator.clipboard.writeText("eric@getversive.com");
+              setShowCopied(true);
+              setTimeout(() => setShowCopied(false), 1500);
+            }}
+            className={`flex items-center justify-center hover:opacity-100 transition-opacity ${getOpacityClass()} ${getLinkColorClass()}`}
+          >
+            <IconMail strokeWidth={1.4} className="w-6 h-6 sm:w-5 sm:h-5" />
+          </button>
+          {showCopied && (
+            <div
+              className={`absolute -top-10 left-1/2 px-2.5 py-1 rounded-md text-xs font-medium whitespace-nowrap animate-tooltipIn ${
+                shouldUseDarkText()
+                  ? "bg-stone-950/70 backdrop-blur-md text-white"
+                  : "bg-white/70 backdrop-blur-md text-stone-950"
+              }`}
+            >
+              Email copied
+            </div>
+          )}
+        </div>
         <div className="relative flex-none">
           <Image
             src="/images/color-picker.png"
