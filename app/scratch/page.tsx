@@ -19,7 +19,7 @@ import {
   IconTypography,
 } from "@tabler/icons-react";
 
-const VERSION = "0.9.0";
+const VERSION = "0.9.1";
 
 export default function ScratchPage() {
   const {
