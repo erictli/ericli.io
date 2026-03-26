@@ -1,13 +1,13 @@
 ---
 title: "Beyond vibe coding"
-description: "A practical guide for designers looking to effectively use AI coding tools beyond surface-level experimentation, featuring clear strategies and actionable tips for integrating AI into your development workflow."
+description: "A practical guide for designers using AI coding tools beyond vibe coding."
 date: "2025-06-25"
 image: "/writing/vibe-coding.png"
 ---
 
 ![](/writing/vibe-coding.png)
 
-_Written in June 2025. Things are changing quickly, so if you're reading this later, some of the specifics may no longer apply._
+<Callout>Written in June 2025. Things are changing quickly, so if you're reading this later, some of the specifics may no longer apply.</Callout>
 
 With the rise of AI-powered coding tools like Cursor, I'm seeing more and more designers diving into development. Unfortunately, the results are mixed. Every day, I see posts that fall into one of two buckets:
 

@@ -3,8 +3,8 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { HexColorPicker } from "react-colorful";
-import { useTheme, type ThemeMode } from "@/contexts/ThemeContext";
+import { useTheme } from "@/contexts/ThemeContext";
+import CloudShader from "@/components/CloudShader";
 import {
   IconStar,
   IconWifiOff,
@@ -23,8 +23,6 @@ const VERSION = "0.9.1";
 
 export default function ScratchPage() {
   const {
-    themeState,
-    updateTheme,
     getTextColorClass,
     isHydrated,
     shouldUseDarkText,
@@ -32,18 +30,6 @@ export default function ScratchPage() {
   } = useTheme();
 
   const [starCount, setStarCount] = useState<number | null>(null);
-  const [showColorPicker, setShowColorPicker] = useState(false);
-
-  const handleColorChange = (color: string) => {
-    updateTheme({ mode: "custom", color });
-  };
-
-  const handleThemeChange = (mode: ThemeMode) => {
-    let newColor = themeState.color;
-    if (mode === "light") newColor = "#fafaf9";
-    else if (mode === "dark") newColor = "#0c0a09";
-    updateTheme({ mode, color: newColor });
-  };
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -55,22 +41,6 @@ export default function ScratchPage() {
     }, 2000);
     return () => clearTimeout(timer);
   }, [isHydrated]);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      const target = event.target as HTMLElement;
-      if (
-        !target.closest(".color-picker-container") &&
-        !target.closest(".color-picker-trigger")
-      ) {
-        setShowColorPicker(false);
-      }
-    };
-    if (showColorPicker) {
-      document.addEventListener("click", handleClickOutside);
-      return () => document.removeEventListener("click", handleClickOutside);
-    }
-  }, [showColorPicker]);
 
   useEffect(() => {
     fetch("/api/github-stars")
@@ -105,19 +75,19 @@ export default function ScratchPage() {
             alt="Scratch app icon"
             width={128}
             height={128}
-            className="h-24 w-24 rounded-3xl border border-stone-950/5 shadow-xl mb-2.5"
+            className="h-24 w-24 rounded-3xl border border-neutral-950/5 shadow-xl mb-2.5"
           />
           <div className="relative inline-flex flex-col items-center mb-8 animate-float">
             <div
               className={`w-3 h-3 rotate-45 rounded-[2px] -mb-[8px] z-10 ${
-                shouldUseDarkText() ? "bg-stone-900" : "bg-stone-100"
+                shouldUseDarkText() ? "bg-neutral-900" : "bg-neutral-100"
               }`}
             />
             <div
               className={`px-4 py-1 rounded-full text-sm font-medium ${
                 shouldUseDarkText()
-                  ? "bg-stone-900 text-white"
-                  : "bg-stone-100 text-stone-950"
+                  ? "bg-neutral-900 text-white"
+                  : "bg-neutral-100 text-neutral-950"
               }`}
             >
               Scratch
@@ -132,8 +102,8 @@ export default function ScratchPage() {
               href={`https://github.com/erictli/scratch/releases/latest/download/Scratch_${VERSION}_universal.dmg`}
               className={`inline-flex w-full sm:w-auto justify-center items-center gap-2 px-5 h-12 rounded-xl text-base font-medium transition-opacity hover:opacity-70  ${
                 shouldUseDarkText()
-                  ? "bg-stone-950 text-white focus-visible:outline-none focus-visible:ring-stone-950/20 focus-visible:ring-2 "
-                  : "bg-white text-stone-950 focus-visible:outline-none focus-visible:ring-white/40 focus-visible:ring-2"
+                  ? "bg-neutral-950 text-white focus-visible:outline-none focus-visible:ring-neutral-950/20 focus-visible:ring-2 "
+                  : "bg-white text-neutral-950 focus-visible:outline-none focus-visible:ring-white/40 focus-visible:ring-2"
               }`}
             >
               <span className="text-xl leading-none"></span> Download for Mac
@@ -143,14 +113,18 @@ export default function ScratchPage() {
               target="_blank"
               className={`inline-flex w-full sm:w-auto justify-center items-center gap-1.5 pl-[18px] pr-3 h-12 rounded-xl text-base font-medium transition-opacity hover:opacity-70 ${
                 shouldUseDarkText()
-                  ? "border border-stone-950/10 focus-visible:outline-none focus-visible:ring-stone-950/20 focus-visible:ring-2"
+                  ? "border border-neutral-950/10 focus-visible:outline-none focus-visible:ring-neutral-950/20 focus-visible:ring-2"
                   : "border border-white/20 focus-visible:outline-none focus-visible:ring-white/40 focus-visible:ring-2"
               }`}
             >
               View on GitHub
               {starCount !== null && (
                 <span
-                  className={`flex items-center text-sm gap-0.5 h-5 pl-3 ml-2 sm:pl-2 sm:ml-1 border-l  border-dashed ${shouldUseDarkText() ? "border-stone-950/10" : "border-white/20"}`}
+                  className={`flex items-center text-sm gap-0.5 h-5 pl-3 ml-2 sm:pl-2 sm:ml-1 border-l  border-dashed ${
+                    shouldUseDarkText()
+                      ? "border-neutral-950/10"
+                      : "border-white/20"
+                  }`}
                 >
                   <IconStar size={12} fill="currentColor" stroke="none" />
                   {formatStarCount(starCount)}
@@ -160,7 +134,7 @@ export default function ScratchPage() {
           </div>
           <div
             className={`text-sm mb-6 md:mb-1 ${
-              shouldUseDarkText() ? "text-stone-950/40" : "text-white/40"
+              shouldUseDarkText() ? "text-neutral-950/40" : "text-white/40"
             }`}
           >
             v{VERSION} ·{" "}
@@ -182,7 +156,9 @@ export default function ScratchPage() {
               width={1920}
               height={1080}
               priority
-              className={`absolute inset-0 w-full h-full object-cover -z-10 transition-opacity duration-500 ${shouldUseDarkText() ? "opacity-100" : "opacity-0"}`}
+              className={`absolute inset-0 w-full h-full object-cover -z-10 transition-opacity duration-500 ${
+                shouldUseDarkText() ? "opacity-100" : "opacity-0"
+              }`}
             />
             <Image
               src="/images/scratch/background-dark.jpg"
@@ -190,7 +166,9 @@ export default function ScratchPage() {
               width={1920}
               height={1080}
               priority
-              className={`absolute inset-0 w-full h-full object-cover -z-10 transition-opacity duration-500 ${shouldUseDarkText() ? "opacity-0" : "opacity-100"}`}
+              className={`absolute inset-0 w-full h-full object-cover -z-10 transition-opacity duration-500 ${
+                shouldUseDarkText() ? "opacity-0" : "opacity-100"
+              }`}
             />
             <div className="absolute inset-0 w-full h-full -z-10 bg-[linear-gradient(to_bottom,var(--theme-background)_0%,transparent_60%)]" />
             <div className="w-full max-w-[960px] mx-auto px-6 py-6 md:py-24 animate-fadeInNav opacity-0">
@@ -200,7 +178,7 @@ export default function ScratchPage() {
                 loop
                 playsInline
                 poster="/images/scratch/scratch-demo-image.png"
-                className="w-full rounded-2xl shadow-2xl border border-stone-950/5 min-w-[640px]"
+                className="w-full rounded-2xl shadow-2xl border border-neutral-950/5 min-w-[640px]"
               >
                 <source
                   src="/images/scratch/scratch-demo.mp4"
@@ -277,14 +255,16 @@ export default function ScratchPage() {
                 className="flex flex-col items-start gap-3 py-1 max-w-72"
               >
                 <div
-                  className={`flex items-center justify-center p-2 rounded-lg bg-stone-950/5 ${shouldUseDarkText() ? "bg-stone-950/5" : "bg-white/5"}`}
+                  className={`flex items-center justify-center p-2 rounded-lg bg-neutral-950/5 ${
+                    shouldUseDarkText() ? "bg-neutral-950/5" : "bg-white/5"
+                  }`}
                 >
                   <Icon
                     size={24}
                     stroke={1.2}
                     className={`mt-0.5 shrink-0 ${
                       shouldUseDarkText()
-                        ? "text-stone-950 opacity-40"
+                        ? "text-neutral-950 opacity-40"
                         : "text-white opacity-40"
                     }`}
                   />
@@ -296,7 +276,7 @@ export default function ScratchPage() {
                   <div
                     className={`text-lg leading-snug ${
                       shouldUseDarkText()
-                        ? "text-stone-950/50"
+                        ? "text-neutral-950/50"
                         : "text-white/50"
                     }`}
                   >
@@ -309,7 +289,7 @@ export default function ScratchPage() {
 
           <div
             className={`text-lg mb-16 sm:mb-24 text-left ${
-              shouldUseDarkText() ? "text-stone-950/50" : "text-white/50"
+              shouldUseDarkText() ? "text-neutral-950/50" : "text-white/50"
             }`}
           >
             Plus slash commands, wikilinks, markdown source mode, and{" "}
@@ -330,20 +310,24 @@ export default function ScratchPage() {
               alt=""
               width={1920}
               height={1080}
-              className={`absolute inset-0 w-full h-full object-cover object-top -z-10 transition-opacity duration-500 ${shouldUseDarkText() ? "opacity-70" : "opacity-0"}`}
+              className={`absolute inset-0 w-full h-full object-cover object-top -z-10 transition-opacity duration-500 ${
+                shouldUseDarkText() ? "opacity-70" : "opacity-0"
+              }`}
             />
             <Image
               src="/images/scratch/background-dark.jpg"
               alt=""
               width={1920}
               height={1080}
-              className={`absolute inset-0 w-full h-full object-cover object-top -z-10 transition-opacity duration-500 ${shouldUseDarkText() ? "opacity-0" : "opacity-70"}`}
+              className={`absolute inset-0 w-full h-full object-cover object-top -z-10 transition-opacity duration-500 ${
+                shouldUseDarkText() ? "opacity-0" : "opacity-70"
+              }`}
             />
             <div className="absolute inset-0 w-full h-full -z-10 bg-[linear-gradient(to_top,var(--theme-background)_0%,transparent_70%)]" />
             <div className="flex flex-col items-center gap-6 px-8 py-20 pt-28 sm:pt-32">
               <div
-                className={`font-besley text-[32px] sm:text-[42px] !leading-[1.2] tracking-[-0.008em] text-center max-w-3xl ${
-                  shouldUseDarkText() ? "text-stone-950" : "text-white"
+                className={`font-besley text-[32px] sm:text-[42px] !leading-[1.2] tracking-[-0.008em] text-center max-w-2xl ${
+                  shouldUseDarkText() ? "text-neutral-950" : "text-white"
                 }`}
               >
                 Scratch is free and open source. No account needed.
@@ -353,8 +337,8 @@ export default function ScratchPage() {
                   href={`https://github.com/erictli/scratch/releases/latest/download/Scratch_${VERSION}_universal.dmg`}
                   className={`inline-flex w-full sm:w-auto justify-center items-center gap-2 px-5 h-12 rounded-xl text-base font-medium transition-opacity hover:opacity-70 ${
                     shouldUseDarkText()
-                      ? "bg-stone-950 text-white focus-visible:outline-none focus-visible:ring-stone-950/20 focus-visible:ring-2"
-                      : "bg-white text-stone-950 focus-visible:outline-none focus-visible:ring-white/40 focus-visible:ring-2"
+                      ? "bg-neutral-950 text-white focus-visible:outline-none focus-visible:ring-neutral-950/20 focus-visible:ring-2"
+                      : "bg-white text-neutral-950 focus-visible:outline-none focus-visible:ring-white/40 focus-visible:ring-2"
                   }`}
                 >
                   <span className="text-xl leading-none"></span> Download for
@@ -365,14 +349,18 @@ export default function ScratchPage() {
                   target="_blank"
                   className={`inline-flex w-full sm:w-auto justify-center items-center gap-1.5 pl-[18px] pr-3 h-12 rounded-xl text-base font-medium transition-opacity hover:opacity-70 ${
                     shouldUseDarkText()
-                      ? "border border-stone-950/10 focus-visible:outline-none focus-visible:ring-stone-950/20 focus-visible:ring-2"
+                      ? "border border-neutral-950/10 focus-visible:outline-none focus-visible:ring-neutral-950/20 focus-visible:ring-2"
                       : "border border-white/20 focus-visible:outline-none focus-visible:ring-white/40 focus-visible:ring-2"
                   }`}
                 >
                   View on GitHub
                   {starCount !== null && (
                     <span
-                      className={`flex items-center text-sm gap-0.5 h-5 pl-3 ml-2 sm:pl-2 sm:ml-1 border-l border-dashed ${shouldUseDarkText() ? "border-stone-950/10" : "border-white/20"}`}
+                      className={`flex items-center text-sm gap-0.5 h-5 pl-3 ml-2 sm:pl-2 sm:ml-1 border-l border-dashed ${
+                        shouldUseDarkText()
+                          ? "border-neutral-950/10"
+                          : "border-white/20"
+                      }`}
                     >
                       <IconStar size={12} fill="currentColor" stroke="none" />
                       {formatStarCount(starCount)}
@@ -386,7 +374,7 @@ export default function ScratchPage() {
 
         <div
           className={`w-full max-w-[1600px] px-8 md:px-12 text-sm ${
-            shouldUseDarkText() ? "text-stone-950/50" : "text-white/50"
+            shouldUseDarkText() ? "text-neutral-950/50" : "text-white/50"
           }`}
         >
           {/* Mobile: stacked centered */}
@@ -405,57 +393,13 @@ export default function ScratchPage() {
             />
             <div className="flex items-center gap-1.5">
               <span>Made with</span>
-              <div className="relative flex-none">
-                <Image
-                  src="/images/color-picker.png"
-                  alt="Color picker"
-                  width={40}
-                  height={40}
-                  className="w-5 h-5 p-[1px] rounded-full cursor-pointer opacity-80 hover:opacity-100 transition-opacity color-picker-trigger"
-                  onClick={() => setShowColorPicker(!showColorPicker)}
-                />
-                {showColorPicker && (
-                  <div
-                    className={`absolute bottom-8 left-1/2 -translate-x-1/2 p-3 ${
-                      shouldUseDarkText() ? "bg-stone-950/[4%]" : "bg-white/10"
-                    } backdrop-blur-md rounded-xl color-picker-container w-60 z-50`}
-                  >
-                    <HexColorPicker
-                      color={themeState.color}
-                      onChange={handleColorChange}
-                      className="!w-full"
-                    />
-                    <div className="flex gap-1.5 mt-2.5">
-                      <button
-                        onClick={() => handleThemeChange("light")}
-                        className={`flex-1 px-3 h-8 pb-0.5 flex items-center justify-center rounded-lg text-sm transition-all ${
-                          shouldUseDarkText()
-                            ? "bg-stone-950/[6%]"
-                            : "bg-white/10"
-                        } hover:opacity-60 transition-opacity`}
-                      >
-                        Light
-                      </button>
-                      <button
-                        onClick={() => handleThemeChange("dark")}
-                        className={`flex-1 px-3 h-8 pb-0.5 flex items-center justify-center rounded-lg text-sm transition-all ${
-                          shouldUseDarkText()
-                            ? "bg-stone-950/[6%]"
-                            : "bg-white/10"
-                        } hover:opacity-60 transition-opacity`}
-                      >
-                        Dark
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </div>
+              <CloudShader size={20} pickerAlign="left" />
               <span>
                 by{" "}
                 <Link
                   href="https://ericli.io"
                   target="_blank"
-                  className={`hover:opacity-60 transition-opacity font-medium`}
+                  className={`hover:opacity-60 transition-opacity font-medium border-b border-dotted pb-px ${getLinkColorClass()}`}
                 >
                   Eric Li
                 </Link>
@@ -466,57 +410,13 @@ export default function ScratchPage() {
           <div className="hidden sm:grid grid-cols-3 items-end">
             <div className="flex items-center gap-1.5">
               <span>Made with</span>
-              <div className="relative flex-none">
-                <Image
-                  src="/images/color-picker.png"
-                  alt="Color picker"
-                  width={40}
-                  height={40}
-                  className="w-5 h-5 p-[1px] rounded-full cursor-pointer opacity-80 hover:opacity-100 transition-opacity color-picker-trigger"
-                  onClick={() => setShowColorPicker(!showColorPicker)}
-                />
-                {showColorPicker && (
-                  <div
-                    className={`absolute bottom-8 left-1/2 -translate-x-1/2 p-3 ${
-                      shouldUseDarkText() ? "bg-stone-950/[4%]" : "bg-white/10"
-                    } backdrop-blur-md rounded-xl color-picker-container w-60 z-50`}
-                  >
-                    <HexColorPicker
-                      color={themeState.color}
-                      onChange={handleColorChange}
-                      className="!w-full"
-                    />
-                    <div className="flex gap-1.5 mt-2.5">
-                      <button
-                        onClick={() => handleThemeChange("light")}
-                        className={`flex-1 px-3 h-8 pb-0.5 flex items-center justify-center rounded-lg text-sm transition-all ${
-                          shouldUseDarkText()
-                            ? "bg-stone-950/[6%]"
-                            : "bg-white/10"
-                        } hover:opacity-60 transition-opacity`}
-                      >
-                        Light
-                      </button>
-                      <button
-                        onClick={() => handleThemeChange("dark")}
-                        className={`flex-1 px-3 h-8 pb-0.5 flex items-center justify-center rounded-lg text-sm transition-all ${
-                          shouldUseDarkText()
-                            ? "bg-stone-950/[6%]"
-                            : "bg-white/10"
-                        } hover:opacity-60 transition-opacity`}
-                      >
-                        Dark
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </div>
+              <CloudShader size={20} pickerAlign="left" />
               <span>
                 by{" "}
                 <Link
                   href="https://ericli.io"
                   target="_blank"
-                  className={`hover:opacity-60 transition-opacity font-medium`}
+                  className={`hover:opacity-60 transition-opacity font-medium border-b border-dotted pb-px ${getLinkColorClass()}`}
                 >
                   Eric Li
                 </Link>
@@ -540,14 +440,14 @@ export default function ScratchPage() {
               <a
                 href="https://github.com/erictli/scratch"
                 target="_blank"
-                className={`hover:opacity-60 transition-opacity font-medium`}
+                className={`hover:opacity-60 transition-opacity font-medium border-b border-dotted pb-px ${getLinkColorClass()}`}
               >
                 GitHub
               </a>
               <a
                 href="https://github.com/erictli/scratch/releases"
                 target="_blank"
-                className={`hover:opacity-60 transition-opacity font-medium`}
+                className={`hover:opacity-60 transition-opacity font-medium border-b border-dotted pb-px ${getLinkColorClass()}`}
               >
                 Releases
               </a>

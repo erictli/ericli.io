@@ -5,6 +5,8 @@ import { Besley } from "next/font/google";
 import { PHProvider, PostHogPageview } from "./providers";
 import { Suspense } from "react";
 import { ThemeProvider } from "@/contexts/ThemeContext";
+import NavMenu from "@/components/NavMenu";
+import GlobalCloudShader from "@/components/GlobalCloudShader";
 
 const mondwest = localFont({
   src: "../public/fonts/PPMondwest-Regular.woff2",
@@ -18,7 +20,7 @@ const inter = localFont({
 
 const besley = Besley({
   subsets: ["latin"],
-  variable: "--font-besley",
+  variable: "--font-besley-var",
 });
 
 // const abcDiatype = localFont({
@@ -28,13 +30,19 @@ const besley = Besley({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://ericli.io"),
-  title: "Hi, I'm Eric, the co-founder of Versive.",
+  title: "Eric Li",
   description:
-    "I'm a designer and developer who's worked at startups and public companies, including Uber, Bread, and Vareto. I'm originally from the Chicago suburbs and currently live in Brooklyn, NY.",
+    "Eric Li is a product designer and developer, and the co-founder of Versive. Previously at Uber, Bread, and Vareto. Based in Brooklyn, NY.",
+  alternates: {
+    canonical: "https://ericli.io",
+    types: {
+      "application/rss+xml": "/feed.xml",
+    },
+  },
   openGraph: {
-    title: "Hi, I'm Eric, the co-founder of Versive.",
+    title: "Eric Li",
     description:
-      "I'm a designer and developer who's worked at startups and public companies, including Uber, Bread, and Vareto. I'm originally from the Chicago suburbs and currently live in Brooklyn, NY.",
+      "Eric Li is a product designer and developer, and the co-founder of Versive. Previously at Uber, Bread, and Vareto. Based in Brooklyn, NY.",
     url: "https://ericli.io",
     siteName: "Eric Li",
     type: "website",
@@ -42,10 +50,28 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Hi, I'm Eric, the co-founder of Versive.",
+    title: "Eric Li",
     description:
-      "I'm a designer and developer who's worked at startups and public companies, including Uber, Bread, and Vareto. I'm originally from the Chicago suburbs and currently live in Brooklyn, NY.",
+      "Eric Li is a product designer and developer, and the co-founder of Versive. Previously at Uber, Bread, and Vareto. Based in Brooklyn, NY.",
   },
+};
+
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Eric Li",
+  url: "https://ericli.io",
+  jobTitle: "Co-founder",
+  worksFor: {
+    "@type": "Organization",
+    name: "Versive",
+    url: "https://getversive.com",
+  },
+  alumniOf: {
+    "@type": "CollegeOrUniversity",
+    name: "University of Chicago",
+  },
+  sameAs: ["https://linkedin.com/in/erictli", "https://github.com/erictli"],
 };
 
 export default function RootLayout({
@@ -54,16 +80,24 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${inter.variable} ${mondwest.variable} ${besley.variable}`}>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+        />
+      </head>
       <Suspense>
         <PostHogPageview />
       </Suspense>
       <PHProvider>
         <ThemeProvider>
           <body
-            className={`${inter.variable} ${mondwest.variable} ${besley.variable} transition-colors duration-800`}
+            className="transition-colors duration-800"
           >
+            <NavMenu />
             {children}
+            <GlobalCloudShader />
           </body>
         </ThemeProvider>
       </PHProvider>

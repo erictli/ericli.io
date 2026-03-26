@@ -1,6 +1,6 @@
 ---
 title: "How to recruit users for research"
-description: "This guide is for startups looking for practical ways to recruit participants for user research. We'll cover actionable tips on how to get started."
+description: "Practical tips for startups recruiting user research participants."
 date: "2024-04-03"
 ---
 

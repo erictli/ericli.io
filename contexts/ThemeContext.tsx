@@ -27,7 +27,7 @@ interface ThemeContextType {
   getTextColorClass: () => string;
   getLinkColorClass: () => string;
   getOpacityClass: () => string;
-  getHrColorClass: () => string;
+  getBorderColorClass: () => string;
   isHydrated: boolean;
 }
 
@@ -36,7 +36,7 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 // Default theme
 const DEFAULT_THEME: ThemeState = {
   mode: "light",
-  color: "#fafaf9",
+  color: "#fafafa",
 };
 
 // Helper function to get initial theme (handles SSR)
@@ -101,27 +101,29 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   };
 
   const getBackgroundColor = () => {
-    if (themeState.mode === "light") return "#fafaf9";
-    if (themeState.mode === "dark") return "#0c0a09";
+    if (themeState.mode === "light") return "#fafafa";
+    if (themeState.mode === "dark") return "#0a0a0a";
     return themeState.color;
   };
 
   const getTextColorClass = () => {
-    return shouldUseDarkText() ? "text-stone-950" : "text-white";
+    return shouldUseDarkText() ? "text-neutral-950" : "text-white";
   };
 
   const getLinkColorClass = () => {
     return shouldUseDarkText()
-      ? "border-stone-950/20 hover:border-stone-950/30 focus-visible:outline-none focus-visible:bg-stone-950/10"
+      ? "border-neutral-950/20 hover:border-neutral-950/30 focus-visible:outline-none focus-visible:bg-neutral-950/10"
       : "border-white/20 hover:border-white/30 focus-visible:outline-none focus-visible:bg-white/20";
   };
 
   const getOpacityClass = () => {
-    return shouldUseDarkText() ? "opacity-60" : "opacity-70";
+    return shouldUseDarkText() ? "opacity-50" : "opacity-60";
   };
 
-  const getHrColorClass = () => {
-    return shouldUseDarkText() ? "border-stone-950/10" : "border-white/10";
+  const getBorderColorClass = () => {
+    return shouldUseDarkText()
+      ? "border-neutral-950/[7%]"
+      : "border-white/[7%]";
   };
 
   const value: ThemeContextType = {
@@ -132,7 +134,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     getTextColorClass,
     getLinkColorClass,
     getOpacityClass,
-    getHrColorClass,
+    getBorderColorClass,
     isHydrated,
   };
 

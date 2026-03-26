@@ -1,13 +1,13 @@
 ---
 title: "Scope creep is good"
-description: "AI coding tools make it easy for designers to polish interfaces, fix UX issues, and ship user experience improvements without slowing down development."
+description: "Why AI tools make scope creep a feature, not a bug."
 date: "2025-07-31"
 image: "/writing/scope-creep.png"
 ---
 
 ![](/writing/scope-creep.png)
 
-_Written in July 2025. Things are changing quickly, so if you're reading this later, some of the specifics may no longer apply._
+<Callout>Written in July 2025. Things are changing quickly, so if you're reading this later, some of the specifics may no longer apply.</Callout>
 
 Scope creep is something teams actively try to avoid. This means prioritizing only core functionality, often at the expense of usability improvements, delightful details, and design polish.
 

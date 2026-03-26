@@ -1,6 +1,6 @@
 ---
 title: "Introducing Versive"
-description: "Versive makes gathering user insights and customer feedback easier. Our AI-powered surveys ask intelligent follow-up questions to give you interview-quality insights in a fraction of the time."
+description: "AI-powered surveys that ask follow-up questions for interview-quality insights."
 date: "2024-01-09"
 ---
 

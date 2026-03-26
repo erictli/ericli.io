@@ -1,0 +1,22 @@
+# Eric Li
+
+> Product designer and developer. Co-founder of Versive.
+
+Eric Li is a product designer and developer based in Brooklyn, NY. He is the co-founder of Versive, an AI-first user research platform. He previously worked at Uber, Bread (acquired by Alliance Data), and Vareto. He studied economics at the University of Chicago.
+
+## Projects
+
+- Versive (https://getversive.com): An AI-first user research platform that helps teams conduct and synthesize user research at scale.
+- Scratch (https://ericli.io/scratch): An offline-first, open source markdown note-taking app for Mac, Windows, and Linux. No cloud, no account, no subscriptions.
+- Whisker (https://github.com/getversive/whisker): An AI-powered usability testing CLI tool.
+
+## Writing
+
+Eric writes about product design, software development, AI tools, and building products. His articles are available at https://ericli.io/writing.
+
+## Contact
+
+- Website: https://ericli.io
+- LinkedIn: https://linkedin.com/in/erictli
+- GitHub: https://github.com/erictli
+- Email: eric@getversive.com

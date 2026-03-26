@@ -1,13 +1,13 @@
 ---
 title: "Taste is work"
-description: "AI made building easy and taste matters more than ever. But, taste is a skill that needs to be practiced."
+description: "AI made building easy, but taste is a skill that needs practice."
 date: "2026-02-17"
 image: "/writing/taste.jpg"
 ---
 
 ![](/writing/taste.jpg)
 
-_Written in February 2026. Things are changing quickly, so if you're reading this later, some of the specifics may no longer apply._
+<Callout>Written in February 2026. Things are changing quickly, so if you're reading this later, some of the specifics may no longer apply.</Callout>
 
 I built a notes app. There are thousands of notes apps. You could build and ship one with Claude Code in thirty minutes.
 
