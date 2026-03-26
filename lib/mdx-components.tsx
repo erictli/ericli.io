@@ -2,7 +2,7 @@ import type { MDXComponents } from "mdx/types";
 
 function Callout({ children }: { children: React.ReactNode }) {
   return (
-    <p className="text-sm sm:text-[15px] font-normal opacity-50 leading-normal! -mt-5! mb-8!">
+    <p className="text-sm sm:text-[15px] font-normal text-current/50 leading-normal! -mt-5! mb-8!">
       {children}
     </p>
   );

@@ -12,6 +12,42 @@ function isLightColor(hex: string): boolean {
   return brightness > 128;
 }
 
+// Derive a selection highlight color from a hex background color.
+// Preserves hue and saturation, adjusts lightness, and adds transparency.
+// For achromatic colors (white/black/gray), returns a transparent gray.
+function getSelectionColor(hex: string, isDark: boolean): string {
+  const rgb = parseInt(hex.slice(1), 16);
+  const r = ((rgb >> 16) & 0xff) / 255;
+  const g = ((rgb >> 8) & 0xff) / 255;
+  const b = (rgb & 0xff) / 255;
+
+  const max = Math.max(r, g, b);
+  const min = Math.min(r, g, b);
+  const d = max - min;
+
+  let h = 0;
+  let s = 0;
+
+  if (d > 0) {
+    s = max === 0 ? 0 : d / max;
+    if (max === r) h = ((g - b) / d + (g < b ? 6 : 0)) / 6;
+    else if (max === g) h = ((b - r) / d + 2) / 6;
+    else h = ((r - g) / d + 4) / 6;
+  }
+
+  // If saturation is very low, treat as achromatic
+  if (s < 0.08) {
+    return isDark ? "rgba(255, 255, 255, 0.2)" : "rgba(0, 0, 0, 0.15)";
+  }
+
+  // Compute background lightness to push selection away from it
+  const bgLightness = (max + min) / 2;
+  const lightness = bgLightness > 0.5 ? 35 : 75;
+  const satPct = Math.min(Math.round(s * 100), 70);
+  const hueDeg = Math.round(h * 360);
+  return `hsla(${hueDeg}, ${satPct}%, ${lightness}%, 0.35)`;
+}
+
 export type ThemeMode = "light" | "dark" | "custom";
 
 export interface ThemeState {
@@ -26,7 +62,8 @@ interface ThemeContextType {
   getBackgroundColor: () => string;
   getTextColorClass: () => string;
   getLinkColorClass: () => string;
-  getOpacityClass: () => string;
+  getMutedTextClass: () => string;
+  getMutedHoverClass: () => string;
   getBorderColorClass: () => string;
   isHydrated: boolean;
 }
@@ -82,6 +119,16 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
         "--theme-background",
         backgroundColor,
       );
+
+      // Set selection highlight color based on theme
+      const selectionColor = getSelectionColor(
+        backgroundColor,
+        !shouldUseDarkText(),
+      );
+      document.documentElement.style.setProperty(
+        "--theme-selection",
+        selectionColor,
+      );
     }
   }, [themeState, isHydrated]);
 
@@ -116,8 +163,14 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       : "border-white/20 hover:border-white/30 focus-visible:outline-none focus-visible:bg-white/20";
   };
 
-  const getOpacityClass = () => {
-    return shouldUseDarkText() ? "opacity-50" : "opacity-60";
+  const getMutedTextClass = () => {
+    return shouldUseDarkText() ? "text-neutral-950/50" : "text-white/60";
+  };
+
+  const getMutedHoverClass = () => {
+    return shouldUseDarkText()
+      ? "hover:text-neutral-950 transition-colors"
+      : "hover:text-white transition-colors";
   };
 
   const getBorderColorClass = () => {
@@ -133,7 +186,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     getBackgroundColor,
     getTextColorClass,
     getLinkColorClass,
-    getOpacityClass,
+    getMutedTextClass,
+    getMutedHoverClass,
     getBorderColorClass,
     isHydrated,
   };

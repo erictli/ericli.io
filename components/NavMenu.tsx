@@ -18,7 +18,8 @@ export default function NavMenu() {
   const {
     getLinkColorClass,
     getTextColorClass,
-    getOpacityClass,
+    getMutedTextClass,
+    getMutedHoverClass,
     shouldUseDarkText,
     isHydrated,
   } = useTheme();
@@ -101,7 +102,7 @@ export default function NavMenu() {
                 className={`font-[450] transition-opacity duration-200 ${getTextColorClass()} ${getLinkColorClass()} ${
                   isActive
                     ? "opacity-100"
-                    : `${getOpacityClass()} hover:opacity-100`
+                    : `${getMutedTextClass()} ${getMutedHoverClass()}`
                 }`}
               >
                 {link.label}

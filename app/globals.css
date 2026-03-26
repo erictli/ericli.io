@@ -280,6 +280,10 @@ body {
   @apply bg-neutral-50 text-neutral-950 antialiased font-sans;
 }
 
+::selection {
+  background-color: var(--theme-selection, rgba(0, 0, 0, 0.15));
+}
+
 /* Custom utilities */
 @utility no-scrollbar {
   -ms-overflow-style: none;

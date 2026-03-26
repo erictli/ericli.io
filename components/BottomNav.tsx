@@ -14,7 +14,8 @@ export default function BottomNav() {
     themeState,
     updateTheme,
     shouldUseDarkText,
-    getOpacityClass,
+    getMutedTextClass,
+    getMutedHoverClass,
     getLinkColorClass,
     isHydrated,
   } = useTheme();
@@ -79,14 +80,14 @@ export default function BottomNav() {
       >
         <Link
           href="/"
-          className={`font-semibold hover:opacity-100 transition-opacity ${getOpacityClass()} ${getLinkColorClass()}`}
+          className={`font-semibold ${getMutedTextClass()} ${getMutedHoverClass()} ${getLinkColorClass()}`}
         >
           <IconHome strokeWidth={1.4} className="w-6 h-6 sm:w-5 sm:h-5" />
         </Link>
         <Link
           href="https://linkedin.com/in/erictli"
           target="_blank"
-          className={`hover:opacity-100 transition-opacity ${getOpacityClass()} ${getLinkColorClass()}`}
+          className={`${getMutedTextClass()} ${getMutedHoverClass()} ${getLinkColorClass()}`}
         >
           <IconBrandLinkedin
             strokeWidth={1.4}
@@ -100,7 +101,7 @@ export default function BottomNav() {
               setShowCopied(true);
               setTimeout(() => setShowCopied(false), 1500);
             }}
-            className={`flex items-center justify-center hover:opacity-100 transition-opacity ${getOpacityClass()} ${getLinkColorClass()}`}
+            className={`flex items-center justify-center ${getMutedTextClass()} ${getMutedHoverClass()} ${getLinkColorClass()}`}
           >
             <IconMail strokeWidth={1.4} className="w-6 h-6 sm:w-5 sm:h-5" />
           </button>

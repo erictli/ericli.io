@@ -24,7 +24,8 @@ export default function Home({ articles }: HomeProps) {
   const {
     getTextColorClass,
     getLinkColorClass,
-    getOpacityClass,
+    getMutedTextClass,
+    getMutedHoverClass,
     getBorderColorClass,
     isHydrated,
     shouldUseDarkText,
@@ -149,7 +150,7 @@ export default function Home({ articles }: HomeProps) {
           </p>
         </div>
         <div className="flex flex-col items-start gap-5 animate-fadeInUpSmall2 opacity-0">
-          <h2 className={`${getOpacityClass()}`}>Projects</h2>
+          <h2 className={`${getMutedTextClass()}`}>Projects</h2>
           <div className="flex items-center gap-2.75">
             <Link
               href="https://getversive.com"
@@ -172,7 +173,7 @@ export default function Home({ articles }: HomeProps) {
               >
                 Versive
               </Link>
-              <p className={`leading-snug ${getOpacityClass()}`}>
+              <p className={`leading-snug ${getMutedTextClass()}`}>
                 An AI-powered user research platform
               </p>
             </div>
@@ -198,7 +199,7 @@ export default function Home({ articles }: HomeProps) {
               >
                 Scratch
               </Link>
-              <p className={`leading-snug ${getOpacityClass()}`}>
+              <p className={`leading-snug ${getMutedTextClass()}`}>
                 An offline-first markdown notes app
               </p>
             </div>
@@ -215,11 +216,11 @@ export default function Home({ articles }: HomeProps) {
             </div>
             <div className="flex flex-col items-start gap-px">
               <div
-                className={`leading-snug flex items-center ${getOpacityClass()}`}
+                className={`leading-snug flex items-center ${getMutedTextClass()}`}
               >
                 Kibble (coming soon)
               </div>
-              <p className={`leading-snug ${getOpacityClass()}`}>
+              <p className={`leading-snug ${getMutedTextClass()}`}>
                 A screen recording app for Mac
               </p>
             </div>
@@ -228,7 +229,7 @@ export default function Home({ articles }: HomeProps) {
         <div className="flex flex-col items-start gap-5 animate-fadeInUpSmall3 opacity-0">
           <Link
             href="/writing"
-            className={`${getOpacityClass()} ${getLinkColorClass()} hover:opacity-100 transition-opacity w-fit`}
+            className={`${getMutedTextClass()} ${getMutedHoverClass()} ${getLinkColorClass()} w-fit`}
           >
             Writing
           </Link>
@@ -244,7 +245,7 @@ export default function Home({ articles }: HomeProps) {
               >
                 {article.title}
               </Link>
-              <p className={`${getOpacityClass()} leading-snug`}>
+              <p className={`${getMutedTextClass()} leading-snug`}>
                 {new Date(article.date).toLocaleDateString("en-US", {
                   year: "numeric",
                   month: "short",
@@ -255,7 +256,7 @@ export default function Home({ articles }: HomeProps) {
           ))}
           <Link
             href="/writing"
-            className={`${getOpacityClass()} ${getLinkColorClass()} hover:opacity-100 transition-opacity w-fit flex items-center gap-0.5 border-b border-dotted pb-px`}
+            className={`${getMutedTextClass()} ${getMutedHoverClass()} ${getLinkColorClass()} w-fit flex items-center gap-0.5 border-b border-dotted pb-px`}
           >
             Read more
           </Link>

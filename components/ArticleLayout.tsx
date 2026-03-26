@@ -16,7 +16,7 @@ export default function ArticleLayout({
   article,
   children,
 }: ArticleLayoutProps) {
-  const { getTextColorClass, getOpacityClass, getLinkColorClass, isHydrated } =
+  const { getTextColorClass, getMutedTextClass, getMutedHoverClass, getLinkColorClass, isHydrated } =
     useTheme();
 
   if (!isHydrated) {
@@ -41,7 +41,7 @@ export default function ArticleLayout({
         <article>
           <header className="mb-8">
             <div
-              className={`flex items-center gap-1.5 text-sm font-[450] mb-2 ${getOpacityClass()}`}
+              className={`flex items-center gap-1.5 text-sm font-[450] mb-2 ${getMutedTextClass()}`}
             >
               <time>
                 {new Date(article.date).toLocaleDateString("en-US", {
@@ -90,7 +90,7 @@ export default function ArticleLayout({
           </div>
           <Link
             href="/writing"
-            className={`${getOpacityClass()} ${getLinkColorClass()} mt-8 hover:opacity-100 transition-opacity w-fit flex items-center gap-0.5 border-b border-dotted pb-px font-[450]`}
+            className={`${getMutedTextClass()} ${getMutedHoverClass()} ${getLinkColorClass()} mt-8 w-fit flex items-center gap-0.5 border-b border-dotted pb-px font-[450]`}
           >
             Back to index
           </Link>
