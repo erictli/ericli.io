@@ -27,7 +27,7 @@ Most software settles into adequacy and stays there. Just because something exis
 
 A set of polished static screens is not design. Design is how the product feels when someone is using it to solve their problem. I want to spend most of my time building and refining the real thing, not a representation of it.
 
-### 4. Exceptional craft is rare, and that makes it a powerful differentiator.
+### 4. Exceptional craft is rare, and that makes it a differentiator.
 
 Most people stop refining long before they reach something exceptional. AI makes this worse: it raises the floor by making it trivial to produce something passable, but it lowers the ceiling by encouraging people to stop there. In a world flooded with "good enough," the willingness to push past it is more valuable than ever.
 
