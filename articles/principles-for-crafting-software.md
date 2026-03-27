@@ -7,11 +7,11 @@ image: "/writing/crafting.jpg"
 
 ![](/writing/crafting.jpg)
 
-Ever since I started designing, I wanted to take my concepts all the way to production. I taught myself to code (pre-AI), but there weren't enough hours in the day to be both a great designer and a great builder. This is no longer a constraint. Now, a single person can go from idea to production to real users in days
+Ever since I started designing, I wanted to take my concepts all the way to production. I taught myself to code (pre-AI), but there weren't enough hours in the day to be both a great designer and builder. This is no longer the case. Now, a single person can go from idea to production to real users in days
 
 That shift cuts both ways. Companies are shedding thousands of roles as they figure out what AI-aided productivity actually looks like. Job descriptions are being rewritten in real time. There are a million new tools to try and skills to learn.
 
-When everything is moving this fast, it helps to know what you believe in. Principles give you a filter for where to focus your energy, what to say no to, and what kind of work is worth doing in the first place.
+When everything is moving this fast, it helps to know what you believe in. Principles give you a filter for where to focus your energy, what to say no to, and what kind of work is worth doing.
 
 Here are mine:
 
@@ -41,4 +41,4 @@ When I decide what to work on, I hold it up against these principles. If somethi
 
 In a world where AI has made building cheap, there will be no shortage of solutions to any given problem. What will remain rare is the thoughtfulness to get it right and the willingness to keep iterating long after the first version works. That's what I'm personally aiming for.
 
-I encourage you to write principles of your own.
+I'd encourage you to write principles of your own.
