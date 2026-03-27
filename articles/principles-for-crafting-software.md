@@ -33,10 +33,10 @@ Most people stop refining long before they reach something exceptional. AI makes
 
 ### 5. One person is often the ideal team size.
 
-When you add people, you add process and reduce decisiveness. When one person has a clear vision and the right tools, they can move an idea from concept to reality at higher speed and quality than a large team, with nothing lost in translation. This isn't the only way to work, but it's the way I enjoy the most.
+When you add people, you add process and reduce decisiveness. When one person has a clear vision and the right tools, they can move an idea from concept to reality at higher speed and quality than a large team, with nothing lost in translation. This isn't the only way to work, but it's the way I enjoy most.
 
 ## Applying these principles
 
 When I decide what to work on, I hold it up against these principles. If something fits most of them, I know I'll enjoy the work and it'll be more likely to succeed. This is why I launched [Scratch](https://ericli.io/scratch) and it's the lens I apply to our work at [Versive](https://getversive.com).
 
-AI has made building cheap, so there will be no shortage of solutions to any given problem. What will remain rare is the thoughtfulness to get it right. These principles are how I stay oriented toward that – I'd encourage you to find your own.
+AI is making building cheap, so there will be no shortage of solutions to any given problem. What will remain rare is the thoughtfulness to solve them well. These principles are how I stay oriented toward that – I'd encourage you to find your own.
