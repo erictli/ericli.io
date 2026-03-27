@@ -33,7 +33,7 @@ Most people stop refining long before they reach something exceptional. AI makes
 
 ### 5. One person is often the ideal team size.
 
-When you add people, you add process and reduce decisiveness. When one person has a clear vision and the right tools, they can move an idea from concept to reality at higher speed and quality than a large team, with nothing lost in translation. This is the type of work I enjoy most.
+When you add people, you add process and reduce decisiveness. When one person has a clear vision and the right tools, they can move an idea from concept to reality at higher speed and quality than a large team, with nothing lost in translation. This isn't the only way to work, but it's the way I enjoy the most.
 
 ## Applying these principles
 
