@@ -32,7 +32,7 @@ export default function Home({ articles }: HomeProps) {
   } = useTheme();
 
   const handleEmailClick = useCallback((e: React.MouseEvent) => {
-    if ("ontouchstart" in window) return;
+    if (!window.matchMedia("(min-width: 640px)").matches) return;
     e.preventDefault();
     navigator.clipboard.writeText("hi@ericli.io");
     setEmailTooltip("copied");
@@ -113,14 +113,12 @@ export default function Home({ articles }: HomeProps) {
             , or at{" "}
             <span
               className="relative inline-block"
-              onMouseEnter={() => {
-                if ("ontouchstart" in window) return;
-                emailTooltip !== "copied" && setEmailTooltip("hover");
-              }}
-              onMouseLeave={() => {
-                if ("ontouchstart" in window) return;
-                emailTooltip !== "copied" && setEmailTooltip("leaving");
-              }}
+              onMouseEnter={() =>
+                emailTooltip !== "copied" && setEmailTooltip("hover")
+              }
+              onMouseLeave={() =>
+                emailTooltip !== "copied" && setEmailTooltip("leaving")
+              }
             >
               <a
                 href="mailto:hi@ericli.io"
@@ -131,7 +129,7 @@ export default function Home({ articles }: HomeProps) {
               </a>
               {emailTooltip !== "hidden" && (
                 <span
-                  className={`absolute -top-6.5 left-1/2 -translate-x-1/2 z-50 px-2 py-1 rounded-md text-xs font-medium whitespace-nowrap shadow-sm ${
+                  className={`hidden sm:block absolute -top-6.5 left-1/2 -translate-x-1/2 z-50 px-2 py-1 rounded-md text-xs font-medium whitespace-nowrap shadow-sm ${
                     emailTooltip === "leaving"
                       ? "animate-tooltipFadeOut"
                       : "animate-tooltipFadeIn"
