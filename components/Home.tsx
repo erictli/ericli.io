@@ -113,12 +113,14 @@ export default function Home({ articles }: HomeProps) {
             , or at{" "}
             <span
               className="relative inline-block"
-              onMouseEnter={() =>
-                emailTooltip !== "copied" && setEmailTooltip("hover")
-              }
-              onMouseLeave={() =>
-                emailTooltip !== "copied" && setEmailTooltip("leaving")
-              }
+              onMouseEnter={() => {
+                if ("ontouchstart" in window) return;
+                emailTooltip !== "copied" && setEmailTooltip("hover");
+              }}
+              onMouseLeave={() => {
+                if ("ontouchstart" in window) return;
+                emailTooltip !== "copied" && setEmailTooltip("leaving");
+              }}
             >
               <a
                 href="mailto:hi@ericli.io"
