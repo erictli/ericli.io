@@ -43,7 +43,7 @@ export default function NavMenu() {
   if (!isHydrated) return null;
 
   const isDark = !shouldUseDarkText();
-  const lineColor = isDark ? "bg-white" : "bg-neutral-950";
+  const strokeColor = isDark ? "stroke-white" : "stroke-neutral-950";
   const overlayBg = isDark
     ? "bg-neutral-950/60 backdrop-blur-md"
     : "bg-white/60 backdrop-blur-md";
@@ -57,16 +57,35 @@ export default function NavMenu() {
           className={`w-7 h-7 flex flex-col items-center justify-center gap-1 group cursor-pointer hover:opacity-60 transition-opacity backdrop-blur-sm rounded-md ${getLinkColorClass()}`}
           aria-label={open ? "Close menu" : "Open menu"}
         >
-          <span
-            className={`block h-[1.5px] w-3.75 rounded-full transition-all duration-300 ease-out ${lineColor} ${
-              open ? "translate-y-[2.75px] rotate-45" : ""
-            }`}
-          />
-          <span
-            className={`block h-[1.5px] w-3.75 rounded-full transition-all duration-300 ease-out ${lineColor} ${
-              open ? "-translate-y-[2.75px] -rotate-45" : ""
-            }`}
-          />
+          <svg
+            width="15"
+            height="12"
+            viewBox="0 0 15 12"
+            className={`${strokeColor} transition-all duration-300 ease-out`}
+            strokeWidth="1.5"
+            strokeLinecap="round"
+          >
+            <line
+              x1="0"
+              y1="6"
+              x2="15"
+              y2="6"
+              className={`transition-transform duration-300 ease-out ${
+                open ? "rotate-45" : "-translate-y-0.75"
+              }`}
+              style={{ transformBox: "view-box", transformOrigin: "center" }}
+            />
+            <line
+              x1="0"
+              y1="6"
+              x2="15"
+              y2="6"
+              className={`transition-transform duration-300 ease-out ${
+                open ? "-rotate-45" : "translate-y-0.75"
+              }`}
+              style={{ transformBox: "view-box", transformOrigin: "center" }}
+            />
+          </svg>
         </button>
       </div>
 
