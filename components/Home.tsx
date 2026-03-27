@@ -149,7 +149,7 @@ export default function Home({ articles }: HomeProps) {
             .
           </p>
         </div>
-        <div className="flex flex-col items-start gap-5 animate-fadeInUpSmall2 opacity-0">
+        <div className="flex flex-col items-start gap-4.5 animate-fadeInUpSmall2 opacity-0">
           <h2 className={`${getMutedTextClass()}`}>Projects</h2>
           <div className="flex items-center gap-2.75">
             <Link
@@ -165,7 +165,7 @@ export default function Home({ articles }: HomeProps) {
                 className={`h-10.5 w-10.5 rounded-[10px] border ${getBorderColorClass()}`}
               />
             </Link>
-            <div className="flex flex-col items-start gap-px">
+            <div className="flex flex-col items-start">
               <Link
                 href="https://getversive.com"
                 target="_blank"
@@ -192,7 +192,7 @@ export default function Home({ articles }: HomeProps) {
                 className={`h-10.5 w-10.5 rounded-[10px] border ${getBorderColorClass()}`}
               />
             </Link>
-            <div className="flex flex-col items-start gap-px">
+            <div className="flex flex-col items-start">
               <Link
                 href="/scratch"
                 className={`leading-snug font-[450] hover:opacity-60 transition-opacity flex items-center ${getLinkColorClass()}`}
@@ -214,7 +214,7 @@ export default function Home({ articles }: HomeProps) {
                 className={`h-10.5 w-10.5 rounded-[10px] border ${getBorderColorClass()}`}
               />
             </div>
-            <div className="flex flex-col items-start gap-px">
+            <div className="flex flex-col items-start">
               <div
                 className={`leading-snug flex items-center ${getMutedTextClass()}`}
               >
@@ -226,7 +226,7 @@ export default function Home({ articles }: HomeProps) {
             </div>
           </div>
         </div>
-        <div className="flex flex-col items-start gap-5 animate-fadeInUpSmall3 opacity-0">
+        <div className="flex flex-col items-start gap-4.5 animate-fadeInUpSmall3 opacity-0">
           <Link
             href="/writing"
             className={`${getMutedTextClass()} ${getMutedHoverClass()} ${getLinkColorClass()} w-fit`}

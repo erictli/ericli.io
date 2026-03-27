@@ -10,8 +10,8 @@ export default function GlobalCloudShader() {
   if (pathname === "/scratch") return null;
 
   return (
-    <div className="fixed bottom-6 right-6 z-30 rounded-full shadow-xl animate-fadeInUpSmall5 opacity-0">
-      <CloudShader size={52} />
+    <div className="fixed bottom-6 right-6 z-30 rounded-full shadow-lg animate-fadeInUpSmall5 opacity-0">
+      <CloudShader size={40} />
     </div>
   );
 }

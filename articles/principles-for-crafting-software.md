@@ -1,5 +1,5 @@
 ---
-title: "What I believe about crafting software"
+title: "Principles for crafting software"
 description: "My principles for deciding what to work on and how to build it."
 date: "2026-03-25"
 image: "/writing/crafting.jpg"
