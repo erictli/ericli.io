@@ -31,7 +31,7 @@ export default function WritingList({ articles }: WritingListProps) {
     <main
       className={`min-h-screen w-full font-system-sans transition-colors duration-200 ${getTextColorClass()}`}
     >
-      <div className="flex p-6 pt-24 pb-32 flex-col items-start gap-5 max-w-160 mx-auto opacity-0 animate-fadeInUpSmall1">
+      <div className="flex p-6 pt-20 pb-32 flex-col items-start gap-5 max-w-160 mx-auto opacity-0 animate-fadeInUpSmall1 text-[15px]">
         <h1 className={`${getMutedTextClass()}`}>Writing</h1>
 
         {articles.map((article) => (

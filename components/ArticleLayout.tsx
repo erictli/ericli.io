@@ -16,8 +16,13 @@ export default function ArticleLayout({
   article,
   children,
 }: ArticleLayoutProps) {
-  const { getTextColorClass, getMutedTextClass, getMutedHoverClass, getLinkColorClass, isHydrated } =
-    useTheme();
+  const {
+    getTextColorClass,
+    getMutedTextClass,
+    getMutedHoverClass,
+    getLinkColorClass,
+    isHydrated,
+  } = useTheme();
 
   if (!isHydrated) {
     return <main className="min-h-screen"></main>;
@@ -37,7 +42,7 @@ export default function ArticleLayout({
             : "rgb(255 255 255 / 0.5)"};
         }
       `}</style>
-      <div className="max-w-160 mx-auto px-6 pt-24 pb-32 sm:pb-48 animate-fadeInUpSmall1 opacity-0">
+      <div className="max-w-160 mx-auto px-6 pt-20 pb-32 sm:pb-48 animate-fadeInUpSmall1 opacity-0">
         <article>
           <header className="mb-8">
             <div
@@ -59,7 +64,7 @@ export default function ArticleLayout({
           </header>
 
           <div
-            className={`font-[450] prose max-w-none transition-colors duration-200 text-base
+            className={`font-[450] prose max-w-none transition-colors duration-200 text-[17px]
               prose-headings:font-medium prose-headings:transition-colors
               prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4 prose-h3:text-lg prose-h3:mt-6 prose-h3:mb-3
               prose-p:leading-[1.7] prose-p:transition-colors prose-a:no-underline
@@ -85,6 +90,14 @@ export default function ArticleLayout({
                    prose-blockquote:text-white/70 prose-blockquote:border-white/10
                    prose-hr:border-white/10`
               }`}
+            style={
+              {
+                "--article-muted":
+                  getTextColorClass() === "text-neutral-950"
+                    ? "rgb(10 10 10 / 0.5)"
+                    : "rgb(255 255 255 / 0.6)",
+              } as React.CSSProperties
+            }
           >
             {children}
           </div>

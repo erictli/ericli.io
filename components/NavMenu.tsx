@@ -58,7 +58,7 @@ export default function NavMenu() {
           aria-label={open ? "Close menu" : "Open menu"}
         >
           <svg
-            width="15"
+            width="14"
             height="12"
             viewBox="0 0 15 12"
             className={`${strokeColor} transition-all duration-300 ease-out`}
