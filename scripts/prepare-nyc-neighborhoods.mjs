@@ -38,12 +38,14 @@ const BOROUGHS = {
 
 // Areas that are almost entirely parkland, cemetery, airport, military base or
 // uninhabited island (at least ~80% overlap with NYC Planning's non-residential
-// areas). The map is about neighborhoods people live in; these are left off.
+// areas, plus Mill Rock Park, an island park too small for that check). The map
+// is about neighborhoods people live in; these are left off.
 const EXCLUDED = new Set([
   "central-park-manhattan",
   "ellis-island-manhattan",
   "governors-island-manhattan",
   "liberty-island-manhattan",
+  "mill-rock-park-manhattan",
   "randals-wards-island-manhattan",
   "floyd-bennett-field-brooklyn",
   "green-wood-cemetery-brooklyn",

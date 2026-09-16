@@ -1,7 +1,7 @@
 {
-  "current": "2",
+  "current": "3",
   "versions": {
-    "2": [
+    "3": [
       "allerton-bronx",
       "annadale-staten-island",
       "arden-heights-staten-island",
@@ -148,7 +148,6 @@
       "midtown-west-manhattan",
       "midwood-brooklyn",
       "mill-basin-brooklyn",
-      "mill-rock-park-manhattan",
       "morningside-heights-manhattan",
       "morris-heights-bronx",
       "morris-park-bronx",

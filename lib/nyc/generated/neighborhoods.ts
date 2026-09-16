@@ -412,22 +412,6 @@ export const NEIGHBORHOODS: readonly Neighborhood[] = [
     ]
   },
   {
-    "id": "mill-rock-park-manhattan",
-    "name": "Mill Rock Park",
-    "includes": [],
-    "borough": "Manhattan",
-    "bbox": [
-      -73.93958,
-      40.77953,
-      -73.9376,
-      40.78142
-    ],
-    "label": [
-      -73.9384,
-      40.78068
-    ]
-  },
-  {
     "id": "morningside-heights-manhattan",
     "name": "Morningside Heights",
     "includes": [],
