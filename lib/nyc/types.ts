@@ -16,14 +16,12 @@ export type Borough =
 export type Bounds = [number, number, number, number];
 
 export interface Neighborhood {
-  /** NYC Planning NTA code, e.g. "BK0101". Stable; used in share links. */
+  /** Slug from the boundary source, e.g. "cobble-hill-brooklyn". Used in share links. */
   id: string;
   /** Curated display name. */
   name: string;
   /** Other places the area covers, for details and search. */
   includes: string[];
-  /** The official NTA name. */
-  ntaName: string;
   borough: Borough;
   bbox: Bounds;
   /** An interior point for the name label, [lng, lat]. */
@@ -67,6 +65,5 @@ export interface MapStyleChoice {
 /** A map decoded from a share link. */
 export interface SharedMap {
   visitedIds: ReadonlySet<string>;
-  name: string | null;
   style: MapStyleChoice | null;
 }

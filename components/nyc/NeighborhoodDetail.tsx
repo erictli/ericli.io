@@ -9,7 +9,6 @@ export interface DetailStatus {
   mine: boolean;
   /** Present when the page was opened from a share link. */
   theirs: boolean | null;
-  theirName: string | null;
   /** True when both maps are drawn together, which colors theirs blue. */
   compare: boolean;
 }
@@ -89,7 +88,7 @@ export function NeighborhoodDetail({
 
   const theirLine = status.theirs !== null && (
     <StatusLine
-      label={status.theirName ?? "They"}
+      label="They"
       visited={status.theirs}
       color={status.compare ? "var(--nyc-theirs)" : "var(--nyc-primary)"}
     />
@@ -157,12 +156,9 @@ export function NeighborhoodDetail({
   );
 }
 
-/** "You've visited", "They haven't visited", "Alex hasn't visited". */
-function statusVerb(label: string, visited: boolean): string {
-  if (label === "You" || label === "They") {
-    return visited ? "’ve visited" : " haven’t visited";
-  }
-  return visited ? " has visited" : " hasn’t visited";
+/** "You've visited", "They haven't visited". */
+function statusVerb(visited: boolean): string {
+  return visited ? "’ve visited" : " haven’t visited";
 }
 
 /** A read-only row: a filled dot when visited, then who has or hasn't been. */
@@ -189,7 +185,7 @@ function StatusLine({
       </span>
       <span>
         <span className="text-nyc-ink">{label}</span>
-        {statusVerb(label, visited)}
+        {statusVerb(visited)}
       </span>
     </p>
   );

@@ -1,14 +1,7 @@
 import type { Metadata } from "next";
 import NycAppLoader from "@/components/nyc/NycAppLoader";
 import { NEIGHBORHOODS } from "@/lib/nyc/generated/neighborhoods";
-import {
-  COLOR_PARAM,
-  MAP_PARAM,
-  MODE_PARAM,
-  NAME_PARAM,
-  decodeVisitedState,
-  sanitizeName,
-} from "@/lib/nyc/url-state";
+import { MAP_PARAM, decodeVisitedState } from "@/lib/nyc/url-state";
 
 const SITE_URL = "https://ericli.io";
 const DEFAULT_TITLE = "NYC neighborhood map";
@@ -33,23 +26,12 @@ export async function generateMetadata({
   const params = await searchParams;
   const encoded = param(params, MAP_PARAM);
   const shared = encoded ? decodeVisitedState(encoded) : null;
-  const name = sanitizeName(param(params, NAME_PARAM));
 
-  const title = shared
-    ? `${name ? `${name}’s` : "A"} NYC neighborhood map`
-    : DEFAULT_TITLE;
+  // Text only: a shared link's preview carries the count, no image.
+  const title = shared ? "A shared NYC neighborhood map" : DEFAULT_TITLE;
   const description = shared
     ? `${shared.size} of ${NEIGHBORHOODS.length} neighborhoods visited. Open the map to explore it and compare with your own.`
     : DEFAULT_DESCRIPTION;
-
-  const imageParams = new URLSearchParams();
-  if (shared && encoded) imageParams.set(MAP_PARAM, encoded);
-  if (shared && name) imageParams.set(NAME_PARAM, name);
-  for (const key of [COLOR_PARAM, MODE_PARAM]) {
-    const value = param(params, key);
-    if (shared && value) imageParams.set(key, value);
-  }
-  const image = `${SITE_URL}/nyc/og${imageParams.size ? `?${imageParams}` : ""}`;
 
   return {
     title,
@@ -61,13 +43,11 @@ export async function generateMetadata({
       url: `${SITE_URL}/nyc`,
       siteName: "Eric Li",
       type: "website",
-      images: [{ url: image, width: 1200, height: 630, alt: title }],
     },
     twitter: {
-      card: "summary_large_image",
+      card: "summary",
       title,
       description,
-      images: [image],
     },
   };
 }

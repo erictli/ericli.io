@@ -259,7 +259,6 @@ export default function NycApp() {
     (id: string) => ({
       mine: tracker.own.has(id),
       theirs: tracker.shared ? tracker.shared.visitedIds.has(id) : null,
-      theirName: tracker.shared?.name ?? null,
       compare: tracker.compare,
     }),
     [tracker.compare, tracker.own, tracker.shared],
@@ -387,7 +386,6 @@ export default function NycApp() {
 
   const viewingBanner = tracker.shared && (
     <ViewingBanner
-      name={tracker.shared.name}
       ownCount={tracker.own.size}
       compare={tracker.compare}
       onCompareChange={tracker.setCompare}

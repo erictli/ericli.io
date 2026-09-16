@@ -6,7 +6,6 @@ import type { SaveStrategy } from "@/lib/nyc/use-tracker";
 import { CARD_ROW, ICON, SURFACE } from "./ui";
 
 interface ViewingBannerProps {
-  name: string | null;
   ownCount: number;
   compare: boolean;
   onCompareChange: (compare: boolean) => void;
@@ -19,7 +18,6 @@ interface ViewingBannerProps {
  * progress card: a header, a dashed rule, then a list of compact rows.
  */
 export function ViewingBanner({
-  name,
   ownCount,
   compare,
   onCompareChange,
@@ -27,8 +25,6 @@ export function ViewingBanner({
   onExit,
 }: ViewingBannerProps) {
   const [chooser, setChooser] = useState(false);
-  const owner = name ?? "Them";
-  const possessive = name ? `${name}’s` : "a shared";
 
   return (
     <section
@@ -39,7 +35,7 @@ export function ViewingBanner({
       <div className="px-6 pt-4 pb-4">
         <div className="flex items-center gap-2">
           <h4 className="min-w-0 flex-1 truncate text-sm">
-            Viewing {possessive} map
+            Viewing a shared map
           </h4>
           <button
             type="button"
@@ -54,7 +50,7 @@ export function ViewingBanner({
         {compare && (
           <ul className="mt-1 flex flex-wrap gap-x-3 gap-y-1 text-xs text-nyc-muted">
             <Legend color="var(--nyc-primary)" label="You" />
-            <Legend color="var(--nyc-theirs)" label={owner} />
+            <Legend color="var(--nyc-theirs)" label="Them" />
             <Legend color="var(--nyc-both)" label="Both" />
           </ul>
         )}

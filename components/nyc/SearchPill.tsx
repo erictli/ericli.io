@@ -24,7 +24,7 @@ const SEARCH_INDEX = NEIGHBORHOODS.map((neighborhood) => ({
   neighborhood,
   primary: normalize(neighborhood.name),
   secondary: normalize(
-    [neighborhood.ntaName, ...neighborhood.includes, neighborhood.borough].join(
+    [...neighborhood.includes, neighborhood.borough].join(
       " ",
     ),
   ),

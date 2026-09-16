@@ -2,3586 +2,3989 @@
 
 import type { Borough, Bounds, Neighborhood } from "../types";
 
-export const NYC_BOUNDS: Bounds = [-74.25559,40.49613,-73.70001,40.91553];
+export const NYC_BOUNDS: Bounds = [-74.25559,40.49613,-73.70027,40.91526];
 
 export const BOROUGH_BOUNDS: Record<Borough, Bounds> = {
   "Manhattan": [
     -74.01934,
-    40.69407,
-    -73.91043,
-    40.87324
+    40.69977,
+    -73.90712,
+    40.87914
   ],
   "Brooklyn": [
     -74.0419,
-    40.56953,
-    -73.85568,
+    40.57002,
+    -73.85566,
     40.73913
   ],
   "Queens": [
     -73.96262,
-    40.55309,
-    -73.70001,
+    40.54183,
+    -73.70027,
     40.80101
   ],
   "Bronx": [
     -73.93361,
     40.79662,
-    -73.77992,
-    40.91553
+    -73.78072,
+    40.91526
   ],
   "Staten Island": [
     -74.25559,
     40.49613,
-    -74.05677,
+    -74.05737,
     40.64893
   ]
 };
 
 export const NEIGHBORHOODS: readonly Neighborhood[] = [
   {
-    "id": "MN0802",
-    "name": "Carnegie Hill",
-    "includes": [
-      "Upper East Side"
-    ],
-    "ntaName": "Upper East Side-Carnegie Hill",
+    "id": "battery-park-city-manhattan",
+    "name": "Battery Park City",
+    "includes": [],
     "borough": "Manhattan",
     "bbox": [
-      -73.97301,
-      40.76155,
-      -73.94933,
-      40.78791
+      -74.01934,
+      40.70386,
+      -74.01243,
+      40.71954
     ],
     "label": [
-      -73.96117,
-      40.77473
+      -74.01513,
+      40.71605
     ]
   },
   {
-    "id": "MN0401",
+    "id": "chelsea-manhattan",
     "name": "Chelsea",
     "includes": [
-      "Hudson Yards"
+      "Flower District",
+      "Meatpacking District"
     ],
-    "ntaName": "Chelsea-Hudson Yards",
     "borough": "Manhattan",
     "bbox": [
       -74.01215,
       40.73736,
-      -73.99142,
-      40.76268
+      -73.98768,
+      40.75469
     ],
     "label": [
-      -74.00287,
-      40.74949
+      -73.99995,
+      40.74556
     ]
   },
   {
-    "id": "MN0301",
+    "id": "chinatown-manhattan",
     "name": "Chinatown",
-    "includes": [
-      "Two Bridges"
-    ],
-    "ntaName": "Chinatown-Two Bridges",
-    "borough": "Manhattan",
-    "bbox": [
-      -74.00157,
-      40.70798,
-      -73.9845,
-      40.71846
-    ],
-    "label": [
-      -73.99383,
-      40.71321
-    ]
-  },
-  {
-    "id": "MN1102",
-    "name": "East Harlem (North)",
     "includes": [],
-    "ntaName": "East Harlem (North)",
     "borough": "Manhattan",
     "bbox": [
-      -73.94831,
-      40.79156,
-      -73.92651,
-      40.8197
+      -74.0031,
+      40.71184,
+      -73.99217,
+      40.71907
     ],
     "label": [
-      -73.93744,
-      40.80108
+      -73.99586,
+      40.71503
     ]
   },
   {
-    "id": "MN1101",
-    "name": "East Harlem (South)",
+    "id": "civic-center-manhattan",
+    "name": "Civic Center",
     "includes": [],
-    "ntaName": "East Harlem (South)",
     "borough": "Manhattan",
     "bbox": [
-      -73.95578,
-      40.78266,
-      -73.93506,
-      40.79813
+      -74.00517,
+      40.7113,
+      -73.99818,
+      40.71562
     ],
     "label": [
-      -73.94732,
-      40.79008
+      -74.00208,
+      40.71322
     ]
   },
   {
-    "id": "MN0604",
-    "name": "East Midtown",
-    "includes": [
-      "Turtle Bay"
-    ],
-    "ntaName": "East Midtown-Turtle Bay",
+    "id": "east-harlem-manhattan",
+    "name": "East Harlem",
+    "includes": [],
     "borough": "Manhattan",
     "bbox": [
-      -73.97835,
-      40.75011,
-      -73.95849,
-      40.76291
+      -73.95591,
+      40.78278,
+      -73.9289,
+      40.81805
     ],
     "label": [
-      -73.96753,
-      40.75711
+      -73.94045,
+      40.7969
     ]
   },
   {
-    "id": "MN0303",
+    "id": "east-village-manhattan",
     "name": "East Village",
-    "includes": [],
-    "ntaName": "East Village",
+    "includes": [
+      "Alphabet city"
+    ],
     "borough": "Manhattan",
     "bbox": [
-      -73.9926,
-      40.71797,
-      -73.96402,
-      40.73443
+      -73.99258,
+      40.71866,
+      -73.9716,
+      40.73329
     ],
     "label": [
-      -73.98212,
-      40.72607
+      -73.98172,
+      40.72596
     ]
   },
   {
-    "id": "MN0101",
+    "id": "financial-district-manhattan",
     "name": "Financial District",
     "includes": [
-      "Battery Park City"
+      "South Street Seaport"
     ],
-    "ntaName": "Financial District-Battery Park City",
     "borough": "Manhattan",
     "bbox": [
-      -74.01934,
-      40.69407,
-      -73.99477,
-      40.71913
+      -74.01789,
+      40.69977,
+      -73.99896,
+      40.71365
     ],
     "label": [
-      -74.01018,
-      40.70689
+      -74.01032,
+      40.70691
     ]
   },
   {
-    "id": "MN0501",
-    "name": "Flatiron",
+    "id": "flatiron-district-manhattan",
+    "name": "Flatiron District",
     "includes": [
-      "Midtown South",
       "Union Square"
     ],
-    "ntaName": "Midtown South-Flatiron-Union Square",
     "borough": "Manhattan",
     "bbox": [
-      -73.9971,
-      40.73443,
-      -73.98085,
-      40.75219
+      -73.99684,
+      40.73397,
+      -73.98381,
+      40.74421
     ],
     "label": [
-      -73.9876,
-      40.745
+      -73.99045,
+      40.73915
     ]
   },
   {
-    "id": "MN0602",
+    "id": "gramercy-manhattan",
     "name": "Gramercy",
-    "includes": [],
-    "ntaName": "Gramercy",
+    "includes": [
+      "Stuyvesant Square"
+    ],
     "borough": "Manhattan",
     "bbox": [
-      -73.98995,
-      40.73135,
-      -73.97805,
-      40.74333
+      -73.98879,
+      40.73134,
+      -73.97854,
+      40.73951
     ],
     "label": [
-      -73.98405,
-      40.73602
+      -73.98369,
+      40.73545
     ]
   },
   {
-    "id": "MN0202",
+    "id": "greenwich-village-manhattan",
     "name": "Greenwich Village",
-    "includes": [],
-    "ntaName": "Greenwich Village",
+    "includes": [
+      "West Village"
+    ],
     "borough": "Manhattan",
     "bbox": [
-      -74.00282,
-      40.72414,
-      -73.98984,
-      40.73736
+      -74.01423,
+      40.7242,
+      -73.98719,
+      40.7426
     ],
     "label": [
-      -73.99556,
-      40.73061
+      -74.00182,
+      40.7337
     ]
   },
   {
-    "id": "MN0903",
+    "id": "hamilton-heights-manhattan",
     "name": "Hamilton Heights",
     "includes": [
       "Sugar Hill"
     ],
-    "ntaName": "Hamilton Heights-Sugar Hill",
     "borough": "Manhattan",
     "bbox": [
-      -73.95914,
-      40.82083,
-      -73.93864,
-      40.8343
+      -73.95956,
+      40.81718,
+      -73.93972,
+      40.83467
     ],
     "label": [
-      -73.94777,
-      40.82734
+      -73.94971,
+      40.82576
     ]
   },
   {
-    "id": "MN1002",
-    "name": "Harlem (North)",
-    "includes": [],
-    "ntaName": "Harlem (North)",
+    "id": "harlem-manhattan",
+    "name": "Harlem",
+    "includes": [
+      "Astor Row Houses",
+      "Le Petit Sénégal",
+      "Mount Morris Park",
+      "Striver's Row"
+    ],
     "borough": "Manhattan",
     "bbox": [
-      -73.9521,
-      40.80709,
-      -73.93383,
-      40.83606
+      -73.95966,
+      40.79689,
+      -73.9338,
+      40.83043
     ],
     "label": [
-      -73.94029,
-      40.81839
+      -73.94473,
+      40.81243
     ]
   },
   {
-    "id": "MN1001",
-    "name": "Harlem (South)",
+    "id": "hudson-yards-manhattan",
+    "name": "Hudson Yards",
     "includes": [],
-    "ntaName": "Harlem (South)",
     "borough": "Manhattan",
     "bbox": [
-      -73.95965,
-      40.79687,
-      -73.94177,
-      40.81144
+      -74.00741,
+      40.75209,
+      -73.99734,
+      40.75996
     ],
     "label": [
-      -73.95191,
-      40.80428
+      -74.00242,
+      40.75594
     ]
   },
   {
-    "id": "MN0402",
-    "name": "Hell's Kitchen",
+    "id": "inwood-manhattan",
+    "name": "Inwood",
     "includes": [],
-    "ntaName": "Hell's Kitchen",
     "borough": "Manhattan",
     "bbox": [
-      -74.00376,
-      40.75471,
-      -73.98236,
+      -73.9329,
+      40.85611,
+      -73.91043,
+      40.87762
+    ],
+    "label": [
+      -73.92147,
+      40.86716
+    ]
+  },
+  {
+    "id": "kips-bay-manhattan",
+    "name": "Kips Bay",
+    "includes": [],
+    "borough": "Manhattan",
+    "bbox": [
+      -73.98475,
+      40.73494,
+      -73.9717,
+      40.74642
+    ],
+    "label": [
+      -73.97741,
+      40.74094
+    ]
+  },
+  {
+    "id": "little-italy-manhattan",
+    "name": "Little Italy",
+    "includes": [],
+    "borough": "Manhattan",
+    "bbox": [
+      -74.00077,
+      40.71683,
+      -73.9946,
+      40.72116
+    ],
+    "label": [
+      -73.99813,
+      40.71926
+    ]
+  },
+  {
+    "id": "lower-east-side-manhattan",
+    "name": "Lower East Side",
+    "includes": [
+      "Bowery",
+      "Two Bridges"
+    ],
+    "borough": "Manhattan",
+    "bbox": [
+      -74.00346,
+      40.7081,
+      -73.97355,
+      40.7242
+    ],
+    "label": [
+      -73.98563,
+      40.71575
+    ]
+  },
+  {
+    "id": "manhattanville-manhattan",
+    "name": "Manhattanville",
+    "includes": [],
+    "borough": "Manhattan",
+    "bbox": [
+      -73.96125,
+      40.81081,
+      -73.94815,
+      40.82299
+    ],
+    "label": [
+      -73.95461,
+      40.81645
+    ]
+  },
+  {
+    "id": "marble-hill-manhattan",
+    "name": "Marble Hill",
+    "includes": [],
+    "borough": "Manhattan",
+    "bbox": [
+      -73.91525,
+      40.87172,
+      -73.90712,
+      40.87914
+    ],
+    "label": [
+      -73.91077,
+      40.87649
+    ]
+  },
+  {
+    "id": "midtown-east-manhattan",
+    "name": "Midtown East",
+    "includes": [
+      "Little India",
+      "Murray Hill",
+      "Sutton Place",
+      "Tudor City",
+      "Turtle Bay"
+    ],
+    "borough": "Manhattan",
+    "bbox": [
+      -73.98455,
+      40.74302,
+      -73.95877,
+      40.76428
+    ],
+    "label": [
+      -73.97217,
+      40.75362
+    ]
+  },
+  {
+    "id": "midtown-west-manhattan",
+    "name": "Midtown West",
+    "includes": [
+      "Diamond District",
+      "Garment District",
+      "Hell's Kitchen",
+      "Herald Square",
+      "Koreatown",
+      "Theater District",
+      "Times Square"
+    ],
+    "borough": "Manhattan",
+    "bbox": [
+      -74.00456,
+      40.74845,
+      -73.97303,
       40.77328
     ],
     "label": [
-      -73.99222,
-      40.76423
+      -73.98852,
+      40.76041
     ]
   },
   {
-    "id": "MN1203",
-    "name": "Inwood",
+    "id": "mill-rock-park-manhattan",
+    "name": "Mill Rock Park",
     "includes": [],
-    "ntaName": "Inwood",
     "borough": "Manhattan",
     "bbox": [
-      -73.92873,
-      40.85566,
-      -73.91043,
-      40.87324
+      -73.93958,
+      40.77953,
+      -73.9376,
+      40.78142
     ],
     "label": [
-      -73.92085,
-      40.86473
+      -73.9384,
+      40.78068
     ]
   },
   {
-    "id": "MN0801",
-    "name": "Lenox Hill",
-    "includes": [
-      "Upper East Side",
-      "Roosevelt Island"
-    ],
-    "ntaName": "Upper East Side-Lenox Hill-Roosevelt Island",
-    "borough": "Manhattan",
-    "bbox": [
-      -73.96659,
-      40.7483,
-      -73.93552,
-      40.77428
-    ],
-    "label": [
-      -73.95459,
-      40.76856
-    ]
-  },
-  {
-    "id": "MN0701",
-    "name": "Lincoln Square",
-    "includes": [
-      "Upper West Side"
-    ],
-    "ntaName": "Upper West Side-Lincoln Square",
-    "borough": "Manhattan",
-    "bbox": [
-      -73.99624,
-      40.76739,
-      -73.975,
-      40.78178
-    ],
-    "label": [
-      -73.98485,
-      40.77458
-    ]
-  },
-  {
-    "id": "MN0302",
-    "name": "Lower East Side",
-    "includes": [],
-    "ntaName": "Lower East Side",
-    "borough": "Manhattan",
-    "bbox": [
-      -73.99481,
-      40.70554,
-      -73.97357,
-      40.72414
-    ],
-    "label": [
-      -73.98046,
-      40.71537
-    ]
-  },
-  {
-    "id": "MN0703",
-    "name": "Manhattan Valley",
-    "includes": [
-      "Upper West Side"
-    ],
-    "ntaName": "Upper West Side-Manhattan Valley",
-    "borough": "Manhattan",
-    "bbox": [
-      -73.9764,
-      40.79236,
-      -73.95817,
-      40.80579
-    ],
-    "label": [
-      -73.96579,
-      40.79841
-    ]
-  },
-  {
-    "id": "MN0902",
-    "name": "Manhattanville",
-    "includes": [
-      "West Harlem"
-    ],
-    "ntaName": "Manhattanville-West Harlem",
-    "borough": "Manhattan",
-    "bbox": [
-      -73.96203,
-      40.81144,
-      -73.94608,
-      40.82432
-    ],
-    "label": [
-      -73.95382,
-      40.81785
-    ]
-  },
-  {
-    "id": "MN0502",
-    "name": "Midtown",
-    "includes": [
-      "Times Square"
-    ],
-    "ntaName": "Midtown-Times Square",
-    "borough": "Manhattan",
-    "bbox": [
-      -73.99347,
-      40.74775,
-      -73.9698,
-      40.76788
-    ],
-    "label": [
-      -73.98179,
-      40.75794
-    ]
-  },
-  {
-    "id": "MN0901",
+    "id": "morningside-heights-manhattan",
     "name": "Morningside Heights",
     "includes": [],
-    "ntaName": "Morningside Heights",
     "borough": "Manhattan",
     "bbox": [
-      -73.97111,
-      40.80116,
-      -73.9521,
-      40.81808
+      -73.97099,
+      40.80126,
+      -73.9526,
+      40.81898
     ],
     "label": [
-      -73.9619,
-      40.80967
+      -73.96143,
+      40.80912
     ]
   },
   {
-    "id": "MN0603",
-    "name": "Murray Hill",
+    "id": "noho-manhattan",
+    "name": "NoHo",
+    "includes": [],
+    "borough": "Manhattan",
+    "bbox": [
+      -73.99754,
+      40.7242,
+      -73.9899,
+      40.73092
+    ],
+    "label": [
+      -73.99368,
+      40.72732
+    ]
+  },
+  {
+    "id": "nolita-manhattan",
+    "name": "Nolita",
     "includes": [
-      "Kips Bay"
+      "Little Australia"
     ],
-    "ntaName": "Murray Hill-Kips Bay",
     "borough": "Manhattan",
     "bbox": [
-      -73.98408,
-      40.72971,
-      -73.96052,
-      40.75212
+      -73.99852,
+      40.71958,
+      -73.99258,
+      40.72522
     ],
     "label": [
-      -73.97652,
-      40.74489
+      -73.99529,
+      40.72237
     ]
   },
   {
-    "id": "MN0201",
+    "id": "nomad-manhattan",
+    "name": "NoMad",
+    "includes": [],
+    "borough": "Manhattan",
+    "bbox": [
+      -73.99184,
+      40.7408,
+      -73.97973,
+      40.74976
+    ],
+    "label": [
+      -73.98577,
+      40.74529
+    ]
+  },
+  {
+    "id": "roosevelt-island-manhattan",
+    "name": "Roosevelt Island",
+    "includes": [],
+    "borough": "Manhattan",
+    "bbox": [
+      -73.96154,
+      40.7496,
+      -73.94001,
+      40.77296
+    ],
+    "label": [
+      -73.94978,
+      40.76204
+    ]
+  },
+  {
+    "id": "soho-manhattan",
     "name": "SoHo",
     "includes": [
-      "Little Italy",
       "Hudson Square"
     ],
-    "ntaName": "SoHo-Little Italy-Hudson Square",
     "borough": "Manhattan",
     "bbox": [
-      -74.01521,
-      40.71623,
-      -73.9926,
-      40.7291
+      -74.0152,
+      40.71895,
+      -73.9956,
+      40.72942
     ],
     "label": [
-      -74.00173,
-      40.72356
+      -74.00322,
+      40.72512
     ]
   },
   {
-    "id": "MN0601",
-    "name": "Stuyvesant Town-Peter Cooper Village",
+    "id": "stuyvesant-town-peter-cooper-village-manhattan",
+    "name": "Stuyvesant Town - Peter Cooper Village",
     "includes": [],
-    "ntaName": "Stuyvesant Town-Peter Cooper Village",
     "borough": "Manhattan",
     "bbox": [
       -73.98256,
-      40.72388,
-      -73.96201,
+      40.72678,
+      -73.97141,
       40.73689
     ],
     "label": [
-      -73.97714,
-      40.73263
+      -73.97722,
+      40.73274
     ]
   },
   {
-    "id": "MN0102",
+    "id": "tribeca-manhattan",
     "name": "Tribeca",
-    "includes": [
-      "Civic Center"
-    ],
-    "ntaName": "Tribeca-Civic Center",
+    "includes": [],
     "borough": "Manhattan",
     "bbox": [
       -74.01638,
-      40.70982,
-      -73.99931,
-      40.72579
+      40.7114,
+      -74.00047,
+      40.72644
     ],
     "label": [
-      -74.00736,
-      40.71712
+      -74.00762,
+      40.71791
     ]
   },
   {
-    "id": "MN0702",
-    "name": "Upper West Side (Central)",
-    "includes": [],
-    "ntaName": "Upper West Side (Central)",
-    "borough": "Manhattan",
-    "bbox": [
-      -73.98813,
-      40.77753,
-      -73.96417,
-      40.79827
-    ],
-    "label": [
-      -73.97575,
-      40.78792
-    ]
-  },
-  {
-    "id": "MN1202",
-    "name": "Washington Heights (North)",
-    "includes": [],
-    "ntaName": "Washington Heights (North)",
-    "borough": "Manhattan",
-    "bbox": [
-      -73.94696,
-      40.84743,
-      -73.92463,
-      40.86984
-    ],
-    "label": [
-      -73.93328,
-      40.85573
-    ]
-  },
-  {
-    "id": "MN1201",
-    "name": "Washington Heights (South)",
-    "includes": [],
-    "ntaName": "Washington Heights (South)",
-    "borough": "Manhattan",
-    "bbox": [
-      -73.95021,
-      40.83046,
-      -73.93139,
-      40.85047
-    ],
-    "label": [
-      -73.94139,
-      40.84082
-    ]
-  },
-  {
-    "id": "MN0203",
-    "name": "West Village",
-    "includes": [],
-    "ntaName": "West Village",
-    "borough": "Manhattan",
-    "bbox": [
-      -74.01439,
-      40.72817,
-      -73.99684,
-      40.7426
-    ],
-    "label": [
-      -74.00531,
-      40.73476
-    ]
-  },
-  {
-    "id": "MN0803",
-    "name": "Yorkville",
+    "id": "upper-east-side-manhattan",
+    "name": "Upper East Side",
     "includes": [
-      "Upper East Side"
+      "Carnegie Hill",
+      "Lenox Hill",
+      "Yorkville"
     ],
-    "ntaName": "Upper East Side-Yorkville",
     "borough": "Manhattan",
     "bbox": [
-      -73.9573,
-      40.77011,
-      -73.9376,
-      40.78519
+      -73.97301,
+      40.7583,
+      -73.942,
+      40.78806
     ],
     "label": [
-      -73.94866,
-      40.77674
+      -73.95632,
+      40.77259
     ]
   },
   {
-    "id": "BK1102",
+    "id": "upper-west-side-manhattan",
+    "name": "Upper West Side",
+    "includes": [
+      "Columbus Circle",
+      "Lincoln Square",
+      "Manhattan Valley"
+    ],
+    "borough": "Manhattan",
+    "bbox": [
+      -73.99624,
+      40.76785,
+      -73.95835,
+      40.80594
+    ],
+    "label": [
+      -73.97627,
+      40.78723
+    ]
+  },
+  {
+    "id": "washington-heights-manhattan",
+    "name": "Washington Heights",
+    "includes": [
+      "Fort George",
+      "Hudson Heights"
+    ],
+    "borough": "Manhattan",
+    "bbox": [
+      -73.95009,
+      40.82791,
+      -73.9223,
+      40.86716
+    ],
+    "label": [
+      -73.93738,
+      40.84734
+    ]
+  },
+  {
+    "id": "bath-beach-brooklyn",
     "name": "Bath Beach",
-    "includes": [],
-    "ntaName": "Bath Beach",
+    "includes": [
+      "White Sands"
+    ],
     "borough": "Brooklyn",
     "bbox": [
-      -74.01943,
-      40.59406,
-      -73.99559,
-      40.6139
+      -74.01895,
+      40.57963,
+      -73.98259,
+      40.61272
     ],
     "label": [
-      -74.01027,
-      40.60654
+      -73.99966,
+      40.59929
     ]
   },
   {
-    "id": "BK1001",
+    "id": "bay-ridge-brooklyn",
     "name": "Bay Ridge",
     "includes": [],
-    "ntaName": "Bay Ridge",
     "borough": "Brooklyn",
     "bbox": [
       -74.0419,
-      40.6093,
-      -74.01514,
-      40.64431
+      40.60933,
+      -74.01589,
+      40.64167
     ],
     "label": [
-      -74.03018,
-      40.62752
+      -74.03034,
+      40.62776
     ]
   },
   {
-    "id": "BK0302",
-    "name": "Bedford-Stuyvesant (East)",
-    "includes": [],
-    "ntaName": "Bedford-Stuyvesant (East)",
+    "id": "bedford-stuyvesant-brooklyn",
+    "name": "Bedford-Stuyvesant",
+    "includes": [
+      "Bedford",
+      "Ocean Hill",
+      "Stuyvesant Heights"
+    ],
     "borough": "Brooklyn",
     "bbox": [
-      -73.94439,
-      40.67702,
-      -73.9163,
-      40.70073
+      -73.96196,
+      40.67585,
+      -73.90334,
+      40.70081
     ],
     "label": [
-      -73.93206,
-      40.68558
+      -73.94366,
+      40.68936
     ]
   },
   {
-    "id": "BK0301",
-    "name": "Bedford-Stuyvesant (West)",
-    "includes": [],
-    "ntaName": "Bedford-Stuyvesant (West)",
-    "borough": "Brooklyn",
-    "bbox": [
-      -73.96167,
-      40.67824,
-      -73.94033,
-      40.70043
-    ],
-    "label": [
-      -73.95101,
-      40.68915
-    ]
-  },
-  {
-    "id": "BK1101",
+    "id": "bensonhurst-brooklyn",
     "name": "Bensonhurst",
     "includes": [],
-    "ntaName": "Bensonhurst",
     "borough": "Brooklyn",
     "bbox": [
-      -74.0105,
-      40.60023,
-      -73.97403,
-      40.62682
+      -74.01169,
+      40.59674,
+      -73.97299,
+      40.62755
     ],
     "label": [
-      -73.99451,
-      40.61498
+      -73.99496,
+      40.61473
     ]
   },
   {
-    "id": "BK1202",
+    "id": "bergen-beach-brooklyn",
+    "name": "Bergen Beach",
+    "includes": [],
+    "borough": "Brooklyn",
+    "bbox": [
+      -73.91031,
+      40.6053,
+      -73.8897,
+      40.62329
+    ],
+    "label": [
+      -73.90116,
+      40.61684
+    ]
+  },
+  {
+    "id": "boerum-hill-brooklyn",
+    "name": "Boerum Hill",
+    "includes": [],
+    "borough": "Brooklyn",
+    "bbox": [
+      -73.99396,
+      40.68127,
+      -73.97809,
+      40.6903
+    ],
+    "label": [
+      -73.98417,
+      40.68505
+    ]
+  },
+  {
+    "id": "borough-park-brooklyn",
     "name": "Borough Park",
     "includes": [],
-    "ntaName": "Borough Park",
     "borough": "Brooklyn",
     "bbox": [
-      -74.00702,
-      40.62279,
-      -73.97605,
-      40.64456
+      -74.01025,
+      40.61673,
+      -73.97528,
+      40.64685
     ],
     "label": [
-      -73.98984,
-      40.63332
+      -73.98941,
+      40.63381
     ]
   },
   {
-    "id": "BK1303",
+    "id": "brighton-beach-brooklyn",
     "name": "Brighton Beach",
     "includes": [],
-    "ntaName": "Brighton Beach",
     "borough": "Brooklyn",
     "bbox": [
-      -73.96889,
-      40.57343,
-      -73.9524,
-      40.58503
+      -73.96943,
+      40.57287,
+      -73.95318,
+      40.5848
     ],
     "label": [
-      -73.96069,
-      40.5791
+      -73.96276,
+      40.57893
     ]
   },
   {
-    "id": "BK0201",
+    "id": "brooklyn-heights-brooklyn",
     "name": "Brooklyn Heights",
-    "includes": [],
-    "ntaName": "Brooklyn Heights",
+    "includes": [
+      "Fulton Ferry"
+    ],
     "borough": "Brooklyn",
     "bbox": [
-      -74.00174,
-      40.68913,
-      -73.98893,
-      40.70313
+      -74.00399,
+      40.6896,
+      -73.99034,
+      40.70346
     ],
     "label": [
-      -73.99527,
-      40.69491
+      -73.9951,
+      40.69545
     ]
   },
   {
-    "id": "BK1602",
+    "id": "brownsville-brooklyn",
     "name": "Brownsville",
     "includes": [],
-    "ntaName": "Brownsville",
     "borough": "Brooklyn",
     "bbox": [
-      -73.92439,
-      40.6521,
-      -73.89879,
-      40.67551
+      -73.92435,
+      40.6512,
+      -73.8996,
+      40.67538
     ],
     "label": [
-      -73.90972,
-      40.66407
+      -73.90928,
+      40.66395
     ]
   },
   {
-    "id": "BK0402",
-    "name": "Bushwick (East)",
-    "includes": [],
-    "ntaName": "Bushwick (East)",
+    "id": "bushwick-brooklyn",
+    "name": "Bushwick",
+    "includes": [
+      "Wyckoff Heights"
+    ],
     "borough": "Brooklyn",
     "bbox": [
-      -73.92778,
-      40.67922,
-      -73.9014,
-      40.70149
+      -73.94133,
+      40.67894,
+      -73.8965,
+      40.70886
     ],
     "label": [
-      -73.91296,
-      40.69214
+      -73.92021,
+      40.69832
     ]
   },
   {
-    "id": "BK0401",
-    "name": "Bushwick (West)",
-    "includes": [],
-    "ntaName": "Bushwick (West)",
-    "borough": "Brooklyn",
-    "bbox": [
-      -73.94193,
-      40.69276,
-      -73.91142,
-      40.7094
-    ],
-    "label": [
-      -73.92504,
-      40.70076
-    ]
-  },
-  {
-    "id": "BK1803",
+    "id": "canarsie-brooklyn",
     "name": "Canarsie",
     "includes": [],
-    "ntaName": "Canarsie",
     "borough": "Brooklyn",
     "bbox": [
-      -73.91995,
-      40.62523,
-      -73.88077,
-      40.6552
+      -73.91977,
+      40.62247,
+      -73.87714,
+      40.65745
     ],
     "label": [
-      -73.89988,
-      40.63825
+      -73.90008,
+      40.63863
     ]
   },
   {
-    "id": "BK0601",
+    "id": "carroll-gardens-brooklyn",
     "name": "Carroll Gardens",
-    "includes": [
-      "Cobble Hill",
-      "Gowanus",
-      "Red Hook"
+    "includes": [],
+    "borough": "Brooklyn",
+    "bbox": [
+      -74.00352,
+      40.67252,
+      -73.99131,
+      40.68652
     ],
-    "ntaName": "Carroll Gardens-Cobble Hill-Gowanus-Red Hook",
+    "label": [
+      -73.99877,
+      40.68062
+    ]
+  },
+  {
+    "id": "clinton-hill-brooklyn",
+    "name": "Clinton Hill",
+    "includes": [],
+    "borough": "Brooklyn",
+    "bbox": [
+      -73.97077,
+      40.6799,
+      -73.95821,
+      40.6982
+    ],
+    "label": [
+      -73.96464,
+      40.6895
+    ]
+  },
+  {
+    "id": "cobble-hill-brooklyn",
+    "name": "Cobble Hill",
+    "includes": [],
+    "borough": "Brooklyn",
+    "bbox": [
+      -74.00068,
+      40.68365,
+      -73.99246,
+      40.69116
+    ],
+    "label": [
+      -73.9966,
+      40.6874
+    ]
+  },
+  {
+    "id": "columbia-street-waterfront-district-brooklyn",
+    "name": "Columbia Street Waterfront District",
+    "includes": [],
+    "borough": "Brooklyn",
+    "bbox": [
+      -74.00855,
+      40.67924,
+      -73.99786,
+      40.69323
+    ],
+    "label": [
+      -74.00304,
+      40.68596
+    ]
+  },
+  {
+    "id": "coney-island-brooklyn",
+    "name": "Coney Island",
+    "includes": [],
+    "borough": "Brooklyn",
+    "bbox": [
+      -74.00421,
+      40.57002,
+      -73.96683,
+      40.58377
+    ],
+    "label": [
+      -73.98174,
+      40.57711
+    ]
+  },
+  {
+    "id": "crown-heights-brooklyn",
+    "name": "Crown Heights",
+    "includes": [
+      "Weeksville"
+    ],
+    "borough": "Brooklyn",
+    "bbox": [
+      -73.96439,
+      40.66335,
+      -73.90341,
+      40.68125
+    ],
+    "label": [
+      -73.93978,
+      40.67096
+    ]
+  },
+  {
+    "id": "downtown-brooklyn-brooklyn",
+    "name": "Downtown Brooklyn",
+    "includes": [],
+    "borough": "Brooklyn",
+    "bbox": [
+      -73.99211,
+      40.68528,
+      -73.9784,
+      40.70164
+    ],
+    "label": [
+      -73.98669,
+      40.69274
+    ]
+  },
+  {
+    "id": "dumbo-brooklyn",
+    "name": "DUMBO",
+    "includes": [
+      "Fulton Ferry"
+    ],
+    "borough": "Brooklyn",
+    "bbox": [
+      -73.99535,
+      40.7006,
+      -73.98452,
+      40.70556
+    ],
+    "label": [
+      -73.98874,
+      40.70295
+    ]
+  },
+  {
+    "id": "dyker-heights-brooklyn",
+    "name": "Dyker Heights",
+    "includes": [],
+    "borough": "Brooklyn",
+    "bbox": [
+      -74.0248,
+      40.60643,
+      -73.99933,
+      40.63448
+    ],
+    "label": [
+      -74.01379,
+      40.62021
+    ]
+  },
+  {
+    "id": "east-flatbush-brooklyn",
+    "name": "East Flatbush",
+    "includes": [
+      "Farragut",
+      "Remsen Village",
+      "Wingate"
+    ],
+    "borough": "Brooklyn",
+    "bbox": [
+      -73.94819,
+      40.63075,
+      -73.90753,
+      40.66642
+    ],
+    "label": [
+      -73.93195,
+      40.65052
+    ]
+  },
+  {
+    "id": "east-new-york-brooklyn",
+    "name": "East New York",
+    "includes": [
+      "City Line",
+      "Cypress Hills",
+      "New Lots",
+      "Spring Creek",
+      "Starrett City"
+    ],
+    "borough": "Brooklyn",
+    "bbox": [
+      -73.90435,
+      40.63629,
+      -73.85566,
+      40.69515
+    ],
+    "label": [
+      -73.87817,
+      40.67116
+    ]
+  },
+  {
+    "id": "east-williamsburg-brooklyn",
+    "name": "East Williamsburg",
+    "includes": [],
+    "borough": "Brooklyn",
+    "bbox": [
+      -73.94217,
+      40.70159,
+      -73.92073,
+      40.72755
+    ],
+    "label": [
+      -73.93467,
+      40.71969
+    ]
+  },
+  {
+    "id": "flatbush-brooklyn",
+    "name": "Flatbush",
+    "includes": [
+      "Beverley Square East",
+      "Beverley Square West",
+      "Ditmas Park",
+      "Fiske Terrace",
+      "Prospect Lefferts Gardens",
+      "Prospect Park South"
+    ],
+    "borough": "Brooklyn",
+    "bbox": [
+      -73.97211,
+      40.62954,
+      -73.94451,
+      40.6641
+    ],
+    "label": [
+      -73.95738,
+      40.64466
+    ]
+  },
+  {
+    "id": "flatlands-brooklyn",
+    "name": "Flatlands",
+    "includes": [],
+    "borough": "Brooklyn",
+    "bbox": [
+      -73.9454,
+      40.61136,
+      -73.91652,
+      40.64278
+    ],
+    "label": [
+      -73.92736,
+      40.62703
+    ]
+  },
+  {
+    "id": "fort-greene-brooklyn",
+    "name": "Fort Greene",
+    "includes": [
+      "Bridge Plaza"
+    ],
+    "borough": "Brooklyn",
+    "bbox": [
+      -73.98697,
+      40.68187,
+      -73.9676,
+      40.70233
+    ],
+    "label": [
+      -73.97557,
+      40.69165
+    ]
+  },
+  {
+    "id": "fort-hamilton-brooklyn",
+    "name": "Fort Hamilton",
+    "includes": [],
+    "borough": "Brooklyn",
+    "bbox": [
+      -74.03607,
+      40.60257,
+      -74.01788,
+      40.61972
+    ],
+    "label": [
+      -74.02831,
+      40.60824
+    ]
+  },
+  {
+    "id": "georgetown-brooklyn",
+    "name": "Georgetown",
+    "includes": [],
+    "borough": "Brooklyn",
+    "bbox": [
+      -73.91854,
+      40.61777,
+      -73.90214,
+      40.63197
+    ],
+    "label": [
+      -73.91195,
+      40.62388
+    ]
+  },
+  {
+    "id": "gerritsen-beach-brooklyn",
+    "name": "Gerritsen Beach",
+    "includes": [],
+    "borough": "Brooklyn",
+    "bbox": [
+      -73.93419,
+      40.58559,
+      -73.91806,
+      40.60097
+    ],
+    "label": [
+      -73.92761,
+      40.59214
+    ]
+  },
+  {
+    "id": "gowanus-brooklyn",
+    "name": "Gowanus",
+    "includes": [],
+    "borough": "Brooklyn",
+    "bbox": [
+      -73.99891,
+      40.66552,
+      -73.98056,
+      40.68553
+    ],
+    "label": [
+      -73.99063,
+      40.67671
+    ]
+  },
+  {
+    "id": "gravesend-brooklyn",
+    "name": "Gravesend",
+    "includes": [],
+    "borough": "Brooklyn",
+    "bbox": [
+      -73.98722,
+      40.5823,
+      -73.96025,
+      40.60997
+    ],
+    "label": [
+      -73.97298,
+      40.59582
+    ]
+  },
+  {
+    "id": "greenpoint-brooklyn",
+    "name": "Greenpoint",
+    "includes": [],
+    "borough": "Brooklyn",
+    "bbox": [
+      -73.96273,
+      40.71843,
+      -73.92949,
+      40.73913
+    ],
+    "label": [
+      -73.94932,
+      40.72848
+    ]
+  },
+  {
+    "id": "greenwood-heights-brooklyn",
+    "name": "Greenwood Heights",
+    "includes": [
+      "South Slope"
+    ],
+    "borough": "Brooklyn",
+    "bbox": [
+      -74.01402,
+      40.6529,
+      -73.98309,
+      40.67176
+    ],
+    "label": [
+      -74.00214,
+      40.65821
+    ]
+  },
+  {
+    "id": "homecrest-brooklyn",
+    "name": "Homecrest",
+    "includes": [],
+    "borough": "Brooklyn",
+    "bbox": [
+      -73.96237,
+      40.5916,
+      -73.95015,
+      40.61093
+    ],
+    "label": [
+      -73.95658,
+      40.60062
+    ]
+  },
+  {
+    "id": "kensington-brooklyn",
+    "name": "Kensington",
+    "includes": [
+      "Parkville"
+    ],
+    "borough": "Brooklyn",
+    "bbox": [
+      -73.98913,
+      40.62731,
+      -73.96608,
+      40.64829
+    ],
+    "label": [
+      -73.97435,
+      40.63874
+    ]
+  },
+  {
+    "id": "manhattan-beach-brooklyn",
+    "name": "Manhattan Beach",
+    "includes": [],
+    "borough": "Brooklyn",
+    "bbox": [
+      -73.95506,
+      40.5742,
+      -73.93106,
+      40.58232
+    ],
+    "label": [
+      -73.94761,
+      40.57842
+    ]
+  },
+  {
+    "id": "marine-park-brooklyn",
+    "name": "Marine Park",
+    "includes": [],
+    "borough": "Brooklyn",
+    "bbox": [
+      -73.94481,
+      40.58635,
+      -73.89905,
+      40.62229
+    ],
+    "label": [
+      -73.93579,
+      40.612
+    ]
+  },
+  {
+    "id": "midwood-brooklyn",
+    "name": "Midwood",
+    "includes": [],
+    "borough": "Brooklyn",
+    "bbox": [
+      -73.9765,
+      40.60881,
+      -73.9363,
+      40.63249
+    ],
+    "label": [
+      -73.95848,
+      40.6204
+    ]
+  },
+  {
+    "id": "mill-basin-brooklyn",
+    "name": "Mill Basin",
+    "includes": [],
+    "borough": "Brooklyn",
+    "bbox": [
+      -73.9246,
+      40.60351,
+      -73.90164,
+      40.61985
+    ],
+    "label": [
+      -73.91019,
+      40.6112
+    ]
+  },
+  {
+    "id": "park-slope-brooklyn",
+    "name": "Park Slope",
+    "includes": [
+      "South Slope"
+    ],
+    "borough": "Brooklyn",
+    "bbox": [
+      -73.99294,
+      40.65744,
+      -73.9695,
+      40.68481
+    ],
+    "label": [
+      -73.98054,
+      40.67024
+    ]
+  },
+  {
+    "id": "prospect-heights-brooklyn",
+    "name": "Prospect Heights",
+    "includes": [
+      "Pacific Park"
+    ],
+    "borough": "Brooklyn",
+    "bbox": [
+      -73.97734,
+      40.67136,
+      -73.96254,
+      40.68399
+    ],
+    "label": [
+      -73.96791,
+      40.67763
+    ]
+  },
+  {
+    "id": "red-hook-brooklyn",
+    "name": "Red Hook",
+    "includes": [],
     "borough": "Brooklyn",
     "bbox": [
       -74.01995,
       40.66457,
-      -73.97961,
-      40.69255
+      -73.99846,
+      40.68628
     ],
     "label": [
-      -73.99975,
-      40.67988
+      -74.00822,
+      40.6762
     ]
   },
   {
-    "id": "BK0204",
-    "name": "Clinton Hill",
+    "id": "sea-gate-brooklyn",
+    "name": "Sea Gate",
     "includes": [],
-    "ntaName": "Clinton Hill",
-    "borough": "Brooklyn",
-    "bbox": [
-      -73.97013,
-      40.68046,
-      -73.95884,
-      40.69833
-    ],
-    "label": [
-      -73.96457,
-      40.68895
-    ]
-  },
-  {
-    "id": "BK1302",
-    "name": "Coney Island",
-    "includes": [
-      "Sea Gate"
-    ],
-    "ntaName": "Coney Island-Sea Gate",
     "borough": "Brooklyn",
     "bbox": [
       -74.01303,
-      40.56953,
-      -73.95939,
-      40.58464
+      40.57043,
+      -74.00211,
+      40.58198
     ],
     "label": [
-      -73.98126,
-      40.57756
+      -74.00734,
+      40.57742
     ]
   },
   {
-    "id": "BK0802",
-    "name": "Crown Heights (North)",
+    "id": "sheepshead-bay-brooklyn",
+    "name": "Sheepshead Bay",
     "includes": [],
-    "ntaName": "Crown Heights (North)",
     "borough": "Brooklyn",
     "bbox": [
-      -73.96318,
-      40.66645,
-      -73.92182,
-      40.68046
+      -73.96066,
+      40.58154,
+      -73.91127,
+      40.61587
     ],
     "label": [
-      -73.94189,
-      40.67375
+      -73.94215,
+      40.59468
     ]
   },
   {
-    "id": "BK0901",
-    "name": "Crown Heights (South)",
+    "id": "south-williamsburg-brooklyn",
+    "name": "South Williamsburg",
     "includes": [],
-    "ntaName": "Crown Heights (South)",
     "borough": "Brooklyn",
     "bbox": [
-      -73.96257,
-      40.66285,
-      -73.92835,
-      40.67162
+      -73.97466,
+      40.69766,
+      -73.94195,
+      40.70908
     ],
     "label": [
-      -73.94601,
-      40.66691
+      -73.95993,
+      40.70295
     ]
   },
   {
-    "id": "BK0501",
-    "name": "Cypress Hills",
+    "id": "sunset-park-brooklyn",
+    "name": "Sunset Park",
     "includes": [],
-    "ntaName": "Cypress Hills",
     "borough": "Brooklyn",
     "bbox": [
-      -73.90405,
-      40.67563,
-      -73.8663,
-      40.69119
+      -74.03674,
+      40.63108,
+      -73.99368,
+      40.66076
     ],
     "label": [
-      -73.88492,
-      40.68011
+      -74.01125,
+      40.64506
     ]
   },
   {
-    "id": "BK1402",
-    "name": "Ditmas Park",
-    "includes": [
-      "Flatbush (West)",
-      "Parkville"
-    ],
-    "ntaName": "Flatbush (West)-Ditmas Park-Parkville",
+    "id": "vinegar-hill-brooklyn",
+    "name": "Vinegar Hill",
+    "includes": [],
     "borough": "Brooklyn",
     "bbox": [
-      -73.97716,
-      40.62598,
-      -73.95685,
-      40.65153
-    ],
-    "label": [
-      -73.9635,
-      40.63463
-    ]
-  },
-  {
-    "id": "BK0202",
-    "name": "Downtown Brooklyn",
-    "includes": [
-      "DUMBO",
-      "Boerum Hill"
-    ],
-    "ntaName": "Downtown Brooklyn-DUMBO-Boerum Hill",
-    "borough": "Brooklyn",
-    "bbox": [
-      -73.99505,
-      40.68249,
-      -73.97808,
+      -73.98469,
+      40.70225,
+      -73.97917,
       40.70597
     ],
     "label": [
-      -73.98599,
-      40.69761
+      -73.98221,
+      40.7039
     ]
   },
   {
-    "id": "BK1002",
-    "name": "Dyker Heights",
-    "includes": [],
-    "ntaName": "Dyker Heights",
-    "borough": "Brooklyn",
-    "bbox": [
-      -74.02288,
-      40.61274,
-      -73.99724,
-      40.63591
-    ],
-    "label": [
-      -74.01085,
-      40.62391
-    ]
-  },
-  {
-    "id": "BK1701",
-    "name": "East Flatbush (Erasmus)",
-    "includes": [],
-    "ntaName": "East Flatbush-Erasmus",
-    "borough": "Brooklyn",
-    "bbox": [
-      -73.95871,
-      40.63842,
-      -73.94189,
-      40.65626
-    ],
-    "label": [
-      -73.95014,
-      40.64919
-    ]
-  },
-  {
-    "id": "BK1702",
-    "name": "East Flatbush (Farragut)",
-    "includes": [],
-    "ntaName": "East Flatbush-Farragut",
-    "borough": "Brooklyn",
-    "bbox": [
-      -73.94841,
-      40.63178,
-      -73.92538,
-      40.64711
-    ],
-    "label": [
-      -73.93671,
-      40.63934
-    ]
-  },
-  {
-    "id": "BK1704",
-    "name": "East Flatbush (Remsen Village)",
-    "includes": [],
-    "ntaName": "East Flatbush-Remsen Village",
-    "borough": "Brooklyn",
-    "bbox": [
-      -73.93068,
-      40.64471,
-      -73.90856,
-      40.66638
-    ],
-    "label": [
-      -73.9164,
-      40.65309
-    ]
-  },
-  {
-    "id": "BK1703",
-    "name": "East Flatbush (Rugby)",
-    "includes": [],
-    "ntaName": "East Flatbush-Rugby",
-    "borough": "Brooklyn",
-    "bbox": [
-      -73.94282,
-      40.63992,
-      -73.91974,
-      40.66362
-    ],
-    "label": [
-      -73.92765,
-      40.65167
-    ]
-  },
-  {
-    "id": "BK0505",
-    "name": "East New York (City Line)",
-    "includes": [],
-    "ntaName": "East New York-City Line",
-    "borough": "Brooklyn",
-    "bbox": [
-      -73.87745,
-      40.65508,
-      -73.85568,
-      40.68319
-    ],
-    "label": [
-      -73.86684,
-      40.67053
-    ]
-  },
-  {
-    "id": "BK0503",
-    "name": "East New York (New Lots)",
-    "includes": [],
-    "ntaName": "East New York-New Lots",
-    "borough": "Brooklyn",
-    "bbox": [
-      -73.90945,
-      40.64663,
-      -73.86718,
-      40.67086
-    ],
-    "label": [
-      -73.88805,
-      40.65962
-    ]
-  },
-  {
-    "id": "BK0502",
-    "name": "East New York (North)",
-    "includes": [],
-    "ntaName": "East New York (North)",
-    "borough": "Brooklyn",
-    "bbox": [
-      -73.90348,
-      40.66535,
-      -73.87423,
-      40.68017
-    ],
-    "label": [
-      -73.89268,
-      40.67222
-    ]
-  },
-  {
-    "id": "BK0104",
-    "name": "East Williamsburg",
-    "includes": [],
-    "ntaName": "East Williamsburg",
-    "borough": "Brooklyn",
-    "bbox": [
-      -73.95348,
-      40.70073,
-      -73.92075,
-      40.72816
-    ],
-    "label": [
-      -73.94079,
-      40.71323
-    ]
-  },
-  {
-    "id": "BK1401",
-    "name": "Flatbush",
-    "includes": [],
-    "ntaName": "Flatbush",
-    "borough": "Brooklyn",
-    "bbox": [
-      -73.96621,
-      40.62812,
-      -73.94416,
-      40.65563
-    ],
-    "label": [
-      -73.95271,
-      40.6335
-    ]
-  },
-  {
-    "id": "BK1801",
-    "name": "Flatlands",
-    "includes": [],
-    "ntaName": "Flatlands",
-    "borough": "Brooklyn",
-    "bbox": [
-      -73.94733,
-      40.61319,
-      -73.91691,
-      40.64278
-    ],
-    "label": [
-      -73.92981,
-      40.62653
-    ]
-  },
-  {
-    "id": "BK0203",
-    "name": "Fort Greene",
-    "includes": [],
-    "ntaName": "Fort Greene",
-    "borough": "Brooklyn",
-    "bbox": [
-      -73.98351,
-      40.68201,
-      -73.96284,
-      40.69825
-    ],
-    "label": [
-      -73.97507,
-      40.69068
-    ]
-  },
-  {
-    "id": "BK1501",
-    "name": "Gravesend (East)",
-    "includes": [
-      "Homecrest"
-    ],
-    "ntaName": "Gravesend (East)-Homecrest",
-    "borough": "Brooklyn",
-    "bbox": [
-      -73.98071,
-      40.58731,
-      -73.95608,
-      40.61255
-    ],
-    "label": [
-      -73.96466,
-      40.59933
-    ]
-  },
-  {
-    "id": "BK1301",
-    "name": "Gravesend (South)",
-    "includes": [],
-    "ntaName": "Gravesend (South)",
-    "borough": "Brooklyn",
-    "bbox": [
-      -74.00049,
-      40.58291,
-      -73.96026,
-      40.59445
-    ],
-    "label": [
-      -73.98159,
-      40.58872
-    ]
-  },
-  {
-    "id": "BK1103",
-    "name": "Gravesend (West)",
-    "includes": [],
-    "ntaName": "Gravesend (West)",
-    "borough": "Brooklyn",
-    "bbox": [
-      -74.00204,
-      40.5884,
-      -73.97149,
-      40.60881
-    ],
-    "label": [
-      -73.98573,
-      40.59945
-    ]
-  },
-  {
-    "id": "BK0101",
-    "name": "Greenpoint",
-    "includes": [],
-    "ntaName": "Greenpoint",
-    "borough": "Brooklyn",
-    "bbox": [
-      -73.96234,
-      40.71846,
-      -73.93213,
-      40.73913
-    ],
-    "label": [
-      -73.95352,
-      40.73094
-    ]
-  },
-  {
-    "id": "BK1203",
-    "name": "Kensington",
-    "includes": [],
-    "ntaName": "Kensington",
-    "borough": "Brooklyn",
-    "bbox": [
-      -73.98835,
-      40.63127,
-      -73.96804,
-      40.64826
-    ],
-    "label": [
-      -73.97505,
-      40.64162
-    ]
-  },
-  {
-    "id": "BK1502",
-    "name": "Madison",
-    "includes": [],
-    "ntaName": "Madison",
-    "borough": "Brooklyn",
-    "bbox": [
-      -73.95859,
-      40.59661,
-      -73.93426,
-      40.61605
-    ],
-    "label": [
-      -73.94832,
-      40.60474
-    ]
-  },
-  {
-    "id": "BK1204",
-    "name": "Mapleton",
-    "includes": [
-      "Midwood (West)"
-    ],
-    "ntaName": "Mapleton-Midwood (West)",
-    "borough": "Brooklyn",
-    "bbox": [
-      -73.99009,
-      40.6087,
-      -73.96286,
-      40.62954
-    ],
-    "label": [
-      -73.97239,
-      40.61951
-    ]
-  },
-  {
-    "id": "BK1802",
-    "name": "Marine Park",
-    "includes": [
-      "Mill Basin",
-      "Bergen Beach"
-    ],
-    "ntaName": "Marine Park-Mill Basin-Bergen Beach",
-    "borough": "Brooklyn",
-    "bbox": [
-      -73.94483,
-      40.60351,
-      -73.8981,
-      40.63207
-    ],
-    "label": [
-      -73.91074,
-      40.62208
-    ]
-  },
-  {
-    "id": "BK1403",
-    "name": "Midwood",
-    "includes": [],
-    "ntaName": "Midwood",
-    "borough": "Brooklyn",
-    "bbox": [
-      -73.96608,
-      40.60999,
-      -73.94452,
-      40.63016
-    ],
-    "label": [
-      -73.9558,
-      40.62008
-    ]
-  },
-  {
-    "id": "BK1601",
-    "name": "Ocean Hill",
-    "includes": [],
-    "ntaName": "Ocean Hill",
-    "borough": "Brooklyn",
-    "bbox": [
-      -73.92276,
-      40.6671,
-      -73.90005,
-      40.68721
-    ],
-    "label": [
-      -73.91159,
-      40.67725
-    ]
-  },
-  {
-    "id": "BK0602",
-    "name": "Park Slope",
-    "includes": [],
-    "ntaName": "Park Slope",
-    "borough": "Brooklyn",
-    "bbox": [
-      -73.99173,
-      40.66116,
-      -73.96871,
-      40.68492
-    ],
-    "label": [
-      -73.97959,
-      40.6714
-    ]
-  },
-  {
-    "id": "BK0801",
-    "name": "Prospect Heights",
-    "includes": [],
-    "ntaName": "Prospect Heights",
-    "borough": "Brooklyn",
-    "bbox": [
-      -73.97618,
-      40.67136,
-      -73.96007,
-      40.68305
-    ],
-    "label": [
-      -73.96635,
-      40.6778
-    ]
-  },
-  {
-    "id": "BK0902",
-    "name": "Prospect Lefferts Gardens",
-    "includes": [
-      "Wingate"
-    ],
-    "ntaName": "Prospect Lefferts Gardens-Wingate",
-    "borough": "Brooklyn",
-    "bbox": [
-      -73.96309,
-      40.65484,
-      -73.93091,
-      40.6643
-    ],
-    "label": [
-      -73.94766,
-      40.65984
-    ]
-  },
-  {
-    "id": "BK1503",
-    "name": "Sheepshead Bay",
-    "includes": [
-      "Manhattan Beach",
-      "Gerritsen Beach"
-    ],
-    "ntaName": "Sheepshead Bay-Manhattan Beach-Gerritsen Beach",
-    "borough": "Brooklyn",
-    "bbox": [
-      -73.96035,
-      40.57425,
-      -73.91806,
-      40.60269
-    ],
-    "label": [
-      -73.94292,
-      40.59082
-    ]
-  },
-  {
-    "id": "BK0103",
-    "name": "South Williamsburg",
-    "includes": [],
-    "ntaName": "South Williamsburg",
-    "borough": "Brooklyn",
-    "bbox": [
-      -73.96839,
-      40.69804,
-      -73.94193,
-      40.70843
-    ],
-    "label": [
-      -73.95646,
-      40.70348
-    ]
-  },
-  {
-    "id": "BK0504",
-    "name": "Starrett City",
-    "includes": [
-      "Spring Creek"
-    ],
-    "ntaName": "Spring Creek-Starrett City",
-    "borough": "Brooklyn",
-    "bbox": [
-      -73.89125,
-      40.63887,
-      -73.86054,
-      40.66045
-    ],
-    "label": [
-      -73.87278,
-      40.65365
-    ]
-  },
-  {
-    "id": "BK0703",
-    "name": "Sunset Park (Central)",
-    "includes": [],
-    "ntaName": "Sunset Park (Central)",
-    "borough": "Brooklyn",
-    "bbox": [
-      -74.02109,
-      40.63211,
-      -73.99604,
-      40.65295
-    ],
-    "label": [
-      -74.00787,
-      40.64229
-    ]
-  },
-  {
-    "id": "BK1201",
-    "name": "Sunset Park (East)",
-    "includes": [
-      "Borough Park (West)"
-    ],
-    "ntaName": "Sunset Park (East)-Borough Park (West)",
-    "borough": "Brooklyn",
-    "bbox": [
-      -74.00955,
-      40.63308,
-      -73.98906,
-      40.64834
-    ],
-    "label": [
-      -73.99923,
-      40.64091
-    ]
-  },
-  {
-    "id": "BK0702",
-    "name": "Sunset Park (West)",
-    "includes": [],
-    "ntaName": "Sunset Park (West)",
-    "borough": "Brooklyn",
-    "bbox": [
-      -74.03254,
-      40.63812,
-      -73.98725,
-      40.67193
-    ],
-    "label": [
-      -74.01046,
-      40.65279
-    ]
-  },
-  {
-    "id": "BK0102",
+    "id": "williamsburg-brooklyn",
     "name": "Williamsburg",
-    "includes": [],
-    "ntaName": "Williamsburg",
+    "includes": [
+      "Southside"
+    ],
     "borough": "Brooklyn",
     "bbox": [
       -73.97007,
-      40.70547,
-      -73.94721,
+      40.70028,
+      -73.93624,
       40.72532
     ],
     "label": [
-      -73.95997,
-      40.71489
+      -73.95608,
+      40.71436
     ]
   },
   {
-    "id": "BK0701",
+    "id": "windsor-terrace-brooklyn",
     "name": "Windsor Terrace",
-    "includes": [
-      "South Slope"
-    ],
-    "ntaName": "Windsor Terrace-South Slope",
+    "includes": [],
     "borough": "Brooklyn",
     "bbox": [
-      -73.99277,
-      40.6473,
-      -73.9714,
-      40.66673
+      -73.98399,
+      40.64739,
+      -73.97143,
+      40.66088
     ],
     "label": [
-      -73.97752,
-      40.6547
+      -73.97717,
+      40.65375
     ]
   },
   {
-    "id": "QN0103",
-    "name": "Astoria (Central)",
+    "id": "arverne-queens",
+    "name": "Arverne",
     "includes": [],
-    "ntaName": "Astoria (Central)",
     "borough": "Queens",
     "bbox": [
-      -73.93215,
-      40.75396,
-      -73.91194,
-      40.77461
+      -73.80805,
+      40.58464,
+      -73.78617,
+      40.60326
     ],
     "label": [
-      -73.92321,
-      40.7642
+      -73.79652,
+      40.59289
     ]
   },
   {
-    "id": "QN0104",
-    "name": "Astoria (East)",
+    "id": "astoria-queens",
+    "name": "Astoria",
     "includes": [
-      "Woodside (North)"
+      "Astoria Heights",
+      "Ditmars Steinway",
+      "Dutch Kills",
+      "Little Egypt",
+      "Queensbridge",
+      "Ravenswood"
     ],
-    "ntaName": "Astoria (East)-Woodside (North)",
     "borough": "Queens",
     "bbox": [
-      -73.92563,
-      40.75214,
-      -73.89854,
-      40.76901
+      -73.95065,
+      40.74936,
+      -73.88782,
+      40.79095
     ],
     "label": [
-      -73.91011,
-      40.75962
+      -73.91836,
+      40.76735
     ]
   },
   {
-    "id": "QN1101",
+    "id": "auburndale-queens",
     "name": "Auburndale",
     "includes": [],
-    "ntaName": "Auburndale",
     "borough": "Queens",
     "bbox": [
-      -73.79729,
-      40.73833,
-      -73.77164,
-      40.77614
+      -73.80461,
+      40.73824,
+      -73.77592,
+      40.7635
     ],
     "label": [
-      -73.78474,
-      40.75062
+      -73.7921,
+      40.75105
     ]
   },
   {
-    "id": "QN1203",
-    "name": "Baisley Park",
-    "includes": [],
-    "ntaName": "Baisley Park",
-    "borough": "Queens",
-    "bbox": [
-      -73.80585,
-      40.66652,
-      -73.76974,
-      40.69103
-    ],
-    "label": [
-      -73.79319,
-      40.67847
-    ]
-  },
-  {
-    "id": "QN0703",
-    "name": "Bay Terrace",
-    "includes": [
-      "Clearview"
-    ],
-    "ntaName": "Bay Terrace-Clearview",
-    "borough": "Queens",
-    "bbox": [
-      -73.80379,
-      40.77304,
-      -73.76676,
-      40.79175
-    ],
-    "label": [
-      -73.78575,
-      40.78307
-    ]
-  },
-  {
-    "id": "QN1102",
+    "id": "bayside-queens",
     "name": "Bayside",
-    "includes": [],
-    "ntaName": "Bayside",
-    "borough": "Queens",
-    "bbox": [
-      -73.78459,
-      40.7442,
-      -73.74681,
-      40.7791
-    ],
-    "label": [
-      -73.76788,
-      40.76029
-    ]
-  },
-  {
-    "id": "QN1302",
-    "name": "Bellerose",
-    "includes": [],
-    "ntaName": "Bellerose",
-    "borough": "Queens",
-    "bbox": [
-      -73.74674,
-      40.72309,
-      -73.7105,
-      40.75039
-    ],
-    "label": [
-      -73.72546,
-      40.73603
-    ]
-  },
-  {
-    "id": "QN1403",
-    "name": "Breezy Point",
     "includes": [
-      "Belle Harbor",
-      "Rockaway Park",
-      "Broad Channel"
+      "Bay Terrace",
+      "Hollis Hills",
+      "Oakland Gardens"
     ],
-    "ntaName": "Breezy Point-Belle Harbor-Rockaway Park-Broad Channel",
     "borough": "Queens",
     "bbox": [
-      -73.93222,
-      40.55309,
-      -73.81408,
-      40.61523
+      -73.79585,
+      40.72629,
+      -73.73277,
+      40.79673
     ],
     "label": [
-      -73.85019,
-      40.57682
+      -73.76917,
+      40.75884
     ]
   },
   {
-    "id": "QN1304",
-    "name": "Cambria Heights",
+    "id": "bayswater-queens",
+    "name": "Bayswater",
     "includes": [],
-    "ntaName": "Cambria Heights",
-    "borough": "Queens",
-    "bbox": [
-      -73.74773,
-      40.68324,
-      -73.7258,
-      40.70348
-    ],
-    "label": [
-      -73.73555,
-      40.69432
-    ]
-  },
-  {
-    "id": "QN0701",
-    "name": "College Point",
-    "includes": [],
-    "ntaName": "College Point",
-    "borough": "Queens",
-    "bbox": [
-      -73.86924,
-      40.76541,
-      -73.82246,
-      40.79851
-    ],
-    "label": [
-      -73.8396,
-      40.77995
-    ]
-  },
-  {
-    "id": "QN0402",
-    "name": "Corona",
-    "includes": [],
-    "ntaName": "Corona",
-    "borough": "Queens",
-    "bbox": [
-      -73.86942,
-      40.73428,
-      -73.84756,
-      40.75266
-    ],
-    "label": [
-      -73.85928,
-      40.7432
-    ]
-  },
-  {
-    "id": "QN0101",
-    "name": "Ditmars-Steinway",
-    "includes": [
-      "Astoria (North)"
-    ],
-    "ntaName": "Astoria (North)-Ditmars-Steinway",
-    "borough": "Queens",
-    "bbox": [
-      -73.92398,
-      40.76586,
-      -73.88773,
-      40.79094
-    ],
-    "label": [
-      -73.91034,
-      40.77748
-    ]
-  },
-  {
-    "id": "QN1103",
-    "name": "Douglaston",
-    "includes": [
-      "Little Neck"
-    ],
-    "ntaName": "Douglaston-Little Neck",
-    "borough": "Queens",
-    "bbox": [
-      -73.75557,
-      40.74285,
-      -73.71333,
-      40.78263
-    ],
-    "label": [
-      -73.73512,
-      40.76372
-    ]
-  },
-  {
-    "id": "QN0302",
-    "name": "East Elmhurst",
-    "includes": [],
-    "ntaName": "East Elmhurst",
-    "borough": "Queens",
-    "bbox": [
-      -73.88773,
-      40.75663,
-      -73.85464,
-      40.77187
-    ],
-    "label": [
-      -73.87057,
-      40.76428
-    ]
-  },
-  {
-    "id": "QN0705",
-    "name": "East Flushing",
-    "includes": [],
-    "ntaName": "East Flushing",
-    "borough": "Queens",
-    "bbox": [
-      -73.82427,
-      40.74614,
-      -73.79458,
-      40.76142
-    ],
-    "label": [
-      -73.81103,
-      40.75472
-    ]
-  },
-  {
-    "id": "QN0401",
-    "name": "Elmhurst",
-    "includes": [],
-    "ntaName": "Elmhurst",
-    "borough": "Queens",
-    "bbox": [
-      -73.89564,
-      40.72787,
-      -73.86457,
-      40.74916
-    ],
-    "label": [
-      -73.87786,
-      40.73905
-    ]
-  },
-  {
-    "id": "QN1401",
-    "name": "Far Rockaway",
-    "includes": [
-      "Bayswater"
-    ],
-    "ntaName": "Far Rockaway-Bayswater",
     "borough": "Queens",
     "bbox": [
       -73.77417,
-      40.59072,
-      -73.73799,
-      40.61429
+      40.60315,
+      -73.75949,
+      40.62056
     ],
     "label": [
-      -73.75689,
-      40.60068
+      -73.76536,
+      40.60804
     ]
   },
   {
-    "id": "QN0707",
+    "id": "belle-harbor-queens",
+    "name": "Belle Harbor",
+    "includes": [],
+    "borough": "Queens",
+    "bbox": [
+      -73.86135,
+      40.56919,
+      -73.84544,
+      40.58211
+    ],
+    "label": [
+      -73.85336,
+      40.5754
+    ]
+  },
+  {
+    "id": "bellerose-queens",
+    "name": "Bellerose",
+    "includes": [],
+    "borough": "Queens",
+    "bbox": [
+      -73.74672,
+      40.71853,
+      -73.71056,
+      40.74404
+    ],
+    "label": [
+      -73.73133,
+      40.73236
+    ]
+  },
+  {
+    "id": "breezy-point-queens",
+    "name": "Breezy Point",
+    "includes": [],
+    "borough": "Queens",
+    "bbox": [
+      -73.94074,
+      40.54183,
+      -73.9092,
+      40.56587
+    ],
+    "label": [
+      -73.92409,
+      40.5555
+    ]
+  },
+  {
+    "id": "briarwood-queens",
+    "name": "Briarwood",
+    "includes": [],
+    "borough": "Queens",
+    "bbox": [
+      -73.82725,
+      40.70402,
+      -73.80279,
+      40.71998
+    ],
+    "label": [
+      -73.8135,
+      40.71174
+    ]
+  },
+  {
+    "id": "broad-channel-queens",
+    "name": "Broad Channel",
+    "includes": [],
+    "borough": "Queens",
+    "bbox": [
+      -73.8284,
+      40.59461,
+      -73.81408,
+      40.61959
+    ],
+    "label": [
+      -73.82013,
+      40.60414
+    ]
+  },
+  {
+    "id": "cambria-heights-queens",
+    "name": "Cambria Heights",
+    "includes": [],
+    "borough": "Queens",
+    "bbox": [
+      -73.74489,
+      40.68347,
+      -73.7258,
+      40.70126
+    ],
+    "label": [
+      -73.73433,
+      40.69338
+    ]
+  },
+  {
+    "id": "college-point-queens",
+    "name": "College Point",
+    "includes": [],
+    "borough": "Queens",
+    "bbox": [
+      -73.85951,
+      40.76546,
+      -73.82454,
+      40.79795
+    ],
+    "label": [
+      -73.84047,
+      40.77681
+    ]
+  },
+  {
+    "id": "corona-queens",
+    "name": "Corona",
+    "includes": [
+      "LeFrak City",
+      "North Corona"
+    ],
+    "borough": "Queens",
+    "bbox": [
+      -73.8737,
+      40.73406,
+      -73.84721,
+      40.75837
+    ],
+    "label": [
+      -73.86086,
+      40.7458
+    ]
+  },
+  {
+    "id": "douglaston-little-neck-queens",
+    "name": "Douglaston-Little Neck",
+    "includes": [],
+    "borough": "Queens",
+    "bbox": [
+      -73.75881,
+      40.74366,
+      -73.71369,
+      40.78263
+    ],
+    "label": [
+      -73.73706,
+      40.76302
+    ]
+  },
+  {
+    "id": "east-elmhurst-queens",
+    "name": "East Elmhurst",
+    "includes": [],
+    "borough": "Queens",
+    "bbox": [
+      -73.90353,
+      40.75417,
+      -73.85182,
+      40.77216
+    ],
+    "label": [
+      -73.87411,
+      40.76443
+    ]
+  },
+  {
+    "id": "edgemere-queens",
+    "name": "Edgemere",
+    "includes": [],
+    "borough": "Queens",
+    "bbox": [
+      -73.78938,
+      40.5876,
+      -73.76393,
+      40.60985
+    ],
+    "label": [
+      -73.7763,
+      40.59445
+    ]
+  },
+  {
+    "id": "elmhurst-queens",
+    "name": "Elmhurst",
+    "includes": [],
+    "borough": "Queens",
+    "bbox": [
+      -73.8951,
+      40.72812,
+      -73.86453,
+      40.74923
+    ],
+    "label": [
+      -73.87881,
+      40.73873
+    ]
+  },
+  {
+    "id": "far-rockaway-queens",
+    "name": "Far Rockaway",
+    "includes": [],
+    "borough": "Queens",
+    "bbox": [
+      -73.77116,
+      40.59086,
+      -73.73813,
+      40.61231
+    ],
+    "label": [
+      -73.75338,
+      40.60077
+    ]
+  },
+  {
+    "id": "floral-park-queens",
+    "name": "Floral Park",
+    "includes": [],
+    "borough": "Queens",
+    "bbox": [
+      -73.71771,
+      40.72722,
+      -73.70027,
+      40.75248
+    ],
+    "label": [
+      -73.70795,
+      40.74087
+    ]
+  },
+  {
+    "id": "flushing-queens",
     "name": "Flushing",
     "includes": [
-      "Willets Point"
+      "Broadway-Flushing",
+      "Chinatown",
+      "Koreatown",
+      "Linden Hill",
+      "Murray Hill",
+      "Pomonok",
+      "Queensboro Hill"
     ],
-    "ntaName": "Flushing-Willets Point",
     "borough": "Queens",
     "bbox": [
-      -73.84671,
-      40.74783,
-      -73.81789,
-      40.77256
+      -73.83939,
+      40.72718,
+      -73.78689,
+      40.77682
     ],
     "label": [
-      -73.83137,
-      40.76122
+      -73.81927,
+      40.7584
     ]
   },
   {
-    "id": "QN0602",
+    "id": "forest-hills-queens",
     "name": "Forest Hills",
-    "includes": [],
-    "ntaName": "Forest Hills",
+    "includes": [
+      "Forest Hills Gardens"
+    ],
     "borough": "Queens",
     "bbox": [
-      -73.86204,
-      40.7064,
-      -73.82983,
-      40.73906
+      -73.8593,
+      40.69749,
+      -73.82631,
+      40.7401
     ],
     "label": [
-      -73.84767,
-      40.72074
+      -73.8466,
+      40.71691
     ]
   },
   {
-    "id": "QN0803",
+    "id": "fresh-meadows-queens",
     "name": "Fresh Meadows",
     "includes": [
+      "Hillcrest",
       "Utopia"
     ],
-    "ntaName": "Fresh Meadows-Utopia",
     "borough": "Queens",
     "bbox": [
-      -73.80467,
-      40.72579,
-      -73.77011,
-      40.74337
+      -73.81088,
+      40.7159,
+      -73.7566,
+      40.74498
     ],
     "label": [
-      -73.78625,
-      40.73429
+      -73.78922,
+      40.73341
     ]
   },
   {
-    "id": "QN1301",
+    "id": "glen-oaks-queens",
     "name": "Glen Oaks",
     "includes": [
-      "Floral Park",
-      "New Hyde Park"
+      "North Shore Towers"
     ],
-    "ntaName": "Glen Oaks-Floral Park-New Hyde Park",
     "borough": "Queens",
     "bbox": [
-      -73.72865,
-      40.72723,
-      -73.70001,
-      40.75974
+      -73.73273,
+      40.74088,
+      -73.70173,
+      40.75994
     ],
     "label": [
-      -73.70955,
-      40.74694
+      -73.71655,
+      40.7521
     ]
   },
   {
-    "id": "QN0503",
+    "id": "glendale-queens",
     "name": "Glendale",
     "includes": [],
-    "ntaName": "Glendale",
     "borough": "Queens",
     "bbox": [
-      -73.90003,
-      40.69195,
-      -73.85252,
-      40.71338
+      -73.9018,
+      40.68245,
+      -73.85275,
+      40.7133
     ],
     "label": [
-      -73.88003,
-      40.70333
+      -73.88483,
+      40.69795
     ]
   },
   {
-    "id": "QN1206",
+    "id": "hollis-queens",
     "name": "Hollis",
-    "includes": [],
-    "ntaName": "Hollis",
+    "includes": [
+      "Hollis Park Gardens"
+    ],
     "borough": "Queens",
     "bbox": [
-      -73.77712,
-      40.70291,
-      -73.75047,
-      40.72106
+      -73.77736,
+      40.69638,
+      -73.74867,
+      40.72115
     ],
     "label": [
-      -73.76191,
-      40.71373
+      -73.76185,
+      40.7083
     ]
   },
   {
-    "id": "QN1003",
+    "id": "holliswood-queens",
+    "name": "Holliswood",
+    "includes": [],
+    "borough": "Queens",
+    "bbox": [
+      -73.77723,
+      40.71517,
+      -73.75943,
+      40.72635
+    ],
+    "label": [
+      -73.76902,
+      40.72117
+    ]
+  },
+  {
+    "id": "howard-beach-queens",
     "name": "Howard Beach",
     "includes": [
-      "Lindenwood"
+      "Hamilton Beach",
+      "Howard Park",
+      "Lindenwood",
+      "Old Howard Beach",
+      "Ramblersville",
+      "Rockwood Park"
     ],
-    "ntaName": "Howard Beach-Lindenwood",
     "borough": "Queens",
     "bbox": [
       -73.86317,
-      40.64779,
+      40.6441,
       -73.82639,
-      40.67502
+      40.67166
     ],
     "label": [
-      -73.84683,
-      40.66171
+      -73.84765,
+      40.6594
     ]
   },
   {
-    "id": "QN0301",
+    "id": "jackson-heights-queens",
     "name": "Jackson Heights",
     "includes": [],
-    "ntaName": "Jackson Heights",
     "borough": "Queens",
     "bbox": [
-      -73.89974,
-      40.74681,
-      -73.86942,
-      40.76691
+      -73.89855,
+      40.74652,
+      -73.86947,
+      40.75678
     ],
     "label": [
-      -73.88634,
-      40.7543
+      -73.88428,
+      40.75167
     ]
   },
   {
-    "id": "QN1201",
+    "id": "jamaica-queens",
     "name": "Jamaica",
-    "includes": [],
-    "ntaName": "Jamaica",
-    "borough": "Queens",
-    "bbox": [
-      -73.81648,
-      40.69088,
-      -73.76845,
-      40.71426
-    ],
-    "label": [
-      -73.79922,
-      40.70366
-    ]
-  },
-  {
-    "id": "QN0804",
-    "name": "Jamaica Estates",
     "includes": [
-      "Holliswood"
+      "Jamaica Estates",
+      "Jamaica Hills",
+      "Rochdale",
+      "South Jamaica",
+      "St. Albans"
     ],
-    "ntaName": "Jamaica Estates-Holliswood",
     "borough": "Queens",
     "bbox": [
-      -73.79364,
-      40.71071,
-      -73.75497,
-      40.73019
+      -73.81727,
+      40.66598,
+      -73.74497,
+      40.72921
     ],
     "label": [
-      -73.78244,
-      40.71913
+      -73.78818,
+      40.68977
     ]
   },
   {
-    "id": "QN0805",
-    "name": "Jamaica Hills",
-    "includes": [
-      "Briarwood"
-    ],
-    "ntaName": "Jamaica Hills-Briarwood",
-    "borough": "Queens",
-    "bbox": [
-      -73.82558,
-      40.70227,
-      -73.79071,
-      40.71927
-    ],
-    "label": [
-      -73.81346,
-      40.71082
-    ]
-  },
-  {
-    "id": "QN0901",
+    "id": "kew-gardens-queens",
     "name": "Kew Gardens",
     "includes": [],
-    "ntaName": "Kew Gardens",
     "borough": "Queens",
     "bbox": [
-      -73.84315,
-      40.70139,
-      -73.81648,
-      40.71576
+      -73.84168,
+      40.70012,
+      -73.81727,
+      40.71556
     ],
     "label": [
-      -73.82897,
-      40.70844
+      -73.82833,
+      40.70858
     ]
   },
   {
-    "id": "QN0801",
+    "id": "kew-gardens-hills-queens",
     "name": "Kew Gardens Hills",
-    "includes": [],
-    "ntaName": "Kew Gardens Hills",
+    "includes": [
+      "Parkway Village"
+    ],
     "borough": "Queens",
     "bbox": [
-      -73.83386,
-      40.71577,
-      -73.80782,
-      40.73983
+      -73.83714,
+      40.7173,
+      -73.80909,
+      40.74338
     ],
     "label": [
-      -73.82088,
-      40.72581
+      -73.82227,
+      40.7309
     ]
   },
   {
-    "id": "QN1305",
+    "id": "laurelton-queens",
     "name": "Laurelton",
     "includes": [],
-    "ntaName": "Laurelton",
     "borough": "Queens",
     "bbox": [
-      -73.76031,
-      40.66639,
-      -73.72718,
-      40.68589
+      -73.75796,
+      40.66575,
+      -73.72585,
+      40.69323
     ],
     "label": [
-      -73.74481,
-      40.67542
+      -73.7437,
+      40.67718
     ]
   },
   {
-    "id": "QN0201",
+    "id": "long-island-city-queens",
     "name": "Long Island City",
     "includes": [
+      "Blissville",
       "Hunters Point"
     ],
-    "ntaName": "Long Island City-Hunters Point",
     "borough": "Queens",
     "bbox": [
       -73.96262,
-      40.7379,
-      -73.93664,
-      40.75522
+      40.72873,
+      -73.93117,
+      40.75546
     ],
     "label": [
-      -73.94891,
-      40.74497
+      -73.94665,
+      40.7457
     ]
   },
   {
-    "id": "QN0501",
+    "id": "maspeth-queens",
     "name": "Maspeth",
     "includes": [],
-    "ntaName": "Maspeth",
     "borough": "Queens",
     "bbox": [
-      -73.92848,
-      40.71248,
-      -73.88164,
-      40.73519
+      -73.92885,
+      40.7122,
+      -73.88493,
+      40.74593
     ],
     "label": [
-      -73.90865,
-      40.72075
+      -73.90496,
+      40.72528
     ]
   },
   {
-    "id": "QN0504",
+    "id": "middle-village-queens",
     "name": "Middle Village",
     "includes": [],
-    "ntaName": "Middle Village",
     "borough": "Queens",
     "bbox": [
-      -73.89424,
-      40.70645,
-      -73.86547,
-      40.73072
+      -73.89452,
+      40.70543,
+      -73.8594,
+      40.73172
     ],
     "label": [
-      -73.87834,
-      40.71868
+      -73.87615,
+      40.71971
     ]
   },
   {
-    "id": "QN0704",
-    "name": "Murray Hill",
-    "includes": [
-      "Broadway Flushing"
-    ],
-    "ntaName": "Murray Hill-Broadway Flushing",
-    "borough": "Queens",
-    "bbox": [
-      -73.83159,
-      40.75774,
-      -73.79031,
-      40.78172
-    ],
-    "label": [
-      -73.81077,
-      40.76878
-    ]
-  },
-  {
-    "id": "QN0303",
-    "name": "North Corona",
+    "id": "neponsit-queens",
+    "name": "Neponsit",
     "includes": [],
-    "ntaName": "North Corona",
     "borough": "Queens",
     "bbox": [
-      -73.87366,
-      40.74916,
-      -73.85221,
-      40.75847
+      -73.86677,
+      40.5668,
+      -73.85697,
+      40.57687
     ],
     "label": [
-      -73.86285,
-      40.75381
+      -73.86201,
+      40.57182
     ]
   },
   {
-    "id": "QN1104",
-    "name": "Oakland Gardens",
-    "includes": [
-      "Hollis Hills"
-    ],
-    "ntaName": "Oakland Gardens-Hollis Hills",
-    "borough": "Queens",
-    "bbox": [
-      -73.76776,
-      40.72631,
-      -73.74019,
-      40.75203
-    ],
-    "label": [
-      -73.75551,
-      40.73445
-    ]
-  },
-  {
-    "id": "QN0102",
-    "name": "Old Astoria",
-    "includes": [
-      "Hallets Point"
-    ],
-    "ntaName": "Old Astoria-Hallets Point",
-    "borough": "Queens",
-    "bbox": [
-      -73.93786,
-      40.76449,
-      -73.92398,
-      40.7781
-    ],
-    "label": [
-      -73.93074,
-      40.7723
-    ]
-  },
-  {
-    "id": "QN1002",
+    "id": "ozone-park-queens",
     "name": "Ozone Park",
-    "includes": [],
-    "ntaName": "Ozone Park",
-    "borough": "Queens",
-    "bbox": [
-      -73.86335,
-      40.66677,
-      -73.83335,
-      40.68335
+    "includes": [
+      "South Ozone Park",
+      "The Hole",
+      "Tudor Village"
     ],
-    "label": [
-      -73.84474,
-      40.6761
-    ]
-  },
-  {
-    "id": "QN0904",
-    "name": "Ozone Park (North)",
-    "includes": [],
-    "ntaName": "Ozone Park (North)",
     "borough": "Queens",
     "bbox": [
       -73.8663,
-      40.67935,
-      -73.83595,
-      40.69129
+      40.66252,
+      -73.78796,
+      40.69183
     ],
     "label": [
-      -73.8481,
-      40.6849
+      -73.82424,
+      40.67577
     ]
   },
   {
-    "id": "QN0802",
-    "name": "Pomonok",
-    "includes": [
-      "Electchester",
-      "Hillcrest"
-    ],
-    "ntaName": "Pomonok-Electchester-Hillcrest",
-    "borough": "Queens",
-    "bbox": [
-      -73.81523,
-      40.716,
-      -73.79029,
-      40.73899
-    ],
-    "label": [
-      -73.80241,
-      40.72402
-    ]
-  },
-  {
-    "id": "QN1303",
+    "id": "queens-village-queens",
     "name": "Queens Village",
     "includes": [],
-    "ntaName": "Queens Village",
     "borough": "Queens",
     "bbox": [
-      -73.75944,
-      40.69955,
-      -73.72678,
-      40.73259
+      -73.76419,
+      40.69322,
+      -73.72664,
+      40.73239
     ],
     "label": [
-      -73.74144,
-      40.71657
+      -73.74314,
+      40.71305
     ]
   },
   {
-    "id": "QN0706",
-    "name": "Queensboro Hill",
-    "includes": [],
-    "ntaName": "Queensboro Hill",
-    "borough": "Queens",
-    "bbox": [
-      -73.83595,
-      40.73703,
-      -73.79629,
-      40.75183
-    ],
-    "label": [
-      -73.81999,
-      40.7435
-    ]
-  },
-  {
-    "id": "QN0105",
-    "name": "Queensbridge",
-    "includes": [
-      "Ravenswood",
-      "Dutch Kills"
-    ],
-    "ntaName": "Queensbridge-Ravenswood-Dutch Kills",
-    "borough": "Queens",
-    "bbox": [
-      -73.95084,
-      40.74842,
-      -73.92416,
-      40.77127
-    ],
-    "label": [
-      -73.93924,
-      40.75795
-    ]
-  },
-  {
-    "id": "QN0601",
+    "id": "rego-park-queens",
     "name": "Rego Park",
     "includes": [],
-    "ntaName": "Rego Park",
     "borough": "Queens",
     "bbox": [
-      -73.87524,
-      40.71147,
-      -73.85626,
-      40.73594
+      -73.8716,
+      40.70743,
+      -73.85169,
+      40.73678
     ],
     "label": [
-      -73.86592,
-      40.72855
+      -73.86247,
+      40.72715
     ]
   },
   {
-    "id": "QN0902",
+    "id": "richmond-hill-queens",
     "name": "Richmond Hill",
     "includes": [],
-    "ntaName": "Richmond Hill",
     "borough": "Queens",
     "bbox": [
-      -73.84948,
-      40.68916,
-      -73.81373,
-      40.70421
+      -73.8489,
+      40.68532,
+      -73.81114,
+      40.70402
     ],
     "label": [
-      -73.83696,
-      40.69782
+      -73.82781,
+      40.69474
     ]
   },
   {
-    "id": "QN0502",
+    "id": "ridgewood-queens",
     "name": "Ridgewood",
-    "includes": [],
-    "ntaName": "Ridgewood",
-    "borough": "Queens",
-    "bbox": [
-      -73.92404,
-      40.69159,
-      -73.88553,
-      40.71401
-    ],
-    "label": [
-      -73.90238,
-      40.70422
-    ]
-  },
-  {
-    "id": "QN1402",
-    "name": "Rockaway Beach",
     "includes": [
-      "Arverne",
-      "Edgemere"
+      "Wyckoff Heights"
     ],
-    "ntaName": "Rockaway Beach-Arverne-Edgemere",
     "borough": "Queens",
     "bbox": [
-      -73.82525,
-      40.58126,
-      -73.76965,
-      40.60325
+      -73.92211,
+      40.69168,
+      -73.87802,
+      40.71344
     ],
     "label": [
-      -73.7963,
-      40.59288
+      -73.90305,
+      40.70461
     ]
   },
   {
-    "id": "QN1307",
-    "name": "Rosedale",
+    "id": "rockaway-beach-queens",
+    "name": "Rockaway Beach",
     "includes": [],
-    "ntaName": "Rosedale",
     "borough": "Queens",
     "bbox": [
-      -73.75205,
-      40.63488,
-      -73.72498,
-      40.6836
+      -73.82109,
+      40.58215,
+      -73.80509,
+      40.59358
     ],
     "label": [
-      -73.73544,
+      -73.81211,
+      40.58751
+    ]
+  },
+  {
+    "id": "rockaway-park-queens",
+    "name": "Rockaway Park",
+    "includes": [],
+    "borough": "Queens",
+    "bbox": [
+      -73.85049,
+      40.57327,
+      -73.81805,
+      40.58749
+    ],
+    "label": [
+      -73.83708,
+      40.57953
+    ]
+  },
+  {
+    "id": "rosedale-queens",
+    "name": "Rosedale",
+    "includes": [
+      "Meadowmere",
+      "Warnerville",
+      "Warnerville"
+    ],
+    "borough": "Queens",
+    "bbox": [
+      -73.75463,
+      40.63489,
+      -73.72506,
+      40.68262
+    ],
+    "label": [
+      -73.73726,
       40.65782
     ]
   },
   {
-    "id": "QN1202",
-    "name": "South Jamaica",
+    "id": "roxbury-queens",
+    "name": "Roxbury",
     "includes": [],
-    "ntaName": "South Jamaica",
     "borough": "Queens",
     "bbox": [
-      -73.81073,
-      40.68291,
-      -73.77396,
-      40.70548
+      -73.89568,
+      40.56435,
+      -73.88568,
+      40.56859
     ],
     "label": [
-      -73.79047,
-      40.69433
+      -73.89155,
+      40.56681
     ]
   },
   {
-    "id": "QN1001",
-    "name": "South Ozone Park",
+    "id": "springfield-gardens-queens",
+    "name": "Springfield Gardens",
     "includes": [],
-    "ntaName": "South Ozone Park",
     "borough": "Queens",
     "bbox": [
-      -73.84013,
-      40.66279,
-      -73.80123,
-      40.69192
+      -73.78956,
+      40.64584,
+      -73.74014,
+      40.66741
     ],
     "label": [
-      -73.81954,
-      40.67647
+      -73.75807,
+      40.65814
     ]
   },
   {
-    "id": "QN0903",
-    "name": "South Richmond Hill",
-    "includes": [],
-    "ntaName": "South Richmond Hill",
-    "borough": "Queens",
-    "bbox": [
-      -73.83811,
-      40.68484,
-      -73.81073,
-      40.69713
-    ],
-    "label": [
-      -73.82279,
-      40.69193
-    ]
-  },
-  {
-    "id": "QN1204",
-    "name": "Springfield Gardens (North)",
-    "includes": [
-      "Rochdale Village"
-    ],
-    "ntaName": "Springfield Gardens (North)-Rochdale Village",
-    "borough": "Queens",
-    "bbox": [
-      -73.78941,
-      40.66645,
-      -73.75636,
-      40.68379
-    ],
-    "label": [
-      -73.77206,
-      40.67483
-    ]
-  },
-  {
-    "id": "QN1306",
-    "name": "Springfield Gardens (South)",
-    "includes": [
-      "Brookville"
-    ],
-    "ntaName": "Springfield Gardens (South)-Brookville",
-    "borough": "Queens",
-    "bbox": [
-      -73.80215,
-      40.64437,
-      -73.73849,
-      40.66803
-    ],
-    "label": [
-      -73.75305,
-      40.65725
-    ]
-  },
-  {
-    "id": "QN1205",
-    "name": "St. Albans",
-    "includes": [],
-    "ntaName": "St. Albans",
-    "borough": "Queens",
-    "bbox": [
-      -73.78277,
-      40.6742,
-      -73.74359,
-      40.70964
-    ],
-    "label": [
-      -73.76222,
-      40.69211
-    ]
-  },
-  {
-    "id": "QN0202",
+    "id": "sunnyside-queens",
     "name": "Sunnyside",
-    "includes": [],
-    "ntaName": "Sunnyside",
+    "includes": [
+      "Sunnyside Gardens"
+    ],
     "borough": "Queens",
     "bbox": [
-      -73.94595,
-      40.72593,
-      -73.90971,
-      40.75023
+      -73.94135,
+      40.72803,
+      -73.90949,
+      40.7539
     ],
     "label": [
-      -73.92767,
-      40.73782
+      -73.92575,
+      40.74348
     ]
   },
   {
-    "id": "QN0702",
+    "id": "whitestone-queens",
     "name": "Whitestone",
     "includes": [
-      "Beechhurst"
+      "Beechhurst",
+      "Malba"
     ],
-    "ntaName": "Whitestone-Beechhurst",
     "borough": "Queens",
     "bbox": [
-      -73.82703,
-      40.77561,
-      -73.79058,
+      -73.83636,
+      40.77286,
+      -73.78524,
       40.80101
     ],
     "label": [
-      -73.81089,
-      40.78837
+      -73.81061,
+      40.78632
     ]
   },
   {
-    "id": "QN0905",
+    "id": "willets-point-queens",
+    "name": "Willets Point",
+    "includes": [],
+    "borough": "Queens",
+    "bbox": [
+      -73.85542,
+      40.75252,
+      -73.83668,
+      40.76555
+    ],
+    "label": [
+      -73.84458,
+      40.7585
+    ]
+  },
+  {
+    "id": "woodhaven-queens",
     "name": "Woodhaven",
     "includes": [],
-    "ntaName": "Woodhaven",
     "borough": "Queens",
     "bbox": [
-      -73.86869,
-      40.68319,
-      -73.84496,
-      40.70076
+      -73.8688,
+      40.68325,
+      -73.84427,
+      40.69841
     ],
     "label": [
-      -73.85741,
-      40.69132
+      -73.85738,
+      40.69127
     ]
   },
   {
-    "id": "QN0203",
+    "id": "woodside-queens",
     "name": "Woodside",
-    "includes": [],
-    "ntaName": "Woodside",
+    "includes": [
+      "Little Manila"
+    ],
     "borough": "Queens",
     "bbox": [
-      -73.91245,
-      40.7324,
-      -73.88725,
-      40.75415
+      -73.91753,
+      40.73544,
+      -73.89462,
+      40.76579
     ],
     "label": [
-      -73.90117,
-      40.74393
+      -73.90371,
+      40.74619
     ]
   },
   {
-    "id": "BX1104",
+    "id": "allerton-bronx",
     "name": "Allerton",
     "includes": [],
-    "ntaName": "Allerton",
     "borough": "Bronx",
     "bbox": [
-      -73.87108,
-      40.85727,
-      -73.85663,
-      40.87139
+      -73.87065,
+      40.863,
+      -73.85519,
+      40.86967
     ],
     "label": [
-      -73.86479,
-      40.86378
+      -73.86292,
+      40.86636
     ]
   },
   {
-    "id": "BX0702",
+    "id": "baychester-bronx",
+    "name": "Baychester",
+    "includes": [],
+    "borough": "Bronx",
+    "bbox": [
+      -73.85341,
+      40.86175,
+      -73.82936,
+      40.8809
+    ],
+    "label": [
+      -73.84005,
+      40.87334
+    ]
+  },
+  {
+    "id": "bedford-park-bronx",
     "name": "Bedford Park",
     "includes": [],
-    "ntaName": "Bedford Park",
     "borough": "Bronx",
     "bbox": [
-      -73.90043,
-      40.86348,
-      -73.88147,
-      40.88302
+      -73.90121,
+      40.86492,
+      -73.87951,
+      40.88536
     ],
     "label": [
-      -73.89061,
-      40.87365
+      -73.88847,
+      40.87393
     ]
   },
   {
-    "id": "BX0603",
+    "id": "belmont-bronx",
     "name": "Belmont",
     "includes": [],
-    "ntaName": "Belmont",
     "borough": "Bronx",
     "bbox": [
-      -73.89644,
-      40.84822,
-      -73.8805,
-      40.86726
+      -73.89144,
+      40.85114,
+      -73.88,
+      40.86628
     ],
     "label": [
-      -73.88651,
-      40.8587
+      -73.88587,
+      40.8584
     ]
   },
   {
-    "id": "BX0903",
+    "id": "castle-hill-bronx",
     "name": "Castle Hill",
     "includes": [
       "Unionport"
     ],
-    "ntaName": "Castle Hill-Unionport",
     "borough": "Bronx",
     "bbox": [
-      -73.86366,
-      40.81158,
-      -73.83595,
-      40.83453
+      -73.86264,
+      40.81052,
+      -73.83941,
+      40.84124
     ],
     "label": [
-      -73.84866,
-      40.82294
+      -73.85036,
+      40.82499
     ]
   },
   {
-    "id": "BX0302",
-    "name": "Claremont Village",
-    "includes": [
-      "Claremont (East)"
-    ],
-    "ntaName": "Claremont Village-Claremont (East)",
+    "id": "city-island-bronx",
+    "name": "City Island",
+    "includes": [],
     "borough": "Bronx",
     "bbox": [
-      -73.91049,
-      40.8291,
-      -73.89479,
-      40.84484
+      -73.79296,
+      40.83634,
+      -73.78072,
+      40.86053
     ],
     "label": [
-      -73.90342,
-      40.83741
+      -73.78676,
+      40.84695
     ]
   },
   {
-    "id": "BX0902",
+    "id": "claremont-bronx",
+    "name": "Claremont",
+    "includes": [],
+    "borough": "Bronx",
+    "bbox": [
+      -73.90706,
+      40.83544,
+      -73.89663,
+      40.84454
+    ],
+    "label": [
+      -73.90203,
+      40.84027
+    ]
+  },
+  {
+    "id": "clason-point-bronx",
     "name": "Clason Point",
-    "includes": [
-      "Soundview"
-    ],
-    "ntaName": "Soundview-Clason Point",
+    "includes": [],
     "borough": "Bronx",
     "bbox": [
-      -73.87146,
+      -73.87012,
       40.80446,
-      -73.84577,
-      40.82675
+      -73.84749,
+      40.8158
     ],
     "label": [
-      -73.86037,
-      40.81844
+      -73.85436,
+      40.8091
     ]
   },
   {
-    "id": "BX1004",
+    "id": "co-op-city-bronx",
     "name": "Co-op City",
     "includes": [],
-    "ntaName": "Co-op City",
     "borough": "Bronx",
     "bbox": [
-      -73.83489,
-      40.85921,
-      -73.81579,
-      40.88613
+      -73.83529,
+      40.85938,
+      -73.81714,
+      40.88542
     ],
     "label": [
-      -73.82881,
-      40.87511
+      -73.8285,
+      40.873
     ]
   },
   {
-    "id": "BX0401",
+    "id": "concourse-bronx",
     "name": "Concourse",
-    "includes": [
-      "Concourse Village"
-    ],
-    "ntaName": "Concourse-Concourse Village",
+    "includes": [],
     "borough": "Bronx",
     "bbox": [
       -73.93307,
-      40.81325,
-      -73.90869,
-      40.83766
+      40.81798,
+      -73.90281,
+      40.8451
     ],
     "label": [
-      -73.9209,
-      40.82718
+      -73.91835,
+      40.83126
     ]
   },
   {
-    "id": "BX0303",
+    "id": "country-club-bronx",
+    "name": "Country Club",
+    "includes": [],
+    "borough": "Bronx",
+    "bbox": [
+      -73.82574,
+      40.83548,
+      -73.8117,
+      40.84867
+    ],
+    "label": [
+      -73.82102,
+      40.84095
+    ]
+  },
+  {
+    "id": "crotona-park-east-bronx",
     "name": "Crotona Park East",
     "includes": [],
-    "ntaName": "Crotona Park East",
     "borough": "Bronx",
     "bbox": [
-      -73.89717,
-      40.82236,
-      -73.88005,
-      40.8401
+      -73.90141,
+      40.8268,
+      -73.88065,
+      40.84415
     ],
     "label": [
-      -73.88857,
-      40.83213
+      -73.89021,
+      40.83523
     ]
   },
   {
-    "id": "BX1202",
+    "id": "east-tremont-bronx",
+    "name": "East Tremont",
+    "includes": [],
+    "borough": "Bronx",
+    "bbox": [
+      -73.90266,
+      40.84039,
+      -73.88235,
+      40.85625
+    ],
+    "label": [
+      -73.89273,
+      40.84875
+    ]
+  },
+  {
+    "id": "eastchester-bronx",
     "name": "Eastchester",
     "includes": [
-      "Edenwald",
-      "Baychester"
+      "Edenwald"
     ],
-    "ntaName": "Eastchester-Edenwald-Baychester",
     "borough": "Bronx",
     "bbox": [
-      -73.85363,
-      40.86216,
-      -73.79301,
-      40.89414
+      -73.84171,
+      40.87591,
+      -73.81664,
+      40.89266
     ],
     "label": [
-      -73.84116,
-      40.88202
+      -73.8307,
+      40.88654
     ]
   },
   {
-    "id": "BX0503",
-    "name": "Fordham Heights",
-    "includes": [],
-    "ntaName": "Fordham Heights",
+    "id": "fordham-bronx",
+    "name": "Fordham",
+    "includes": [
+      "Fordham Heights"
+    ],
     "borough": "Bronx",
     "bbox": [
-      -73.90566,
-      40.85391,
-      -73.89138,
-      40.86276
+      -73.90329,
+      40.85416,
+      -73.88539,
+      40.86925
     ],
     "label": [
-      -73.89864,
-      40.85879
+      -73.89586,
+      40.8616
     ]
   },
   {
-    "id": "BX0402",
-    "name": "Highbridge",
+    "id": "high-bridge-bronx",
+    "name": "High Bridge",
     "includes": [],
-    "ntaName": "Highbridge",
     "borough": "Bronx",
     "bbox": [
       -73.93361,
       40.82815,
-      -73.92132,
-      40.84546
+      -73.91413,
+      40.84553
     ],
     "label": [
-      -73.92764,
-      40.83702
+      -73.92558,
+      40.83964
     ]
   },
   {
-    "id": "BX0201",
+    "id": "hunts-point-bronx",
     "name": "Hunts Point",
     "includes": [],
-    "ntaName": "Hunts Point",
     "borough": "Bronx",
     "bbox": [
-      -73.90309,
+      -73.90303,
       40.80085,
       -73.86811,
-      40.82295
+      40.82274
     ],
     "label": [
-      -73.88668,
-      40.8131
+      -73.88584,
+      40.81262
     ]
   },
   {
-    "id": "BX0802",
+    "id": "kingsbridge-bronx",
     "name": "Kingsbridge",
     "includes": [
-      "Marble Hill"
-    ],
-    "ntaName": "Kingsbridge-Marble Hill",
-    "borough": "Bronx",
-    "bbox": [
-      -73.91578,
-      40.87216,
-      -73.89668,
-      40.89071
-    ],
-    "label": [
-      -73.90508,
-      40.88187
-    ]
-  },
-  {
-    "id": "BX0801",
-    "name": "Kingsbridge Heights",
-    "includes": [
+      "Kingsbridge Heights",
       "Van Cortlandt Village"
     ],
-    "ntaName": "Kingsbridge Heights-Van Cortlandt Village",
     "borough": "Bronx",
     "bbox": [
-      -73.90615,
-      40.86788,
-      -73.88704,
-      40.88596
+      -73.91169,
+      40.87067,
+      -73.89379,
+      40.887
     ],
     "label": [
-      -73.90082,
-      40.87851
+      -73.90244,
+      40.87979
     ]
   },
   {
-    "id": "BX0202",
+    "id": "longwood-bronx",
     "name": "Longwood",
-    "includes": [],
-    "ntaName": "Longwood",
+    "includes": [
+      "Foxhurst"
+    ],
     "borough": "Bronx",
     "bbox": [
-      -73.90447,
-      40.80986,
-      -73.8861,
-      40.82825
+      -73.90449,
+      40.80978,
+      -73.88585,
+      40.82941
     ],
     "label": [
-      -73.8967,
-      40.82261
+      -73.89579,
+      40.82154
     ]
   },
   {
-    "id": "BX0102",
+    "id": "melrose-bronx",
     "name": "Melrose",
-    "includes": [],
-    "ntaName": "Melrose",
+    "includes": [
+      "The Hub",
+      "Woodstock"
+    ],
     "borough": "Bronx",
     "bbox": [
-      -73.92663,
-      40.81228,
-      -73.90129,
-      40.82439
+      -73.9252,
+      40.81227,
+      -73.90061,
+      40.82602
     ],
     "label": [
-      -73.91284,
-      40.81833
+      -73.91169,
+      40.81939
     ]
   },
   {
-    "id": "BX1102",
+    "id": "morris-heights-bronx",
+    "name": "Morris Heights",
+    "includes": [],
+    "borough": "Bronx",
+    "bbox": [
+      -73.92796,
+      40.84468,
+      -73.90725,
+      40.85837
+    ],
+    "label": [
+      -73.91781,
+      40.84998
+    ]
+  },
+  {
+    "id": "morris-park-bronx",
     "name": "Morris Park",
-    "includes": [],
-    "ntaName": "Morris Park",
+    "includes": [
+      "Indian Village"
+    ],
     "borough": "Bronx",
     "bbox": [
-      -73.86304,
-      40.84247,
-      -73.83524,
-      40.85872
+      -73.87138,
+      40.84299,
+      -73.83534,
+      40.85808
     ],
     "label": [
-      -73.85281,
-      40.85128
+      -73.85322,
+      40.85067
     ]
   },
   {
-    "id": "BX0301",
+    "id": "morrisania-bronx",
     "name": "Morrisania",
     "includes": [],
-    "ntaName": "Morrisania",
     "borough": "Bronx",
     "bbox": [
-      -73.91677,
-      40.82048,
-      -73.89549,
-      40.8355
+      -73.915,
+      40.8221,
+      -73.89629,
+      40.83697
     ],
     "label": [
-      -73.90547,
-      40.82535
+      -73.90433,
+      40.82919
     ]
   },
   {
-    "id": "BX0101",
+    "id": "mott-haven-bronx",
     "name": "Mott Haven",
     "includes": [
-      "Port Morris"
+      "The Hub"
     ],
-    "ntaName": "Mott Haven-Port Morris",
+    "borough": "Bronx",
+    "bbox": [
+      -73.93263,
+      40.80365,
+      -73.90299,
+      40.81952
+    ],
+    "label": [
+      -73.91922,
+      40.81057
+    ]
+  },
+  {
+    "id": "norwood-bronx",
+    "name": "Norwood",
+    "includes": [],
+    "borough": "Bronx",
+    "bbox": [
+      -73.88518,
+      40.86775,
+      -73.86841,
+      40.88772
+    ],
+    "label": [
+      -73.87722,
+      40.87652
+    ]
+  },
+  {
+    "id": "parkchester-bronx",
+    "name": "Parkchester",
+    "includes": [],
+    "borough": "Bronx",
+    "bbox": [
+      -73.8737,
+      40.83291,
+      -73.8516,
+      40.84303
+    ],
+    "label": [
+      -73.86015,
+      40.83768
+    ]
+  },
+  {
+    "id": "pelham-bay-bronx",
+    "name": "Pelham Bay",
+    "includes": [],
+    "borough": "Bronx",
+    "bbox": [
+      -73.84233,
+      40.82808,
+      -73.82401,
+      40.85662
+    ],
+    "label": [
+      -73.83189,
+      40.84095
+    ]
+  },
+  {
+    "id": "pelham-gardens-bronx",
+    "name": "Pelham Gardens",
+    "includes": [],
+    "borough": "Bronx",
+    "bbox": [
+      -73.85582,
+      40.85608,
+      -73.82657,
+      40.87372
+    ],
+    "label": [
+      -73.84531,
+      40.86327
+    ]
+  },
+  {
+    "id": "pelham-parkway-bronx",
+    "name": "Pelham Parkway",
+    "includes": [],
+    "borough": "Bronx",
+    "bbox": [
+      -73.87116,
+      40.85678,
+      -73.85554,
+      40.86326
+    ],
+    "label": [
+      -73.86358,
+      40.86021
+    ]
+  },
+  {
+    "id": "port-morris-bronx",
+    "name": "Port Morris",
+    "includes": [],
     "borough": "Bronx",
     "bbox": [
       -73.93287,
       40.79662,
-      -73.90219,
-      40.81856
+      -73.90209,
+      40.81143
     ],
     "label": [
-      -73.91542,
-      40.80631
+      -73.91228,
+      40.80068
     ]
   },
   {
-    "id": "BX0403",
-    "name": "Mount Eden",
-    "includes": [
-      "Claremont (West)"
-    ],
-    "ntaName": "Mount Eden-Claremont (West)",
-    "borough": "Bronx",
-    "bbox": [
-      -73.92287,
-      40.83394,
-      -73.90484,
-      40.84514
-    ],
-    "label": [
-      -73.91443,
-      40.84049
-    ]
-  },
-  {
-    "id": "BX0502",
-    "name": "Mount Hope",
-    "includes": [],
-    "ntaName": "Mount Hope",
-    "borough": "Bronx",
-    "bbox": [
-      -73.91418,
-      40.84447,
-      -73.89561,
-      40.85605
-    ],
-    "label": [
-      -73.90424,
-      40.84995
-    ]
-  },
-  {
-    "id": "BX0703",
-    "name": "Norwood",
-    "includes": [],
-    "ntaName": "Norwood",
-    "borough": "Bronx",
-    "bbox": [
-      -73.88716,
-      40.8666,
-      -73.87015,
-      40.88712
-    ],
-    "label": [
-      -73.87844,
-      40.87627
-    ]
-  },
-  {
-    "id": "BX0904",
-    "name": "Parkchester",
-    "includes": [],
-    "ntaName": "Parkchester",
-    "borough": "Bronx",
-    "bbox": [
-      -73.86448,
-      40.83292,
-      -73.85168,
-      40.84247
-    ],
-    "label": [
-      -73.85799,
-      40.83774
-    ]
-  },
-  {
-    "id": "BX1003",
-    "name": "Pelham Bay",
-    "includes": [
-      "Country Club",
-      "City Island"
-    ],
-    "ntaName": "Pelham Bay-Country Club-City Island",
-    "borough": "Bronx",
-    "bbox": [
-      -73.83683,
-      40.83385,
-      -73.77992,
-      40.86053
-    ],
-    "label": [
-      -73.78677,
-      40.84705
-    ]
-  },
-  {
-    "id": "BX1103",
-    "name": "Pelham Gardens",
-    "includes": [],
-    "ntaName": "Pelham Gardens",
-    "borough": "Bronx",
-    "bbox": [
-      -73.85961,
-      40.85728,
-      -73.82841,
-      40.87422
-    ],
-    "label": [
-      -73.85083,
-      40.86551
-    ]
-  },
-  {
-    "id": "BX1101",
-    "name": "Pelham Parkway",
-    "includes": [
-      "Van Nest"
-    ],
-    "ntaName": "Pelham Parkway-Van Nest",
-    "borough": "Bronx",
-    "bbox": [
-      -73.8736,
-      40.8396,
-      -73.85333,
-      40.85806
-    ],
-    "label": [
-      -73.86428,
-      40.84492
-    ]
-  },
-  {
-    "id": "BX0803",
+    "id": "riverdale-bronx",
     "name": "Riverdale",
     "includes": [
-      "Spuyten Duyvil"
+      "Central Riverdale",
+      "Fieldston",
+      "Hudson Hill",
+      "North Riverdale"
     ],
-    "ntaName": "Riverdale-Spuyten Duyvil",
     "borough": "Bronx",
     "bbox": [
-      -73.92491,
-      40.87566,
-      -73.89636,
-      40.91553
+      -73.9206,
+      40.88524,
+      -73.89638,
+      40.91526
     ],
     "label": [
-      -73.90664,
-      40.89775
+      -73.90643,
+      40.89851
     ]
   },
   {
-    "id": "BX0901",
+    "id": "soundview-bronx",
     "name": "Soundview",
-    "includes": [
-      "Bruckner",
-      "Bronx River"
-    ],
-    "ntaName": "Soundview-Bruckner-Bronx River",
+    "includes": [],
     "borough": "Bronx",
     "bbox": [
-      -73.88464,
-      40.81824,
-      -73.8597,
-      40.84109
+      -73.88741,
+      40.8138,
+      -73.85681,
+      40.83766
     ],
     "label": [
-      -73.87322,
-      40.8302
+      -73.87192,
+      40.82565
     ]
   },
   {
-    "id": "BX1002",
-    "name": "Throgs Neck",
-    "includes": [
-      "Schuylerville"
-    ],
-    "ntaName": "Throgs Neck-Schuylerville",
+    "id": "spuyten-duyvil-bronx",
+    "name": "Spuyten Duyvil",
+    "includes": [],
     "borough": "Bronx",
     "bbox": [
-      -73.84233,
+      -73.9249,
+      40.87556,
+      -73.90472,
+      40.88748
+    ],
+    "label": [
+      -73.91574,
+      40.88199
+    ]
+  },
+  {
+    "id": "throggs-neck-bronx",
+    "name": "Throggs Neck",
+    "includes": [
+      "Edgewater Park",
+      "Locust Point"
+    ],
+    "borough": "Bronx",
+    "bbox": [
+      -73.84211,
       40.804,
       -73.79006,
-      40.84534
+      40.83673
     ],
     "label": [
-      -73.82059,
-      40.8286
+      -73.82389,
+      40.82267
     ]
   },
   {
-    "id": "BX0602",
+    "id": "tremont-bronx",
     "name": "Tremont",
+    "includes": [
+      "Fairmont-Claremont Village"
+    ],
+    "borough": "Bronx",
+    "bbox": [
+      -73.91413,
+      40.84453,
+      -73.89543,
+      40.85886
+    ],
+    "label": [
+      -73.90417,
+      40.8508
+    ]
+  },
+  {
+    "id": "university-heights-bronx",
+    "name": "University Heights",
     "includes": [],
-    "ntaName": "Tremont",
     "borough": "Bronx",
     "bbox": [
-      -73.90132,
-      40.83916,
-      -73.88312,
-      40.8547
+      -73.91806,
+      40.85377,
+      -73.89705,
+      40.87343
     ],
     "label": [
-      -73.89162,
-      40.84704
+      -73.90673,
+      40.86305
     ]
   },
   {
-    "id": "BX0701",
-    "name": "University Heights (North)",
-    "includes": [
-      "Fordham"
-    ],
-    "ntaName": "University Heights (North)-Fordham",
+    "id": "van-nest-bronx",
+    "name": "Van Nest",
+    "includes": [],
     "borough": "Bronx",
     "bbox": [
-      -73.91902,
-      40.85592,
-      -73.89016,
-      40.87355
+      -73.87311,
+      40.83842,
+      -73.85525,
+      40.85224
     ],
     "label": [
-      -73.90595,
-      40.86483
+      -73.86624,
+      40.84581
     ]
   },
   {
-    "id": "BX0501",
-    "name": "University Heights (South)",
-    "includes": [
-      "Morris Heights"
-    ],
-    "ntaName": "University Heights (South)-Morris Heights",
-    "borough": "Bronx",
-    "bbox": [
-      -73.92805,
-      40.84427,
-      -73.90468,
-      40.85962
-    ],
-    "label": [
-      -73.9163,
-      40.85076
-    ]
-  },
-  {
-    "id": "BX1203",
+    "id": "wakefield-bronx",
     "name": "Wakefield",
-    "includes": [
-      "Woodlawn"
-    ],
-    "ntaName": "Wakefield-Woodlawn",
+    "includes": [],
     "borough": "Bronx",
     "bbox": [
-      -73.87712,
-      40.88698,
-      -73.83839,
-      40.91045
+      -73.86207,
+      40.88835,
+      -73.83343,
+      40.91004
     ],
     "label": [
-      -73.85103,
-      40.89915
+      -73.85055,
+      40.89913
     ]
   },
   {
-    "id": "BX0601",
+    "id": "west-farms-bronx",
     "name": "West Farms",
     "includes": [],
-    "ntaName": "West Farms",
     "borough": "Bronx",
     "bbox": [
-      -73.88619,
-      40.83442,
-      -73.86786,
-      40.84924
+      -73.88608,
+      40.83639,
+      -73.87168,
+      40.84909
     ],
     "label": [
-      -73.87877,
-      40.83914
+      -73.88186,
+      40.84268
     ]
   },
   {
-    "id": "BX1001",
+    "id": "westchester-square-bronx",
     "name": "Westchester Square",
     "includes": [],
-    "ntaName": "Westchester Square",
     "borough": "Bronx",
     "bbox": [
-      -73.85333,
-      40.82843,
-      -73.83937,
-      40.8502
+      -73.85514,
+      40.83414,
+      -73.83283,
+      40.85652
     ],
     "label": [
-      -73.84594,
-      40.83835
+      -73.843,
+      40.8443
     ]
   },
   {
-    "id": "BX1201",
+    "id": "williamsbridge-bronx",
     "name": "Williamsbridge",
-    "includes": [
-      "Olinville"
-    ],
-    "ntaName": "Williamsbridge-Olinville",
+    "includes": [],
     "borough": "Bronx",
     "bbox": [
-      -73.87095,
-      40.86965,
-      -73.84745,
-      40.89538
+      -73.87068,
+      40.86951,
+      -73.83834,
+      40.89489
     ],
     "label": [
-      -73.86094,
-      40.88131
+      -73.85673,
+      40.8832
     ]
   },
   {
-    "id": "SI0304",
+    "id": "woodlawn-bronx",
+    "name": "Woodlawn",
+    "includes": [],
+    "borough": "Bronx",
+    "bbox": [
+      -73.88045,
+      40.87996,
+      -73.8601,
+      40.90295
+    ],
+    "label": [
+      -73.87149,
+      40.89135
+    ]
+  },
+  {
+    "id": "annadale-staten-island",
     "name": "Annadale",
-    "includes": [
-      "Huguenot",
-      "Prince's Bay",
-      "Woodrow"
-    ],
-    "ntaName": "Annadale-Huguenot-Prince's Bay-Woodrow",
+    "includes": [],
     "borough": "Staten Island",
     "bbox": [
-      -74.22672,
-      40.50253,
-      -74.15988,
-      40.55015
+      -74.18718,
+      40.52222,
+      -74.16007,
+      40.54682
     ],
     "label": [
-      -74.20032,
-      40.52789
+      -74.17392,
+      40.53458
     ]
   },
   {
-    "id": "SI0303",
+    "id": "arden-heights-staten-island",
     "name": "Arden Heights",
-    "includes": [
-      "Rossville"
-    ],
-    "ntaName": "Arden Heights-Rossville",
+    "includes": [],
     "borough": "Staten Island",
     "bbox": [
-      -74.22132,
-      40.54112,
-      -74.17185,
-      40.56549
+      -74.20481,
+      40.5401,
+      -74.17631,
+      40.5602
     ],
     "label": [
-      -74.19278,
-      40.55439
+      -74.19353,
+      40.55032
     ]
   },
   {
-    "id": "SI0201",
-    "name": "Grasmere",
-    "includes": [
-      "Arrochar",
-      "South Beach",
-      "Dongan Hills"
+    "id": "arrochar-staten-island",
+    "name": "Arrochar",
+    "includes": [],
+    "borough": "Staten Island",
+    "bbox": [
+      -74.08364,
+      40.59053,
+      -74.06175,
+      40.6041
     ],
-    "ntaName": "Grasmere-Arrochar-South Beach-Dongan Hills",
+    "label": [
+      -74.0683,
+      40.5973
+    ]
+  },
+  {
+    "id": "bay-terrace-staten-island",
+    "name": "Bay Terrace",
+    "includes": [],
+    "borough": "Staten Island",
+    "bbox": [
+      -74.14515,
+      40.54788,
+      -74.12808,
+      40.56495
+    ],
+    "label": [
+      -74.13612,
+      40.55584
+    ]
+  },
+  {
+    "id": "bloomfield-staten-island",
+    "name": "Bloomfield",
+    "includes": [],
+    "borough": "Staten Island",
+    "bbox": [
+      -74.20282,
+      40.59981,
+      -74.1676,
+      40.63519
+    ],
+    "label": [
+      -74.185,
+      40.61567
+    ]
+  },
+  {
+    "id": "bulls-head-staten-island",
+    "name": "Bulls Head",
+    "includes": [],
+    "borough": "Staten Island",
+    "bbox": [
+      -74.17824,
+      40.59239,
+      -74.15364,
+      40.62085
+    ],
+    "label": [
+      -74.16885,
+      40.59959
+    ]
+  },
+  {
+    "id": "butler-manor-staten-island",
+    "name": "Butler Manor",
+    "includes": [],
+    "borough": "Staten Island",
+    "bbox": [
+      -74.23628,
+      40.50109,
+      -74.22148,
+      40.51317
+    ],
+    "label": [
+      -74.22818,
+      40.50695
+    ]
+  },
+  {
+    "id": "castleton-corners-staten-island",
+    "name": "Castleton Corners",
+    "includes": [],
+    "borough": "Staten Island",
+    "bbox": [
+      -74.13207,
+      40.6085,
+      -74.11764,
+      40.62737
+    ],
+    "label": [
+      -74.12525,
+      40.61797
+    ]
+  },
+  {
+    "id": "charleston-staten-island",
+    "name": "Charleston",
+    "includes": [],
+    "borough": "Staten Island",
+    "bbox": [
+      -74.24803,
+      40.52498,
+      -74.22406,
+      40.55242
+    ],
+    "label": [
+      -74.23422,
+      40.53696
+    ]
+  },
+  {
+    "id": "chelsea-travis-staten-island",
+    "name": "Chelsea-Travis",
+    "includes": [],
+    "borough": "Staten Island",
+    "bbox": [
+      -74.20607,
+      40.57694,
+      -74.17805,
+      40.60262
+    ],
+    "label": [
+      -74.19276,
+      40.59142
+    ]
+  },
+  {
+    "id": "clifton-staten-island",
+    "name": "Clifton",
+    "includes": [],
+    "borough": "Staten Island",
+    "bbox": [
+      -74.08107,
+      40.61424,
+      -74.06976,
+      40.62309
+    ],
+    "label": [
+      -74.07614,
+      40.61827
+    ]
+  },
+  {
+    "id": "clove-lake-staten-island",
+    "name": "Clove Lake",
+    "includes": [],
+    "borough": "Staten Island",
+    "bbox": [
+      -74.12308,
+      40.61374,
+      -74.10359,
+      40.62772
+    ],
+    "label": [
+      -74.11138,
+      40.61788
+    ]
+  },
+  {
+    "id": "concord-staten-island",
+    "name": "Concord",
+    "includes": [],
+    "borough": "Staten Island",
+    "bbox": [
+      -74.10094,
+      40.59935,
+      -74.08299,
+      40.60894
+    ],
+    "label": [
+      -74.08973,
+      40.60476
+    ]
+  },
+  {
+    "id": "dongan-hills-staten-island",
+    "name": "Dongan Hills",
+    "includes": [],
     "borough": "Staten Island",
     "bbox": [
       -74.10526,
-      40.57789,
-      -74.05964,
-      40.609
+      40.57942,
+      -74.09092,
+      40.59111
     ],
     "label": [
-      -74.08092,
-      40.59454
+      -74.0977,
+      40.58544
     ]
   },
   {
-    "id": "SI0302",
-    "name": "Great Kills",
-    "includes": [
-      "Eltingville"
-    ],
-    "ntaName": "Great Kills-Eltingville",
+    "id": "elm-park-staten-island",
+    "name": "Elm Park",
+    "includes": [],
     "borough": "Staten Island",
     "bbox": [
-      -74.18073,
+      -74.15268,
+      40.62764,
+      -74.14278,
+      40.63479
+    ],
+    "label": [
+      -74.14781,
+      40.63124
+    ]
+  },
+  {
+    "id": "eltingville-staten-island",
+    "name": "Eltingville",
+    "includes": [],
+    "borough": "Staten Island",
+    "bbox": [
+      -74.18102,
       40.5273,
-      -74.13173,
-      40.57089
+      -74.14595,
+      40.56324
     ],
     "label": [
-      -74.15662,
-      40.54821
+      -74.16887,
+      40.55029
     ]
   },
   {
-    "id": "SI0107",
-    "name": "Mariner's Harbor",
-    "includes": [
-      "Arlington",
-      "Graniteville"
-    ],
-    "ntaName": "Mariner's Harbor-Arlington-Graniteville",
+    "id": "emerson-hill-staten-island",
+    "name": "Emerson Hill",
+    "includes": [],
     "borough": "Staten Island",
     "bbox": [
-      -74.1962,
-      40.61235,
-      -74.14313,
+      -74.13238,
+      40.59155,
+      -74.09063,
+      40.61109
+    ],
+    "label": [
+      -74.12307,
+      40.60141
+    ]
+  },
+  {
+    "id": "graniteville-staten-island",
+    "name": "Graniteville",
+    "includes": [],
+    "borough": "Staten Island",
+    "bbox": [
+      -74.16878,
+      40.6123,
+      -74.14624,
+      40.62739
+    ],
+    "label": [
+      -74.15595,
+      40.62054
+    ]
+  },
+  {
+    "id": "grant-city-staten-island",
+    "name": "Grant City",
+    "includes": [],
+    "borough": "Staten Island",
+    "bbox": [
+      -74.11676,
+      40.5719,
+      -74.09604,
+      40.58592
+    ],
+    "label": [
+      -74.10561,
+      40.57898
+    ]
+  },
+  {
+    "id": "grasmere-staten-island",
+    "name": "Grasmere",
+    "includes": [],
+    "borough": "Staten Island",
+    "bbox": [
+      -74.08587,
+      40.59758,
+      -74.06912,
+      40.60627
+    ],
+    "label": [
+      -74.07799,
+      40.60228
+    ]
+  },
+  {
+    "id": "great-kills-staten-island",
+    "name": "Great Kills",
+    "includes": [],
+    "borough": "Staten Island",
+    "bbox": [
+      -74.16298,
+      40.52928,
+      -74.11339,
+      40.57048
+    ],
+    "label": [
+      -74.15238,
+      40.55113
+    ]
+  },
+  {
+    "id": "greenridge-staten-island",
+    "name": "Greenridge",
+    "includes": [],
+    "borough": "Staten Island",
+    "bbox": [
+      -74.1991,
+      40.55346,
+      -74.17081,
+      40.56624
+    ],
+    "label": [
+      -74.18488,
+      40.56052
+    ]
+  },
+  {
+    "id": "grymes-hill-staten-island",
+    "name": "Grymes Hill",
+    "includes": [],
+    "borough": "Staten Island",
+    "bbox": [
+      -74.10359,
+      40.60885,
+      -74.08303,
+      40.63115
+    ],
+    "label": [
+      -74.09231,
+      40.61857
+    ]
+  },
+  {
+    "id": "heartland-village-staten-island",
+    "name": "Heartland Village",
+    "includes": [],
+    "borough": "Staten Island",
+    "bbox": [
+      -74.17268,
+      40.569,
+      -74.14462,
+      40.59653
+    ],
+    "label": [
+      -74.16051,
+      40.58484
+    ]
+  },
+  {
+    "id": "huguenot-staten-island",
+    "name": "Huguenot",
+    "includes": [],
+    "borough": "Staten Island",
+    "bbox": [
+      -74.20698,
+      40.51663,
+      -74.17396,
+      40.54627
+    ],
+    "label": [
+      -74.19034,
+      40.53151
+    ]
+  },
+  {
+    "id": "la-tourette-park-staten-island",
+    "name": "La Tourette Park",
+    "includes": [],
+    "borough": "Staten Island",
+    "bbox": [
+      -74.17084,
+      40.56021,
+      -74.13236,
+      40.58799
+    ],
+    "label": [
+      -74.15275,
+      40.57477
+    ]
+  },
+  {
+    "id": "lighthouse-hill-staten-island",
+    "name": "Lighthouse Hill",
+    "includes": [],
+    "borough": "Staten Island",
+    "bbox": [
+      -74.14865,
+      40.56971,
+      -74.12674,
+      40.5834
+    ],
+    "label": [
+      -74.13265,
+      40.57804
+    ]
+  },
+  {
+    "id": "mariners-harbor-staten-island",
+    "name": "Mariner's Harbor",
+    "includes": [],
+    "borough": "Staten Island",
+    "bbox": [
+      -74.16666,
+      40.62491,
+      -74.1432,
+      40.64416
+    ],
+    "label": [
+      -74.15809,
+      40.63216
+    ]
+  },
+  {
+    "id": "meiers-corners-staten-island",
+    "name": "Meiers Corners",
+    "includes": [],
+    "borough": "Staten Island",
+    "bbox": [
+      -74.15279,
+      40.60801,
+      -74.12985,
+      40.62493
+    ],
+    "label": [
+      -74.14601,
+      40.61853
+    ]
+  },
+  {
+    "id": "midland-beach-staten-island",
+    "name": "Midland Beach",
+    "includes": [],
+    "borough": "Staten Island",
+    "bbox": [
+      -74.10199,
+      40.56682,
+      -74.0764,
+      40.58608
+    ],
+    "label": [
+      -74.08974,
+      40.57694
+    ]
+  },
+  {
+    "id": "new-brighton-staten-island",
+    "name": "New Brighton",
+    "includes": [],
+    "borough": "Staten Island",
+    "bbox": [
+      -74.09726,
+      40.63172,
+      -74.08648,
+      40.64733
+    ],
+    "label": [
+      -74.09075,
+      40.63996
+    ]
+  },
+  {
+    "id": "new-dorp-staten-island",
+    "name": "New Dorp",
+    "includes": [],
+    "borough": "Staten Island",
+    "bbox": [
+      -74.12711,
+      40.56431,
+      -74.10645,
+      40.58528
+    ],
+    "label": [
+      -74.11673,
+      40.57315
+    ]
+  },
+  {
+    "id": "new-dorp-beach-staten-island",
+    "name": "New Dorp Beach",
+    "includes": [],
+    "borough": "Staten Island",
+    "bbox": [
+      -74.11014,
+      40.55889,
+      -74.09089,
+      40.57417
+    ],
+    "label": [
+      -74.10123,
+      40.56602
+    ]
+  },
+  {
+    "id": "new-springville-staten-island",
+    "name": "New Springville",
+    "includes": [],
+    "borough": "Staten Island",
+    "bbox": [
+      -74.14586,
+      40.57833,
+      -74.12019,
+      40.60839
+    ],
+    "label": [
+      -74.13068,
+      40.58851
+    ]
+  },
+  {
+    "id": "oakwood-staten-island",
+    "name": "Oakwood",
+    "includes": [],
+    "borough": "Staten Island",
+    "bbox": [
+      -74.13031,
+      40.54778,
+      -74.10018,
+      40.57049
+    ],
+    "label": [
+      -74.11634,
+      40.55965
+    ]
+  },
+  {
+    "id": "old-town-staten-island",
+    "name": "Old Town",
+    "includes": [],
+    "borough": "Staten Island",
+    "bbox": [
+      -74.10082,
+      40.58608,
+      -74.08241,
+      40.60182
+    ],
+    "label": [
+      -74.09091,
+      40.59271
+    ]
+  },
+  {
+    "id": "park-hill-staten-island",
+    "name": "Park Hill",
+    "includes": [],
+    "borough": "Staten Island",
+    "bbox": [
+      -74.0904,
+      40.60608,
+      -74.07655,
+      40.61777
+    ],
+    "label": [
+      -74.08288,
+      40.61135
+    ]
+  },
+  {
+    "id": "pleasant-plains-staten-island",
+    "name": "Pleasant Plains",
+    "includes": [],
+    "borough": "Staten Island",
+    "bbox": [
+      -74.22889,
+      40.50258,
+      -74.21003,
+      40.53228
+    ],
+    "label": [
+      -74.21842,
+      40.51862
+    ]
+  },
+  {
+    "id": "port-ivory-staten-island",
+    "name": "Port Ivory",
+    "includes": [],
+    "borough": "Staten Island",
+    "bbox": [
+      -74.19539,
+      40.62112,
+      -74.16616,
       40.64527
     ],
     "label": [
-      -74.16783,
-      40.63135
+      -74.17764,
+      40.63401
     ]
   },
   {
-    "id": "SI0202",
-    "name": "New Dorp",
-    "includes": [
-      "Midland Beach"
-    ],
-    "ntaName": "New Dorp-Midland Beach",
-    "borough": "Staten Island",
-    "bbox": [
-      -74.1249,
-      40.55895,
-      -74.07601,
-      40.58594
-    ],
-    "label": [
-      -74.09381,
-      40.57666
-    ]
-  },
-  {
-    "id": "SI0204",
-    "name": "New Springville",
-    "includes": [
-      "Willowbrook",
-      "Bulls Head",
-      "Travis"
-    ],
-    "ntaName": "New Springville-Willowbrook-Bulls Head-Travis",
-    "borough": "Staten Island",
-    "bbox": [
-      -74.20603,
-      40.57083,
-      -74.14002,
-      40.63469
-    ],
-    "label": [
-      -74.18644,
-      40.61281
-    ]
-  },
-  {
-    "id": "SI0301",
-    "name": "Oakwood",
-    "includes": [
-      "Richmondtown"
-    ],
-    "ntaName": "Oakwood-Richmondtown",
-    "borough": "Staten Island",
-    "bbox": [
-      -74.14438,
-      40.54778,
-      -74.10009,
-      40.5764
-    ],
-    "label": [
-      -74.12293,
-      40.56119
-    ]
-  },
-  {
-    "id": "SI0106",
+    "id": "port-richmond-staten-island",
     "name": "Port Richmond",
     "includes": [],
-    "ntaName": "Port Richmond",
     "borough": "Staten Island",
     "bbox": [
-      -74.14752,
-      40.62422,
-      -74.11684,
-      40.64188
+      -74.14623,
+      40.62424,
+      -74.12134,
+      40.64189
     ],
     "label": [
-      -74.135,
-      40.63528
+      -74.13488,
+      40.63373
     ]
   },
   {
-    "id": "SI0103",
+    "id": "princes-bay-staten-island",
+    "name": "Prince's Bay",
+    "includes": [],
+    "borough": "Staten Island",
+    "bbox": [
+      -74.2182,
+      40.50985,
+      -74.18817,
+      40.53654
+    ],
+    "label": [
+      -74.20358,
+      40.5223
+    ]
+  },
+  {
+    "id": "randall-manor-staten-island",
+    "name": "Randall Manor",
+    "includes": [],
+    "borough": "Staten Island",
+    "bbox": [
+      -74.10884,
+      40.6306,
+      -74.09243,
+      40.64574
+    ],
+    "label": [
+      -74.10129,
+      40.63914
+    ]
+  },
+  {
+    "id": "richmond-town-staten-island",
+    "name": "Richmond Town",
+    "includes": [],
+    "borough": "Staten Island",
+    "bbox": [
+      -74.15299,
+      40.55876,
+      -74.12087,
+      40.57634
+    ],
+    "label": [
+      -74.13802,
+      40.56695
+    ]
+  },
+  {
+    "id": "richmond-valley-staten-island",
+    "name": "Richmond Valley",
+    "includes": [],
+    "borough": "Staten Island",
+    "bbox": [
+      -74.24571,
+      40.51038,
+      -74.22347,
+      40.52592
+    ],
+    "label": [
+      -74.23226,
+      40.51818
+    ]
+  },
+  {
+    "id": "rosebank-staten-island",
     "name": "Rosebank",
-    "includes": [
-      "Shore Acres",
-      "Park Hill"
-    ],
-    "ntaName": "Rosebank-Shore Acres-Park Hill",
+    "includes": [],
     "borough": "Staten Island",
     "bbox": [
-      -74.09056,
-      40.60214,
-      -74.05677,
-      40.62693
+      -74.08124,
+      40.60281,
+      -74.05977,
+      40.62122
     ],
     "label": [
-      -74.07022,
-      40.61152
+      -74.07008,
+      40.6117
     ]
   },
   {
-    "id": "SI0101",
-    "name": "St. George",
-    "includes": [
-      "New Brighton"
-    ],
-    "ntaName": "St. George-New Brighton",
+    "id": "rossville-staten-island",
+    "name": "Rossville",
+    "includes": [],
     "borough": "Staten Island",
     "bbox": [
-      -74.1009,
-      40.63546,
-      -74.06999,
+      -74.23622,
+      40.54085,
+      -74.19738,
+      40.55896
+    ],
+    "label": [
+      -74.2157,
+      40.54856
+    ]
+  },
+  {
+    "id": "shore-acres-staten-island",
+    "name": "Shore Acres",
+    "includes": [],
+    "borough": "Staten Island",
+    "bbox": [
+      -74.06334,
+      40.60723,
+      -74.05737,
+      40.61183
+    ],
+    "label": [
+      -74.06048,
+      40.60957
+    ]
+  },
+  {
+    "id": "silver-lake-staten-island",
+    "name": "Silver Lake",
+    "includes": [],
+    "borough": "Staten Island",
+    "bbox": [
+      -74.1099,
+      40.61639,
+      -74.0889,
+      40.63289
+    ],
+    "label": [
+      -74.10046,
+      40.62311
+    ]
+  },
+  {
+    "id": "south-beach-staten-island",
+    "name": "South Beach",
+    "includes": [],
+    "borough": "Staten Island",
+    "bbox": [
+      -74.09107,
+      40.57789,
+      -74.05962,
+      40.59646
+    ],
+    "label": [
+      -74.07736,
+      40.58522
+    ]
+  },
+  {
+    "id": "st-george-staten-island",
+    "name": "St. George",
+    "includes": [],
+    "borough": "Staten Island",
+    "bbox": [
+      -74.08937,
+      40.63716,
+      -74.06998,
       40.64893
     ],
     "label": [
-      -74.08525,
-      40.64267
+      -74.08073,
+      40.64314
     ]
   },
   {
-    "id": "SI0203",
-    "name": "Todt Hill",
-    "includes": [
-      "Emerson Hill",
-      "Lighthouse Hill",
-      "Manor Heights"
-    ],
-    "ntaName": "Todt Hill-Emerson Hill-Lighthouse Hill-Manor Heights",
+    "id": "stapleton-staten-island",
+    "name": "Stapleton",
+    "includes": [],
     "borough": "Staten Island",
     "bbox": [
-      -74.16983,
-      40.56011,
-      -74.09056,
-      40.61111
+      -74.08784,
+      40.6133,
+      -74.07123,
+      40.63406
     ],
     "label": [
-      -74.12498,
-      40.59246
+      -74.0792,
+      40.62496
     ]
   },
   {
-    "id": "SI0102",
-    "name": "Tompkinsville",
-    "includes": [
-      "Stapleton",
-      "Clifton",
-      "Fox Hills"
-    ],
-    "ntaName": "Tompkinsville-Stapleton-Clifton-Fox Hills",
+    "id": "sunnyside-staten-island",
+    "name": "Sunnyside",
+    "includes": [],
     "borough": "Staten Island",
     "bbox": [
-      -74.08785,
-      40.61331,
-      -74.06802,
+      -74.11919,
+      40.61017,
+      -74.0982,
+      40.61875
+    ],
+    "label": [
+      -74.10905,
+      40.6124
+    ]
+  },
+  {
+    "id": "todt-hill-staten-island",
+    "name": "Todt Hill",
+    "includes": [],
+    "borough": "Staten Island",
+    "bbox": [
+      -74.12225,
+      40.5782,
+      -74.09142,
+      40.60307
+    ],
+    "label": [
+      -74.10926,
+      40.59285
+    ]
+  },
+  {
+    "id": "tompkinsville-staten-island",
+    "name": "Tompkinsville",
+    "includes": [],
+    "borough": "Staten Island",
+    "bbox": [
+      -74.09045,
+      40.62861,
+      -74.07209,
       40.63829
     ],
     "label": [
-      -74.07951,
-      40.62272
+      -74.08246,
+      40.63398
     ]
   },
   {
-    "id": "SI0305",
+    "id": "tottenville-staten-island",
     "name": "Tottenville",
-    "includes": [
-      "Charleston"
-    ],
-    "ntaName": "Tottenville-Charleston",
+    "includes": [],
     "borough": "Staten Island",
     "bbox": [
       -74.25559,
       40.49613,
-      -74.20569,
-      40.55852
+      -74.2331,
+      40.51724
     ],
     "label": [
-      -74.23304,
-      40.52691
+      -74.24518,
+      40.50588
     ]
   },
   {
-    "id": "SI0104",
-    "name": "West New Brighton",
-    "includes": [
-      "Silver Lake",
-      "Grymes Hill"
-    ],
-    "ntaName": "West New Brighton-Silver Lake-Grymes Hill",
+    "id": "west-brighton-staten-island",
+    "name": "West Brighton",
+    "includes": [],
     "borough": "Staten Island",
     "bbox": [
-      -74.12489,
-      40.609,
-      -74.07973,
+      -74.12742,
+      40.62076,
+      -74.09816,
       40.64558
     ],
     "label": [
-      -74.10097,
-      40.62889
+      -74.11478,
+      40.63324
     ]
   },
   {
-    "id": "SI0105",
+    "id": "westerleigh-staten-island",
     "name": "Westerleigh",
-    "includes": [
-      "Castleton Corners"
-    ],
-    "ntaName": "Westerleigh-Castleton Corners",
+    "includes": [],
     "borough": "Staten Island",
     "bbox": [
-      -74.15369,
-      40.60768,
-      -74.09766,
-      40.63115
+      -74.14236,
+      40.61256,
+      -74.13073,
+      40.62638
     ],
     "label": [
-      -74.1288,
-      40.61755
+      -74.13602,
+      40.62003
+    ]
+  },
+  {
+    "id": "willowbrook-staten-island",
+    "name": "Willowbrook",
+    "includes": [],
+    "borough": "Staten Island",
+    "bbox": [
+      -74.16317,
+      40.58996,
+      -74.13582,
+      40.61543
+    ],
+    "label": [
+      -74.14773,
+      40.60287
+    ]
+  },
+  {
+    "id": "woodrow-staten-island",
+    "name": "Woodrow",
+    "includes": [],
+    "borough": "Staten Island",
+    "bbox": [
+      -74.22462,
+      40.53149,
+      -74.20452,
+      40.54212
+    ],
+    "label": [
+      -74.21559,
+      40.53761
     ]
   }
 ];

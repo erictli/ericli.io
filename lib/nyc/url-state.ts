@@ -3,11 +3,8 @@ import urlIds from "./url-ids.json";
 import type { MapStyleChoice, SharedMap } from "./types";
 
 export const MAP_PARAM = "map";
-/** Older links carried the sender's name; still read, no longer written. */
-export const NAME_PARAM = "by";
 export const COLOR_PARAM = "c";
 export const MODE_PARAM = "m";
-export const MAX_NAME_LENGTH = 40;
 
 // The share link is a bitset over a frozen, sorted list of neighborhood IDs.
 // The list lives in url-ids.json so data updates can't reorder the bits; a
@@ -62,17 +59,6 @@ export function decodeVisitedState(value: string): Set<string> | null {
   }
 }
 
-export function sanitizeName(raw: string | null | undefined): string | null {
-  if (!raw) return null;
-  const cleaned = raw
-    .replace(/[\p{C}]/gu, "")
-    .replace(/\s+/g, " ")
-    .trim()
-    .slice(0, MAX_NAME_LENGTH)
-    .trim();
-  return cleaned || null;
-}
-
 export function readSharedMapFromSearch(search: string): SharedMap | null {
   const params = new URLSearchParams(search);
   const encoded = params.get(MAP_PARAM);
@@ -83,7 +69,6 @@ export function readSharedMapFromSearch(search: string): SharedMap | null {
 
   return {
     visitedIds,
-    name: sanitizeName(params.get(NAME_PARAM)),
     style: readStyleParams(params),
   };
 }
@@ -116,7 +101,7 @@ export function buildShareUrl(
 /** Removes share params from the address bar without a navigation. */
 export function stripShareParamsFromUrl(): void {
   const url = new URL(window.location.href);
-  const params = [MAP_PARAM, NAME_PARAM, COLOR_PARAM, MODE_PARAM];
+  const params = [MAP_PARAM, COLOR_PARAM, MODE_PARAM];
   if (!params.some((param) => url.searchParams.has(param))) return;
   for (const param of params) url.searchParams.delete(param);
   window.history.replaceState(window.history.state, "", url);

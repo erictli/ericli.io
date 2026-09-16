@@ -146,20 +146,28 @@ export function Toolbar({
         <div
           role="dialog"
           aria-label="About the map"
-          className={`${SURFACE} absolute bottom-12 z-40 w-72 ${popoverAlign === "end" ? "right-0" : "left-0"} rounded-2xl p-4 text-sm leading-relaxed font-[450] text-nyc-muted`}
+          className={`${SURFACE} absolute bottom-12 z-40 w-72 ${popoverAlign === "end" ? "right-0" : "left-0"} rounded-2xl p-4 text-[13px] leading-relaxed font-[450] text-nyc-muted`}
         >
-          <p className="font-[450] text-nyc-ink">About the map</p>
+          <p className="text-sm font-[450] text-nyc-ink">About the map</p>
           <p className="mt-1.5">
-            Neighborhoods are NYC Planning&apos;s 2020 Neighborhood Tabulation
-            Areas, limited to residential areas. They approximate neighborhoods
-            rather than settle where one ends and the next begins.
+            Neighborhood boundaries are drawn from{" "}
+            <a className={LINK} href="https://github.com/chriswhong/nyc-neighborhood-boundaries" target="_blank" rel="noopener noreferrer">
+              nyc-neighborhood-boundaries
+            </a>{" "}
+            by Chris Whong, based on Zillow data (
+            <a className={LINK} href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener noreferrer">
+              CC BY-SA 4.0
+            </a>
+            ), trimmed to the shoreline with parks and airports left off.
+            Boundaries approximate where one neighborhood ends and the next
+            begins.
           </p>
           <p className="mt-2">
             Your map is saved in this browser, no account needed. Links you
             share include a copy of your map as it is right now.
           </p>
           <p className="mt-2">
-            Data:{" "}
+            More data:{" "}
             <a className={LINK} href="https://data.cityofnewyork.us/d/9nt8-h7nd" target="_blank" rel="noopener noreferrer">
               NYC Planning
             </a>
