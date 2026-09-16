@@ -1,0 +1,165 @@
+/* ---- Color tokens ----------------------------------------------------------
+   Every UI color on the map page. Components use them through Tailwind
+   (text-nyc-ink, bg-nyc-hover, shadow-nyc, ...; registered in app/globals.css)
+   or as var(--nyc-*). Night mode swaps the values here and nothing else.
+
+   The rest of this file is only for HTML that MapLibre renders, which can't
+   take Tailwind classes. Anything we render is styled with Tailwind.
+
+   On <html> rather than <main> so portalled dialogs pick them up too. NycApp
+   sets the data-nyc-night attribute. */
+:root {
+  /* Matches the basemap land color in components/nyc/palettes.ts. */
+  --nyc-page: #f0efeb;
+  --nyc-surface: #ffffff;
+  --nyc-surface-hover: #f5f5f5;
+  --nyc-ink: #000000;
+  --nyc-ink-2: #404040;
+  --nyc-muted: #737373;
+  --nyc-faint: #a3a3a3;
+  --nyc-line: rgb(0 0 0 / 8%);
+  --nyc-hover: rgb(0 0 0 / 4%);
+  --nyc-fill: rgb(0 0 0 / 9%);
+  --nyc-fill-hover: rgb(0 0 0 / 14%);
+  --nyc-inverse: #000000;
+  --nyc-on-inverse: #ffffff;
+  /* MTA blue, for the subway toggle while the lines are shown. */
+  --nyc-mta: #0039a6;
+  --nyc-shadow: 0 1px 3px rgb(0 0 0 / 4%), 0 4px 20px -4px rgb(0 0 0 / 8%);
+}
+
+:root[data-nyc-night] {
+  --nyc-page: #17191d;
+  --nyc-surface: #1f2226;
+  --nyc-surface-hover: #2a2e33;
+  --nyc-ink: #ffffff;
+  --nyc-ink-2: #d4d4d4;
+  --nyc-muted: #a3a3a3;
+  --nyc-faint: #737373;
+  --nyc-line: rgb(255 255 255 / 10%);
+  --nyc-hover: rgb(255 255 255 / 6%);
+  --nyc-fill: rgb(255 255 255 / 10%);
+  --nyc-fill-hover: rgb(255 255 255 / 16%);
+  --nyc-inverse: #ffffff;
+  --nyc-on-inverse: #000000;
+  --nyc-mta: #6b9bff;
+  --nyc-shadow: 0 1px 3px rgb(0 0 0 / 30%), 0 4px 20px -4px rgb(0 0 0 / 40%);
+}
+
+/* ---- Zoom control ----------------------------------------------------------
+   Bottom-right corner, desktop only (touch pinches): 32px buttons in a 2px
+   padded pill, the same size as the search and share buttons' icons. */
+.maplibregl-ctrl-bottom-right {
+  right: calc(1rem + env(safe-area-inset-right));
+  bottom: calc(1rem + env(safe-area-inset-bottom));
+}
+
+.maplibregl-ctrl-bottom-right .maplibregl-ctrl {
+  margin: 0;
+}
+
+@media (hover: none) and (pointer: coarse), (max-width: 640px) {
+  .maplibregl-ctrl-bottom-right {
+    display: none;
+  }
+}
+
+.maplibregl-ctrl-group {
+  overflow: hidden;
+  border: 1px solid var(--nyc-line);
+  padding: 2px;
+  border-radius: 999px !important;
+  background: var(--nyc-surface) !important;
+  box-shadow: var(--nyc-shadow) !important;
+}
+
+/* Bare icons like the toolbar's: no hover background, dimmed until hovered. */
+.maplibregl-ctrl-group button {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 999px !important;
+  background: transparent !important;
+  color: var(--nyc-ink);
+  opacity: 0.6;
+  transition: opacity 150ms ease;
+}
+
+.maplibregl-ctrl-group button + button {
+  border-top: 0 !important;
+  margin-top: 2px;
+}
+
+.maplibregl-ctrl-group button:hover,
+.maplibregl-ctrl-group button:focus-visible {
+  opacity: 1;
+}
+
+/* Lucide's plus and minus at the shared 1.5px icon stroke (ICON in
+   components/nyc/ui.ts), painted in currentColor through a mask. At 16px a
+   1.5px stroke is 2.25 in the 24-unit viewBox. */
+.maplibregl-ctrl-group button.maplibregl-ctrl-zoom-in .maplibregl-ctrl-icon,
+.maplibregl-ctrl-group button.maplibregl-ctrl-zoom-out .maplibregl-ctrl-icon {
+  width: 16px;
+  height: 16px;
+  margin: auto;
+  background: currentColor !important;
+  mask: center / contain no-repeat;
+}
+
+.maplibregl-ctrl-group button.maplibregl-ctrl-zoom-in .maplibregl-ctrl-icon {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.25' stroke-linecap='round'%3E%3Cpath d='M12 5v14M5 12h14'/%3E%3C/svg%3E");
+}
+
+.maplibregl-ctrl-group button.maplibregl-ctrl-zoom-out .maplibregl-ctrl-icon {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.25' stroke-linecap='round'%3E%3Cpath d='M5 12h14'/%3E%3C/svg%3E");
+}
+
+/* ---- Attribution ----------------------------------------------------------
+   Centered along the bottom edge on desktop, between the toolbar and the zoom
+   control. On phones it sits right-aligned above the bottom bar. */
+.maplibregl-ctrl-bottom-left {
+  left: 50%;
+  bottom: calc(0.375rem + env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+.maplibregl-ctrl-bottom-left .maplibregl-ctrl {
+  margin: 0;
+}
+
+@media (max-width: 640px) {
+  .maplibregl-ctrl-bottom-left {
+    right: calc(0.75rem + env(safe-area-inset-right));
+    bottom: calc(3.75rem + env(safe-area-inset-bottom));
+    left: auto;
+    transform: none;
+  }
+}
+
+.maplibregl-ctrl-attrib {
+  padding: 0 !important;
+  /* Translucent ink rather than a flat gray, so it sits on the map by day and
+     by night. */
+  color: color-mix(in srgb, var(--nyc-ink) 40%, transparent);
+  font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.6875rem;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.maplibregl-ctrl-attrib a {
+  color: inherit !important;
+  text-decoration: none !important;
+  background: transparent !important;
+  border: 0 !important;
+}
+
+.maplibregl-ctrl-attrib a:hover {
+  color: var(--nyc-ink) !important;
+  text-decoration: underline !important;
+}
+
+.maplibregl-ctrl-attrib-button {
+  display: none !important;
+}

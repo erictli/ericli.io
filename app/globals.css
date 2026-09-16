@@ -56,6 +56,65 @@
   --animate-fadeInUpSmall5: fadeInUpSmall 0.4s ease-out forwards 1s;
 }
 
+/* NYC map colors. Values live in app/nyc/nyc.css and flip for night mode;
+   these only expose them as utilities like text-nyc-ink and bg-nyc-hover. */
+@theme inline {
+  --color-nyc-page: var(--nyc-page);
+  --color-nyc-surface: var(--nyc-surface);
+  --color-nyc-ink: var(--nyc-ink);
+  --color-nyc-ink-2: var(--nyc-ink-2);
+  --color-nyc-muted: var(--nyc-muted);
+  --color-nyc-faint: var(--nyc-faint);
+  --color-nyc-line: var(--nyc-line);
+  --color-nyc-hover: var(--nyc-hover);
+  --color-nyc-fill: var(--nyc-fill);
+  --color-nyc-fill-hover: var(--nyc-fill-hover);
+  --color-nyc-inverse: var(--nyc-inverse);
+  --color-nyc-on-inverse: var(--nyc-on-inverse);
+  --color-nyc-mta: var(--nyc-mta);
+  --shadow-nyc: var(--nyc-shadow);
+}
+
+/* NYC map animations: animate-nyc-toast-in, animate-nyc-expand, ... */
+@theme {
+  --animate-nyc-toast-in: nyc-toast-in 220ms ease-out;
+  --animate-nyc-toast-out: nyc-toast-out 220ms ease-in forwards;
+  --animate-nyc-expand: nyc-expand 180ms ease-out;
+
+  @keyframes nyc-toast-in {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes nyc-toast-out {
+    from {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+  }
+
+  @keyframes nyc-expand {
+    from {
+      opacity: 0;
+      transform: scaleX(0.6);
+    }
+    to {
+      opacity: 1;
+      transform: scaleX(1);
+    }
+  }
+}
+
 /* Font families that reference next/font CSS variables need @theme inline */
 @theme inline {
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system,
