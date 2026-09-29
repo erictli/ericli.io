@@ -8,7 +8,7 @@ import { Writing, type Article } from "./Writing";
 import { useHomeClasses, type Tone } from "./classes";
 import { HarborFrame, LABEL, WaterCaption, harborLabel, useLiveHarbor } from "./harbor";
 import { ClockLockup, FitText, InlineName, KnockoutHarbor, useMediaQuery } from "./type";
-import type { HomeLayout } from "./names";
+import type { HomeLayout, KnockoutFont } from "./names";
 
 // The homepage's arrangements. They share the content and the live harbor;
 // the posters treat the whole first screen as one composition. Where the
@@ -16,7 +16,7 @@ import type { HomeLayout } from "./names";
 
 const HomeWater = dynamic(() => import("@/components/water/HomeWater"), { ssr: false });
 
-type Props = { articles: Article[] };
+type Props = { articles: Article[]; font?: KnockoutFont };
 
 const IN = ["animate-fadeInUpSmall1 opacity-0", "animate-fadeInUpSmall2 opacity-0", "animate-fadeInUpSmall3 opacity-0"];
 /** Poster pages: Inter, small and even, tabular figures. */
@@ -315,8 +315,17 @@ function CornersLayout({ articles }: Props) {
   );
 }
 
+/** Faces for the knockout name: the heavier the letters, the more water shows through. */
+const KNOCKOUT_FACES: Record<KnockoutFont, string> = {
+  // Archivo at its widest and heaviest: an extended black grotesque.
+  wide: "font-archivo font-black [font-stretch:125%] tracking-[-0.02em]",
+  // The same face at its narrowest: a much taller line for the same width.
+  condensed: "font-archivo font-black [font-stretch:62%] tracking-[-0.01em]",
+  inter: "font-sans font-black tracking-[-0.035em]",
+};
+
 /** The name set huge across the foot of the page, the harbor seen only through its letters. */
-function KnockoutLayout({ articles }: Props) {
+function KnockoutLayout({ articles, font = "wide" }: Props) {
   const { conditions, facts } = useLiveHarbor();
   const c = useHomeClasses();
   return (
@@ -333,7 +342,7 @@ function KnockoutLayout({ articles }: Props) {
             text="ERIC LI"
             conditions={conditions}
             label={harborLabel(facts)}
-            className="font-sans font-extrabold tracking-[-0.035em]"
+            className={KNOCKOUT_FACES[font]}
           />
         </div>
       </div>

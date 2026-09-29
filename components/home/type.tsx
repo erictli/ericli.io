@@ -10,13 +10,37 @@ import { HarborCanvas } from "./harbor";
 
 type Ink = { left: number; right: number; ascent: number; descent: number; letterSpacing: number };
 
+type Ctx = CanvasRenderingContext2D;
+
+/** CSS font-stretch percentages as the keywords the canvas takes. */
+const STRETCHES: [number, CanvasFontStretch][] = [
+  [50, "ultra-condensed"],
+  [62.5, "extra-condensed"],
+  [75, "condensed"],
+  [87.5, "semi-condensed"],
+  [100, "normal"],
+  [112.5, "semi-expanded"],
+  [125, "expanded"],
+  [150, "extra-expanded"],
+  [200, "ultra-expanded"],
+];
+
+/** Sets the canvas to `el`'s font (family, weight, width, tracking) at `size` px. */
+function applyFont(ctx: Ctx, cs: CSSStyleDeclaration, size: number, letterSpacing: number) {
+  const pct = parseFloat(cs.fontStretch) || 100;
+  const stretch = STRETCHES.reduce((best, s) => (Math.abs(s[0] - pct) < Math.abs(best[0] - pct) ? s : best))[1];
+  ctx.font = `${cs.fontStyle} ${cs.fontWeight} ${size}px ${cs.fontFamily}`;
+  // Both are recent additions to the canvas; without them the face is just set at its normal width.
+  if ("fontStretch" in ctx) ctx.fontStretch = stretch;
+  if ("letterSpacing" in ctx) ctx.letterSpacing = `${letterSpacing}px`;
+}
+
 /** The ink box of `text` in `el`'s font at 100px, from the canvas's glyph metrics. */
 function measureInk(el: HTMLElement, text: string): Ink {
   const cs = getComputedStyle(el);
-  const ctx = document.createElement("canvas").getContext("2d")!;
-  ctx.font = `${cs.fontStyle} ${cs.fontWeight} 100px ${cs.fontFamily}`;
+  const ctx = document.createElement("canvas").getContext("2d") as Ctx;
   const letterSpacing = parseFloat(cs.letterSpacing) || 0;
-  if ("letterSpacing" in ctx) (ctx as CanvasRenderingContext2D & { letterSpacing: string }).letterSpacing = `${letterSpacing}px`;
+  applyFont(ctx, cs, 100, letterSpacing);
   const m = ctx.measureText(text);
   return {
     left: m.actualBoundingBoxLeft,
@@ -35,11 +59,16 @@ function useFit(el: React.RefObject<HTMLElement | null>, fit: () => void, deps: 
     fit();
     const ro = new ResizeObserver(() => fit());
     ro.observe(node);
+    // Again once web fonts arrive, including ones fetched only when this
+    // type first asked for them.
     let live = true;
-    document.fonts?.ready.then(() => live && fit());
+    const refit = () => live && fit();
+    document.fonts?.ready.then(refit);
+    document.fonts?.addEventListener("loadingdone", refit);
     return () => {
       live = false;
       ro.disconnect();
+      document.fonts?.removeEventListener("loadingdone", refit);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps);
@@ -107,8 +136,8 @@ export function KnockoutHarbor({
       const ink = measureInk(probe.current, text);
       const k = W / (ink.left + ink.right);
       const height = Math.ceil((ink.ascent + ink.descent) * k);
-      const fontsIn = document.fonts?.status === "loaded" ? "1" : "0";
-      const key = `${W}x${height}:${fontsIn}`;
+      // Redraw when the size or the glyphs change (a web font arriving).
+      const key = `${W}x${height}:${ink.left.toFixed(2)}:${ink.right.toFixed(2)}`;
       if (key === drawn.current) return;
       drawn.current = key;
       // The letters, white on clear, become the water's mask.
@@ -116,11 +145,9 @@ export function KnockoutHarbor({
       const canvas = document.createElement("canvas");
       canvas.width = Math.round(W * dpr);
       canvas.height = Math.round(height * dpr);
-      const ctx = canvas.getContext("2d")!;
-      const cs = getComputedStyle(probe.current);
+      const ctx = canvas.getContext("2d") as Ctx;
       ctx.scale(dpr, dpr);
-      ctx.font = `${cs.fontStyle} ${cs.fontWeight} ${100 * k}px ${cs.fontFamily}`;
-      if ("letterSpacing" in ctx) (ctx as CanvasRenderingContext2D & { letterSpacing: string }).letterSpacing = `${ink.letterSpacing * k}px`;
+      applyFont(ctx, getComputedStyle(probe.current), 100 * k, ink.letterSpacing * k);
       ctx.fillStyle = "#fff";
       ctx.fillText(text, ink.left * k, ink.ascent * k);
       setMask({ url: canvas.toDataURL("image/png"), height });

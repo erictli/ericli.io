@@ -1,7 +1,7 @@
 import "./globals.css";
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
-import { Besley } from "next/font/google";
+import { Archivo, Besley } from "next/font/google";
 import { PHProvider, PostHogPageview } from "./providers";
 import { Suspense } from "react";
 import { ThemeProvider } from "@/contexts/ThemeContext";
@@ -20,6 +20,15 @@ const inter = localFont({
 const besley = Besley({
   subsets: ["latin"],
   variable: "--font-besley-var",
+});
+
+// A grotesque with width and weight axes, for display type on the homepage.
+// Not preloaded: only the pages that set type in it fetch it.
+const archivo = Archivo({
+  subsets: ["latin"],
+  axes: ["wdth"],
+  variable: "--font-archivo-var",
+  preload: false,
 });
 
 // const abcDiatype = localFont({
@@ -93,7 +102,7 @@ export default function RootLayout({
   return (
     // The scheme script sets attributes on <html> before hydration; React
     // should expect them rather than warn.
-    <html lang="en" className={`${inter.variable} ${mondwest.variable} ${besley.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${inter.variable} ${mondwest.variable} ${besley.variable} ${archivo.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: schemeScript }} />
         <script
