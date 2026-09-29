@@ -127,8 +127,6 @@
     "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --font-besley: var(--font-besley-var), Georgia, Cambria, "Times New Roman",
     Times, serif;
-  --font-archivo: var(--font-archivo-var), var(--font-inter), ui-sans-serif,
-    system-ui, sans-serif;
 }
 
 /* shadcn-style color tokens (inline to avoid CSS variable generation) */

@@ -1,25 +1,16 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useEffect, useMemo, type CSSProperties, type ReactNode } from "react";
-import {
-  MS_TO_MPH,
-  PIER,
-  PRESETS,
-  compassPoint,
-  describeSky,
-  formatPierTime,
-  pierMinutes,
-  type WaterConditions,
-} from "@/lib/water/conditions";
+import { useEffect, useMemo, type ReactNode } from "react";
+import { MS_TO_MPH, PIER, PRESETS, compassPoint, describeSky, formatPierTime, type WaterConditions } from "@/lib/water/conditions";
 import { useConditions } from "@/components/vignettes/useConditions";
 import type { LiveStatus } from "@/components/vignettes/VignetteFrame";
 
-// The harbor as it is right now, for the homepage: the live conditions, the
-// facts worth printing about them, and the water itself (client-only, and
-// kept out of the first bundle).
+// The harbor as it is right now, for the homepage: the live conditions, a
+// few facts about them, and the water itself (client-only, and kept out of
+// the first bundle).
 
-export const HarborCanvas = dynamic(() => import("@/components/water/HarborView"), { ssr: false });
+const HarborCanvas = dynamic(() => import("@/components/water/HarborView"), { ssr: false });
 
 export function useLiveHarbor() {
   const { conditions, liveStatus, goLive } = useConditions(PRESETS);
@@ -31,14 +22,9 @@ export function useLiveHarbor() {
 }
 
 function harborFacts(c: WaterConditions) {
-  const minutes = pierMinutes(c.time);
   return {
     place: PIER.name,
-    spot: "Pier 1",
     time: formatPierTime(c.time),
-    /** 24-hour pier time, for setting large. */
-    hh: String(Math.floor(minutes / 60)).padStart(2, "0"),
-    mm: String(Math.floor(minutes % 60)).padStart(2, "0"),
     wind: `${Math.round(c.windSpeed * MS_TO_MPH)} mph ${compassPoint(c.windDirection)}`,
     sky: describeSky(c),
   };
@@ -46,107 +32,44 @@ function harborFacts(c: WaterConditions) {
 
 export type HarborFacts = ReturnType<typeof harborFacts>;
 
-export function harborLabel(facts: HarborFacts) {
-  return `The water at ${facts.place} right now: ${facts.time}, ${facts.wind}, ${facts.sky}.`;
-}
-
-/**
- * Where and what the water is right now, set small in its bottom corner:
- * one line, two lines for a narrow frame, or just the time and sky (also on
- * two lines) for a very small one.
- */
-export function WaterCaption({
-  facts,
-  liveStatus,
-  variant = "line",
-  className = "",
-}: {
-  facts: HarborFacts;
-  liveStatus: LiveStatus | null;
-  variant?: "line" | "stacked" | "compact";
-  className?: string;
-}) {
-  const dot = (
-    <span className={`size-1.5 shrink-0 rounded-full ${liveStatus === "ok" ? "bg-emerald-400" : "bg-white/40"}`} aria-hidden />
-  );
-  const conditions = `${facts.time} · ${facts.wind} · ${facts.sky}`;
+/** Where and what the water is right now, set small in its bottom corner on two lines. */
+export function WaterCaption({ facts, liveStatus }: { facts: HarborFacts; liveStatus: LiveStatus | null }) {
   return (
-    <div
-      className={`pointer-events-none absolute inset-x-0 bottom-0 p-3 font-sans text-[12px] leading-snug font-[450] text-white/80 tabular-nums [text-shadow:0_1px_2px_rgba(0,0,0,0.4)] sm:p-4 sm:text-[13px] ${className}`}
-    >
-      {variant === "stacked" ? (
-        <>
-          <p className="flex items-center gap-2">
-            {dot}
-            {facts.place}
-          </p>
-          <p className="pl-3.5">{conditions}</p>
-        </>
-      ) : variant === "compact" ? (
-        <>
-          <p className="flex items-center gap-2">
-            {dot}
-            {facts.time}
-          </p>
-          <p className="pl-3.5">{facts.sky}</p>
-        </>
-      ) : (
-        <p className="flex items-center gap-2">
-          {dot}
-          <span className="truncate">{`${facts.place} · ${conditions}`}</span>
-        </p>
-      )}
+    <div className="pointer-events-none absolute inset-x-0 bottom-0 p-3 font-sans text-[12px] leading-snug font-[450] text-white/80 tabular-nums [text-shadow:0_1px_2px_rgba(0,0,0,0.4)] sm:p-4 sm:text-[13px]">
+      <p className="flex items-center gap-2">
+        <span className={`size-1.5 shrink-0 rounded-full ${liveStatus === "ok" ? "bg-emerald-400" : "bg-white/40"}`} aria-hidden />
+        {facts.place}
+      </p>
+      <p className="pl-3.5">
+        {facts.time} · {facts.wind} · {facts.sky}
+      </p>
     </div>
   );
 }
 
-/** The water in a box of the caller's shape, with anything laid over it (a caption, type). */
+/** The water filling a box of the caller's shape, with anything laid over it. */
 export function HarborFrame({
   conditions,
   facts,
   className = "",
-  style,
   maxAspect,
   children,
 }: {
   conditions: WaterConditions;
   facts: HarborFacts;
   className?: string;
-  style?: CSSProperties;
   maxAspect?: number;
   children?: ReactNode;
 }) {
-  const positioned = /(^|\s)(absolute|fixed|sticky)(\s|$)/.test(className) ? "" : "relative";
   return (
-    <div className={`${positioned} overflow-hidden ${className}`} style={style}>
-      <HarborCanvas conditions={conditions} className="absolute inset-0" maxAspect={maxAspect} label={harborLabel(facts)} />
+    <div className={`relative overflow-hidden ${className}`}>
+      <HarborCanvas
+        conditions={conditions}
+        className="absolute inset-0"
+        maxAspect={maxAspect}
+        label={`The water at ${facts.place} right now: ${facts.time}, ${facts.wind}, ${facts.sky}.`}
+      />
       {children}
-    </div>
-  );
-}
-
-/**
- * Everything about the water right now, filling its frame: where at the
- * top, the time and weather at the bottom. Hidden until the pointer is over
- * the frame (which needs the `group` class); clicks still reach the water.
- */
-export function WaterDetails({ facts, liveStatus, className = "" }: { facts: HarborFacts; liveStatus: LiveStatus | null; className?: string }) {
-  return (
-    <div
-      className={`pointer-events-none absolute inset-0 flex flex-col justify-between bg-black/45 p-3 font-sans text-[12px] leading-snug font-[450] text-white tabular-nums opacity-0 transition-opacity duration-300 group-hover:opacity-100 ${className}`}
-    >
-      <div>
-        <p className="flex items-center gap-1.5">
-          <span className={`size-1.5 shrink-0 rounded-full ${liveStatus === "ok" ? "bg-emerald-400" : "bg-white/40"}`} aria-hidden />
-          {facts.place}
-        </p>
-        <p className="pl-3 text-white/65">{facts.spot}</p>
-      </div>
-      <div>
-        <p>{facts.time}</p>
-        <p className="text-white/65">{facts.wind}</p>
-        <p className="text-white/65">{facts.sky}</p>
-      </div>
     </div>
   );
 }

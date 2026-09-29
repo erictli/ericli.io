@@ -2,10 +2,11 @@
 
 import { useCallback, useState } from "react";
 import Link from "next/link";
-import { useHomeClasses, type Tone } from "./classes";
+import { useHomeClasses } from "./classes";
 
-export function Intro({ tone = "page", className = "" }: { tone?: Tone; className?: string }) {
-  const c = useHomeClasses(tone);
+/** The bio. Who and where are in the signature above it, so it starts with what. */
+export function Intro({ className = "" }: { className?: string }) {
+  const c = useHomeClasses();
   const [emailTooltip, setEmailTooltip] = useState<"hidden" | "hover" | "copied" | "leaving">("hidden");
 
   const handleEmailClick = useCallback((e: React.MouseEvent) => {
@@ -20,7 +21,6 @@ export function Intro({ tone = "page", className = "" }: { tone?: Tone; classNam
 
   return (
     <div className={`flex flex-col gap-3 font-[450] ${c.text} ${className}`}>
-      <h1>I&apos;m Eric Li, a designer and builder based in Brooklyn.</h1>
       <p>
         I&apos;m the co-founder of{" "}
         <Link href="https://getversive.com" target="_blank" className={link}>
