@@ -5,7 +5,9 @@ import nextVitals from "eslint-config-next/core-web-vitals";
 const eslintConfig = [
   ...nextVitals,
   {
-    ignores: [".next/**", "node_modules/**", ".claude/**", "public/**"],
+    // The site is TypeScript. The .js/.mjs config files and Node scripts
+    // trip the preset's JS parser under ESLint 10, so they're left out.
+    ignores: [".next/**", "node_modules/**", ".claude/**", "public/**", "**/*.js", "**/*.mjs"],
   },
   // eslint-plugin-react's version detection uses an API ESLint 10 removed.
   { settings: { react: { version: "19.2" } } },
