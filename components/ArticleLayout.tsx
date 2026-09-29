@@ -64,7 +64,7 @@ export default function ArticleLayout({
           </header>
 
           <div
-            className={`font-[450] prose max-w-none transition-colors duration-200 text-[17px]
+            className={`font-[450] prose max-w-none transition-colors duration-200 text-base
               prose-headings:font-medium prose-headings:transition-colors
               prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4 prose-h3:text-lg prose-h3:mt-6 prose-h3:mb-3
               prose-p:leading-[1.7] prose-p:transition-colors prose-a:no-underline

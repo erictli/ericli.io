@@ -12,7 +12,7 @@ export function SiteName() {
   return (
     <Link
       href="/"
-      className="absolute top-[21px] left-14 text-sm leading-[21px] font-medium transition-opacity hover:opacity-60"
+      className="absolute top-[21px] left-12 text-sm leading-[21px] font-medium transition-opacity hover:opacity-60"
     >
       Eric Li
     </Link>
