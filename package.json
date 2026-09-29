@@ -10,7 +10,7 @@
     "build": "next build",
     "start": "next start",
     "postinstall": "node scripts/copy-nyc-maplibre-assets.mjs",
-    "lint": "next lint",
+    "lint": "eslint .",
     "format": "prettier --write \"**/*.{js,ts,tsx}\"",
     "build:nyc-data": "node scripts/build-nyc-data.mjs"
   },

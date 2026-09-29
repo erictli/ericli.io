@@ -88,6 +88,18 @@ function systemTheme(query: MediaQueryList): ThemeState {
   return query.matches ? DARK_THEME : DEFAULT_THEME;
 }
 
+function darkTextFor(theme: ThemeState) {
+  if (theme.mode === "light") return true;
+  if (theme.mode === "dark") return false;
+  return isLightColor(theme.color);
+}
+
+function backgroundFor(theme: ThemeState) {
+  if (theme.mode === "light") return "#ffffff";
+  if (theme.mode === "dark") return "#0a0a0a";
+  return theme.color;
+}
+
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [themeState, setThemeState] = useState<ThemeState>(DEFAULT_THEME);
   const [isHydrated, setIsHydrated] = useState(false);
@@ -97,6 +109,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     const query = window.matchMedia("(prefers-color-scheme: dark)");
     const apply = () => setThemeState(systemTheme(query));
     apply();
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- the system scheme is only known in the browser.
     setIsHydrated(true);
     query.addEventListener("change", apply);
     return () => query.removeEventListener("change", apply);
@@ -105,7 +118,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   // Update document background color whenever theme changes
   useEffect(() => {
     if (typeof window !== "undefined" && isHydrated) {
-      const backgroundColor = getBackgroundColor();
+      const backgroundColor = backgroundFor(themeState);
       document.body.style.backgroundColor = backgroundColor;
 
       // Also set it on html element as backup
@@ -120,7 +133,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       // Set selection highlight color based on theme
       const selectionColor = getSelectionColor(
         backgroundColor,
-        !shouldUseDarkText(),
+        !darkTextFor(themeState),
       );
       document.documentElement.style.setProperty(
         "--theme-selection",
@@ -134,17 +147,9 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   };
 
   // Helper functions for styling
-  const shouldUseDarkText = () => {
-    if (themeState.mode === "light") return true;
-    if (themeState.mode === "dark") return false;
-    return isLightColor(themeState.color);
-  };
+  const shouldUseDarkText = () => darkTextFor(themeState);
 
-  const getBackgroundColor = () => {
-    if (themeState.mode === "light") return "#ffffff";
-    if (themeState.mode === "dark") return "#0a0a0a";
-    return themeState.color;
-  };
+  const getBackgroundColor = () => backgroundFor(themeState);
 
   const getTextColorClass = () => {
     return shouldUseDarkText() ? "text-neutral-950" : "text-white";

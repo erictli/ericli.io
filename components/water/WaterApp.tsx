@@ -11,8 +11,8 @@ export default function WaterApp() {
   const containerRef = useRef<HTMLDivElement>(null);
   const engineRef = useRef<WaterEngine | null>(null);
   const { conditions, source, live, liveStatus, choosePreset, goLive, edit } = useConditions(PRESETS);
+  // The engine starts from the first conditions; later ones reach it through setConditions below.
   const conditionsRef = useRef(conditions);
-  conditionsRef.current = conditions;
   const [panelOpen, setPanelOpen] = useState(false);
   const [ready, setReady] = useState(false);
   const [hint, setHint] = useState(true);
@@ -29,6 +29,7 @@ export default function WaterApp() {
       });
     } catch (err) {
       console.error(err);
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- WebGL can only be tried once the element exists.
       setFailed(true);
       return;
     }

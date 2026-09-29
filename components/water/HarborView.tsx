@@ -29,11 +29,13 @@ export default function HarborView({
 }: HarborViewProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const engineRef = useRef<WaterEngine | null>(null);
+  // The engine starts from the first conditions; later ones reach it through setConditions below.
   const conditionsRef = useRef(conditions);
-  conditionsRef.current = conditions;
   const [failed, setFailed] = useState(false);
   const onReadyRef = useRef(onReady);
-  onReadyRef.current = onReady;
+  useEffect(() => {
+    onReadyRef.current = onReady;
+  });
 
   useEffect(() => {
     const el = containerRef.current;
@@ -47,6 +49,7 @@ export default function HarborView({
       });
     } catch (err) {
       console.error(err);
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- WebGL can only be tried once the element exists.
       setFailed(true);
       onReadyRef.current?.();
       return;

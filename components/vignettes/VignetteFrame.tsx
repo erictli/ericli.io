@@ -1,6 +1,7 @@
 "use client";
 
 import type { ReactNode, Ref } from "react";
+import Link from "next/link";
 import { SlidersHorizontal, X } from "lucide-react";
 
 // The page around a vignette: a title, a fixed-size square frame for the
@@ -111,9 +112,9 @@ export function VignetteFrame({
               {summary}
             </p>
           </div>
-          <a href="/" className="shrink-0 text-[13px] text-white/45 transition-colors hover:text-white">
+          <Link href="/" className="shrink-0 text-[13px] text-white/45 transition-colors hover:text-white">
             ericli.io
-          </a>
+          </Link>
         </header>
 
         <div className="relative aspect-square w-(--frame)">
