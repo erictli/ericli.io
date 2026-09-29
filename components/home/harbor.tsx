@@ -34,6 +34,7 @@ function harborFacts(c: WaterConditions) {
   const minutes = pierMinutes(c.time);
   return {
     place: PIER.name,
+    spot: "Pier 1",
     time: formatPierTime(c.time),
     /** 24-hour pier time, for setting large. */
     hh: String(Math.floor(minutes / 60)).padStart(2, "0"),
@@ -48,9 +49,6 @@ export type HarborFacts = ReturnType<typeof harborFacts>;
 export function harborLabel(facts: HarborFacts) {
   return `The water at ${facts.place} right now: ${facts.time}, ${facts.wind}, ${facts.sky}.`;
 }
-
-/** Small uppercase labels. */
-export const LABEL = "text-[11px] uppercase tracking-[0.08em]";
 
 /**
  * Where and what the water is right now, set small in its bottom corner:
@@ -123,6 +121,32 @@ export function HarborFrame({
     <div className={`${positioned} overflow-hidden ${className}`} style={style}>
       <HarborCanvas conditions={conditions} className="absolute inset-0" maxAspect={maxAspect} label={harborLabel(facts)} />
       {children}
+    </div>
+  );
+}
+
+/**
+ * Everything about the water right now, filling its frame: where at the
+ * top, the time and weather at the bottom. Hidden until the pointer is over
+ * the frame (which needs the `group` class); clicks still reach the water.
+ */
+export function WaterDetails({ facts, liveStatus, className = "" }: { facts: HarborFacts; liveStatus: LiveStatus | null; className?: string }) {
+  return (
+    <div
+      className={`pointer-events-none absolute inset-0 flex flex-col justify-between bg-black/45 p-3 font-sans text-[12px] leading-snug font-[450] text-white tabular-nums opacity-0 transition-opacity duration-300 group-hover:opacity-100 ${className}`}
+    >
+      <div>
+        <p className="flex items-center gap-1.5">
+          <span className={`size-1.5 shrink-0 rounded-full ${liveStatus === "ok" ? "bg-emerald-400" : "bg-white/40"}`} aria-hidden />
+          {facts.place}
+        </p>
+        <p className="pl-3 text-white/65">{facts.spot}</p>
+      </div>
+      <div>
+        <p>{facts.time}</p>
+        <p className="text-white/65">{facts.wind}</p>
+        <p className="text-white/65">{facts.sky}</p>
+      </div>
     </div>
   );
 }

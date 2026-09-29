@@ -40,7 +40,8 @@ export default function NavMenu() {
     }
   }, [open]);
 
-  if (pathname.startsWith("/nyc") || pathname.startsWith("/water") || !isHydrated) return null;
+  // The homepage lists everything the menu links to; it would only crowd the corner.
+  if (pathname === "/" || pathname.startsWith("/nyc") || pathname.startsWith("/water") || !isHydrated) return null;
 
   const isDark = !shouldUseDarkText();
   const strokeColor = isDark ? "stroke-white" : "stroke-neutral-950";

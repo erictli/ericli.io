@@ -6,25 +6,27 @@ import { Intro } from "./Intro";
 import { Projects } from "./Projects";
 import { Writing, type Article } from "./Writing";
 import { useHomeClasses, type Tone } from "./classes";
-import { HarborFrame, LABEL, WaterCaption, harborLabel, useLiveHarbor } from "./harbor";
+import { HarborFrame, WaterCaption, WaterDetails, harborLabel, useLiveHarbor } from "./harbor";
 import { ClockLockup, FitText, InlineName, KnockoutHarbor, useMediaQuery } from "./type";
 import type { HomeLayout, KnockoutFont } from "./names";
 
 // The homepage's arrangements. They share the content and the live harbor;
 // the posters treat the whole first screen as one composition. Where the
-// water is and what it's doing lives in a caption on the water itself.
+// water is and what it's doing lives on the water itself.
+//
+// The posters keep to a few rules: one text size, one display size, labels
+// in the muted color rather than capitals, and the page margin as the only
+// left edge (the menu stays off the homepage).
 
 const HomeWater = dynamic(() => import("@/components/water/HomeWater"), { ssr: false });
 
 type Props = { articles: Article[]; font?: KnockoutFont };
 
 const IN = ["animate-fadeInUpSmall1 opacity-0", "animate-fadeInUpSmall2 opacity-0", "animate-fadeInUpSmall3 opacity-0"];
-/** Poster pages: Inter, small and even, tabular figures. */
-const POSTER = "min-h-dvh w-full font-sans text-[13px] leading-[1.45] font-[450]";
+/** Poster pages: Inter at one reading size, tabular figures. */
+const POSTER = "min-h-dvh w-full font-sans text-[14px] leading-[1.5] font-[450]";
 /** A poster's first screen: the viewport, less the page margin. */
-const SCREEN = "flex min-h-dvh flex-col p-6 pt-16 pb-8 lg:h-dvh lg:min-h-[680px] lg:pt-6 lg:pb-6";
-/** Clears the menu button in the top left corner. */
-const CLEAR_MENU = "lg:pl-9";
+const SCREEN = "flex min-h-dvh flex-col p-6 pb-8 lg:h-dvh lg:min-h-[680px] lg:pb-6";
 /** Right-aligned on wide screens, left on narrow ones. */
 const RIGHT_WHEN_WIDE = "lg:items-end lg:text-right max-lg:items-start max-lg:text-left";
 
@@ -44,24 +46,52 @@ function Signature({ tone = "page", className = "" }: { tone?: Tone; className?:
   );
 }
 
+/** A small list under a muted label. */
+function Section({
+  label,
+  href,
+  align = "left",
+  className = "",
+  children,
+}: {
+  label: string;
+  href?: string;
+  align?: "left" | "right";
+  className?: string;
+  children: React.ReactNode;
+}) {
+  const c = useHomeClasses();
+  return (
+    <div className={`flex flex-col gap-0.5 ${align === "right" ? "items-end text-right" : "items-start"} ${className}`}>
+      {href ? (
+        <Link href={href} className={`${c.muted} ${c.mutedHover} mb-2`}>
+          {label}
+        </Link>
+      ) : (
+        <p className={`${c.muted} mb-2`}>{label}</p>
+      )}
+      {children}
+    </div>
+  );
+}
+
+const PROJECT_LINKS = [
+  { href: "https://getversive.com", external: true, name: "Versive", blurb: "AI user research" },
+  { href: "/scratch", external: false, name: "Scratch", blurb: "Markdown notes" },
+  { href: "https://juno.ericli.io", external: true, name: "Juno", blurb: "Naval roguelike" },
+  { href: "/nyc", external: false, name: "NYC", blurb: "Neighborhood map" },
+];
+
 function ProjectsMini({ tone = "page", align = "left", className = "" }: { tone?: Tone; align?: "left" | "right"; className?: string }) {
   const c = useHomeClasses(tone);
   return (
-    <div className={`flex flex-col gap-1 ${align === "right" ? "items-end text-right" : "items-start"} ${c.text} ${className}`}>
-      <p className={`${LABEL} ${c.muted} mb-1`}>Projects</p>
-      <Link href="https://getversive.com" target="_blank" className="hover:opacity-60 transition-opacity">
-        Versive <span className={c.muted}>AI user research</span>
-      </Link>
-      <Link href="/scratch" className="hover:opacity-60 transition-opacity">
-        Scratch <span className={c.muted}>Markdown notes</span>
-      </Link>
-      <Link href="https://juno.ericli.io" target="_blank" className="hover:opacity-60 transition-opacity">
-        Juno <span className={c.muted}>Naval roguelike</span>
-      </Link>
-      <Link href="/nyc" className="hover:opacity-60 transition-opacity">
-        NYC <span className={c.muted}>Neighborhood map</span>
-      </Link>
-    </div>
+    <Section label="Projects" align={align} className={`${c.text} ${className}`}>
+      {PROJECT_LINKS.map((p) => (
+        <Link key={p.name} href={p.href} {...(p.external ? { target: "_blank" } : {})} className="hover:opacity-60 transition-opacity">
+          {p.name} <span className={c.muted}>{p.blurb}</span>
+        </Link>
+      ))}
+    </Section>
   );
 }
 
@@ -80,36 +110,24 @@ function WritingMini({
 }) {
   const c = useHomeClasses(tone);
   return (
-    <div className={`flex flex-col gap-1 ${align === "right" ? "items-end text-right" : "items-start"} ${c.text} ${className}`}>
-      <p className={`${LABEL} ${c.muted} mb-1`}>Writing</p>
+    <Section label="Writing" href="/writing" align={align} className={`${c.text} ${className}`}>
       {articles.slice(0, count).map((a) => (
         <Link key={a.slug} href={`/writing/${a.slug}`} className="max-w-72 hover:opacity-60 transition-opacity">
           {a.title}
         </Link>
       ))}
-      <Link href="/writing" className={`${c.muted} ${c.mutedHover} mt-1`}>
+      <Link href="/writing" className={`${c.muted} ${c.mutedHover}`}>
         All writing
       </Link>
-    </div>
+    </Section>
   );
 }
 
-/** Versive, Scratch, Writing as a row of small links. */
-function TopLinks({ className = "" }: { className?: string }) {
-  const c = useHomeClasses();
-  const link = `${c.muted} ${c.mutedHover}`;
+function AboutMini({ className = "" }: { className?: string }) {
   return (
-    <nav className={`flex gap-6 ${className}`}>
-      <Link href="https://getversive.com" target="_blank" className={link}>
-        Versive
-      </Link>
-      <Link href="/scratch" className={link}>
-        Scratch
-      </Link>
-      <Link href="/writing" className={link}>
-        Writing
-      </Link>
-    </nav>
+    <Section label="About" className={className}>
+      <Intro className="max-w-xs" />
+    </Section>
   );
 }
 
@@ -145,7 +163,7 @@ function OverLayout({ articles }: Props) {
   return (
     <main className={`${POSTER} ${c.text}`}>
       <div className={`${SCREEN} gap-10 lg:gap-7`}>
-        <p className={`${CLEAR_MENU} ${c.muted} ${IN[0]}`}>Designer and builder, Brooklyn</p>
+        <p className={`${c.muted} ${IN[0]}`}>Designer and builder, Brooklyn</p>
         <div className="relative grid flex-1 place-items-center py-6 lg:py-0">
           <div aria-hidden className={across}>
             <FitText text="Eric Li" className={headline} />
@@ -157,7 +175,7 @@ function OverLayout({ articles }: Props) {
             <WaterCaption facts={facts} liveStatus={liveStatus} variant="stacked" />
           </HarborFrame>
         </div>
-        <Intro className={`mx-auto max-w-md gap-2 text-center text-[14px] ${IN[1]}`} />
+        <Intro className={`mx-auto max-w-md text-center ${IN[1]}`} />
         <div className={`flex flex-col gap-8 sm:flex-row sm:items-end sm:justify-between ${IN[2]}`}>
           <ProjectsMini />
           <WritingMini articles={articles} align="right" className="max-sm:items-start max-sm:text-left" />
@@ -167,24 +185,23 @@ function OverLayout({ articles }: Props) {
   );
 }
 
-/** The water across the bottom half of the page, projects and writing sitting on its edge. */
+/**
+ * The water across the bottom half of the page. Above it, on one four-column
+ * grid: the name alone at the top, and the about, projects and writing
+ * sitting on the water's edge.
+ */
 function HorizonLayout({ articles }: Props) {
   const { conditions, liveStatus, facts } = useLiveHarbor();
   const c = useHomeClasses();
   return (
     <main className={`${POSTER} ${c.text}`}>
       <div className="flex min-h-dvh flex-col lg:h-dvh lg:min-h-[720px]">
-        <div className="flex flex-1 flex-col justify-between gap-12 p-6 pt-16 pb-5 lg:pt-6">
-          <div className="grid gap-6 lg:grid-cols-2 lg:gap-10">
-            <p className={`${CLEAR_MENU} text-[clamp(2.75rem,5.5vw,5rem)] font-medium leading-[0.9] tracking-[-0.045em] ${IN[0]}`}>
-              Eric Li
-            </p>
-            <Intro className={`max-w-md gap-2 text-[14px] lg:pt-2 ${IN[1]}`} />
-          </div>
-          <div className={`grid gap-8 sm:grid-cols-3 sm:items-end ${IN[2]}`}>
-            <ProjectsMini className="max-lg:hidden" />
-            <WritingMini articles={articles} className="max-lg:hidden" />
-            <p className={`${c.muted} sm:col-start-3 sm:text-right`}>© {new Date().getFullYear()} Eric Li</p>
+        <div className="flex flex-1 flex-col justify-between gap-12 p-6">
+          <p className={`text-[clamp(3rem,6.5vw,6rem)] font-medium leading-[0.85] tracking-[-0.05em] ${IN[0]}`}>Eric Li</p>
+          <div className="grid gap-8 lg:grid-cols-4 lg:items-end lg:gap-x-6">
+            <Intro className={`max-w-sm lg:col-span-2 ${IN[1]}`} />
+            <ProjectsMini className={`max-lg:hidden ${IN[2]}`} />
+            <WritingMini articles={articles} className={`max-lg:hidden ${IN[2]}`} />
           </div>
         </div>
         <HarborFrame conditions={conditions} facts={facts} className="h-[44dvh] min-h-[260px] w-full shrink-0 lg:h-[50dvh]" maxAspect={4}>
@@ -207,7 +224,6 @@ function FlankLayout({ articles }: Props) {
   return (
     <main className={`${POSTER} ${c.text}`}>
       <div className={`${SCREEN} gap-10`}>
-        <TopLinks className={`self-end ${IN[0]}`} />
         <div className="flex flex-1 flex-col justify-center gap-6 lg:flex-row lg:items-center lg:justify-between lg:gap-8">
           <p className={`${big} ${IN[0]}`}>Eric Li</p>
           <HarborFrame conditions={conditions} facts={facts} className="aspect-[16/9] w-full shrink-0 lg:w-[38vw]" maxAspect={2.2}>
@@ -215,9 +231,10 @@ function FlankLayout({ articles }: Props) {
           </HarborFrame>
           <p className={`${big} lg:text-right ${IN[1]}`}>in Brooklyn</p>
         </div>
-        <div className={`flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between ${IN[2]}`}>
-          <Intro className="max-w-sm gap-2 text-[14px]" />
-          <WritingMini articles={articles} align="right" className={RIGHT_WHEN_WIDE} />
+        <div className={`grid gap-8 lg:grid-cols-3 lg:items-end ${IN[2]}`}>
+          <Intro className="max-w-sm" />
+          <ProjectsMini className="lg:justify-self-center" />
+          <WritingMini articles={articles} align="right" className={`${RIGHT_WHEN_WIDE} lg:justify-self-end`} />
         </div>
       </div>
     </main>
@@ -240,17 +257,14 @@ function InlineLayout({ articles }: Props) {
               label={harborLabel(facts)}
               aspect={1}
               height="cap-height"
-              overlay={<WaterCaption facts={facts} liveStatus={liveStatus} variant="compact" className="max-sm:hidden sm:p-2.5 sm:text-[11px]" />}
+              overlay={<WaterDetails facts={facts} liveStatus={liveStatus} className="max-sm:hidden" />}
               className="font-sans font-semibold tracking-[-0.05em]"
             />
           </div>
         </div>
         {/* Three even columns, top-aligned so their labels share a line. */}
         <div className={`grid gap-10 sm:grid-cols-3 sm:gap-8 ${IN[1]}`}>
-          <div className="flex flex-col gap-1">
-            <p className={`${LABEL} ${c.muted} mb-1`}>About</p>
-            <Intro className="max-w-xs gap-2 text-[13px]" />
-          </div>
+          <AboutMini />
           <ProjectsMini className="sm:justify-self-center" />
           <WritingMini articles={articles} align="right" className="max-sm:items-start max-sm:text-left sm:justify-self-end" />
         </div>
@@ -269,7 +283,7 @@ function ClockLayout({ articles }: Props) {
     <main className={`${POSTER} ${c.text}`}>
       <div className={`${SCREEN} gap-10 lg:justify-between lg:gap-6`}>
         <div className="flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
-          <Signature className={`${CLEAR_MENU} ${IN[0]}`} />
+          <Signature className={IN[0]} />
           <ProjectsMini align="right" className={`max-sm:items-start max-sm:text-left ${IN[0]}`} />
         </div>
         {wide ? (
@@ -290,7 +304,7 @@ function ClockLayout({ articles }: Props) {
           </div>
         )}
         <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
-          <Intro className={`max-w-sm gap-2 text-[13px] ${IN[1]}`} />
+          <Intro className={`max-w-sm ${IN[1]}`} />
           <WritingMini articles={articles} align="right" className={`${RIGHT_WHEN_WIDE} ${IN[2]}`} />
         </div>
       </div>
@@ -304,8 +318,8 @@ function CornersLayout({ articles }: Props) {
   const c = useHomeClasses();
   return (
     <main className={`${POSTER} ${c.text}`}>
-      <div className="grid gap-10 p-6 pt-16 pb-12 lg:h-dvh lg:min-h-[640px] lg:grid-cols-[minmax(0,1fr)_minmax(0,32rem)_minmax(0,1fr)] lg:grid-rows-[auto_minmax(0,1fr)_auto] lg:gap-x-12 lg:gap-y-6 lg:pt-6 lg:pb-6">
-        <Signature className={`${CLEAR_MENU} lg:col-start-1 lg:row-start-1 ${IN[0]}`} />
+      <div className="grid gap-10 p-6 pb-12 lg:h-dvh lg:min-h-[640px] lg:grid-cols-[minmax(0,1fr)_minmax(0,32rem)_minmax(0,1fr)] lg:grid-rows-[auto_minmax(0,1fr)_auto] lg:gap-x-12 lg:gap-y-6 lg:pb-6">
+        <Signature className={`lg:col-start-1 lg:row-start-1 ${IN[0]}`} />
         <HarborFrame
           conditions={conditions}
           facts={facts}
@@ -315,7 +329,7 @@ function CornersLayout({ articles }: Props) {
           <WaterCaption facts={facts} liveStatus={liveStatus} variant="stacked" />
         </HarborFrame>
         <ProjectsMini align="right" className={`${RIGHT_WHEN_WIDE} lg:col-start-3 lg:row-start-1 lg:justify-self-end ${IN[0]}`} />
-        <Intro className={`max-w-xs gap-2 text-[13px] lg:col-start-1 lg:row-start-3 lg:self-end ${IN[1]}`} />
+        <Intro className={`max-w-xs lg:col-start-1 lg:row-start-3 lg:self-end ${IN[1]}`} />
         <WritingMini
           articles={articles}
           align="right"
@@ -342,19 +356,14 @@ function KnockoutLayout({ articles, font = "condensed" }: Props) {
   return (
     <main className={`${POSTER} ${c.text}`}>
       <div className={`${SCREEN} gap-10 lg:justify-between lg:gap-8`}>
-        <div className="order-2 grid gap-8 sm:grid-cols-2 lg:order-1 lg:grid-cols-4 lg:gap-10">
-          <Signature className={`${CLEAR_MENU} ${IN[0]}`} />
-          <Intro className={`gap-2 text-[13px] ${IN[0]}`} />
+        <div className="order-2 grid gap-8 sm:grid-cols-2 lg:order-1 lg:grid-cols-4 lg:gap-x-6">
+          <Signature className={IN[0]} />
+          <Intro className={`max-w-xs ${IN[0]}`} />
           <ProjectsMini className={IN[1]} />
           <WritingMini articles={articles} count={2} align="right" className={`${RIGHT_WHEN_WIDE} ${IN[1]}`} />
         </div>
         <div className="order-1 lg:order-2">
-          <KnockoutHarbor
-            text="ERIC LI"
-            conditions={conditions}
-            label={harborLabel(facts)}
-            className={KNOCKOUT_FACES[font]}
-          />
+          <KnockoutHarbor text="ERIC LI" conditions={conditions} label={harborLabel(facts)} className={KNOCKOUT_FACES[font]} />
         </div>
       </div>
     </main>

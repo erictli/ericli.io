@@ -333,7 +333,7 @@ export function InlineName({
             {first}
           </span>
           <div
-            className="relative shrink-0 overflow-hidden"
+            className="group relative shrink-0 overflow-hidden"
             style={{ width: fit.height * aspect, height: fit.height, marginLeft: fit.gap, marginRight: fit.gap }}
           >
             <HarborCanvas conditions={conditions} className="absolute inset-0" maxAspect={aspect + 0.3} label={label} />
