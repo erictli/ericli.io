@@ -55,6 +55,12 @@ function ProjectsMini({ tone = "page", align = "left", className = "" }: { tone?
       <Link href="/scratch" className="hover:opacity-60 transition-opacity">
         Scratch <span className={c.muted}>Markdown notes</span>
       </Link>
+      <Link href="https://juno.ericli.io" target="_blank" className="hover:opacity-60 transition-opacity">
+        Juno <span className={c.muted}>Naval roguelike</span>
+      </Link>
+      <Link href="/nyc" className="hover:opacity-60 transition-opacity">
+        NYC <span className={c.muted}>Neighborhood map</span>
+      </Link>
     </div>
   );
 }
