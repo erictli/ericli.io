@@ -27,11 +27,14 @@ const besley = Besley({
 //   variable: "--font-abc-diatype",
 // });
 
+// The homepage's own words, for search results and link previews.
+const DESCRIPTION =
+  "Eric Li is a designer and builder based in Brooklyn. He's the co-founder of Versive and the creator of Scratch, and previously worked at Uber and Bread.";
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://ericli.io"),
   title: "Eric Li",
-  description:
-    "Eric Li is a product designer and developer, and the co-founder of Versive. Previously at Uber, Bread, and Vareto. Based in Brooklyn, NY.",
+  description: DESCRIPTION,
   alternates: {
     canonical: "https://ericli.io",
     types: {
@@ -40,8 +43,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Eric Li",
-    description:
-      "Eric Li is a product designer and developer, and the co-founder of Versive. Previously at Uber, Bread, and Vareto. Based in Brooklyn, NY.",
+    description: DESCRIPTION,
     url: "https://ericli.io",
     siteName: "Eric Li",
     type: "website",
@@ -50,8 +52,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Eric Li",
-    description:
-      "Eric Li is a product designer and developer, and the co-founder of Versive. Previously at Uber, Bread, and Vareto. Based in Brooklyn, NY.",
+    description: DESCRIPTION,
+    images: "/opengraph-image.png",
   },
 };
 
@@ -72,6 +74,7 @@ const personJsonLd = {
   "@type": "Person",
   name: "Eric Li",
   url: "https://ericli.io",
+  description: DESCRIPTION,
   jobTitle: "Co-founder",
   worksFor: {
     "@type": "Organization",
@@ -82,7 +85,11 @@ const personJsonLd = {
     "@type": "CollegeOrUniversity",
     name: "University of Chicago",
   },
-  sameAs: ["https://linkedin.com/in/erictli", "https://github.com/erictli"],
+  sameAs: [
+    "https://linkedin.com/in/erictli",
+    "https://x.com/erictli",
+    "https://github.com/erictli",
+  ],
 };
 
 export default function RootLayout({
@@ -93,7 +100,11 @@ export default function RootLayout({
   return (
     // The scheme script sets attributes on <html> before hydration; React
     // should expect them rather than warn.
-    <html lang="en" className={`${inter.variable} ${mondwest.variable} ${besley.variable}`} suppressHydrationWarning>
+    <html
+      lang="en"
+      className={`${inter.variable} ${mondwest.variable} ${besley.variable}`}
+      suppressHydrationWarning
+    >
       <head>
         <script dangerouslySetInnerHTML={{ __html: schemeScript }} />
         <script
@@ -106,9 +117,7 @@ export default function RootLayout({
       </Suspense>
       <PHProvider>
         <ThemeProvider>
-          <body
-            className="transition-colors duration-800"
-          >
+          <body className="transition-colors duration-800">
             <NavMenu />
             {children}
           </body>
