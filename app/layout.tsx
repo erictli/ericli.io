@@ -91,7 +91,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${mondwest.variable} ${besley.variable}`}>
+    // The scheme script sets attributes on <html> before hydration; React
+    // should expect them rather than warn.
+    <html lang="en" className={`${inter.variable} ${mondwest.variable} ${besley.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: schemeScript }} />
         <script

@@ -2,15 +2,15 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useHomeClasses, type Tone } from "./classes";
+import { useHomeClasses } from "./classes";
 
 const PROJECTS = [
   { href: "https://getversive.com", external: true, icon: "/versive-icon.png", name: "Versive", blurb: "An AI-powered user research platform" },
   { href: "/scratch", external: false, icon: "/scratch-icon.png", name: "Scratch", blurb: "An offline-first markdown notes app" },
 ];
 
-export function Projects({ tone = "page", className = "" }: { tone?: Tone; className?: string }) {
-  const c = useHomeClasses(tone);
+export function Projects({ className = "" }: { className?: string }) {
+  const c = useHomeClasses();
   return (
     <div className={`flex flex-col items-start gap-4.5 ${c.text} ${className}`}>
       <h2 className={c.muted}>Projects</h2>

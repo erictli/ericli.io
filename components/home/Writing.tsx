@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useHomeClasses, type Tone } from "./classes";
+import { useHomeClasses } from "./classes";
 
 export type Article = {
   slug: string;
@@ -10,8 +10,8 @@ export type Article = {
   readTime: string;
 };
 
-export function Writing({ articles, tone = "page", className = "" }: { articles: Article[]; tone?: Tone; className?: string }) {
-  const c = useHomeClasses(tone);
+export function Writing({ articles, className = "" }: { articles: Article[]; className?: string }) {
+  const c = useHomeClasses();
   return (
     <div className={`flex flex-col items-start gap-4.5 ${c.text} ${className}`}>
       <Link href="/writing" className={`${c.muted} ${c.mutedHover} ${c.link} w-fit`}>
