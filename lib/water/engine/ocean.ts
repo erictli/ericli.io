@@ -42,6 +42,9 @@ export interface SeaState {
 // each other so their repeats never line up.
 const CASCADE_SIZES = [73, 17.3, 3.9, 1.37];
 const DEPTH = 12;
+// The background sea from wakes, as a wind sea this strong and this long.
+const SWELL_U = 7;
+const SWELL_FETCH = 4000;
 // Motion repeats exactly every 1000 s (see SPECTRUM_FRAG).
 const LOOP_OMEGA = (2 * Math.PI) / 1000;
 
@@ -96,8 +99,8 @@ export class Ocean {
       uWindDir: { value: new THREE.Vector2(1, 0) },
       uReflect: { value: 0.15 },
       uWindAmp: { value: 1 },
-      uSwellU: { value: 7 },
-      uSwellFetch: { value: 4000 },
+      uSwellU: { value: SWELL_U },
+      uSwellFetch: { value: SWELL_FETCH },
       uSwellDir: { value: new THREE.Vector2(0, 1) },
       uSwellAmp: { value: 0.3 },
       uAmp: { value: 1 },
@@ -186,6 +189,52 @@ export class Ocean {
       c.targets[1].dispose();
     }
   }
+}
+
+function peakOmega(U: number, F: number) {
+  return 22 * Math.cbrt((9.81 * 9.81) / (U * F));
+}
+
+function jonswap(w: number, U: number, F: number) {
+  const alpha = 0.076 * Math.pow((U * U) / (F * 9.81), 0.22);
+  const wp = peakOmega(U, F);
+  const sigma = w <= wp ? 0.07 : 0.09;
+  const d = w - wp;
+  const r = Math.exp((-d * d) / (2 * sigma * sigma * wp * wp));
+  return ((alpha * 9.81 * 9.81) / Math.pow(w, 5)) * Math.exp(-1.25 * Math.pow(wp / w, 4)) * Math.pow(3.3, r);
+}
+
+/**
+ * The height variance (m²) of the three tiles that move the mesh, from the
+ * same spectrum SPECTRUM_FRAG builds (in deep water, and without the ripples,
+ * which barely move it).
+ */
+export function seaHeightStats(sea: SeaState) {
+  const kp = peakOmega(sea.windU, sea.fetch) ** 2 / 9.81;
+  const kc = sea.rollOff * kp;
+  const kTop = ((2 * Math.PI) / CASCADE_SIZES[3]) * 6;
+  const wLo = 0.2;
+  const wHi = Math.sqrt(9.81 * kTop);
+  const steps = 240;
+  const ratio = Math.pow(wHi / wLo, 1 / steps);
+  let variance = 0;
+  let w = wLo;
+  for (let i = 0; i < steps; i++) {
+    const dw = w * (ratio - 1);
+    const wm = w * Math.sqrt(ratio);
+    const k = (wm * wm) / 9.81;
+    let e = 0;
+    if (sea.windAmp > 0) e += sea.windAmp * jonswap(wm, sea.windU, sea.fetch);
+    if (sea.swellAmp > 0) e += sea.swellAmp * jonswap(wm, SWELL_U, SWELL_FETCH);
+    const t = Math.min(Math.max((k - 2 * kp) / (6 * kp), 0), 1);
+    const boost = THREE.MathUtils.lerp(sea.amplitude * sea.amplitude, 1, t * t * (3 - 2 * t));
+    const roll = 1 / (1 + (k / kc) * (k / kc));
+    variance += e * boost * roll * dw;
+    w *= ratio;
+  }
+  // SPECTRUM_FRAG's noise has unit variance in each of its two components,
+  // so the tiles carry twice the spectrum's variance.
+  return { variance: 2 * variance };
 }
 
 /** Significant wave height from the JONSWAP fetch law, meters. */

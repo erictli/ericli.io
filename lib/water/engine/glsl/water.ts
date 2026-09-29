@@ -24,6 +24,8 @@ uniform float uSpacing;
 uniform float uCrestK;
 uniform vec2 uWindDir;
 uniform float uLean;
+uniform float uStokesK;
+uniform float uStokesVar;
 out vec3 vWorld;
 out vec2 vXZ;
 out float vHeight;
@@ -42,6 +44,16 @@ void main() {
   vec3 d1 = textureSmooth(uDisp1, xz / uCascadeL.y, uTexN, lodFor(spacing, uCascadeL.y)).xyz;
   vec3 d2 = textureSmooth(uDisp2, xz / uCascadeL.z, uTexN, lodFor(spacing, uCascadeL.z)).xyz;
   vec3 d = d0 + (d1 + d2) * mix(1.0, crest, 0.6);
+  // Second-order Stokes: real waves are not sums of sines. Their crests
+  // peak and their troughs flatten, k(h^2 - <h^2>) for the dominant
+  // wavenumber k, which for a single wave is exactly (ka^2/2)cos 2θ. Past
+  // the heights where the fragment shader stops steepening the slope
+  // (1 + 2kh held to 0.35–2.5) it carries on straight, so the rare tall
+  // crest doesn't spike and the shading still matches the shape.
+  float h = d.y;
+  float kS = max(uStokesK, 1e-4);
+  float hc = clamp(h, -0.325 / kS, 0.75 / kS);
+  d.y += uStokesK * (hc * hc - uStokesVar + 2.0 * hc * (h - hc));
   if (uRippleOn > 0.5) {
     vec2 ruv = (xz - uRippleRect.xy) * uRippleRect.z;
     if (ruv.x > 0.0 && ruv.y > 0.0 && ruv.x < 1.0 && ruv.y < 1.0) {
@@ -55,7 +67,8 @@ void main() {
   vec3 world = vec3(xz.x, 0.0, xz.y) + d;
   vWorld = world;
   vXZ = xz;
-  vHeight = d.y;
+  // The first-order height: the fragment shader applies the Stokes slope from it.
+  vHeight = h;
   vCrest = crest;
   gl_Position = projectionMatrix * viewMatrix * vec4(world, 1.0);
 }
@@ -107,6 +120,14 @@ uniform float uWhiteBalance;
 uniform float uFlash;
 uniform float uLean;
 uniform float uFaceK;
+uniform float uStokesK;
+// Sun sparkle: the ground axes ahead of the eye (x, z) and the angle one
+// sparkle cell spans across and down (radians), then the brightest a
+// pixel's sunlight gets before it is spread into sparkles, and the spread of
+// the steep capillary facets that throw sparkles well off the sun's path.
+uniform vec4 uSparkleFrame;
+uniform float uSparkleLevel;
+uniform float uSparkleVar;
 
 float lambdaBeckmann(float cosTheta, float s2) {
   float c = clamp(cosTheta, 1e-3, 0.9999);
@@ -137,6 +158,47 @@ float glint(vec3 L, vec3 V, vec2 sN, vec2 s2) {
   float F = 0.02 + 0.98 * pow(1.0 - clamp(dot(V, H), 0.0, 1.0), 5.0);
   float G = 1.0 / (1.0 + lambdaBeckmann(L.y, dirVar(L, s2)) + lambdaBeckmann(V.y, dirVar(V, s2)));
   return F * p * G / (4.0 * max(V.y, 0.02) * Hy2 * Hy2);
+}
+
+uint pcg3(uvec3 v) {
+  v = v * 1664525u + 1013904223u;
+  v.x += v.y * v.z; v.y += v.z * v.x; v.z += v.x * v.y;
+  v ^= v >> 16u;
+  v.x += v.y * v.z; v.y += v.z * v.x; v.z += v.x * v.y;
+  return v.x ^ v.y ^ v.z;
+}
+
+vec4 rand4(ivec2 cell, uint salt) {
+  uvec3 s = uvec3(uint(cell.x), uint(cell.y), salt);
+  return vec4(pcg3(s), pcg3(s + 101u), pcg3(s + 211u), pcg3(s + 307u)) * (1.0 / 4294967296.0);
+}
+
+// Sunlight off facets far too small to see, as it really arrives: not an
+// even sheen but points, each a facet turned just right, lit for a moment
+// and gone as the capillaries move. Cells are fixed on the water and a
+// couple of pixels across wherever they are, a cell is lit with the
+// chance the smooth model gives it, and a lit one carries all of it, so the
+// frame's light is unchanged. Returns the multiplier on the smooth glint.
+float sparkle(vec2 xz, float level) {
+  vec2 f = uSparkleFrame.xy;
+  float ahead = max(dot(xz - cameraPosition.xz, f), 0.5);
+  float across = dot(xz - cameraPosition.xz, vec2(-f.y, f.x));
+  vec2 ang = vec2(across / ahead, cameraPosition.y / ahead) / uSparkleFrame.zw;
+  ivec2 cell = ivec2(floor(ang));
+  vec4 a = rand4(cell, 7u);
+  // Each facet catches the sun for a tenth to a half of a second.
+  float life = 0.12 + 0.4 * a.x;
+  float t = mod(uTime, 1000.0) / life + a.y;
+  float epoch = floor(t);
+  vec4 b = rand4(cell, uint(int(epoch)) * 2u + 1u);
+  float chance = min(level, 1.0);
+  if (b.x >= chance) return 0.0;
+  float env = sin(PI * fract(t));
+  vec2 c = vec2(0.25) + 0.5 * b.yz;
+  vec2 q = fract(ang) - c;
+  float dot2 = exp(-dot(q, q) / (2.0 * 0.28 * 0.28));
+  // Mean of env² (1/2) times a dot's share of its cell (2π·0.28²).
+  return env * env * dot2 / (0.5 * 0.4926 * chance);
 }
 
 // A wave texture at the mip level the pixel footprint calls for, cubic when
@@ -224,9 +286,11 @@ void main() {
   float face = clamp(1.0 + uFaceK * dot(s0.xy, uWindDir), 0.25, 1.8);
   float g1 = mix(1.0, gust, 0.45) * vCrest * face;
   float g2 = gust * vCrest * face;
-  vec2 slope = s0.xy + s1.xy * g1 + (s2.xy + s3.xy) * g2;
-  vec2 var = max(s0.zw - s0.xy * s0.xy, 0.0)
-    + max(s1.zw - s1.xy * s1.xy, 0.0) * g1 * g1
+  // The Stokes term's slope, 2kh times the wave's own: the long waves'
+  // faces steepen toward the crests and flatten into the troughs.
+  float stokes = clamp(1.0 + 2.0 * uStokesK * vHeight, 0.35, 2.5);
+  vec2 slope = (s0.xy + s1.xy * g1) * stokes + (s2.xy + s3.xy) * g2;
+  vec2 var = (max(s0.zw - s0.xy * s0.xy, 0.0) + max(s1.zw - s1.xy * s1.xy, 0.0) * g1 * g1) * stokes * stokes
     + (max(s2.zw - s2.xy * s2.xy, 0.0) + max(s3.zw - s3.xy * s3.xy, 0.0)) * g2 * g2;
   // Capillary ripples below the texel size: rougher along the wind than across it.
   vec2 w2 = uWindDir * uWindDir;
@@ -280,7 +344,21 @@ void main() {
   }
   vec3 sunIrr = uSunIrr * shade;
 
-  vec3 spec = sunIrr * glint(uSunDir, V, slope, var) + uMoonIrr * glint(uMoonDir, V, slope, var);
+  vec3 spec = uMoonIrr * glint(uMoonDir, V, slope, var);
+  if (uSparkleLevel > 0.0) {
+    // The capillaries' own steep facets: a thin, wide tail on the slopes,
+    // which scatters sparkles over the water well off the sun's path.
+    float g = glint(uSunDir, V, slope, var) + 0.05 * glint(uSunDir, V, slope, var + uSparkleVar);
+    float lum = dot(sunIrr, vec3(0.2126, 0.7152, 0.0722)) * g;
+    // A pixel's sunlight up to the sparkle level goes into points; any more
+    // (the heart of a glitter path) stays an even glare.
+    float level = lum / uSparkleLevel;
+    float points = sparkle(vXZ, level);
+    float m = 0.85 * (1.0 - smoothstep(1.0, 4.0, level));
+    spec += sunIrr * g * mix(1.0, points, m);
+  } else {
+    spec += sunIrr * glint(uSunDir, V, slope, var);
+  }
 
   // Light scattered back up out of the water column.
   vec3 sunDiffuse = sunIrr * max(uSunDir.y, 0.0) / PI;
@@ -312,9 +390,11 @@ void main() {
   vec3 fogCol = skyAt(normalize(vec3(-V.x, 0.02, -V.z)), 3.0);
   col = mix(fogCol, col, exp(-dist * uFogDensity));
 
-  // A camera's auto white balance: pull the scene's overall cast most of the
+  // A camera's auto white balance: pull the light's overall cast most of the
   // way to neutral, so sunset water reads slate blue under orange glints.
-  vec3 tint = textureLod(uSky, vec2(0.5), uSkyMaxLod).rgb;
+  // The light is the sky and the sun together (what a white card would
+  // show), so a clear noon keeps its blue water instead of going gray.
+  vec3 tint = textureLod(uSky, vec2(0.5), uSkyMaxLod).rgb + uSunIrr * max(uSunDir.y, 0.0) / PI;
   float tintLum = dot(tint, vec3(0.2126, 0.7152, 0.0722));
   col *= pow(vec3(tintLum) / max(tint, vec3(1e-6)), vec3(uWhiteBalance));
 
