@@ -8,11 +8,22 @@ interface ArticleLayoutProps {
     date: string;
     readTime: string;
   };
+  /** The picture the article opens with, set above the title. */
+  hero?: { src: string; alt: string };
+  /** A note on when it was written, set under the date. */
+  note?: string;
   children: React.ReactNode;
 }
 
+/**
+ * An article: its picture first, then the title with the date and reading
+ * time quiet under it, then the note on when it was written, then the
+ * reading. Two sizes of text below the title: body and small.
+ */
 export default function ArticleLayout({
   article,
+  hero,
+  note,
   children,
 }: ArticleLayoutProps) {
   const {
@@ -41,22 +52,33 @@ export default function ArticleLayout({
       `}</style>
       <div className="max-w-160 mx-auto px-6 pt-20 pb-32 sm:pb-48 animate-fadeInUpSmall1 opacity-0">
         <article>
+          {hero && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={hero.src} alt={hero.alt} className="mb-8 block w-full" />
+          )}
           <header className="mb-8">
+            <h1 className="text-lg leading-snug font-medium">
+              {article.title}
+            </h1>
             <div
-              className={`flex items-center gap-3 text-sm font-[450] mb-2 tabular-nums ${getMutedTextClass()}`}
+              className={`mt-1 flex items-center gap-3 text-sm font-[450] tabular-nums ${getMutedTextClass()}`}
             >
-              <time>
+              {/* Dates are calendar days; read them as UTC so they don't slip a day west of Greenwich. */}
+              <time dateTime={article.date}>
                 {new Date(article.date).toLocaleDateString("en-US", {
                   year: "numeric",
                   month: "long",
                   day: "numeric",
+                  timeZone: "UTC",
                 })}
               </time>
               <span>{article.readTime}</span>
             </div>
-            <h1 className="text-base leading-snug font-medium">
-              {article.title}
-            </h1>
+            {note && (
+              <p className={`mt-4 text-sm leading-normal font-[450] ${getMutedTextClass()}`}>
+                {note}
+              </p>
+            )}
           </header>
 
           <div

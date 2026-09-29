@@ -1,13 +1,8 @@
 import type { MDXComponents } from "mdx/types";
 
-// Pictures run wider than the text: up to 52rem, centered on the column,
-// and just the column's width on a phone.
-const WIDE =
-  "relative left-1/2 block w-[min(52rem,calc(100vw-3rem))] max-w-none -translate-x-1/2";
-
 function Callout({ children }: { children: React.ReactNode }) {
   return (
-    <p className="text-sm font-normal text-[var(--article-muted)]! leading-normal! -mt-5! mb-8!">
+    <p className="text-sm font-normal text-[var(--article-muted)]! leading-normal!">
       {children}
     </p>
   );
@@ -35,7 +30,6 @@ export const mdxComponents: MDXComponents = {
       return (
         <video
           controls
-          className={WIDE}
           preload="metadata"
           {...(props as React.VideoHTMLAttributes<HTMLVideoElement>)}
         >
@@ -45,6 +39,6 @@ export const mdxComponents: MDXComponents = {
       );
     }
     // eslint-disable-next-line @next/next/no-img-element
-    return <img src={src} alt={alt || ""} {...props} className={WIDE} />;
+    return <img src={src} alt={alt || ""} {...props} />;
   },
 };
