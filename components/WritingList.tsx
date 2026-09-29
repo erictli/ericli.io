@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { useTheme } from "@/contexts/ThemeContext";
+import { SiteName } from "./SiteName";
+
 type Article = {
   slug: string;
   title: string;
@@ -14,14 +16,9 @@ interface WritingListProps {
   articles: Article[];
 }
 
+/** An index, set like the homepage: one size, titles on the left, dates quiet on the right. */
 export default function WritingList({ articles }: WritingListProps) {
-  const {
-    getTextColorClass,
-    getLinkColorClass,
-    getMutedTextClass,
-    getMutedHoverClass,
-    isHydrated,
-  } = useTheme();
+  const { getTextColorClass, getMutedTextClass, isHydrated } = useTheme();
 
   if (!isHydrated) {
     return <div className="flex justify-center items-center h-screen"></div>;
@@ -29,36 +26,33 @@ export default function WritingList({ articles }: WritingListProps) {
 
   return (
     <main
-      className={`min-h-screen w-full font-system-sans transition-colors duration-200 ${getTextColorClass()}`}
+      className={`relative min-h-screen w-full font-sans text-sm leading-[1.5] font-[450] transition-colors duration-200 ${getTextColorClass()}`}
     >
-      <div className="flex p-6 pt-20 pb-32 flex-col items-start gap-5 max-w-160 mx-auto opacity-0 animate-fadeInUpSmall1 text-[15px]">
-        <h1 className={`${getMutedTextClass()}`}>Writing</h1>
-
-        {articles.map((article) => (
-          <div key={article.slug} className="flex flex-col gap-0.5 items-start">
-            <Link
-              href={`/writing/${article.slug}`}
-              className={`leading-snug font-[450] hover:opacity-60 transition-opacity inline ${getLinkColorClass()}`}
-            >
-              {article.title}
-            </Link>
-            <p className={`${getMutedTextClass()} flex items-center gap-1.5`}>
-              {new Date(article.date).toLocaleDateString("en-US", {
-                year: "numeric",
-                month: "short",
-                day: "numeric",
-              })}{" "}
-              <span>•</span>
-              <span>{article.readTime}</span>
-            </p>
-          </div>
-        ))}
-        <Link
-          href="/"
-          className={`${getMutedTextClass()} ${getMutedHoverClass()} ${getLinkColorClass()} w-fit flex items-center gap-0.5 border-b border-dotted pb-px`}
-        >
-          Back to home
-        </Link>
+      <SiteName />
+      <div className="mx-auto flex max-w-160 flex-col gap-4 p-6 pt-20 pb-32 opacity-0 animate-fadeInUpSmall1">
+        <h1 className={getMutedTextClass()}>Writing</h1>
+        <ul className="flex flex-col gap-2">
+          {articles.map((article) => (
+            <li key={article.slug}>
+              <Link
+                href={`/writing/${article.slug}`}
+                className="flex items-baseline justify-between gap-6 transition-opacity hover:opacity-60"
+              >
+                <span>{article.title}</span>
+                <time
+                  dateTime={article.date}
+                  className={`shrink-0 tabular-nums ${getMutedTextClass()}`}
+                >
+                  {new Date(article.date).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric",
+                  })}
+                </time>
+              </Link>
+            </li>
+          ))}
+        </ul>
       </div>
     </main>
   );

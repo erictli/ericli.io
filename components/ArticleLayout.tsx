@@ -2,6 +2,7 @@
 
 import { useTheme } from "@/contexts/ThemeContext";
 import Link from "next/link";
+import { SiteName } from "./SiteName";
 
 interface ArticleLayoutProps {
   article: {
@@ -20,7 +21,6 @@ export default function ArticleLayout({
     getTextColorClass,
     getMutedTextClass,
     getMutedHoverClass,
-    getLinkColorClass,
     isHydrated,
   } = useTheme();
 
@@ -30,8 +30,9 @@ export default function ArticleLayout({
 
   return (
     <main
-      className={`min-h-screen font-system-sans transition-colors duration-200 ${getTextColorClass()}`}
+      className={`relative min-h-screen font-sans transition-colors duration-200 ${getTextColorClass()}`}
     >
+      <SiteName />
       <style jsx>{`
         .prose {
           --tw-prose-bullets: ${getTextColorClass() === "text-neutral-950"
@@ -46,7 +47,7 @@ export default function ArticleLayout({
         <article>
           <header className="mb-8">
             <div
-              className={`flex items-center gap-1.5 text-sm font-[450] mb-2 ${getMutedTextClass()}`}
+              className={`flex items-center gap-3 text-sm font-[450] mb-2 tabular-nums ${getMutedTextClass()}`}
             >
               <time>
                 {new Date(article.date).toLocaleDateString("en-US", {
@@ -55,10 +56,9 @@ export default function ArticleLayout({
                   day: "numeric",
                 })}
               </time>
-              <span>•</span>
               <span>{article.readTime}</span>
             </div>
-            <h1 className="text-3xl font-medium tracking-[-0.005em]">
+            <h1 className="text-[22px] leading-snug font-medium tracking-[-0.005em]">
               {article.title}
             </h1>
           </header>
@@ -75,8 +75,7 @@ export default function ArticleLayout({
               prose-li:my-2 prose-li:leading-[1.75] prose-li:transition-colors
               prose-blockquote:font-[425]  prose-blockquote:border-l-2 prose-blockquote:pl-4 prose-blockquote:my-6 prose-blockquote:transition-colors
               prose-hr:my-8 prose-hr:transition-colors prose-hr:border-dotted
-              prose-img:rounded-md
-              prose-video:my-8 prose-video:rounded-md
+              prose-video:my-8
               ${
                 getTextColorClass() === "text-neutral-950"
                   ? `prose-neutral prose-headings:text-neutral-950 prose-p:text-neutral-950
@@ -103,9 +102,9 @@ export default function ArticleLayout({
           </div>
           <Link
             href="/writing"
-            className={`${getMutedTextClass()} ${getMutedHoverClass()} ${getLinkColorClass()} mt-8 w-fit flex items-center gap-0.5 border-b border-dotted pb-px font-[450]`}
+            className={`${getMutedTextClass()} ${getMutedHoverClass()} mt-12 block w-fit text-sm font-[450]`}
           >
-            Back to index
+            More writing
           </Link>
         </article>
       </div>

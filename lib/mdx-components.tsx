@@ -30,7 +30,6 @@ export const mdxComponents: MDXComponents = {
       return (
         <video
           controls
-          className="rounded-lg"
           preload="metadata"
           {...(props as React.VideoHTMLAttributes<HTMLVideoElement>)}
         >
