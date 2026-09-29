@@ -7,8 +7,6 @@ image: "/writing/two-ways-to-design-with-ai.png"
 
 ![](/writing/two-ways-to-design-with-ai.png)
 
-<Callout>Written in July 2026. Things are changing quickly, so if you're reading this later, some of the specifics may no longer apply.</Callout>
-
 The first is to let AI design for you. You prompt, you accept what comes back, then you ship it. In this way, you're not learning how the code works, and you're outsourcing the design thinking. It's fast and easy, and that's why you see so much slop in your feed.
 
 The second is to use AI as a tool for designing in code. You come up with the ideas, then use agents to help you implement and iterate on them in production. This way is much harder because you need to master a new tool (and when to use it), plus get familiar enough with code to work in production. But once you're over the learning curve, it's more direct and raises the quality ceiling of what your team actually ships to users.

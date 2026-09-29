@@ -10,20 +10,17 @@ interface ArticleLayoutProps {
   };
   /** The picture the article opens with, set above the title. */
   hero?: { src: string; alt: string };
-  /** A note on when it was written, set under the date. */
-  note?: string;
   children: React.ReactNode;
 }
 
 /**
  * An article: its picture first, then the title with the date and reading
- * time quiet under it, then the note on when it was written, then the
- * reading. Two sizes of text below the title: body and small.
+ * time quiet under it, then the reading. Two sizes of text below the
+ * title: body and small.
  */
 export default function ArticleLayout({
   article,
   hero,
-  note,
   children,
 }: ArticleLayoutProps) {
   const {
@@ -74,11 +71,6 @@ export default function ArticleLayout({
               </time>
               <span>{article.readTime}</span>
             </div>
-            {note && (
-              <p className={`mt-4 text-sm leading-normal font-[450] ${getMutedTextClass()}`}>
-                {note}
-              </p>
-            )}
           </header>
 
           <div
@@ -107,14 +99,6 @@ export default function ArticleLayout({
                    prose-blockquote:text-white/70 prose-blockquote:border-white/10
                    prose-hr:border-white/10`
               }`}
-            style={
-              {
-                "--article-muted":
-                  getTextColorClass() === "text-neutral-950"
-                    ? "rgb(10 10 10 / 0.5)"
-                    : "rgb(255 255 255 / 0.6)",
-              } as React.CSSProperties
-            }
           >
             {children}
           </div>

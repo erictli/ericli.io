@@ -7,8 +7,6 @@ image: "/writing/dont-learn-ai-work-in-code.png"
 
 ![](/writing/dont-learn-ai-work-in-code.png)
 
-<Callout>Written in July 2026. Things are changing quickly, so if you're reading this later, some of the specifics may no longer apply.</Callout>
-
 If you want to get more out of AI as a product designer, don't focus on learning AI tools. Learn how to work in code.
 
 AI isn't good at design. But it's great at writing code, very quickly. Which is why the product designers getting value from AI have all learned the same thing: how to work in code and collaborate with engineers.

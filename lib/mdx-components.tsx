@@ -1,15 +1,6 @@
 import type { MDXComponents } from "mdx/types";
 
-function Callout({ children }: { children: React.ReactNode }) {
-  return (
-    <p className="text-sm font-normal text-[var(--article-muted)]! leading-normal!">
-      {children}
-    </p>
-  );
-}
-
 export const mdxComponents: MDXComponents = {
-  Callout,
   a: ({ href, children, ...props }) => {
     const isExternal = href?.startsWith("http");
     return (

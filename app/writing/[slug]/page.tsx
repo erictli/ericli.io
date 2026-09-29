@@ -51,9 +51,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 /**
- * Most articles open with a picture and a note on when they were written.
- * Both belong to the header, not the reading, so lift them out of the body
- * for the layout to set (the note only when it's plain text).
+ * Most articles open with a picture. It belongs to the header, not the
+ * reading, so lift it out of the body for the layout to set.
  */
 function splitLead(content: string) {
   let body = content.replace(/^\s+/, "");
@@ -63,13 +62,7 @@ function splitLead(content: string) {
     hero = { alt: image[1], src: image[2] };
     body = body.slice(image[0].length).replace(/^\s+/, "");
   }
-  let note: string | undefined;
-  const callout = body.match(/^<Callout>([^<]*)<\/Callout>[ \t]*(?:\n|$)/);
-  if (callout && !/[[\]*_`]/.test(callout[1])) {
-    note = callout[1].trim();
-    body = body.slice(callout[0].length);
-  }
-  return { hero, note, body };
+  return { hero, body };
 }
 
 export default async function ArticlePage({ params }: Props) {
@@ -95,7 +88,7 @@ export default async function ArticlePage({ params }: Props) {
     ...(article.image && { image: `https://ericli.io${article.image}` }),
   };
 
-  const { hero, note, body } = splitLead(article.content);
+  const { hero, body } = splitLead(article.content);
 
   return (
     <>
@@ -108,7 +101,7 @@ export default async function ArticlePage({ params }: Props) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </div>
-      <ArticleLayout article={article} hero={hero} note={note}>
+      <ArticleLayout article={article} hero={hero}>
         <MDXRemote source={body} components={mdxComponents} />
       </ArticleLayout>
     </>
