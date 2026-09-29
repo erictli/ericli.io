@@ -6,7 +6,6 @@ import { PHProvider, PostHogPageview } from "./providers";
 import { Suspense } from "react";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import NavMenu from "@/components/NavMenu";
-import GlobalCloudShader from "@/components/GlobalCloudShader";
 
 const mondwest = localFont({
   src: "../public/fonts/PPMondwest-Regular.woff2",
@@ -97,7 +96,6 @@ export default function RootLayout({
           >
             <NavMenu />
             {children}
-            <GlobalCloudShader />
           </body>
         </ThemeProvider>
       </PHProvider>

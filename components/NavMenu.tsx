@@ -40,7 +40,7 @@ export default function NavMenu() {
     }
   }, [open]);
 
-  if (pathname.startsWith("/nyc") || !isHydrated) return null;
+  if (pathname.startsWith("/nyc") || pathname.startsWith("/water") || !isHydrated) return null;
 
   const isDark = !shouldUseDarkText();
   const strokeColor = isDark ? "stroke-white" : "stroke-neutral-950";

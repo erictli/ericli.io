@@ -393,7 +393,7 @@ export default function ScratchPage() {
             />
             <div className="flex items-center gap-1.5">
               <span>Made with</span>
-              <CloudShader size={20} pickerAlign="left" />
+              <CloudShader size={20} />
               <span>
                 by{" "}
                 <Link
@@ -410,7 +410,7 @@ export default function ScratchPage() {
           <div className="hidden sm:grid grid-cols-3 items-end">
             <div className="flex items-center gap-1.5">
               <span>Made with</span>
-              <CloudShader size={20} pickerAlign="left" />
+              <CloudShader size={20} />
               <span>
                 by{" "}
                 <Link

@@ -6,6 +6,11 @@ import { useState, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useTheme } from "@/contexts/ThemeContext";
+import dynamic from "next/dynamic";
+
+// The water renders on the client only; its box holds the space until then.
+const HomeWater = dynamic(() => import("@/components/water/HomeWater"), { ssr: false });
+
 type Article = {
   slug: string;
   title: string;
@@ -47,7 +52,10 @@ export default function Home({ articles }: HomeProps) {
     <main
       className={`min-h-screen w-full font-system-sans transition-colors duration-200 ${getTextColorClass()}`}
     >
-      <div className="flex p-6 pt-16 pb-32 flex-col gap-8 max-w-132 text-[15px] mx-auto lg:flex-row lg:max-w-none lg:justify-between lg:gap-4">
+      <div className="flex flex-col gap-8 p-6 pt-16 pb-12 lg:min-h-dvh lg:flex-row lg:items-start lg:gap-6 lg:pt-6 lg:pb-6">
+        {/* The harbor right now: a band up top on a phone, the right half of the screen otherwise. */}
+        <HomeWater className="order-1 h-[42dvh] min-h-[280px] w-full shrink-0 lg:order-2 lg:sticky lg:top-6 lg:h-[calc(100dvh-3rem)] lg:w-1/2" />
+        <div className="order-2 mx-auto flex w-full max-w-132 flex-col gap-8 text-[15px] lg:order-1 lg:mx-0 lg:w-1/2 lg:max-w-none lg:pt-10 lg:pr-4">
         <div className="flex w-full max-w-sm flex-col gap-8">
           <div className="flex flex-col gap-3 font-[450] animate-fadeInUpSmall1 opacity-0">
             <h1>I&apos;m Eric Li, a designer and builder based in Brooklyn.</h1>
@@ -240,6 +248,7 @@ export default function Home({ articles }: HomeProps) {
           >
             Read more
           </Link>
+        </div>
         </div>
       </div>
     </main>

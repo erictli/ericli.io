@@ -42,3 +42,6 @@ temp-tailwind-output.css
 
 # local Claude Code preview config (dev server port)
 /.claude/launch.json
+
+# Raw OpenStreetMap / elevation dumps for scripts/build-skyline.mjs (large; re-fetch)
+data/skyline/cache/

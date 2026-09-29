@@ -1,9 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { createPortal } from "react-dom";
-import { HexColorPicker } from "react-colorful";
-import { useTheme, type ThemeMode } from "@/contexts/ThemeContext";
+import { useEffect, useRef } from "react";
+import { useTheme } from "@/contexts/ThemeContext";
 
 // --- Hex color helpers ---
 
@@ -324,8 +322,8 @@ void main() {
 
 // --- Component ---
 
-export default function CloudShader({ size = 100, pickerAlign = "right" }: { size?: number; pickerAlign?: "left" | "center" | "right" }) {
-  const buttonRef = useRef<HTMLButtonElement>(null);
+// The cloud orb: once a theme color picker, now just the orb.
+export default function CloudShader({ size = 100 }: { size?: number }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animRef = useRef<number>(0);
   const phaseRef = useRef(0);
@@ -341,26 +339,13 @@ export default function CloudShader({ size = 100, pickerAlign = "right" }: { siz
     high: [1, 1, 1],
   });
 
-  const [showPicker, setShowPicker] = useState(false);
-  const [pickerStyle, setPickerStyle] = useState<React.CSSProperties>({});
-  const { themeState, updateTheme, shouldUseDarkText, isHydrated } = useTheme();
+  const { themeState, shouldUseDarkText, isHydrated } = useTheme();
 
   // Keep colors ref in sync
   useEffect(() => {
     const isDark = !shouldUseDarkText();
     colorsRef.current = deriveOrbColors(themeState.color, isDark);
   }, [themeState.color, themeState.mode]);
-
-  // Close picker on outside click
-  useEffect(() => {
-    if (!showPicker) return;
-    const handler = (e: MouseEvent) => {
-      const t = e.target as HTMLElement;
-      if (!t.closest(".orb-picker-area")) setShowPicker(false);
-    };
-    document.addEventListener("click", handler);
-    return () => document.removeEventListener("click", handler);
-  }, [showPicker]);
 
   // WebGL setup + render loop
   useEffect(() => {
@@ -477,97 +462,23 @@ export default function CloudShader({ size = 100, pickerAlign = "right" }: { siz
 
   if (!isHydrated) return null;
 
-  const isDark = !shouldUseDarkText();
-  const pickerBg = isDark ? "bg-white/10" : "bg-neutral-950/[4%]";
-  const buttonBg = isDark
-    ? "bg-white/10 text-white"
-    : "bg-neutral-950/[6%] text-neutral-950";
-
   return (
-    <div className="orb-picker-area relative">
-      <button
-        ref={buttonRef}
-        onClick={(e) => {
-          e.stopPropagation();
-          if (!showPicker && buttonRef.current) {
-            const rect = buttonRef.current.getBoundingClientRect();
-            const spaceAbove = rect.top;
-            const pickerHeight = 240;
-            const pickerWidth = 240;
-
-            const horizontal: React.CSSProperties =
-              pickerAlign === "left"
-                ? { left: Math.max(8, rect.left) }
-                : pickerAlign === "center"
-                  ? { left: Math.max(8, rect.left + rect.width / 2 - pickerWidth / 2) }
-                  : { right: Math.max(8, window.innerWidth - rect.right) };
-
-            if (spaceAbove > pickerHeight) {
-              setPickerStyle({
-                bottom: window.innerHeight - rect.top + 8,
-                ...horizontal,
-              });
-            } else {
-              setPickerStyle({
-                top: rect.bottom + 8,
-                ...horizontal,
-              });
-            }
-          }
-          setShowPicker(!showPicker);
+    <div className="relative" style={{ width: size, height: size }}>
+      <canvas
+        ref={canvasRef}
+        className="rounded-full hover:scale-110 transition-transform duration-500"
+        onMouseMove={(e) => {
+          const rect = e.currentTarget.getBoundingClientRect();
+          mouseRef.current = {
+            x: (e.clientX - rect.left) / rect.width,
+            y: (e.clientY - rect.top) / rect.height,
+          };
+          targetMouseStrengthRef.current = 1;
         }}
-        className="cursor-pointer block rounded-full focus-visible:outline-none focus-visible:opacity-60"
-        aria-label="Change theme color"
-      >
-        <canvas
-          ref={canvasRef}
-          className="rounded-full hover:scale-110 transition-transform duration-500"
-          onMouseMove={(e) => {
-            const rect = e.currentTarget.getBoundingClientRect();
-            mouseRef.current = {
-              x: (e.clientX - rect.left) / rect.width,
-              y: (e.clientY - rect.top) / rect.height,
-            };
-            targetMouseStrengthRef.current = 1;
-          }}
-          onMouseLeave={() => {
-            targetMouseStrengthRef.current = 0;
-          }}
-        />
-      </button>
-
-      {showPicker &&
-        createPortal(
-          <div
-            style={pickerStyle}
-            className={`orb-picker-area fixed p-3 ${pickerBg} backdrop-blur-xl rounded-xl w-60 z-50`}
-          >
-            <HexColorPicker
-              color={themeState.color}
-              onChange={(color) => updateTheme({ mode: "custom", color })}
-              className="!w-full !h-44"
-            />
-            <div className="flex gap-1.5 mt-2.5">
-              <button
-                onClick={() =>
-                  updateTheme({ mode: "light" as ThemeMode, color: "#fafafa" })
-                }
-                className={`flex-1 px-3 h-8 pb-0.5 flex items-center justify-center rounded-lg font-[450] text-sm ${buttonBg} hover:opacity-60 transition-opacity cursor-pointer`}
-              >
-                Light
-              </button>
-              <button
-                onClick={() =>
-                  updateTheme({ mode: "dark" as ThemeMode, color: "#0a0a0a" })
-                }
-                className={`flex-1 px-3 h-8 pb-0.5 flex items-center justify-center rounded-lg font-[450] text-sm ${buttonBg} hover:opacity-60 transition-opacity cursor-pointer`}
-              >
-                Dark
-              </button>
-            </div>
-          </div>,
-          document.body,
-        )}
+        onMouseLeave={() => {
+          targetMouseStrengthRef.current = 0;
+        }}
+      />
     </div>
   );
 }

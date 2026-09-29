@@ -76,21 +76,9 @@ const DEFAULT_THEME: ThemeState = {
   color: "#fafafa",
 };
 
-// Helper function to get initial theme (handles SSR)
+// The site is light everywhere now; a theme a visitor picked back when
+// there was a color picker is left in localStorage and ignored.
 function getInitialTheme(): ThemeState {
-  if (typeof window === "undefined") {
-    return DEFAULT_THEME;
-  }
-
-  try {
-    const savedTheme = localStorage.getItem("theme");
-    if (savedTheme) {
-      return JSON.parse(savedTheme);
-    }
-  } catch (error) {
-    console.error("Failed to parse saved theme:", error);
-  }
-
   return DEFAULT_THEME;
 }
 
@@ -132,12 +120,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     }
   }, [themeState, isHydrated]);
 
-  // Update theme and save to localStorage
   const updateTheme = (newTheme: ThemeState) => {
     setThemeState(newTheme);
-    if (typeof window !== "undefined") {
-      localStorage.setItem("theme", JSON.stringify(newTheme));
-    }
   };
 
   // Helper functions for styling
