@@ -40,8 +40,8 @@ export default function NavMenu() {
     }
   }, [open]);
 
-  // The homepage lists everything the menu links to; it would only crowd the corner.
-  if (pathname === "/" || pathname.startsWith("/nyc") || pathname.startsWith("/water") || !isHydrated) return null;
+  // The full-frame pages (the map, the water) have their own way back home.
+  if (pathname.startsWith("/nyc") || pathname.startsWith("/water") || !isHydrated) return null;
 
   const isDark = !shouldUseDarkText();
   const strokeColor = isDark ? "stroke-white" : "stroke-neutral-950";
@@ -55,7 +55,7 @@ export default function NavMenu() {
       <div className="fixed top-4.5 left-4.5 z-50 flex items-center gap-2">
         <button
           onClick={() => setOpen(!open)}
-          className={`w-7 h-7 flex flex-col items-center justify-center gap-1 group cursor-pointer hover:opacity-60 transition-opacity backdrop-blur-sm rounded-md ${getLinkColorClass()}`}
+          className={`w-7 h-7 flex flex-col items-center justify-center gap-1 group cursor-pointer hover:opacity-60 transition-opacity ${getLinkColorClass()}`}
           aria-label={open ? "Close menu" : "Open menu"}
         >
           <svg

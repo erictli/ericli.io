@@ -44,7 +44,8 @@ function Poster({ articles }: { articles: Article[] }) {
     <main className={`min-h-dvh w-full font-sans text-[14px] leading-[1.5] font-[450] ${c.text}`}>
       {/* Source order is the reading order (and the phone layout); the grid places the corners. */}
       <div className="grid gap-10 p-6 pb-12 lg:h-dvh lg:min-h-[640px] lg:grid-cols-[minmax(0,1fr)_minmax(0,32rem)_minmax(0,1fr)] lg:grid-rows-[auto_minmax(0,1fr)_auto] lg:gap-x-12 lg:gap-y-6 lg:pb-6">
-        <div className={`lg:col-start-1 lg:row-start-1 ${IN[0]}`}>
+        {/* Set in from the corner, and up a hair, so the menu button sits just before the name, centered on its first line. */}
+        <div className={`-mt-0.75 pl-8 lg:col-start-1 lg:row-start-1 ${IN[0]}`}>
           <h1 className="font-medium">Eric Li</h1>
           <p className={c.muted}>
             Designer and builder
