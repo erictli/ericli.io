@@ -307,15 +307,15 @@ export class WaterEngine {
     const fetch = Math.min(fetchForWind(windFrom) * 0.32, 4000);
     // A harbor never goes glassy: ferry and boat wakes and waves off the
     // bulkheads keep up a short, crossing chop with pointed crests when the
-    // wind can't. So light air keeps a floor of the chop a 9 mph breeze
+    // wind can't. So light air keeps a floor of the chop a 7–8 mph breeze
     // raises, less orderly and more reflected than a wind sea. It is all
     // wind sea by 11 mph.
     const calm = 1 - smoothstep(2, 5, windSpeed);
     const sea: SeaState = {
-      windU: Math.max(windSpeed, THREE.MathUtils.lerp(4, windSpeed, 1 - calm), 0.6),
+      windU: Math.max(windSpeed, THREE.MathUtils.lerp(3.4, windSpeed, 1 - calm), 0.6),
       fetch,
       windDir,
-      windAmp: Math.max(smoothstep(2.0, 4.5, windSpeed), 0.45 * calm),
+      windAmp: Math.max(smoothstep(2.0, 4.5, windSpeed), 0.4 * calm),
       // Some of it bounced off the seawalls, but not so much that it stands
       // and bobs in place instead of running.
       reflect: THREE.MathUtils.lerp(0.08, 0.18, calm),
