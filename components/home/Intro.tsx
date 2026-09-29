@@ -2,10 +2,10 @@
 
 import { useCallback, useState } from "react";
 import Link from "next/link";
-import { useHomeClasses } from "./classes";
+import { useHomeClasses, type Tone } from "./classes";
 
-export function Intro({ className = "" }: { className?: string }) {
-  const c = useHomeClasses();
+export function Intro({ tone = "page", className = "" }: { tone?: Tone; className?: string }) {
+  const c = useHomeClasses(tone);
   const [emailTooltip, setEmailTooltip] = useState<"hidden" | "hover" | "copied" | "leaving">("hidden");
 
   const handleEmailClick = useCallback((e: React.MouseEvent) => {
