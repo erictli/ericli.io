@@ -191,52 +191,6 @@ export class Ocean {
   }
 }
 
-function peakOmega(U: number, F: number) {
-  return 22 * Math.cbrt((9.81 * 9.81) / (U * F));
-}
-
-function jonswap(w: number, U: number, F: number) {
-  const alpha = 0.076 * Math.pow((U * U) / (F * 9.81), 0.22);
-  const wp = peakOmega(U, F);
-  const sigma = w <= wp ? 0.07 : 0.09;
-  const d = w - wp;
-  const r = Math.exp((-d * d) / (2 * sigma * sigma * wp * wp));
-  return ((alpha * 9.81 * 9.81) / Math.pow(w, 5)) * Math.exp(-1.25 * Math.pow(wp / w, 4)) * Math.pow(3.3, r);
-}
-
-/**
- * The height variance (m²) of the three tiles that move the mesh, from the
- * same spectrum SPECTRUM_FRAG builds (in deep water, and without the ripples,
- * which barely move it).
- */
-export function seaHeightStats(sea: SeaState) {
-  const kp = peakOmega(sea.windU, sea.fetch) ** 2 / 9.81;
-  const kc = sea.rollOff * kp;
-  const kTop = ((2 * Math.PI) / CASCADE_SIZES[3]) * 6;
-  const wLo = 0.2;
-  const wHi = Math.sqrt(9.81 * kTop);
-  const steps = 240;
-  const ratio = Math.pow(wHi / wLo, 1 / steps);
-  let variance = 0;
-  let w = wLo;
-  for (let i = 0; i < steps; i++) {
-    const dw = w * (ratio - 1);
-    const wm = w * Math.sqrt(ratio);
-    const k = (wm * wm) / 9.81;
-    let e = 0;
-    if (sea.windAmp > 0) e += sea.windAmp * jonswap(wm, sea.windU, sea.fetch);
-    if (sea.swellAmp > 0) e += sea.swellAmp * jonswap(wm, SWELL_U, SWELL_FETCH);
-    const t = Math.min(Math.max((k - 2 * kp) / (6 * kp), 0), 1);
-    const boost = THREE.MathUtils.lerp(sea.amplitude * sea.amplitude, 1, t * t * (3 - 2 * t));
-    const roll = 1 / (1 + (k / kc) * (k / kc));
-    variance += e * boost * roll * dw;
-    w *= ratio;
-  }
-  // SPECTRUM_FRAG's noise has unit variance in each of its two components,
-  // so the tiles carry twice the spectrum's variance.
-  return { variance: 2 * variance };
-}
-
 /** Significant wave height from the JONSWAP fetch law, meters. */
 export function significantHeight(windU: number, fetch: number) {
   return 4 * ((windU * windU) / 9.81) * Math.sqrt((1.6e-7 * 9.81 * fetch) / (windU * windU));

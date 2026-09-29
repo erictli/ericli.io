@@ -77,7 +77,14 @@ export default function WaterApp() {
           ))}
         </>
       }
-      panel={(className) => <ConditionsPanel className={className} conditions={conditions} onChange={edit} />}
+      panel={(className) => (
+        <ConditionsPanel
+          className={className}
+          conditions={conditions}
+          onChange={edit}
+          fields={["time", "wind", "gusts", "cloud", "precipitation", "visibility"]}
+        />
+      )}
       panelOpen={panelOpen}
       onPanelToggle={() => setPanelOpen((o) => !o)}
       note={live && liveStatus === "error" ? "Couldn’t reach the weather service. Showing the last conditions." : undefined}

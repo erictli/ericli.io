@@ -24,8 +24,6 @@ uniform float uSpacing;
 uniform float uCrestK;
 uniform vec2 uWindDir;
 uniform float uLean;
-uniform float uStokesK;
-uniform float uStokesVar;
 out vec3 vWorld;
 out vec2 vXZ;
 out float vHeight;
@@ -44,16 +42,6 @@ void main() {
   vec3 d1 = textureSmooth(uDisp1, xz / uCascadeL.y, uTexN, lodFor(spacing, uCascadeL.y)).xyz;
   vec3 d2 = textureSmooth(uDisp2, xz / uCascadeL.z, uTexN, lodFor(spacing, uCascadeL.z)).xyz;
   vec3 d = d0 + (d1 + d2) * mix(1.0, crest, 0.6);
-  // Second-order Stokes: real waves are not sums of sines. Their crests
-  // peak and their troughs flatten, k(h^2 - <h^2>) for the dominant
-  // wavenumber k, which for a single wave is exactly (ka^2/2)cos 2θ. Past
-  // the heights where the fragment shader stops steepening the slope
-  // (1 + 2kh held to 0.35–2.5) it carries on straight, so the rare tall
-  // crest doesn't spike and the shading still matches the shape.
-  float h = d.y;
-  float kS = max(uStokesK, 1e-4);
-  float hc = clamp(h, -0.325 / kS, 0.75 / kS);
-  d.y += uStokesK * (hc * hc - uStokesVar + 2.0 * hc * (h - hc));
   if (uRippleOn > 0.5) {
     vec2 ruv = (xz - uRippleRect.xy) * uRippleRect.z;
     if (ruv.x > 0.0 && ruv.y > 0.0 && ruv.x < 1.0 && ruv.y < 1.0) {
@@ -67,8 +55,7 @@ void main() {
   vec3 world = vec3(xz.x, 0.0, xz.y) + d;
   vWorld = world;
   vXZ = xz;
-  // The first-order height: the fragment shader applies the Stokes slope from it.
-  vHeight = h;
+  vHeight = d.y;
   vCrest = crest;
   gl_Position = projectionMatrix * viewMatrix * vec4(world, 1.0);
 }
@@ -120,7 +107,6 @@ uniform float uWhiteBalance;
 uniform float uFlash;
 uniform float uLean;
 uniform float uFaceK;
-uniform float uStokesK;
 // Sun sparkle: the ground axes ahead of the eye (x, z) and the angle one
 // sparkle cell spans across and down (radians), then the brightest a
 // pixel's sunlight gets before it is spread into sparkles, and the spread of
@@ -128,6 +114,7 @@ uniform float uStokesK;
 uniform vec4 uSparkleFrame;
 uniform float uSparkleLevel;
 uniform float uSparkleVar;
+uniform float uSparkleWorld;
 
 float lambdaBeckmann(float cosTheta, float s2) {
   float c = clamp(cosTheta, 1e-3, 0.9999);
@@ -168,37 +155,63 @@ uint pcg3(uvec3 v) {
   return v.x ^ v.y ^ v.z;
 }
 
-vec4 rand4(ivec2 cell, uint salt) {
-  uvec3 s = uvec3(uint(cell.x), uint(cell.y), salt);
-  return vec4(pcg3(s), pcg3(s + 101u), pcg3(s + 211u), pcg3(s + 307u)) * (1.0 / 4294967296.0);
-}
-
 // Sunlight off facets far too small to see, as it really arrives: not an
 // even sheen but points, each a facet turned just right, lit for a moment
-// and gone as the capillaries move. Cells are fixed on the water and a
-// couple of pixels across wherever they are, a cell is lit with the
-// chance the smooth model gives it, and a lit one carries all of it, so the
-// frame's light is unchanged. Returns the multiplier on the smooth glint.
-float sparkle(vec2 xz, float level) {
-  vec2 f = uSparkleFrame.xy;
-  float ahead = max(dot(xz - cameraPosition.xz, f), 0.5);
-  float across = dot(xz - cameraPosition.xz, vec2(-f.y, f.x));
-  vec2 ang = vec2(across / ahead, cameraPosition.y / ahead) / uSparkleFrame.zw;
-  ivec2 cell = ivec2(floor(ang));
-  vec4 a = rand4(cell, 7u);
-  // Each facet catches the sun for a tenth to a half of a second.
-  float life = 0.12 + 0.4 * a.x;
-  float t = mod(uTime, 1000.0) / life + a.y;
-  float epoch = floor(t);
-  vec4 b = rand4(cell, uint(int(epoch)) * 2u + 1u);
+// and gone as the capillaries move. A cell is lit with the chance the smooth
+// model gives it and a lit one carries all of it, so the frame's light is
+// unchanged. Cells are fixed on the water: a couple of pixels across in the
+// distance, and near the camera no smaller than a facet (uSparkleWorld), so
+// close sparkles are bigger, softer and stretched across the view the way
+// foreshortened glints are. Each is drawn from its own cell and the nearest
+// neighbors, so none is clipped square. Returns the multiplier on the
+// smooth glint; near is 0 far off, 1 where cells are several times a pixel.
+float sparkle(vec2 xz, float level, out float near) {
+  near = 0.0;
   float chance = min(level, 1.0);
-  if (b.x >= chance) return 0.0;
-  float env = sin(PI * fract(t));
-  vec2 c = vec2(0.25) + 0.5 * b.yz;
-  vec2 q = fract(ang) - c;
-  float dot2 = exp(-dot(q, q) / (2.0 * 0.28 * 0.28));
-  // Mean of env² (1/2) times a dot's share of its cell (2π·0.28²).
-  return env * env * dot2 / (0.5 * 0.4926 * chance);
+  if (chance < 1e-4) return 0.0;
+  vec2 f = uSparkleFrame.xy;
+  vec2 rel = xz - cameraPosition.xz;
+  float ahead = max(dot(rel, f), 0.5);
+  float across = dot(rel, vec2(-f.y, f.x));
+  float e = cameraPosition.y;
+  float w = uSparkleWorld;
+  float slant = length(vec2(ahead, e));
+  float cellAcross = max(w, uSparkleFrame.z * slant);
+  // Down the view, cells are w deep out to where a pixel-sized cell grows
+  // past that (a0), then a fixed angle: the integral of 1 / cell depth.
+  float a0sq = w * e / uSparkleFrame.w - e * e;
+  float down;
+  if (a0sq <= 0.0) {
+    down = atan(ahead, e) / uSparkleFrame.w;
+  } else {
+    float a0 = sqrt(a0sq);
+    down = ahead < a0 ? ahead / w : a0 / w + (atan(ahead, e) - atan(a0, e)) / uSparkleFrame.w;
+  }
+  near = clamp((w / (uSparkleFrame.z * slant) - 1.0) / 3.0, 0.0, 1.0);
+  vec2 p = vec2(across / cellAcross, down);
+  vec2 base = floor(p);
+  vec2 side = step(0.5, p - base) * 2.0 - 1.0;
+  float t0 = mod(uTime, 1000.0);
+  float sum = 0.0;
+  for (int i = 0; i < 4; i++) {
+    vec2 c = base + vec2(float(i & 1), float(i >> 1)) * side;
+    uvec2 cell = uvec2(ivec2(c));
+    uint ha = pcg3(uvec3(cell, 7u));
+    // Each facet catches the sun for a tenth to a half of a second.
+    float life = 0.12 + 0.4 * float(ha & 0xffffu) / 65535.0;
+    float t = t0 / life + float(ha >> 16u) / 65535.0;
+    uint hb = pcg3(uvec3(cell, uint(int(floor(t))) * 2u + 1u));
+    if (float(hb) * (1.0 / 4294967296.0) >= chance) continue;
+    uint hc = pcg3(uvec3(hb, cell.x ^ 0x9e37u, cell.y));
+    vec3 r = vec3(float(hc & 255u), float((hc >> 8u) & 255u), float((hc >> 16u) & 255u)) / 255.0;
+    vec2 q = p - c - (0.2 + 0.6 * r.xy);
+    float env = sin(PI * fract(t));
+    // Some facets are bigger or better turned than others: mean 1.
+    float bright = (0.25 + 1.5 * r.z * r.z) / 0.75;
+    sum += env * env * bright * exp(-dot(q, q) * (1.0 / (2.0 * 0.3 * 0.3)));
+  }
+  // Mean of env² (1/2) times a dot's area in cells (2π·0.3²).
+  return sum / (0.5 * 0.5655 * chance);
 }
 
 // A wave texture at the mip level the pixel footprint calls for, cubic when
@@ -286,11 +299,9 @@ void main() {
   float face = clamp(1.0 + uFaceK * dot(s0.xy, uWindDir), 0.25, 1.8);
   float g1 = mix(1.0, gust, 0.45) * vCrest * face;
   float g2 = gust * vCrest * face;
-  // The Stokes term's slope, 2kh times the wave's own: the long waves'
-  // faces steepen toward the crests and flatten into the troughs.
-  float stokes = clamp(1.0 + 2.0 * uStokesK * vHeight, 0.35, 2.5);
-  vec2 slope = (s0.xy + s1.xy * g1) * stokes + (s2.xy + s3.xy) * g2;
-  vec2 var = (max(s0.zw - s0.xy * s0.xy, 0.0) + max(s1.zw - s1.xy * s1.xy, 0.0) * g1 * g1) * stokes * stokes
+  vec2 slope = s0.xy + s1.xy * g1 + (s2.xy + s3.xy) * g2;
+  vec2 var = max(s0.zw - s0.xy * s0.xy, 0.0)
+    + max(s1.zw - s1.xy * s1.xy, 0.0) * g1 * g1
     + (max(s2.zw - s2.xy * s2.xy, 0.0) + max(s3.zw - s3.xy * s3.xy, 0.0)) * g2 * g2;
   // Capillary ripples below the texel size: rougher along the wind than across it.
   vec2 w2 = uWindDir * uWindDir;
@@ -348,13 +359,16 @@ void main() {
   if (uSparkleLevel > 0.0) {
     // The capillaries' own steep facets: a thin, wide tail on the slopes,
     // which scatters sparkles over the water well off the sun's path.
-    float g = glint(uSunDir, V, slope, var) + 0.05 * glint(uSunDir, V, slope, var + uSparkleVar);
+    float g = glint(uSunDir, V, slope, var) + 0.08 * glint(uSunDir, V, slope, var + uSparkleVar);
     float lum = dot(sunIrr, vec3(0.2126, 0.7152, 0.0722)) * g;
     // A pixel's sunlight up to the sparkle level goes into points; any more
     // (the heart of a glitter path) stays an even glare.
     float level = lum / uSparkleLevel;
-    float points = sparkle(vXZ, level);
-    float m = 0.85 * (1.0 - smoothstep(1.0, 4.0, level));
+    float near;
+    float points = sparkle(vXZ, level, near);
+    // Close up, more of it stays an even sheen, so the sparkles sit in the
+    // glint instead of on top of it.
+    float m = mix(0.85, 0.5, near) * (1.0 - smoothstep(1.0, 4.0, level));
     spec += sunIrr * g * mix(1.0, points, m);
   } else {
     spec += sunIrr * glint(uSunDir, V, slope, var);

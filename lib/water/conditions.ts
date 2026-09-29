@@ -63,6 +63,15 @@ const FETCH_KM: [number, number][] = [
   [360, 1.4],
 ];
 
+/**
+ * The wind the water is drawn for, whatever the real one is: west-southwest,
+ * up the Upper Bay and straight at the pier, so the waves run toward the
+ * camera with their crests across the frame. From Brooklyn or down the East
+ * River the real sea is a short, crossing chop that reads as lumps from the
+ * rail. The real direction still goes in the words.
+ */
+export const WATER_WIND_FROM = 250;
+
 export function fetchForWind(fromDegrees: number): number {
   const d = ((fromDegrees % 360) + 360) % 360;
   for (let i = 0; i < FETCH_KM.length - 1; i++) {

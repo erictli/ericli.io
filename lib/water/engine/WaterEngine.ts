@@ -2,9 +2,9 @@ import * as THREE from "three";
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer.js";
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
 import { OutputPass } from "three/examples/jsm/postprocessing/OutputPass.js";
-import { PIER, fetchForWind, type WaterConditions } from "../conditions";
+import { PIER, WATER_WIND_FROM, fetchForWind, type WaterConditions } from "../conditions";
 import { Passes, noiseTexture } from "@/lib/vignettes/gpgpu";
-import { Ocean, CASCADE_SIZES, seaHeightStats, significantHeight, type SeaState } from "./ocean";
+import { Ocean, CASCADE_SIZES, significantHeight, type SeaState } from "./ocean";
 import { Ripples } from "./ripples";
 import { SkyMap } from "@/lib/vignettes/sky";
 import { WaterSurface, type SurfaceExtent } from "./surface";
@@ -30,14 +30,11 @@ export interface EngineOptions {
  * lengths out. The frame is square, so the vertical field of view is the
  * whole story.
  */
-// How much sharper than a sine the crests are: the slope at one standard
-// deviation above the mean level is this much steeper than the wave's own,
-// and as much gentler below it.
-const STOKES_SHARPNESS = 0.7;
-
 // Sun sparkles: how bright one gets at its peak, as a multiple of the
-// frame's mid-gray, and how many pixels across the cells that hold them are.
-const SPARKLE = { peak: 36, cellPx: 2.2 };
+// frame's mid-gray; how many pixels across the cells that hold them are; and
+// the smallest a cell gets on the water (a facet, meters), which makes the
+// close ones bigger and softer.
+const SPARKLE = { peak: 36, cellPx: 2.2, facet: 0.02 };
 
 const LENS = {
   fovDeg: 26,
@@ -72,7 +69,8 @@ interface Smoothed {
 }
 
 function targetsFrom(c: WaterConditions): Smoothed {
-  const toward = THREE.MathUtils.degToRad(c.windDirection + 180);
+  // Always the pier's best wind (see WATER_WIND_FROM), not the real one.
+  const toward = THREE.MathUtils.degToRad(WATER_WIND_FROM + 180);
   const snow = c.precipitationType === "snow";
   return {
     timeMs: c.time.getTime(),
@@ -318,7 +316,9 @@ export class WaterEngine {
       fetch,
       windDir,
       windAmp: Math.max(smoothstep(2.0, 4.5, windSpeed), 0.45 * calm),
-      reflect: THREE.MathUtils.lerp(0.08, 0.3, calm),
+      // Some of it bounced off the seawalls, but not so much that it stands
+      // and bobs in place instead of running.
+      reflect: THREE.MathUtils.lerp(0.08, 0.18, calm),
       // Wakes and leftover swell: what moves the water when the wind doesn't,
       // and a cross sea the wind waves bury as they grow.
       swellAmp: 0.08 * (1 - 0.5 * smoothstep(4, 10, windSpeed)),
@@ -331,17 +331,19 @@ export class WaterEngine {
         0.75 * smoothstep(150, 700, fetch) * (1 - 0.65 * smoothstep(1500, 4000, fetch)) * smoothstep(2, 5, windSpeed),
       // The chop's own short waves only: light air raises no ripples of its
       // own, and without them the chop reads as waves, not a hatch of lines.
-      rollOff: THREE.MathUtils.lerp(60, 20, calm),
+      rollOff: THREE.MathUtils.lerp(60, 35, calm),
       // Long-crested once the sea has grown: wind waves run in ridges, not
       // humps. A young sea off a short fetch is a jumble.
       spreadMin:
         THREE.MathUtils.lerp(6, 25, smoothstep(200, 800, fetch)) *
         THREE.MathUtils.lerp(1, 0.4, smoothstep(8, 14, windSpeed)) *
-        THREE.MathUtils.lerp(1, 0.35, calm),
+        THREE.MathUtils.lerp(1, 0.55, calm),
       ripple: 0.00007 * smoothstep(1.2, 4, windSpeed) * (1 + 3.0 * smoothstep(5, 12, windSpeed)),
-      // Crests pinch to points and troughs flatten, like real wind waves; eased
-      // back in a gale so the steepest waves don't fold through themselves.
-      choppiness: 1.2 + 0.3 * smoothstep(1.5, 6, windSpeed) - 0.2 * smoothstep(10, 16, windSpeed),
+      // Crests pinch to points and troughs open out flat, like real wind
+      // waves, without lifting the crests any higher (lifting them made the
+      // sea bob like a pot). Eased back in a gale, whose crests already fold
+      // over into foam.
+      choppiness: 1.45 + 0.3 * smoothstep(1.5, 6, windSpeed) - 0.45 * smoothstep(9, 15, windSpeed),
       // Whitecaps where the surface folds: none in a breeze, everywhere in a gale.
       foamBias: THREE.MathUtils.lerp(-0.45, 0.42, smoothstep(4.5, 13, windSpeed)),
       foamHalfLife: 1.4,
@@ -444,14 +446,6 @@ export class WaterEngine {
     wu.uCrestK.value = (0.7 * grown) / Math.max(hsLong, 0.04);
     wu.uLean.value = 0.45 * grown;
     wu.uFaceK.value = 3.5 * grown;
-    // Pointed crests and flat troughs, in every sea: a second-order Stokes
-    // correction sized to the height the tiles actually carry, and stronger
-    // than a random sea's own (its real crests are sharper than its spectrum
-    // says, from the short waves riding on them and breaking at the top).
-    const { variance } = seaHeightStats(sea);
-    const heightSd = Math.sqrt(variance);
-    wu.uStokesK.value = STOKES_SHARPNESS / (2 * Math.max(heightSd, 0.005));
-    wu.uStokesVar.value = variance;
     wu.uSunDir.value.copy(sunDir);
     wu.uSunIrr.value.fromArray(sunIrr);
     // Whenever the sun reaches the water, its light off the smallest facets
@@ -459,8 +453,9 @@ export class WaterEngine {
     // model sets only how many there are.
     const sunOnWater = sunDir.y > 0 && sunThrough > 0.01;
     const exposed = Number.isFinite(this.exposure) ? this.exposure : 1;
-    wu.uSparkleLevel.value = sunOnWater ? (SPARKLE.peak * this.meterKey) / (4.06 * exposed) : 0;
-    wu.uSparkleVar.value = 0.05 + 0.01 * windSpeed;
+    wu.uSparkleLevel.value = sunOnWater ? (SPARKLE.peak * this.meterKey) / (3.54 * exposed) : 0;
+    wu.uSparkleVar.value = 0.03 + 0.006 * windSpeed;
+    wu.uSparkleWorld.value = SPARKLE.facet;
     const pxAngle = (2 * Math.tan(THREE.MathUtils.degToRad(LENS.fovDeg / 2))) / Math.max(this.renderer.domElement.height, 1);
     wu.uSparkleFrame.value.set(
       Math.sin(this.headingRad),
