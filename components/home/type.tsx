@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from "react";
 import type { WaterConditions } from "@/lib/water/conditions";
 import { HarborCanvas } from "./harbor";
 
@@ -57,7 +57,10 @@ export function FitText({ text, className = "" }: { text: string; className?: st
       const W = box.current?.clientWidth ?? 0;
       if (!W || !probe.current) return;
       const ink = measureInk(probe.current, text);
-      const fontSize = (100 * W) / (ink.left + ink.right);
+      // The canvas can't set tabular figures, so trust the page's own width
+      // when it is the wider of the two: the line must never overflow.
+      const setWidth = probe.current.getBoundingClientRect().width;
+      const fontSize = (100 * W) / Math.max(ink.left + ink.right, setWidth + ink.left);
       setSize({ fontSize, shift: (ink.left * fontSize) / 100 });
     },
     [text],
@@ -157,12 +160,15 @@ export function ClockLockup({
   mm,
   conditions,
   label,
+  overlay,
   className = "",
 }: {
   hh: string;
   mm: string;
   conditions: WaterConditions;
   label: string;
+  /** Laid over the water, such as a caption. */
+  overlay?: ReactNode;
   /** Font classes for the numerals. */
   className?: string;
 }) {
@@ -202,13 +208,10 @@ export function ClockLockup({
           <span className={digits} style={digitStyle}>
             {hh}
           </span>
-          <HarborCanvas
-            conditions={conditions}
-            className="shrink-0"
-            style={{ width: fit.side, height: fit.side }}
-            maxAspect={1.5}
-            label={label}
-          />
+          <div className="relative shrink-0 overflow-hidden" style={{ width: fit.side, height: fit.side }}>
+            <HarborCanvas conditions={conditions} className="absolute inset-0" maxAspect={1.5} label={label} />
+            {overlay}
+          </div>
           <span className={digits} style={digitStyle}>
             {mm}
           </span>
@@ -240,12 +243,15 @@ export function InlineName({
   conditions,
   label,
   aspect = 1.5,
+  overlay,
   className = "",
 }: {
   first: string;
   last: string;
   conditions: WaterConditions;
   label: string;
+  /** Laid over the water, such as a caption. */
+  overlay?: ReactNode;
   /** Width over height of the water. */
   aspect?: number;
   /** Font classes for the name. */
@@ -295,13 +301,13 @@ export function InlineName({
           <span className={className} style={style}>
             {first}
           </span>
-          <HarborCanvas
-            conditions={conditions}
-            className="shrink-0"
+          <div
+            className="relative shrink-0 overflow-hidden"
             style={{ width: fit.height * aspect, height: fit.height, marginLeft: fit.gap, marginRight: fit.gap }}
-            maxAspect={aspect + 0.3}
-            label={label}
-          />
+          >
+            <HarborCanvas conditions={conditions} className="absolute inset-0" maxAspect={aspect + 0.3} label={label} />
+            {overlay}
+          </div>
           <span className={className} style={style}>
             {last}
           </span>
