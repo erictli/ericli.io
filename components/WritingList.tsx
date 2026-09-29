@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useTheme } from "@/contexts/ThemeContext";
-import { SiteName } from "./SiteName";
 
 type Article = {
   slug: string;
@@ -26,9 +25,8 @@ export default function WritingList({ articles }: WritingListProps) {
 
   return (
     <main
-      className={`relative min-h-screen w-full font-sans text-sm leading-[1.5] font-[450] transition-colors duration-200 ${getTextColorClass()}`}
+      className={`min-h-screen w-full font-sans text-sm leading-[1.5] font-[450] transition-colors duration-200 ${getTextColorClass()}`}
     >
-      <SiteName />
       <div className="mx-auto flex max-w-160 flex-col gap-4 p-6 pt-20 pb-32 opacity-0 animate-fadeInUpSmall1">
         <h1 className={getMutedTextClass()}>Writing</h1>
         <ul className="flex flex-col gap-2">

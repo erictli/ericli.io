@@ -1,8 +1,6 @@
 "use client";
 
 import { useTheme } from "@/contexts/ThemeContext";
-import Link from "next/link";
-import { SiteName } from "./SiteName";
 
 interface ArticleLayoutProps {
   article: {
@@ -20,7 +18,6 @@ export default function ArticleLayout({
   const {
     getTextColorClass,
     getMutedTextClass,
-    getMutedHoverClass,
     isHydrated,
   } = useTheme();
 
@@ -30,9 +27,8 @@ export default function ArticleLayout({
 
   return (
     <main
-      className={`relative min-h-screen font-sans transition-colors duration-200 ${getTextColorClass()}`}
+      className={`min-h-screen overflow-x-clip font-sans transition-colors duration-200 ${getTextColorClass()}`}
     >
-      <SiteName />
       <style jsx>{`
         .prose {
           --tw-prose-bullets: ${getTextColorClass() === "text-neutral-950"
@@ -58,7 +54,7 @@ export default function ArticleLayout({
               </time>
               <span>{article.readTime}</span>
             </div>
-            <h1 className="text-[22px] leading-snug font-medium tracking-[-0.005em]">
+            <h1 className="text-base leading-snug font-medium">
               {article.title}
             </h1>
           </header>
@@ -66,7 +62,7 @@ export default function ArticleLayout({
           <div
             className={`font-[450] prose max-w-none transition-colors duration-200 text-base
               prose-headings:font-medium prose-headings:transition-colors
-              prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4 prose-h3:text-lg prose-h3:mt-6 prose-h3:mb-3
+              prose-headings:text-base prose-h2:mt-10 prose-h2:mb-3 prose-h3:mt-6 prose-h3:mb-2
               prose-p:leading-[1.7] prose-p:transition-colors prose-a:no-underline
               prose-a:border-b prose-a:border-dotted prose-a:pb-0.5 prose-a:font-[425] prose-a:transition-opacity prose-a:hover:opacity-60 prose-a:focus-visible:outline-none
               prose-strong:font-medium prose-strong:transition-colors
@@ -100,12 +96,6 @@ export default function ArticleLayout({
           >
             {children}
           </div>
-          <Link
-            href="/writing"
-            className={`${getMutedTextClass()} ${getMutedHoverClass()} mt-12 block w-fit text-sm font-[450]`}
-          >
-            More writing
-          </Link>
         </article>
       </div>
     </main>
