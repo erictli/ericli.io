@@ -325,7 +325,7 @@ const KNOCKOUT_FACES: Record<KnockoutFont, string> = {
 };
 
 /** The name set huge across the foot of the page, the harbor seen only through its letters. */
-function KnockoutLayout({ articles, font = "wide" }: Props) {
+function KnockoutLayout({ articles, font = "condensed" }: Props) {
   const { conditions, facts } = useLiveHarbor();
   const c = useHomeClasses();
   return (
