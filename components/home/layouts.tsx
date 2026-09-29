@@ -218,30 +218,35 @@ function FlankLayout({ articles }: Props) {
   );
 }
 
-/** The name on one line with the water set in it, between the words. */
+/** The name on one line with a square of water set in it, between the words. */
 function InlineLayout({ articles }: Props) {
   const { conditions, liveStatus, facts } = useLiveHarbor();
   const c = useHomeClasses();
   return (
     <main className={`${POSTER} ${c.text}`}>
       <div className={SCREEN}>
-        <TopLinks className={`self-end ${IN[0]}`} />
         <div className="flex flex-1 items-center justify-center py-16">
-          <div className={`w-full lg:w-[80%] ${IN[0]}`}>
+          <div className={`w-full sm:w-[76%] lg:w-[58%] ${IN[0]}`}>
             <InlineName
               first="Eric"
               last="Li"
               conditions={conditions}
               label={harborLabel(facts)}
+              aspect={1}
+              height="cap-height"
               overlay={<WaterCaption facts={facts} liveStatus={liveStatus} variant="compact" className="max-sm:hidden sm:p-2.5 sm:text-[11px]" />}
               className="font-sans font-semibold tracking-[-0.05em]"
             />
           </div>
         </div>
-        <div className={`grid gap-8 lg:grid-cols-3 lg:items-end ${IN[1]}`}>
-          <ProjectsMini />
-          <Intro className="max-w-md gap-2 text-[14px] lg:justify-self-center" />
-          <WritingMini articles={articles} count={2} align="right" className={`${RIGHT_WHEN_WIDE} lg:justify-self-end`} />
+        {/* Three even columns, top-aligned so their labels share a line. */}
+        <div className={`grid gap-10 sm:grid-cols-3 sm:gap-8 ${IN[1]}`}>
+          <div className="flex flex-col gap-1">
+            <p className={`${LABEL} ${c.muted} mb-1`}>About</p>
+            <Intro className="max-w-xs gap-2 text-[13px]" />
+          </div>
+          <ProjectsMini className="sm:justify-self-center" />
+          <WritingMini articles={articles} align="right" className="max-sm:items-start max-sm:text-left sm:justify-self-end" />
         </div>
       </div>
     </main>

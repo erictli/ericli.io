@@ -262,7 +262,8 @@ export function useMediaQuery(query: string) {
 
 /**
  * A name on one line with a small window of water set between its words,
- * sitting on the baseline and as tall as the lowercase letters.
+ * sitting on the baseline and as tall as the lowercase letters or the
+ * capitals.
  */
 export function InlineName({
   first,
@@ -270,6 +271,7 @@ export function InlineName({
   conditions,
   label,
   aspect = 1.5,
+  height = "x-height",
   overlay,
   className = "",
 }: {
@@ -281,6 +283,8 @@ export function InlineName({
   overlay?: ReactNode;
   /** Width over height of the water. */
   aspect?: number;
+  /** How tall the water stands: to the top of the lowercase letters, or of the capitals. */
+  height?: "x-height" | "cap-height";
   /** Font classes for the name. */
   className?: string;
 }) {
@@ -300,7 +304,7 @@ export function InlineName({
       const b = measureInk(lastProbe.current, last);
       const wFirst = firstProbe.current.getBoundingClientRect().width;
       const wLast = lastProbe.current.getBoundingClientRect().width;
-      const xHeight = measureInk(firstProbe.current, "x").ascent;
+      const xHeight = measureInk(firstProbe.current, height === "cap-height" ? "H" : "x").ascent;
       const gap = 12;
       const leftTrim = -a.left;
       const rightTrim = wLast - b.right - b.letterSpacing;
@@ -308,7 +312,7 @@ export function InlineName({
       const k = W / total;
       setFit({ fontSize: 100 * k, height: xHeight * k, gap: gap * k, shift: leftTrim * k });
     },
-    [first, last, aspect],
+    [first, last, aspect, height],
   );
 
   const style = fit ? { fontSize: fit.fontSize } : undefined;

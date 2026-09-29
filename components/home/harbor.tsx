@@ -54,8 +54,8 @@ export const LABEL = "text-[11px] uppercase tracking-[0.08em]";
 
 /**
  * Where and what the water is right now, set small in its bottom corner:
- * one line, two lines for a narrow frame, or just the time and sky for a
- * very small one.
+ * one line, two lines for a narrow frame, or just the time and sky (also on
+ * two lines) for a very small one.
  */
 export function WaterCaption({
   facts,
@@ -84,10 +84,18 @@ export function WaterCaption({
           </p>
           <p className="pl-3.5">{conditions}</p>
         </>
+      ) : variant === "compact" ? (
+        <>
+          <p className="flex items-center gap-2">
+            {dot}
+            {facts.time}
+          </p>
+          <p className="pl-3.5">{facts.sky}</p>
+        </>
       ) : (
         <p className="flex items-center gap-2">
           {dot}
-          <span className="truncate">{variant === "compact" ? `${facts.time} · ${facts.sky}` : `${facts.place} · ${conditions}`}</span>
+          <span className="truncate">{`${facts.place} · ${conditions}`}</span>
         </p>
       )}
     </div>
