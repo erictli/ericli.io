@@ -1,5 +1,5 @@
 import "./globals.css";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { Besley } from "next/font/google";
 import { PHProvider, PostHogPageview } from "./providers";
@@ -55,6 +55,18 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  colorScheme: "light dark",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#fafafa" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
+  ],
+};
+
+// Paints the page background for the visitor's scheme before anything
+// hydrates, so a dark-mode visitor never sees a white flash.
+const schemeScript = `(function(){try{var d=window.matchMedia("(prefers-color-scheme: dark)").matches;var c=d?"#0a0a0a":"#fafafa";document.documentElement.style.backgroundColor=c;document.documentElement.dataset.scheme=d?"dark":"light";}catch(e){}})();`;
+
 const personJsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
@@ -81,6 +93,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${mondwest.variable} ${besley.variable}`}>
       <head>
+        <script dangerouslySetInnerHTML={{ __html: schemeScript }} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}

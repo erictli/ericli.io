@@ -76,21 +76,30 @@ const DEFAULT_THEME: ThemeState = {
   color: "#fafafa",
 };
 
-// The site is light everywhere now; a theme a visitor picked back when
-// there was a color picker is left in localStorage and ignored.
-function getInitialTheme(): ThemeState {
-  return DEFAULT_THEME;
+const DARK_THEME: ThemeState = {
+  mode: "dark",
+  color: "#0a0a0a",
+};
+
+// The scheme follows the visitor's system setting, which most systems flip
+// at their local sunset. A color picked back when the site had a picker is
+// left in localStorage and ignored.
+function systemTheme(query: MediaQueryList): ThemeState {
+  return query.matches ? DARK_THEME : DEFAULT_THEME;
 }
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [themeState, setThemeState] = useState<ThemeState>(DEFAULT_THEME);
   const [isHydrated, setIsHydrated] = useState(false);
 
-  // Load theme from localStorage on client-side hydration
+  // Follow prefers-color-scheme, including changes while the page is open.
   useEffect(() => {
-    const initialTheme = getInitialTheme();
-    setThemeState(initialTheme);
+    const query = window.matchMedia("(prefers-color-scheme: dark)");
+    const apply = () => setThemeState(systemTheme(query));
+    apply();
     setIsHydrated(true);
+    query.addEventListener("change", apply);
+    return () => query.removeEventListener("change", apply);
   }, []);
 
   // Update document background color whenever theme changes
