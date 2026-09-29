@@ -306,8 +306,10 @@ export class WaterEngine {
       windAmp: smoothstep(2.0, 4.5, windSpeed),
       reflect: 0.08,
       // Wakes and leftover swell: what moves the water when the wind doesn't,
-      // and a cross sea the wind waves bury as they grow.
-      swellAmp: 0.08 * (1 - 0.5 * smoothstep(4, 10, windSpeed)),
+      // and a cross sea the wind waves bury as they grow. A harbor never goes
+      // glassy (ferries, the tide, waves off the bulkheads), so light air gets
+      // extra, which gives way by 10 mph as the wind sea takes over.
+      swellAmp: 0.08 * (1 - 0.5 * smoothstep(4, 10, windSpeed)) + 0.08 * (1 - smoothstep(2, 4.5, windSpeed)),
       swellDir: new THREE.Vector2(0.96, -0.28),
       // The steepening is for the chop that has had a kilometer or so to
       // build. Wavelets off a short fetch are young and steep already, and
