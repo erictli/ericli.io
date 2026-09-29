@@ -73,7 +73,7 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 // Default theme
 const DEFAULT_THEME: ThemeState = {
   mode: "light",
-  color: "#fafafa",
+  color: "#ffffff",
 };
 
 const DARK_THEME: ThemeState = {
@@ -141,7 +141,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   };
 
   const getBackgroundColor = () => {
-    if (themeState.mode === "light") return "#fafafa";
+    if (themeState.mode === "light") return "#ffffff";
     if (themeState.mode === "dark") return "#0a0a0a";
     return themeState.color;
   };

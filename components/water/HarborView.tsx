@@ -15,8 +15,8 @@ export interface HarborViewProps {
   maxAspect?: number;
   /** Describes the view for screen readers. */
   label?: string;
-  /** Wait at least this long after mounting (ms) before fading in, so words set around it can arrive first. */
-  revealAfter?: number;
+  /** Called once there's something to show: the first frame, or the fallback if WebGL is missing. The caller fades it in. */
+  onReady?: () => void;
 }
 
 export default function HarborView({
@@ -25,28 +25,15 @@ export default function HarborView({
   style,
   maxAspect = 3,
   label,
-  revealAfter = 0,
+  onReady,
 }: HarborViewProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const engineRef = useRef<WaterEngine | null>(null);
   const conditionsRef = useRef(conditions);
   conditionsRef.current = conditions;
-  const [ready, setReady] = useState(false);
-  const [shown, setShown] = useState(false);
   const [failed, setFailed] = useState(false);
-  const mountedAt = useRef(0);
-
-  useEffect(() => {
-    mountedAt.current = performance.now();
-  }, []);
-
-  // Fade in once the first frame is drawn, but never before revealAfter.
-  useEffect(() => {
-    if (!ready) return;
-    const wait = Math.max(0, revealAfter - (performance.now() - mountedAt.current));
-    const t = setTimeout(() => setShown(true), wait);
-    return () => clearTimeout(t);
-  }, [ready, revealAfter]);
+  const onReadyRef = useRef(onReady);
+  onReadyRef.current = onReady;
 
   useEffect(() => {
     const el = containerRef.current;
@@ -54,13 +41,14 @@ export default function HarborView({
     let engine: WaterEngine;
     try {
       engine = new WaterEngine(el, conditionsRef.current, {
-        onReady: () => setReady(true),
+        onReady: () => onReadyRef.current?.(),
         maxAspect,
         maxPixelRatio: 1.25,
       });
     } catch (err) {
       console.error(err);
       setFailed(true);
+      onReadyRef.current?.();
       return;
     }
     engineRef.current = engine;
@@ -79,16 +67,13 @@ export default function HarborView({
 
   return (
     <div
-      className={`${positioned} overflow-hidden bg-[#1c2124] ${className}`}
+      className={`${positioned} overflow-hidden ${className}`}
       style={style}
       role={label ? "img" : undefined}
       aria-label={label}
     >
       {!failed && (
-        <div
-          ref={containerRef}
-          className={`absolute inset-0 transition-opacity duration-1000 ${shown ? "opacity-100" : "opacity-0"}`}
-        />
+        <div ref={containerRef} className="absolute inset-0" />
       )}
       {failed && <div className="absolute inset-0 bg-[linear-gradient(180deg,#5c666b_0%,#2d363b_55%,#1c2124_100%)]" />}
     </div>

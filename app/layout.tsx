@@ -58,14 +58,14 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   colorScheme: "light dark",
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#fafafa" },
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
     { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
   ],
 };
 
 // Paints the page background for the visitor's scheme before anything
 // hydrates, so a dark-mode visitor never sees a white flash.
-const schemeScript = `(function(){try{var d=window.matchMedia("(prefers-color-scheme: dark)").matches;var c=d?"#0a0a0a":"#fafafa";document.documentElement.style.backgroundColor=c;document.documentElement.dataset.scheme=d?"dark":"light";}catch(e){}})();`;
+const schemeScript = `(function(){try{var d=window.matchMedia("(prefers-color-scheme: dark)").matches;var c=d?"#0a0a0a":"#ffffff";document.documentElement.style.backgroundColor=c;document.documentElement.dataset.scheme=d?"dark":"light";}catch(e){}})();`;
 
 const personJsonLd = {
   "@context": "https://schema.org",
