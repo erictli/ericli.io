@@ -3,7 +3,8 @@
 import { useCallback, useEffect, useState } from "react";
 import { presetConditions, type Preset, type WaterConditions } from "@/lib/water/conditions";
 import { fetchPierConditions } from "@/lib/water/open-meteo";
-import type { LiveStatus } from "./VignetteFrame";
+
+export type LiveStatus = "loading" | "ok" | "error";
 
 export type Source = { kind: "preset"; id: string } | { kind: "custom" } | { kind: "live"; status: LiveStatus };
 

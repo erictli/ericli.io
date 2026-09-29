@@ -3,7 +3,7 @@
 import dynamic from "next/dynamic";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { MS_TO_MPH, PIER, PRESETS, compassPoint, describeSky, formatPierTime, type WaterConditions } from "@/lib/water/conditions";
-import { useConditions } from "@/components/vignettes/useConditions";
+import { useConditions } from "./useConditions";
 
 // The harbor as it is right now, for the homepage: the live conditions, a
 // few facts about them, and the water itself (client-only, and kept out of

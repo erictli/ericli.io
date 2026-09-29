@@ -52,13 +52,8 @@ export default function NavMenu() {
     }
   }, [open]);
 
-  // The full-frame pages (the map, the water) have their own way back home.
-  if (
-    pathname.startsWith("/nyc") ||
-    pathname.startsWith("/water") ||
-    !isHydrated
-  )
-    return null;
+  // The map is full-frame and has its own way back home.
+  if (pathname.startsWith("/nyc") || !isHydrated) return null;
 
   // The homepage lays out every link the menu has, except on a phone, where
   // they're a long scroll down.
