@@ -7,8 +7,6 @@ image: "/writing/the-light.jpg"
 
 ![](/writing/the-light.jpg)
 
-<Callout>Written in February 2026. Things are changing quickly, so if you're reading this later, some of the specifics may no longer apply.</Callout>
-
 There's been a lot of debate about the future of design tooling. Specifically, whether the future of product design is canvas-based or code-based.
 
 I think it's mostly going to be code-based.

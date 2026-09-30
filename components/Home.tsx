@@ -1,247 +1,230 @@
-// Adjust the styles of the articles
-
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { useTheme } from "@/contexts/ThemeContext";
-type Article = {
+import { Contact, Intro } from "./home/Intro";
+import { useHomeClasses } from "./home/classes";
+import { HarborFrame, WaterCaption, useLiveHarbor } from "./home/harbor";
+import type { HarborWeather } from "@/lib/water/open-meteo";
+
+// The homepage as a min-[72rem]: a tall plate of the harbor off Pier 1, as it is
+// right now, in the middle of the page, and the words pinned to its four
+// corners: who, what I make, about, and what I write. Narrower, the words
+// stack in one column beside the water (the name at the top, the rest at
+// the bottom); on a phone it all becomes one column, in reading order.
+
+export type Article = {
   slug: string;
   title: string;
   date: string;
   readTime: string;
 };
 
-interface HomeProps {
+type Project = {
+  href: string;
+  external: boolean;
+  name: string;
+  /** A line or two, shown on hover. */
+  detail: string;
+};
+
+const PROJECTS: Project[] = [
+  {
+    href: "https://getversive.com",
+    external: true,
+    name: "Versive",
+    detail:
+      "An AI-first user research platform. Run surveys, usability tests, and AI-moderated interviews.",
+  },
+  {
+    href: "/scratch",
+    external: false,
+    name: "Scratch",
+    detail:
+      "An offline-first markdown notes app for Mac, Windows and Linux. Open source and free to use.",
+  },
+  {
+    href: "https://juno.ericli.io",
+    external: true,
+    name: "Juno",
+    detail: "A browser-based naval warfare game. Like Hades meets Battleship.",
+  },
+];
+
+// Every word arrives at once, quickly; the water develops in after it.
+const IN = "animate-fadeInUpSmall0 opacity-0";
+/**
+ * Three columns from 72rem (1152px), where the side columns get about 250px;
+ * narrower, the words stack beside the water, then under it on a phone.
+ * Right-aligned in the right-hand corners, left-aligned once stacked.
+ */
+const RIGHT_CORNER =
+  "min-[72rem]:items-end min-[72rem]:text-right max-[72rem]:items-start max-[72rem]:text-left";
+
+export default function Home({
+  articles,
+  weather,
+}: {
   articles: Article[];
-}
-
-export default function Home({ articles }: HomeProps) {
-  const [emailTooltip, setEmailTooltip] = useState<
-    "hidden" | "hover" | "copied" | "leaving"
-  >("hidden");
-  const {
-    getTextColorClass,
-    getLinkColorClass,
-    getMutedTextClass,
-    getMutedHoverClass,
-    getBorderColorClass,
-    isHydrated,
-    shouldUseDarkText,
-  } = useTheme();
-
-  const handleEmailClick = useCallback((e: React.MouseEvent) => {
-    if (!window.matchMedia("(min-width: 640px)").matches) return;
-    e.preventDefault();
-    navigator.clipboard.writeText("hi@ericli.io");
-    setEmailTooltip("copied");
-    setTimeout(() => setEmailTooltip("leaving"), 1500);
-  }, []);
-
+  /** The weather at the pier when the page was rendered, if the server had it. */
+  weather: HarborWeather | null;
+}) {
+  const { isHydrated } = useTheme();
   if (!isHydrated) {
     return <div className="flex justify-center items-center h-screen"></div>;
   }
+  return <Poster articles={articles} weather={weather} />;
+}
 
+function Poster({
+  articles,
+  weather,
+}: {
+  articles: Article[];
+  weather: HarborWeather | null;
+}) {
+  const { conditions, facts } = useLiveHarbor(weather);
+  const c = useHomeClasses();
   return (
+    // No scroll anchoring here: the words rise 12px as they fade in, and on a
+    // reload the browser would chase that rise, landing 12px lower each time.
     <main
-      className={`min-h-screen w-full font-system-sans transition-colors duration-200 ${getTextColorClass()}`}
+      className={`min-h-dvh w-full font-sans text-sm leading-[1.5] font-[450] [overflow-anchor:none] ${c.text}`}
     >
-      <div className="flex p-6 pt-16 pb-32 flex-col gap-8 max-w-132 text-[15px] mx-auto lg:flex-row lg:max-w-none lg:justify-between lg:gap-4">
-        <div className="flex w-full max-w-sm flex-col gap-8">
-          <div className="flex flex-col gap-3 font-[450] animate-fadeInUpSmall1 opacity-0">
-            <h1>I&apos;m Eric Li, a designer and builder based in Brooklyn.</h1>
-            <p>
-              I&apos;m the co-founder of{" "}
-              <Link
-                href="https://getversive.com"
-                target="_blank"
-                className={`hover:opacity-60 transition-opacity border-b border-dotted pb-px ${getLinkColorClass()}`}
-              >
-                Versive
-              </Link>{" "}
-              and the creator of{" "}
-              <Link
-                href="/scratch"
-                className={`hover:opacity-60 transition-opacity border-b border-dotted pb-px ${getLinkColorClass()}`}
-              >
-                Scratch
-              </Link>
-              {"."} I enjoy building thoughtfully crafted software. I&apos;ve
-              worked at Uber and{" "}
-              <Link
-                href="https://www.prnewswire.com/news-releases/alliance-data-completes-acquisition-of-bread-301186414.html"
-                target="_blank"
-                className={`hover:opacity-60 transition-opacity border-b border-dotted pb-px ${getLinkColorClass()}`}
-              >
-                Bread
-              </Link>
-              , and was once an{" "}
-              <Link
-                href="https://www.microsoft.com/en-us/microsoft-365/excel"
-                target="_blank"
-                className={`hover:opacity-60 transition-opacity border-b border-dotted pb-px ${getLinkColorClass()}`}
-              >
-                investment banker
-              </Link>
-              . I&apos;m a cat person.{" "}
-            </p>
-            <p>
-              Find me on{" "}
-              <Link
-                href="https://linkedin.com/in/erictli"
-                target="_blank"
-                className={`hover:opacity-60 transition-opacity border-b border-dotted pb-px ${getLinkColorClass()}`}
-              >
-                LI
-              </Link>
-              ,{" "}
-              <Link
-                href="https://github.com/erictli"
-                target="_blank"
-                className={`hover:opacity-60 transition-opacity border-b border-dotted pb-px ${getLinkColorClass()}`}
-              >
-                GH
-              </Link>
-              ,{" "}
-              <Link
-                href="https://x.com/erictli"
-                target="_blank"
-                className={`hover:opacity-60 transition-opacity border-b border-dotted pb-px ${getLinkColorClass()}`}
-              >
-                X
-              </Link>
-              , or at{" "}
-              <span
-                className="relative inline-block"
-                onMouseEnter={() =>
-                  emailTooltip !== "copied" && setEmailTooltip("hover")
-                }
-                onMouseLeave={() =>
-                  emailTooltip !== "copied" && setEmailTooltip("leaving")
-                }
-              >
-                <a
-                  href="mailto:hi@ericli.io"
-                  onClick={handleEmailClick}
-                  className={`hover:opacity-60 transition-opacity border-b border-dotted pb-px cursor-pointer ${getLinkColorClass()}`}
-                >
-                  hi@ericli.io
-                </a>
-                {emailTooltip !== "hidden" && (
-                  <span
-                    className={`hidden sm:block absolute -top-6.5 left-1/2 -translate-x-1/2 z-50 px-2 py-1 rounded-md text-xs font-medium whitespace-nowrap shadow-sm ${
-                      emailTooltip === "leaving"
-                        ? "animate-tooltipFadeOut"
-                        : "animate-tooltipFadeIn"
-                    } ${
-                      shouldUseDarkText()
-                        ? "bg-neutral-800 text-white"
-                        : "bg-white text-neutral-950"
-                    }`}
-                    onAnimationEnd={() => {
-                      if (emailTooltip === "leaving") setEmailTooltip("hidden");
-                    }}
-                  >
-                    {emailTooltip === "copied" ? "Copied!" : "Click to copy"}
-                  </span>
-                )}
-              </span>
-              .
-            </p>
-          </div>
-          <div className="flex flex-col items-start gap-4.5 animate-fadeInUpSmall2 opacity-0">
-            <h2 className={`${getMutedTextClass()}`}>Projects</h2>
-            <div className="flex items-center gap-2.75">
-              <Link
-                href="https://getversive.com"
-                target="_blank"
-                className="hover:opacity-60 transition-opacity shrink-0 focus-visible:outline-none focus-visible:opacity-60"
-              >
-                <Image
-                  src="/versive-icon.png"
-                  alt="Versive"
-                  width={80}
-                  height={80}
-                  className={`h-10 w-10 rounded-[10px] border ${getBorderColorClass()}`}
-                />
-              </Link>
-              <div className="flex flex-col items-start">
-                <Link
-                  href="https://getversive.com"
-                  target="_blank"
-                  className={`leading-snug font-[450] hover:opacity-60 transition-opacity flex items-center ${getLinkColorClass()}`}
-                >
-                  Versive
-                </Link>
-                <p className={`leading-snug ${getMutedTextClass()}`}>
-                  An AI-powered user research platform
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-2.75">
-              <Link
-                href="/scratch"
-                className="hover:opacity-60 transition-opacity shrink-0 focus-visible:outline-none focus-visible:opacity-60"
-              >
-                <Image
-                  src="/scratch-icon.png"
-                  alt="Scratch"
-                  width={80}
-                  height={80}
-                  className={`h-10 w-10 rounded-[10px] border ${getBorderColorClass()}`}
-                />
-              </Link>
-              <div className="flex flex-col items-start">
-                <Link
-                  href="/scratch"
-                  className={`leading-snug font-[450] hover:opacity-60 transition-opacity flex items-center ${getLinkColorClass()}`}
-                >
-                  Scratch
-                </Link>
-                <p className={`leading-snug ${getMutedTextClass()}`}>
-                  An offline-first markdown notes app
-                </p>
-              </div>
-            </div>
-          </div>
+      {/* Source order is the reading order (and the phone layout); the grid places the corners. */}
+      <div className="grid gap-12 p-6 pb-12 md:min-h-dvh md:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] md:grid-rows-[auto_minmax(0,1fr)_auto_auto_auto_auto] md:gap-x-12 md:gap-y-10 md:pb-6 min-[72rem]:h-dvh min-[72rem]:min-h-[640px] min-[72rem]:grid-cols-[minmax(0,1fr)_minmax(0,32rem)_minmax(0,1fr)] min-[72rem]:grid-rows-[auto_minmax(0,1fr)_auto] min-[72rem]:gap-y-6">
+        {/* Below the menu button in the corner, which only phones get here. */}
+        <div className={`pt-7 md:col-start-1 md:row-start-1 md:pt-0 ${IN}`}>
+          <h1 className="font-medium">
+            Eric Li is a designer and builder
+            <br />
+            based in Brooklyn
+          </h1>
         </div>
-        <div className="flex w-full max-w-sm flex-col items-start gap-4.5 animate-fadeInUpSmall3 opacity-0">
-          <Link
-            href="/writing"
-            className={`${getMutedTextClass()} ${getMutedHoverClass()} ${getLinkColorClass()} w-fit`}
-          >
-            Writing
-          </Link>
-          {articles.map((article) => (
-            <div
-              key={article.slug}
-              className="flex flex-col gap-0.5 items-start"
+        <HarborFrame
+          conditions={conditions}
+          facts={facts}
+          // One column: 4:5, but never taller than most of the screen, nor
+          // wider than the 1.5:1 the water is cut for. Beside the words, as
+          // tall as the page.
+          className="aspect-[4/5] max-h-[70dvh] min-h-[calc((100vw-3rem)/1.5)] w-full md:col-start-2 md:row-span-6 md:row-start-1 md:aspect-auto md:h-full md:max-h-none md:min-h-0 min-[72rem]:row-span-3"
+          maxAspect={1.5}
+          // The words take 0.4s; the water waits for them, then develops in.
+          revealAfter={400}
+        >
+          <WaterCaption facts={facts} />
+        </HarborFrame>
+        {/* Wide, the contact links sit under the bio in its corner; narrower, they sign off the page. */}
+        <Intro
+          className={`max-w-90 md:col-start-1 md:row-start-3 min-[72rem]:self-end ${IN}`}
+          contactClassName="max-[72rem]:hidden"
+        />
+        <Section
+          label="Projects"
+          className={`relative ${RIGHT_CORNER} md:col-start-1 md:row-start-4 min-[72rem]:col-start-3 min-[72rem]:row-start-1 min-[72rem]:justify-self-end ${IN}`}
+        >
+          <ProjectList />
+        </Section>
+        <Section
+          label="Writing"
+          href="/writing"
+          className={`${RIGHT_CORNER} md:col-start-1 md:row-start-5 min-[72rem]:col-start-3 min-[72rem]:row-start-3 min-[72rem]:self-end min-[72rem]:justify-self-end ${IN}`}
+        >
+          {articles.slice(0, 3).map((a) => (
+            <Link
+              key={a.slug}
+              href={`/writing/${a.slug}`}
+              className="max-w-72 hover:opacity-60 transition-opacity"
             >
-              <Link
-                href={`/writing/${article.slug}`}
-                className={`leading-snug font-[450] hover:opacity-60 transition-opacity inline ${getLinkColorClass()}`}
-              >
-                {article.title}
-              </Link>
-              <p className={`${getMutedTextClass()} leading-snug`}>
-                {new Date(article.date).toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "short",
-                  day: "numeric",
-                })}{" "}
-              </p>
-            </div>
+              {a.title}
+            </Link>
           ))}
-          <Link
-            href="/writing"
-            className={`${getMutedTextClass()} ${getMutedHoverClass()} ${getLinkColorClass()} w-fit flex items-center gap-0.5 border-b border-dotted pb-px`}
-          >
-            Read more
+          <Link href="/writing" className={`mt-2 ${c.muted} ${c.mutedHover}`}>
+            See all
           </Link>
-        </div>
+        </Section>
+        <Contact
+          className={`md:col-start-1 md:row-start-6 min-[72rem]:hidden ${IN}`}
+        />
       </div>
     </main>
+  );
+}
+
+/**
+ * Just the names. Where there's a mouse and room, pointing at one quiets the
+ * others and brings up a line about it in the open space below the list, so
+ * nothing moves.
+ */
+function ProjectList() {
+  const c = useHomeClasses();
+  const [active, setActive] = useState<number | null>(null);
+  // The last one pointed at, so the card fades out with its words still in it.
+  const [shown, setShown] = useState(0);
+  const point = (i: number) => {
+    setActive(i);
+    setShown(i);
+  };
+  const project = PROJECTS[shown];
+  return (
+    <>
+      {PROJECTS.map((p, i) => (
+        <Link
+          key={p.name}
+          href={p.href}
+          {...(p.external ? { target: "_blank" } : {})}
+          onMouseEnter={() => point(i)}
+          onMouseLeave={() => setActive(null)}
+          onFocus={() => point(i)}
+          onBlur={() => setActive(null)}
+          className={`transition-opacity duration-200 max-[72rem]:hover:opacity-60 ${
+            active !== null && active !== i
+              ? "min-[72rem]:pointer-fine:opacity-35"
+              : ""
+          }`}
+        >
+          {p.name}
+          <span className="sr-only">: {p.detail}</span>
+        </Link>
+      ))}
+      <div
+        aria-hidden
+        className={`pointer-events-none absolute top-full right-0 mt-3 hidden w-60 text-right transition-[opacity,translate] duration-200 min-[72rem]:pointer-fine:block ${
+          active !== null
+            ? "translate-y-0 opacity-100"
+            : "-translate-y-1 opacity-0"
+        }`}
+      >
+        <p className={c.muted}>{project.detail}</p>
+      </div>
+    </>
+  );
+}
+
+/** A small list under a muted label. */
+function Section({
+  label,
+  href,
+  className = "",
+  children,
+}: {
+  label: string;
+  href?: string;
+  className?: string;
+  children: React.ReactNode;
+}) {
+  const c = useHomeClasses();
+  return (
+    <div className={`flex flex-col gap-0.5 ${className}`}>
+      {href ? (
+        <Link href={href} className={`${c.muted} ${c.mutedHover} mb-2`}>
+          {label}
+        </Link>
+      ) : (
+        <p className={`${c.muted} mb-2`}>{label}</p>
+      )}
+      {children}
+    </div>
   );
 }

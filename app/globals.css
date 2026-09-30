@@ -335,8 +335,17 @@
   }
 }
 
+/* The scheme follows the system; these paint the first frame before the
+   theme provider takes over, so a dark-mode visitor never sees white. */
 body {
-  @apply bg-neutral-50 text-neutral-950 antialiased font-sans;
+  @apply bg-white text-neutral-950 antialiased font-sans;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #0a0a0a;
+    color: #fff;
+  }
 }
 
 ::selection {

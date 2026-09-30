@@ -47,10 +47,15 @@ export default function ScratchLayout({
 }) {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+      {/* Wrapped so it isn't a direct child of <body>: PostHog inserts its
+          scripts before the first body > script, which would land in
+          React's tree and break hydration. */}
+      <div hidden>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </div>
       {children}
     </>
   );

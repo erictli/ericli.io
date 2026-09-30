@@ -1,12 +1,11 @@
 import "./globals.css";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { Besley } from "next/font/google";
 import { PHProvider, PostHogPageview } from "./providers";
 import { Suspense } from "react";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import NavMenu from "@/components/NavMenu";
-import GlobalCloudShader from "@/components/GlobalCloudShader";
 
 const mondwest = localFont({
   src: "../public/fonts/PPMondwest-Regular.woff2",
@@ -28,11 +27,14 @@ const besley = Besley({
 //   variable: "--font-abc-diatype",
 // });
 
+// The homepage's own words, for search results and link previews.
+const DESCRIPTION =
+  "Eric Li is a designer and builder based in Brooklyn. He's the co-founder of Versive and the creator of Scratch, and previously worked at Uber and Bread.";
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://ericli.io"),
   title: "Eric Li",
-  description:
-    "Eric Li is a product designer and developer, and the co-founder of Versive. Previously at Uber, Bread, and Vareto. Based in Brooklyn, NY.",
+  description: DESCRIPTION,
   alternates: {
     canonical: "https://ericli.io",
     types: {
@@ -41,8 +43,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Eric Li",
-    description:
-      "Eric Li is a product designer and developer, and the co-founder of Versive. Previously at Uber, Bread, and Vareto. Based in Brooklyn, NY.",
+    description: DESCRIPTION,
     url: "https://ericli.io",
     siteName: "Eric Li",
     type: "website",
@@ -51,16 +52,29 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Eric Li",
-    description:
-      "Eric Li is a product designer and developer, and the co-founder of Versive. Previously at Uber, Bread, and Vareto. Based in Brooklyn, NY.",
+    description: DESCRIPTION,
+    images: "/opengraph-image.png",
   },
 };
+
+export const viewport: Viewport = {
+  colorScheme: "light dark",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
+  ],
+};
+
+// Paints the page background for the visitor's scheme before anything
+// hydrates, so a dark-mode visitor never sees a white flash.
+const schemeScript = `(function(){try{var d=window.matchMedia("(prefers-color-scheme: dark)").matches;var c=d?"#0a0a0a":"#ffffff";document.documentElement.style.backgroundColor=c;document.documentElement.dataset.scheme=d?"dark":"light";}catch(e){}})();`;
 
 const personJsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
   name: "Eric Li",
   url: "https://ericli.io",
+  description: DESCRIPTION,
   jobTitle: "Co-founder",
   worksFor: {
     "@type": "Organization",
@@ -71,7 +85,11 @@ const personJsonLd = {
     "@type": "CollegeOrUniversity",
     name: "University of Chicago",
   },
-  sameAs: ["https://linkedin.com/in/erictli", "https://github.com/erictli"],
+  sameAs: [
+    "https://linkedin.com/in/erictli",
+    "https://x.com/erictli",
+    "https://github.com/erictli",
+  ],
 };
 
 export default function RootLayout({
@@ -80,8 +98,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${mondwest.variable} ${besley.variable}`}>
+    // The scheme script sets attributes on <html> before hydration; React
+    // should expect them rather than warn.
+    <html
+      lang="en"
+      className={`${inter.variable} ${mondwest.variable} ${besley.variable}`}
+      suppressHydrationWarning
+    >
       <head>
+        <script dangerouslySetInnerHTML={{ __html: schemeScript }} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
@@ -92,12 +117,9 @@ export default function RootLayout({
       </Suspense>
       <PHProvider>
         <ThemeProvider>
-          <body
-            className="transition-colors duration-800"
-          >
+          <body className="transition-colors duration-800">
             <NavMenu />
             {children}
-            <GlobalCloudShader />
           </body>
         </ThemeProvider>
       </PHProvider>

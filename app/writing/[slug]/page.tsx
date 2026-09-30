@@ -50,6 +50,21 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
+/**
+ * Most articles open with a picture. It belongs to the header, not the
+ * reading, so lift it out of the body for the layout to set.
+ */
+function splitLead(content: string) {
+  let body = content.replace(/^\s+/, "");
+  let hero: { src: string; alt: string } | undefined;
+  const image = body.match(/^!\[([^\]]*)\]\(([^)\s]+)\)[ \t]*(?:\n|$)/);
+  if (image && !/\.(mp4|webm|mov|avi|mkv)$/i.test(image[2])) {
+    hero = { alt: image[1], src: image[2] };
+    body = body.slice(image[0].length).replace(/^\s+/, "");
+  }
+  return { hero, body };
+}
+
 export default async function ArticlePage({ params }: Props) {
   const { slug } = await params;
   const article = await getArticleBySlug(slug);
@@ -73,14 +88,21 @@ export default async function ArticlePage({ params }: Props) {
     ...(article.image && { image: `https://ericli.io${article.image}` }),
   };
 
+  const { hero, body } = splitLead(article.content);
+
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
-      <ArticleLayout article={article}>
-        <MDXRemote source={article.content} components={mdxComponents} />
+      {/* Wrapped so it isn't a direct child of <body>: PostHog inserts its
+          scripts before the first body > script, which would land in
+          React's tree and break hydration. */}
+      <div hidden>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </div>
+      <ArticleLayout article={article} hero={hero}>
+        <MDXRemote source={body} components={mdxComponents} />
       </ArticleLayout>
     </>
   );

@@ -1,15 +1,6 @@
 import type { MDXComponents } from "mdx/types";
 
-function Callout({ children }: { children: React.ReactNode }) {
-  return (
-    <p className="text-sm sm:text-[15px] font-normal text-[var(--article-muted)]! leading-normal! -mt-5! mb-8!">
-      {children}
-    </p>
-  );
-}
-
 export const mdxComponents: MDXComponents = {
-  Callout,
   a: ({ href, children, ...props }) => {
     const isExternal = href?.startsWith("http");
     return (
@@ -30,7 +21,6 @@ export const mdxComponents: MDXComponents = {
       return (
         <video
           controls
-          className="rounded-lg"
           preload="metadata"
           {...(props as React.VideoHTMLAttributes<HTMLVideoElement>)}
         >

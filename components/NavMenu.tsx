@@ -5,16 +5,33 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTheme } from "@/contexts/ThemeContext";
 
-const links = [
+type NavLink = { href: string; label: string; external?: boolean };
+
+// Three groups, set a little apart: the site, the projects, and where to
+// follow along (LinkedIn first).
+const pages: NavLink[] = [
   { href: "/", label: "Home" },
   { href: "/writing", label: "Writing" },
+];
+
+const projects: NavLink[] = [
   { href: "https://getversive.com", label: "Versive", external: true },
   { href: "/scratch", label: "Scratch" },
+  { href: "https://juno.ericli.io", label: "Juno", external: true },
+];
+
+const social: NavLink[] = [
+  { href: "https://linkedin.com/in/erictli", label: "LinkedIn", external: true },
+  { href: "https://x.com/erictli", label: "X", external: true },
 ];
 
 export default function NavMenu() {
-  const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  // The page the menu was opened on: it's open only while we're still there,
+  // so following a link closes it.
+  const [openOn, setOpenOn] = useState<string | null>(null);
+  const open = openOn === pathname;
+  const setOpen = (next: boolean) => setOpenOn(next ? pathname : null);
   const {
     getLinkColorClass,
     getTextColorClass,
@@ -24,15 +41,10 @@ export default function NavMenu() {
     isHydrated,
   } = useTheme();
 
-  // Close on route change
-  useEffect(() => {
-    setOpen(false);
-  }, [pathname]);
-
   // Close on escape
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false);
+      if (e.key === "Escape") setOpenOn(null);
     };
     if (open) {
       document.addEventListener("keydown", handleEsc);
@@ -40,7 +52,35 @@ export default function NavMenu() {
     }
   }, [open]);
 
+  // The map is full-frame and has its own way back home.
   if (pathname.startsWith("/nyc") || !isHydrated) return null;
+
+  // The homepage lays out every link the menu has, except on a phone, where
+  // they're a long scroll down.
+  const phoneOnly = pathname === "/" ? "md:hidden" : "";
+
+  const renderLink = (link: NavLink) => {
+    const isActive =
+      !link.external &&
+      (link.href === "/" ? pathname === "/" : pathname.startsWith(link.href));
+    return (
+      <Link
+        key={link.href}
+        href={link.href}
+        {...(link.external
+          ? { target: "_blank", rel: "noopener noreferrer" }
+          : {})}
+        onClick={() => link.external && setOpen(false)}
+        className={`font-[450] transition-opacity duration-200 ${getTextColorClass()} ${getLinkColorClass()} ${
+          isActive
+            ? "opacity-100"
+            : `${getMutedTextClass()} ${getMutedHoverClass()}`
+        }`}
+      >
+        {link.label}
+      </Link>
+    );
+  };
 
   const isDark = !shouldUseDarkText();
   const strokeColor = isDark ? "stroke-white" : "stroke-neutral-950";
@@ -51,10 +91,10 @@ export default function NavMenu() {
   return (
     <>
       {/* Hamburger + breadcrumb */}
-      <div className="fixed top-4.5 left-4.5 z-50 flex items-center gap-2">
+      <div className={`fixed top-4.5 left-4.5 z-50 flex items-center gap-2 ${phoneOnly}`}>
         <button
           onClick={() => setOpen(!open)}
-          className={`w-7 h-7 flex flex-col items-center justify-center gap-1 group cursor-pointer hover:opacity-60 transition-opacity backdrop-blur-sm rounded-md ${getLinkColorClass()}`}
+          className={`w-7 h-7 flex flex-col items-center justify-center gap-1 group cursor-pointer hover:opacity-60 transition-opacity ${getLinkColorClass()}`}
           aria-label={open ? "Close menu" : "Open menu"}
         >
           <svg
@@ -62,8 +102,7 @@ export default function NavMenu() {
             height="12"
             viewBox="0 0 15 12"
             className={`${strokeColor} transition-all duration-300 ease-out`}
-            strokeWidth="1.5"
-            strokeLinecap="round"
+            strokeWidth="1.4"
           >
             <line
               x1="0"
@@ -95,39 +134,21 @@ export default function NavMenu() {
           open
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none"
-        } ${overlayBg}`}
+        } ${overlayBg} ${phoneOnly}`}
         onClick={() => setOpen(false)}
         {...(!open && { inert: true })}
       >
         <nav
-          className="flex flex-col items-start gap-2 pt-16 pl-6"
+          className="flex flex-col items-start gap-2 pt-16 pl-6 text-sm"
           onClick={(e) => e.stopPropagation()}
         >
-          {links.map((link) => {
-            const isActive =
-              !link.external &&
-              (link.href === "/"
-                ? pathname === "/"
-                : pathname.startsWith(link.href));
-
-            return (
-              <Link
-                key={link.href}
-                href={link.href}
-                {...(link.external
-                  ? { target: "_blank", rel: "noopener noreferrer" }
-                  : {})}
-                onClick={() => link.external && setOpen(false)}
-                className={`font-[450] transition-opacity duration-200 ${getTextColorClass()} ${getLinkColorClass()} ${
-                  isActive
-                    ? "opacity-100"
-                    : `${getMutedTextClass()} ${getMutedHoverClass()}`
-                }`}
-              >
-                {link.label}
-              </Link>
-            );
-          })}
+          {pages.map(renderLink)}
+          <div className="mt-3 flex flex-col items-start gap-2">
+            {projects.map(renderLink)}
+          </div>
+          <div className="mt-3 flex flex-col items-start gap-2">
+            {social.map(renderLink)}
+          </div>
         </nav>
       </div>
     </>

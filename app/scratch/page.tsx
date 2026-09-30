@@ -4,7 +4,6 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useTheme } from "@/contexts/ThemeContext";
-import CloudShader from "@/components/CloudShader";
 import {
   IconStar,
   IconWifiOff,
@@ -392,10 +391,8 @@ export default function ScratchPage() {
               }}
             />
             <div className="flex items-center gap-1.5">
-              <span>Made with</span>
-              <CloudShader size={20} pickerAlign="left" />
               <span>
-                by{" "}
+                Made by{" "}
                 <Link
                   href="https://ericli.io"
                   target="_blank"
@@ -409,10 +406,8 @@ export default function ScratchPage() {
           {/* Desktop: 3-col grid */}
           <div className="hidden sm:grid grid-cols-3 items-end">
             <div className="flex items-center gap-1.5">
-              <span>Made with</span>
-              <CloudShader size={20} pickerAlign="left" />
               <span>
-                by{" "}
+                Made by{" "}
                 <Link
                   href="https://ericli.io"
                   target="_blank"

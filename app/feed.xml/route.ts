@@ -22,7 +22,7 @@ export async function GET() {
   <channel>
     <title>Eric Li</title>
     <link>${siteUrl}</link>
-    <description>Writing by Eric Li — product designer and developer, co-founder of Versive.</description>
+    <description>Writing by Eric Li, a designer and builder based in Brooklyn.</description>
     <language>en-us</language>
     <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
     <atom:link href="${siteUrl}/feed.xml" rel="self" type="application/rss+xml" />${feedItems}

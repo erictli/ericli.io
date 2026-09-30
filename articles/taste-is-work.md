@@ -7,8 +7,6 @@ image: "/writing/taste.jpg"
 
 ![](/writing/taste.jpg)
 
-<Callout>Written in February 2026. Things are changing quickly, so if you're reading this later, some of the specifics may no longer apply.</Callout>
-
 I built a notes app. There are thousands of notes apps. You could build and ship one with Claude Code in thirty minutes.
 
 The app is called [Scratch](https://ericli.io/scratch) and it's a simple markdown notebook that does far less than most notes apps. So I was surprised when I woke up to hundreds of GitHub stars, thousands of visits to my website, and pull requests from people who cared enough to improve it.
