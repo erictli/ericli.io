@@ -43,12 +43,12 @@ export type HarborFacts = ReturnType<typeof harborFacts>;
 export function WaterCaption({ facts }: { facts: HarborFacts }) {
   return (
     // A faint shade under the words, so they hold up over the brightest glints.
-    <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-linear-to-t from-black/35 via-black/10 to-transparent p-3 pt-14 font-sans text-[12px] leading-snug font-[450] text-white/85 tabular-nums [text-shadow:0_1px_2px_rgba(0,0,0,0.45)] sm:p-4 sm:pt-16 sm:text-[13px]">
+    <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-linear-to-t from-black/35 via-black/10 to-transparent p-3 pt-14 font-sans text-[12px] leading-snug font-[450] text-white/60 tabular-nums [text-shadow:0_1px_2px_rgba(0,0,0,0.45)] sm:p-4 sm:pt-16 sm:text-[13px]">
       <p>
         {facts.area}, {facts.time}
       </p>
       {facts.known && (
-        <p className="opacity-70">
+        <p>
           {facts.sky}, {facts.wind}
         </p>
       )}
