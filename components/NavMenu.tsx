@@ -26,7 +26,11 @@ const social: NavLink[] = [
 ];
 
 export default function NavMenu() {
-  const pathname = usePathname();
+  // Vercel's background regeneration of the homepage (it's ISR) renders it
+  // as "/index", and that HTML is what visitors get. Read it as "/", or the
+  // server's markup (the button shown on wide screens) outlives hydration.
+  const rawPathname = usePathname();
+  const pathname = rawPathname === "/index" ? "/" : rawPathname;
   // The page the menu was opened on: it's open only while we're still there,
   // so following a link closes it.
   const [openOn, setOpenOn] = useState<string | null>(null);
