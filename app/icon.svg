@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <!-- A plain dot, 90% of the tile: black on light tabs, white on dark ones. -->
+  <!-- A plain dot, 80% of the tile: black on light tabs, white on dark ones. -->
   <style>circle{fill:#0a0a0a}@media (prefers-color-scheme:dark){circle{fill:#fff}}</style>
-  <circle cx="16" cy="16" r="14.4"/>
+  <circle cx="16" cy="16" r="12.8"/>
 </svg>
