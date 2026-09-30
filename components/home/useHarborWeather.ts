@@ -50,12 +50,23 @@ async function fetchWeather(): Promise<HarborWeather> {
   throw new Error("No weather for the harbor");
 }
 
-/** Only ever runs in the browser: the homepage renders its content after hydrating. */
+/**
+ * The page is rendered on the server too, so the first render uses only
+ * what the server had: its reading, and no clock (the time it was built
+ * would be wrong by the time anyone reads it). The time and any saved
+ * reading arrive right after hydration, while the water is still fading in.
+ */
 export function useHarborWeather(initial: HarborWeather | null) {
-  const [weather, setWeather] = useState<HarborWeather | null>(() => initial ?? readStored());
-  const [now, setNow] = useState(() => new Date());
+  const [weather, setWeather] = useState<HarborWeather | null>(initial);
+  const [now, setNow] = useState<Date | null>(null);
 
   useEffect(() => {
+    // The time and saved readings only exist in the browser.
+    setNow(new Date());
+    if (!initial) {
+      const saved = readStored();
+      if (saved) setWeather(saved);
+    }
     let alive = true;
     const load = () =>
       fetchWeather()
@@ -75,11 +86,14 @@ export function useHarborWeather(initial: HarborWeather | null) {
       clearInterval(poll);
       clearInterval(clock);
     };
+    // The server's reading only seeds the first render.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const conditions = useMemo<WaterConditions>(
-    () => (weather ? { ...weather, time: now } : defaultConditions(now)),
-    [weather, now],
-  );
-  return { conditions, known: weather !== null };
+  const conditions = useMemo<WaterConditions>(() => {
+    // Before hydration there's no clock; nothing that draws the water runs then.
+    const time = now ?? new Date(0);
+    return weather ? { ...weather, time } : defaultConditions(time);
+  }, [weather, now]);
+  return { conditions, known: weather !== null, hasTime: now !== null };
 }

@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useTheme } from "@/contexts/ThemeContext";
+import { LINK, MUTED, MUTED_HOVER, TEXT } from "@/lib/theme-classes";
 
 type NavLink = { href: string; label: string; external?: boolean };
 
@@ -32,14 +32,6 @@ export default function NavMenu() {
   const [openOn, setOpenOn] = useState<string | null>(null);
   const open = openOn === pathname;
   const setOpen = (next: boolean) => setOpenOn(next ? pathname : null);
-  const {
-    getLinkColorClass,
-    getTextColorClass,
-    getMutedTextClass,
-    getMutedHoverClass,
-    shouldUseDarkText,
-    isHydrated,
-  } = useTheme();
 
   // Close on escape
   useEffect(() => {
@@ -52,8 +44,9 @@ export default function NavMenu() {
     }
   }, [open]);
 
-  // The map is full-frame and has its own way back home.
-  if (pathname.startsWith("/nyc") || !isHydrated) return null;
+  // The map is full-frame and has its own way back home. Everywhere else the
+  // button is in the server's HTML, colored for both schemes by CSS.
+  if (pathname.startsWith("/nyc")) return null;
 
   // The homepage lays out every link the menu has, except on a phone, where
   // they're a long scroll down.
@@ -71,10 +64,8 @@ export default function NavMenu() {
           ? { target: "_blank", rel: "noopener noreferrer" }
           : {})}
         onClick={() => link.external && setOpen(false)}
-        className={`font-[450] transition-opacity duration-200 ${getTextColorClass()} ${getLinkColorClass()} ${
-          isActive
-            ? "opacity-100"
-            : `${getMutedTextClass()} ${getMutedHoverClass()}`
+        className={`font-[450] transition-opacity duration-200 ${LINK} ${
+          isActive ? TEXT : `${MUTED} ${MUTED_HOVER}`
         }`}
       >
         {link.label}
@@ -82,11 +73,8 @@ export default function NavMenu() {
     );
   };
 
-  const isDark = !shouldUseDarkText();
-  const strokeColor = isDark ? "stroke-white" : "stroke-neutral-950";
-  const overlayBg = isDark
-    ? "bg-neutral-950/60 backdrop-blur-md"
-    : "bg-white/60 backdrop-blur-md";
+  const strokeColor = "stroke-neutral-950 dark:stroke-white";
+  const overlayBg = "bg-white/60 backdrop-blur-md dark:bg-neutral-950/60";
 
   return (
     <>
@@ -94,7 +82,7 @@ export default function NavMenu() {
       <div className={`fixed top-4.5 left-4.5 z-50 flex items-center gap-2 ${phoneOnly}`}>
         <button
           onClick={() => setOpen(!open)}
-          className={`w-7 h-7 flex flex-col items-center justify-center gap-1 group cursor-pointer hover:opacity-60 transition-opacity ${getLinkColorClass()}`}
+          className={`w-7 h-7 flex flex-col items-center justify-center gap-1 group cursor-pointer hover:opacity-60 transition-opacity ${LINK}`}
           aria-label={open ? "Close menu" : "Open menu"}
         >
           <svg

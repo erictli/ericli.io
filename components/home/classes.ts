@@ -1,18 +1,15 @@
-"use client";
+import { BORDER, LINK, MUTED, MUTED_HOVER, TEXT, TOOLTIP } from "@/lib/theme-classes";
 
-import { useTheme } from "@/contexts/ThemeContext";
+const HOME_CLASSES = {
+  text: TEXT,
+  link: LINK,
+  muted: MUTED,
+  mutedHover: MUTED_HOVER,
+  border: BORDER,
+  tooltip: TOOLTIP,
+};
 
-/** The homepage's text, link and border classes for the current scheme. */
+/** The homepage's text, link and border classes, for both schemes (see lib/theme-classes). */
 export function useHomeClasses() {
-  const theme = useTheme();
-  return {
-    text: theme.getTextColorClass(),
-    link: theme.getLinkColorClass(),
-    muted: theme.getMutedTextClass(),
-    mutedHover: theme.getMutedHoverClass(),
-    border: theme.getBorderColorClass(),
-    tooltip: theme.shouldUseDarkText()
-      ? "bg-neutral-800 text-white"
-      : "bg-white text-neutral-950",
-  };
+  return HOME_CLASSES;
 }

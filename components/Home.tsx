@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useTheme } from "@/contexts/ThemeContext";
 import { Contact, Intro } from "./home/Intro";
 import { useHomeClasses } from "./home/classes";
 import { HarborFrame, WaterCaption, useLiveHarbor } from "./home/harbor";
@@ -52,8 +51,6 @@ const PROJECTS: Project[] = [
   },
 ];
 
-// Every word arrives at once, quickly; the water develops in after it.
-const IN = "animate-fadeInUpSmall0 opacity-0";
 /**
  * Three columns from 72rem (1152px), where the side columns get about 250px;
  * narrower, the words stack beside the water, then under it on a phone.
@@ -70,10 +67,6 @@ export default function Home({
   /** The weather at the pier when the page was rendered, if the server had it. */
   weather: HarborWeather | null;
 }) {
-  const { isHydrated } = useTheme();
-  if (!isHydrated) {
-    return <div className="flex justify-center items-center h-screen"></div>;
-  }
   return <Poster articles={articles} weather={weather} />;
 }
 
@@ -87,15 +80,15 @@ function Poster({
   const { conditions, facts } = useLiveHarbor(weather);
   const c = useHomeClasses();
   return (
-    // No scroll anchoring here: the words rise 12px as they fade in, and on a
-    // reload the browser would chase that rise, landing 12px lower each time.
+    // The words are in the server's HTML and simply there; the water is the
+    // only thing that moves in.
     <main
-      className={`min-h-dvh w-full font-sans text-sm leading-[1.5] font-[450] [overflow-anchor:none] ${c.text}`}
+      className={`min-h-dvh w-full font-sans text-sm leading-[1.5] font-[450] ${c.text}`}
     >
       {/* Source order is the reading order (and the phone layout); the grid places the corners. */}
       <div className="grid gap-12 p-6 pb-12 md:min-h-dvh md:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] md:grid-rows-[auto_minmax(0,1fr)_auto_auto_auto_auto] md:gap-x-12 md:gap-y-10 md:pb-6 min-[72rem]:h-dvh min-[72rem]:min-h-[640px] min-[72rem]:grid-cols-[minmax(0,1fr)_minmax(0,32rem)_minmax(0,1fr)] min-[72rem]:grid-rows-[auto_minmax(0,1fr)_auto] min-[72rem]:gap-y-6">
         {/* Below the menu button in the corner, which only phones get here. */}
-        <div className={`pt-7 md:col-start-1 md:row-start-1 md:pt-0 ${IN}`}>
+        <div className="pt-7 md:col-start-1 md:row-start-1 md:pt-0">
           <h1 className="font-medium">
             Eric Li is a designer and builder
             <br />
@@ -117,19 +110,19 @@ function Poster({
         </HarborFrame>
         {/* Wide, the contact links sit under the bio in its corner; narrower, they sign off the page. */}
         <Intro
-          className={`max-w-90 md:col-start-1 md:row-start-3 min-[72rem]:self-end ${IN}`}
+          className="max-w-90 md:col-start-1 md:row-start-3 min-[72rem]:self-end"
           contactClassName="max-[72rem]:hidden"
         />
         <Section
           label="Projects"
-          className={`relative ${RIGHT_CORNER} md:col-start-1 md:row-start-4 min-[72rem]:col-start-3 min-[72rem]:row-start-1 min-[72rem]:justify-self-end ${IN}`}
+          className={`relative ${RIGHT_CORNER} md:col-start-1 md:row-start-4 min-[72rem]:col-start-3 min-[72rem]:row-start-1 min-[72rem]:justify-self-end`}
         >
           <ProjectList />
         </Section>
         <Section
           label="Writing"
           href="/writing"
-          className={`${RIGHT_CORNER} md:col-start-1 md:row-start-5 min-[72rem]:col-start-3 min-[72rem]:row-start-3 min-[72rem]:self-end min-[72rem]:justify-self-end ${IN}`}
+          className={`${RIGHT_CORNER} md:col-start-1 md:row-start-5 min-[72rem]:col-start-3 min-[72rem]:row-start-3 min-[72rem]:self-end min-[72rem]:justify-self-end`}
         >
           {articles.slice(0, 3).map((a) => (
             <Link
@@ -145,7 +138,7 @@ function Poster({
           </Link>
         </Section>
         <Contact
-          className={`md:col-start-1 md:row-start-6 min-[72rem]:hidden ${IN}`}
+          className="md:col-start-1 md:row-start-6 min-[72rem]:hidden"
         />
       </div>
     </main>

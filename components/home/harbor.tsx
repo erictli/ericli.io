@@ -23,15 +23,15 @@ const HarborCanvas = dynamic(() => import("@/components/water/HarborView"), {
 
 /** initial: the reading the page was rendered with, if the server had one. */
 export function useLiveHarbor(initial: HarborWeather | null) {
-  const { conditions, known } = useHarborWeather(initial);
+  const { conditions, known, hasTime } = useHarborWeather(initial);
   const facts = useMemo(
-    () => harborFacts(conditions, known),
-    [conditions, known],
+    () => harborFacts(conditions, known, hasTime),
+    [conditions, known, hasTime],
   );
   return { conditions, facts };
 }
 
-function harborFacts(c: WaterConditions, known: boolean) {
+function harborFacts(c: WaterConditions, known: boolean, hasTime: boolean) {
   const mph = Math.round(c.windSpeed * MS_TO_MPH);
   return {
     /** False when the water is only an ordinary day for the hour; then nothing states the weather. */
@@ -39,7 +39,8 @@ function harborFacts(c: WaterConditions, known: boolean) {
     place: PIER.name,
     /** How the caption names it: the borough, not the park. */
     area: "Brooklyn",
-    time: formatPierTime(c.time),
+    /** Null on the server: the clock is only read in the browser. */
+    time: hasTime ? formatPierTime(c.time) : null,
     wind: mph < 1 ? "calm" : `${mph} mph ${compassPoint(c.windDirection)}`,
     sky: describeSky(c),
   };
@@ -55,9 +56,10 @@ export type HarborFacts = ReturnType<typeof harborFacts>;
 export function WaterCaption({ facts }: { facts: HarborFacts }) {
   return (
     // A faint shade under the words, so they hold up over the brightest glints.
-    <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-linear-to-t from-black/35 via-black/10 to-transparent p-4 pt-14 font-sans text-[12px] leading-snug font-[450] text-white tabular-nums [text-shadow:0_1px_2px_rgba(0,0,0,0.45)] sm:p-5 sm:pt-16 sm:text-[13px]">
+    <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-linear-to-t from-black/35 via-black/10 to-transparent p-3.5 pt-14 font-sans leading-snug font-[450] text-white tabular-nums [text-shadow:0_1px_2px_rgba(0,0,0,0.45)] sm:p-4.5 sm:pt-16 sm:text-[13px]">
       <p>
-        {facts.area}, {facts.time}
+        {facts.area}
+        {facts.time && `, ${facts.time}`}
       </p>
       {facts.known && (
         <p className="opacity-60">
@@ -111,7 +113,7 @@ export function HarborFrame({
   return (
     <div className={`relative overflow-hidden ${className}`}>
       <div
-        className={`absolute inset-0 bg-[#1c2124] transition-opacity duration-[1200ms] ease-out ${shown ? "opacity-100" : "opacity-0"}`}
+        className={`absolute inset-0 bg-[#1c2124] transition-opacity duration-[2000ms] ease-[cubic-bezier(0.37,0,0.63,1)] ${shown ? "opacity-100" : "opacity-0"}`}
       >
         <HarborCanvas
           conditions={conditions}
@@ -120,8 +122,8 @@ export function HarborFrame({
           onReady={() => setReady(true)}
           label={
             facts.known
-              ? `The water at ${facts.place} right now: ${facts.time}, ${facts.wind}, ${facts.sky}.`
-              : `The water at ${facts.place}, ${facts.time}.`
+              ? `The water at ${facts.place} right now: ${facts.time ? `${facts.time}, ` : ""}${facts.wind}, ${facts.sky}.`
+              : `The water at ${facts.place}${facts.time ? `, ${facts.time}` : ""}.`
           }
         />
         {children}

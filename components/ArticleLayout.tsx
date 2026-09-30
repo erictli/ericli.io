@@ -1,6 +1,4 @@
-"use client";
-
-import { useTheme } from "@/contexts/ThemeContext";
+import { MUTED, TEXT } from "@/lib/theme-classes";
 
 interface ArticleLayoutProps {
   article: {
@@ -13,41 +11,46 @@ interface ArticleLayoutProps {
   children: React.ReactNode;
 }
 
+// The reading's colors for both schemes: Typography's neutral palette, and
+// its inverted one when the system is dark, with list markers at half
+// strength either way.
+const PROSE_COLORS = [
+  "prose-neutral [--tw-prose-bullets:rgb(68_64_60/0.5)] [--tw-prose-counters:rgb(68_64_60/0.5)]",
+  "prose-headings:text-neutral-950 prose-p:text-neutral-950 prose-strong:text-neutral-950 prose-li:text-neutral-950",
+  "prose-a:text-neutral-950 prose-a:border-neutral-950/20 prose-a:hover:border-neutral-950/30 prose-a:focus-visible:bg-neutral-950/10",
+  "prose-blockquote:text-neutral-950/70 prose-blockquote:border-neutral-950/10 prose-hr:border-neutral-950/10",
+  "dark:prose-invert dark:[--tw-prose-bullets:rgb(255_255_255/0.5)] dark:[--tw-prose-counters:rgb(255_255_255/0.5)]",
+  "dark:prose-headings:text-white dark:prose-p:text-white/80 dark:prose-strong:text-white dark:prose-li:text-white",
+  "dark:prose-a:text-white dark:prose-a:border-white/20 dark:prose-a:hover:border-white/30 dark:prose-a:focus-visible:bg-white/20",
+  "dark:prose-blockquote:text-white/70 dark:prose-blockquote:border-white/10 dark:prose-hr:border-white/10",
+].join(" ");
+
+const PROSE_SHAPE = [
+  "prose max-w-none text-base font-[450]",
+  "prose-headings:font-medium prose-headings:text-base prose-h2:mt-10 prose-h2:mb-3 prose-h3:mt-6 prose-h3:mb-2",
+  "prose-p:my-4 prose-p:leading-[1.7]",
+  "prose-a:no-underline prose-a:border-b prose-a:border-dotted prose-a:pb-0.5 prose-a:font-[425] prose-a:transition-opacity prose-a:hover:opacity-60 prose-a:focus-visible:outline-none",
+  "prose-strong:font-medium",
+  "prose-ul:my-4 prose-ol:my-4 prose-ol:pl-5 prose-ul:pl-5 prose-li:pl-0.5 prose-li:my-2 prose-li:leading-[1.75]",
+  "prose-blockquote:font-[425] prose-blockquote:border-l-2 prose-blockquote:pl-4 prose-blockquote:my-6",
+  "prose-hr:my-8 prose-hr:border-dotted",
+  "prose-video:my-8",
+].join(" ");
+
 /**
  * An article: its picture first, then the title with the date and reading
  * time quiet under it, then the reading. Two sizes of text below the
- * title: body and small.
+ * title: body and small. Rendered on the server in both schemes' colors,
+ * so the words are there on the first paint.
  */
 export default function ArticleLayout({
   article,
   hero,
   children,
 }: ArticleLayoutProps) {
-  const {
-    getTextColorClass,
-    getMutedTextClass,
-    isHydrated,
-  } = useTheme();
-
-  if (!isHydrated) {
-    return <main className="min-h-screen"></main>;
-  }
-
   return (
-    <main
-      className={`min-h-screen overflow-x-clip font-sans transition-colors duration-200 ${getTextColorClass()}`}
-    >
-      <style jsx>{`
-        .prose {
-          --tw-prose-bullets: ${getTextColorClass() === "text-neutral-950"
-            ? "rgb(68 64 60 / 0.5)"
-            : "rgb(255 255 255 / 0.5)"};
-          --tw-prose-counters: ${getTextColorClass() === "text-neutral-950"
-            ? "rgb(68 64 60 / 0.5)"
-            : "rgb(255 255 255 / 0.5)"};
-        }
-      `}</style>
-      <div className="max-w-160 mx-auto px-6 pt-20 pb-32 sm:pb-48 animate-fadeInUpSmall1 opacity-0">
+    <main className={`min-h-screen overflow-x-clip font-sans ${TEXT}`}>
+      <div className="max-w-160 mx-auto px-6 pt-20 pb-32 sm:pb-48">
         <article>
           {hero && (
             // eslint-disable-next-line @next/next/no-img-element
@@ -58,7 +61,7 @@ export default function ArticleLayout({
               {article.title}
             </h1>
             <div
-              className={`mt-1 flex items-center gap-3 text-sm font-[450] tabular-nums ${getMutedTextClass()}`}
+              className={`mt-1 flex items-center gap-3 text-sm font-[450] tabular-nums ${MUTED}`}
             >
               {/* Dates are calendar days; read them as UTC so they don't slip a day west of Greenwich. */}
               <time dateTime={article.date}>
@@ -73,35 +76,7 @@ export default function ArticleLayout({
             </div>
           </header>
 
-          <div
-            className={`font-[450] prose max-w-none transition-colors duration-200 text-base
-              prose-headings:font-medium prose-headings:transition-colors
-              prose-headings:text-base prose-h2:mt-10 prose-h2:mb-3 prose-h3:mt-6 prose-h3:mb-2
-              prose-p:leading-[1.7] prose-p:transition-colors prose-a:no-underline
-              prose-a:border-b prose-a:border-dotted prose-a:pb-0.5 prose-a:font-[425] prose-a:transition-opacity prose-a:hover:opacity-60 prose-a:focus-visible:outline-none
-              prose-strong:font-medium prose-strong:transition-colors
-              prose-p:my-4
-              prose-ul:my-4 prose-ol:my-4 prose-ol:pl-5 prose-ul:pl-5 prose-li:pl-0.5
-              prose-li:my-2 prose-li:leading-[1.75] prose-li:transition-colors
-              prose-blockquote:font-[425]  prose-blockquote:border-l-2 prose-blockquote:pl-4 prose-blockquote:my-6 prose-blockquote:transition-colors
-              prose-hr:my-8 prose-hr:transition-colors prose-hr:border-dotted
-              prose-video:my-8
-              ${
-                getTextColorClass() === "text-neutral-950"
-                  ? `prose-neutral prose-headings:text-neutral-950 prose-p:text-neutral-950
-                   prose-a:text-neutral-950 prose-a:border-neutral-950/20 prose-a:hover:border-neutral-950/30 prose-a:focus-visible:bg-neutral-950/10
-                   prose-strong:text-neutral-950 prose-li:text-neutral-950
-                   prose-blockquote:text-neutral-950/70 prose-blockquote:border-neutral-950/10
-                   prose-hr:border-neutral-950/10`
-                  : `prose-invert prose-headings:text-white prose-p:text-white/80
-                   prose-a:text-white prose-a:border-white/20 prose-a:hover:border-white/30 prose-a:focus-visible:bg-white/20
-                   prose-strong:text-white prose-li:text-white
-                   prose-blockquote:text-white/70 prose-blockquote:border-white/10
-                   prose-hr:border-white/10`
-              }`}
-          >
-            {children}
-          </div>
+          <div className={`${PROSE_SHAPE} ${PROSE_COLORS}`}>{children}</div>
         </article>
       </div>
     </main>
