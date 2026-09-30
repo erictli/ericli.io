@@ -2,7 +2,14 @@
 
 import dynamic from "next/dynamic";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
-import { MS_TO_MPH, PIER, compassPoint, describeSky, formatPierTime, type WaterConditions } from "@/lib/water/conditions";
+import {
+  MS_TO_MPH,
+  PIER,
+  compassPoint,
+  describeSky,
+  formatPierTime,
+  type WaterConditions,
+} from "@/lib/water/conditions";
 import type { HarborWeather } from "@/lib/water/open-meteo";
 import { useHarborWeather } from "./useHarborWeather";
 
@@ -10,12 +17,17 @@ import { useHarborWeather } from "./useHarborWeather";
 // a few facts about it, and the water itself (client-only, and kept out of
 // the first bundle).
 
-const HarborCanvas = dynamic(() => import("@/components/water/HarborView"), { ssr: false });
+const HarborCanvas = dynamic(() => import("@/components/water/HarborView"), {
+  ssr: false,
+});
 
 /** initial: the reading the page was rendered with, if the server had one. */
 export function useLiveHarbor(initial: HarborWeather | null) {
   const { conditions, known } = useHarborWeather(initial);
-  const facts = useMemo(() => harborFacts(conditions, known), [conditions, known]);
+  const facts = useMemo(
+    () => harborFacts(conditions, known),
+    [conditions, known],
+  );
   return { conditions, facts };
 }
 
@@ -43,12 +55,12 @@ export type HarborFacts = ReturnType<typeof harborFacts>;
 export function WaterCaption({ facts }: { facts: HarborFacts }) {
   return (
     // A faint shade under the words, so they hold up over the brightest glints.
-    <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-linear-to-t from-black/35 via-black/10 to-transparent p-3 pt-14 font-sans text-[12px] leading-snug font-[450] text-white/60 tabular-nums [text-shadow:0_1px_2px_rgba(0,0,0,0.45)] sm:p-4 sm:pt-16 sm:text-[13px]">
-      <p>
+    <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-linear-to-t from-black/35 via-black/10 to-transparent p-3 pt-14 font-sans text-[12px] leading-snug font-[450] text-white tabular-nums [text-shadow:0_1px_2px_rgba(0,0,0,0.45)] sm:p-4 sm:pt-16 sm:text-[13px]">
+      <p className="opacity-80">
         {facts.area}, {facts.time}
       </p>
       {facts.known && (
-        <p>
+        <p className="opacity-60">
           {facts.sky}, {facts.wind}
         </p>
       )}
@@ -88,7 +100,10 @@ export function HarborFrame({
 
   useEffect(() => {
     if (!ready) return;
-    const wait = Math.max(0, revealAfter - (performance.now() - mountedAt.current));
+    const wait = Math.max(
+      0,
+      revealAfter - (performance.now() - mountedAt.current),
+    );
     const t = setTimeout(() => setShown(true), wait);
     return () => clearTimeout(t);
   }, [ready, revealAfter]);

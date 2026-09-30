@@ -11,6 +11,8 @@ export function useHomeClasses() {
     muted: theme.getMutedTextClass(),
     mutedHover: theme.getMutedHoverClass(),
     border: theme.getBorderColorClass(),
-    tooltip: theme.shouldUseDarkText() ? "bg-neutral-800 text-white" : "bg-white text-neutral-950",
+    tooltip: theme.shouldUseDarkText()
+      ? "bg-neutral-800 text-white"
+      : "bg-white text-neutral-950",
   };
 }

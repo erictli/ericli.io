@@ -77,7 +77,13 @@ export default function Home({
   return <Poster articles={articles} weather={weather} />;
 }
 
-function Poster({ articles, weather }: { articles: Article[]; weather: HarborWeather | null }) {
+function Poster({
+  articles,
+  weather,
+}: {
+  articles: Article[];
+  weather: HarborWeather | null;
+}) {
   const { conditions, facts } = useLiveHarbor(weather);
   const c = useHomeClasses();
   return (
@@ -173,7 +179,9 @@ function ProjectList() {
           onFocus={() => point(i)}
           onBlur={() => setActive(null)}
           className={`transition-opacity duration-200 max-[72rem]:hover:opacity-60 ${
-            active !== null && active !== i ? "min-[72rem]:pointer-fine:opacity-35" : ""
+            active !== null && active !== i
+              ? "min-[72rem]:pointer-fine:opacity-35"
+              : ""
           }`}
         >
           {p.name}
