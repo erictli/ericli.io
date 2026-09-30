@@ -32,8 +32,7 @@ export function Intro({
         <Link href="/scratch" className={link}>
           Scratch
         </Link>
-        . He&apos;s interested in the intersection of design and code. He
-        previously worked at Uber and{" "}
+        . He previously worked at Uber and{" "}
         <Link
           href="https://www.prnewswire.com/news-releases/alliance-data-completes-acquisition-of-bread-301186414.html"
           target="_blank"
@@ -49,7 +48,7 @@ export function Intro({
         >
           investment banker
         </Link>
-        .
+        . He finds writing in third person a bit awkward.
       </p>
       <Contact className={contactClassName} />
     </div>
@@ -137,7 +136,9 @@ export function Contact({ className = "" }: { className?: string }) {
               if (emailTooltip === "leaving") setEmailTooltip("hidden");
             }}
           >
-            {emailTooltip === "copied" ? "Copied!" : "Click to copy hi@ericli.io"}
+            {emailTooltip === "copied"
+              ? "Copied!"
+              : "Click to copy hi@ericli.io"}
           </span>
         )}
       </span>
