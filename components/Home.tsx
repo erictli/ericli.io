@@ -6,6 +6,7 @@ import { useTheme } from "@/contexts/ThemeContext";
 import { Contact, Intro } from "./home/Intro";
 import { useHomeClasses } from "./home/classes";
 import { HarborFrame, WaterCaption, useLiveHarbor } from "./home/harbor";
+import type { HarborWeather } from "@/lib/water/open-meteo";
 
 // The homepage as a min-[72rem]: a tall plate of the harbor off Pier 1, as it is
 // right now, in the middle of the page, and the words pinned to its four
@@ -61,16 +62,23 @@ const IN = "animate-fadeInUpSmall0 opacity-0";
 const RIGHT_CORNER =
   "min-[72rem]:items-end min-[72rem]:text-right max-[72rem]:items-start max-[72rem]:text-left";
 
-export default function Home({ articles }: { articles: Article[] }) {
+export default function Home({
+  articles,
+  weather,
+}: {
+  articles: Article[];
+  /** The weather at the pier when the page was rendered, if the server had it. */
+  weather: HarborWeather | null;
+}) {
   const { isHydrated } = useTheme();
   if (!isHydrated) {
     return <div className="flex justify-center items-center h-screen"></div>;
   }
-  return <Poster articles={articles} />;
+  return <Poster articles={articles} weather={weather} />;
 }
 
-function Poster({ articles }: { articles: Article[] }) {
-  const { conditions, facts } = useLiveHarbor();
+function Poster({ articles, weather }: { articles: Article[]; weather: HarborWeather | null }) {
+  const { conditions, facts } = useLiveHarbor(weather);
   const c = useHomeClasses();
   return (
     // No scroll anchoring here: the words rise 12px as they fade in, and on a

@@ -2,27 +2,28 @@
 
 import dynamic from "next/dynamic";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
-import { MS_TO_MPH, PIER, PRESETS, compassPoint, describeSky, formatPierTime, type WaterConditions } from "@/lib/water/conditions";
-import { useConditions } from "./useConditions";
+import { MS_TO_MPH, PIER, compassPoint, describeSky, formatPierTime, type WaterConditions } from "@/lib/water/conditions";
+import type { HarborWeather } from "@/lib/water/open-meteo";
+import { useHarborWeather } from "./useHarborWeather";
 
-// The harbor as it is right now, for the homepage: the live conditions, a
-// few facts about them, and the water itself (client-only, and kept out of
+// The harbor as it is right now, for the homepage: the weather at the pier,
+// a few facts about it, and the water itself (client-only, and kept out of
 // the first bundle).
 
 const HarborCanvas = dynamic(() => import("@/components/water/HarborView"), { ssr: false });
 
-export function useLiveHarbor() {
-  const { conditions, liveStatus, goLive } = useConditions(PRESETS);
-  useEffect(() => {
-    goLive();
-  }, [goLive]);
-  const facts = useMemo(() => harborFacts(conditions), [conditions]);
-  return { conditions, liveStatus, facts };
+/** initial: the reading the page was rendered with, if the server had one. */
+export function useLiveHarbor(initial: HarborWeather | null) {
+  const { conditions, known } = useHarborWeather(initial);
+  const facts = useMemo(() => harborFacts(conditions, known), [conditions, known]);
+  return { conditions, facts };
 }
 
-function harborFacts(c: WaterConditions) {
+function harborFacts(c: WaterConditions, known: boolean) {
   const mph = Math.round(c.windSpeed * MS_TO_MPH);
   return {
+    /** False when the water is only an ordinary day for the hour; then nothing states the weather. */
+    known,
     place: PIER.name,
     /** How the caption names it: the borough, not the park. */
     area: "Brooklyn",
@@ -46,9 +47,11 @@ export function WaterCaption({ facts }: { facts: HarborFacts }) {
       <p>
         {facts.area}, {facts.time}
       </p>
-      <p className="opacity-70">
-        {facts.sky}, {facts.wind}
-      </p>
+      {facts.known && (
+        <p className="opacity-70">
+          {facts.sky}, {facts.wind}
+        </p>
+      )}
     </div>
   );
 }
@@ -100,7 +103,11 @@ export function HarborFrame({
           className="absolute inset-0"
           maxAspect={maxAspect}
           onReady={() => setReady(true)}
-          label={`The water at ${facts.place} right now: ${facts.time}, ${facts.wind}, ${facts.sky}.`}
+          label={
+            facts.known
+              ? `The water at ${facts.place} right now: ${facts.time}, ${facts.wind}, ${facts.sky}.`
+              : `The water at ${facts.place}, ${facts.time}.`
+          }
         />
         {children}
       </div>

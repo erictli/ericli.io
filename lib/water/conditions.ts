@@ -1,4 +1,3 @@
-import * as SunCalc from "suncalc";
 
 /** Where the scene is. The weather lookup and the sun and moon use these. */
 export const PIER = {
@@ -89,26 +88,12 @@ export function fetchForWind(fromDegrees: number): number {
 // ---- Units and labels --------------------------------------------------------
 
 export const MS_TO_MPH = 2.236936;
-export const METERS_PER_MILE = 1609.344;
 
 const COMPASS = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
 
 export function compassPoint(degrees: number): string {
   const i = Math.round((((degrees % 360) + 360) % 360) / 22.5) % 16;
   return COMPASS[i];
-}
-
-/** Beaufort-style description of the water for a wind speed in m/s. */
-export function describeWind(speed: number): string {
-  if (speed < 0.5) return "Glassy";
-  if (speed < 1.6) return "Light air";
-  if (speed < 3.4) return "Light breeze";
-  if (speed < 5.5) return "Gentle breeze";
-  if (speed < 8) return "Moderate breeze";
-  if (speed < 10.8) return "Fresh breeze";
-  if (speed < 13.9) return "Strong breeze";
-  if (speed < 17.2) return "Near gale";
-  return "Gale";
 }
 
 export function describeSky(c: Pick<WaterConditions, "cloudCover" | "precipitation" | "precipitationType" | "thunderstorm" | "visibility">): string {
@@ -154,26 +139,10 @@ function pierParts(date: Date) {
   };
 }
 
-function pierOffsetMs(date: Date): number {
-  const p = pierParts(date);
-  const asUtc = Date.UTC(p.year, p.month - 1, p.day, p.hour, p.minute, p.second);
-  return asUtc - Math.floor(date.getTime() / 1000) * 1000;
-}
-
 /** Minutes since local midnight at the pier. */
 export function pierMinutes(date: Date): number {
   const p = pierParts(date);
   return p.hour * 60 + p.minute + p.second / 60;
-}
-
-/** The instant on the same pier-local calendar day as `day` at `minutes` past midnight. */
-export function atPierMinutes(day: Date, minutes: number): Date {
-  const p = pierParts(day);
-  const localMs = Date.UTC(p.year, p.month - 1, p.day) + minutes * 60_000;
-  let guess = localMs - pierOffsetMs(day);
-  // Correct once if the day crosses a daylight-saving change.
-  guess = localMs - pierOffsetMs(new Date(guess));
-  return new Date(guess);
 }
 
 const timeFormatter = new Intl.DateTimeFormat("en-US", {
@@ -186,163 +155,26 @@ export function formatPierTime(date: Date): string {
   return timeFormatter.format(date);
 }
 
-export function sunTimes(day: Date) {
-  const noon = atPierMinutes(day, 12 * 60);
-  return SunCalc.getTimes(noon, PIER.latitude, PIER.longitude);
-}
+// ---- Without a reading ---------------------------------------------------------
 
-// ---- Presets -----------------------------------------------------------------
-
-type Anchor = "sunrise" | "sunset" | "solarNoon" | "clock";
-
-export interface Preset {
-  id: string;
-  label: string;
-  /** Time of day: minutes from a sun event, or a clock time with `anchor: "clock"`. */
-  anchor: Anchor;
-  minutes: number;
-  conditions: Omit<WaterConditions, "time">;
-}
-
-export const PRESETS: Preset[] = [
-  {
-    id: "golden",
-    label: "Golden hour",
-    anchor: "sunset",
-    minutes: -8,
-    conditions: {
-      windSpeed: 6.5,
-      windDirection: 280,
-      windGusts: 9,
-      cloudCover: 5,
-      precipitation: 0,
-      precipitationType: "rain",
-      visibility: 8000,
-      thunderstorm: false,
-    },
-  },
-  {
-    id: "morning",
-    label: "Still morning",
-    anchor: "sunrise",
-    minutes: 50,
-    conditions: {
-      windSpeed: 1.2,
-      windDirection: 20,
-      windGusts: 2.4,
-      cloudCover: 8,
-      precipitation: 0,
-      precipitationType: "rain",
-      visibility: 9000,
-      thunderstorm: false,
-    },
-  },
-  {
-    id: "afternoon",
-    label: "Sea breeze",
-    anchor: "clock",
-    minutes: 15 * 60,
-    conditions: {
-      windSpeed: 7,
-      windDirection: 215,
-      windGusts: 10,
-      cloudCover: 35,
-      precipitation: 0,
-      precipitationType: "rain",
-      visibility: 24000,
-      thunderstorm: false,
-    },
-  },
-  {
-    id: "overcast",
-    label: "Overcast",
-    anchor: "clock",
-    minutes: 11 * 60,
-    conditions: {
-      windSpeed: 4.5,
-      windDirection: 60,
-      windGusts: 7,
-      cloudCover: 100,
-      precipitation: 0,
-      precipitationType: "rain",
-      visibility: 12000,
-      thunderstorm: false,
-    },
-  },
-  {
-    id: "rain",
-    label: "Rain",
-    anchor: "clock",
-    minutes: 16 * 60,
-    conditions: {
-      windSpeed: 6,
-      windDirection: 75,
-      windGusts: 10,
-      cloudCover: 100,
-      precipitation: 4,
-      precipitationType: "rain",
-      visibility: 5000,
-      thunderstorm: false,
-    },
-  },
-  {
-    id: "storm",
-    label: "Thunderstorm",
-    anchor: "clock",
-    minutes: 17 * 60 + 30,
-    conditions: {
-      windSpeed: 12,
-      windDirection: 230,
-      windGusts: 21,
-      cloudCover: 100,
-      precipitation: 14,
-      precipitationType: "rain",
-      visibility: 2200,
-      thunderstorm: true,
-    },
-  },
-  {
-    id: "snow",
-    label: "Snow",
-    anchor: "clock",
-    minutes: 10 * 60,
-    conditions: {
-      windSpeed: 4,
-      windDirection: 20,
-      windGusts: 6,
-      cloudCover: 100,
-      precipitation: 1.5,
-      precipitationType: "snow",
-      visibility: 1600,
-      thunderstorm: false,
-    },
-  },
-  {
-    id: "night",
-    label: "Night",
-    anchor: "sunset",
-    minutes: 150,
-    conditions: {
-      windSpeed: 3,
-      windDirection: 200,
-      windGusts: 5,
-      cloudCover: 25,
-      precipitation: 0,
-      precipitationType: "rain",
-      visibility: 16000,
-      thunderstorm: false,
-    },
-  },
-];
-
-export function presetTime(preset: Preset, day: Date): Date {
-  if (preset.anchor === "clock") return atPierMinutes(day, preset.minutes);
-  const times = sunTimes(day);
-  const base = preset.anchor === "sunrise" ? times.sunrise : preset.anchor === "sunset" ? times.sunset : times.solarNoon;
-  if (!base || Number.isNaN(base.getTime())) return atPierMinutes(day, 12 * 60);
-  return new Date(base.getTime() + preset.minutes * 60_000);
-}
-
-export function presetConditions(preset: Preset, day = new Date()): WaterConditions {
-  return { ...preset.conditions, time: presetTime(preset, day) };
+/**
+ * An ordinary day at the pier for the hour, for when there's no reading at
+ * all: still in the early morning, a sea breeze filling in over the
+ * afternoon and easing after dark, a few clouds, dry. The caption never
+ * states it; it only keeps the water plausible.
+ */
+export function defaultConditions(time: Date): WaterConditions {
+  const hour = pierMinutes(time) / 60;
+  const windSpeed = hour < 6 ? 2 : hour < 10 ? 1.6 : hour < 13 ? 3 : hour < 18 ? 4 : hour < 21 ? 3 : 2.2;
+  return {
+    time,
+    windSpeed,
+    windDirection: WATER_WIND_FROM,
+    windGusts: windSpeed * 1.4,
+    cloudCover: 30,
+    precipitation: 0,
+    precipitationType: "rain",
+    visibility: 16000,
+    thunderstorm: false,
+  };
 }
