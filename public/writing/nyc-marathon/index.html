@@ -9,14 +9,14 @@
   <script>
     // Design-option switches, applied before the first paint (the first value is the default):
     // ?w=400|450  ?fs=16|15|v1  ?cards=caption|float|plain|column  ?key=none|hud|bar|dots|inline
-    // ?layout=split|stack|strip|inline (where the live data sits: panels, in the caption card,
+    // ?layout=stack|split|strip|inline (where the live data sits: in the caption card, panels,
     // a course strip along the bottom, or one line in the caption)
     // ?hud=profile|current|minimal  ?pal=gyor|gr|br|po|gyr|tgo (pace colours: green–yellow–orange–red,
     // green/red, blue/red, purple/orange, green–gold–red, teal–gold–orange)
     // plus ?theme=light|dark, ?still=<preset> and ?step=<1–13> (see main.js)
     (function () {
       var q = new URLSearchParams(location.search), d = document.documentElement.dataset;
-      var opt = { w: ["400", "450"], fs: ["16", "15", "v1"], cards: ["caption", "float", "plain", "column"], key: ["none", "hud", "bar", "dots", "inline"], hud: ["profile", "current", "minimal"], layout: ["split", "stack", "strip", "inline"], pal: ["gyor", "gr", "br", "po", "gyr", "tgo"] };
+      var opt = { w: ["400", "450"], fs: ["16", "15", "v1"], cards: ["caption", "float", "plain", "column"], key: ["none", "hud", "bar", "dots", "inline"], hud: ["profile", "current", "minimal"], layout: ["stack", "split", "strip", "inline"], pal: ["gyor", "gr", "br", "po", "gyr", "tgo"] };
       for (var k in opt) { var v = q.get(k); d[k] = opt[k].indexOf(v) >= 0 ? v : opt[k][0]; }
       var t = q.get("theme");
       if (t === "light" || t === "dark") d.theme = t;
@@ -24,11 +24,11 @@
       if (q.get("step") && "scrollRestoration" in history) history.scrollRestoration = "manual";
     })();
   </script>
-  <script type="module" crossorigin src="/writing/nyc-marathon/assets/index-DCUOKa_j.js"></script>
+  <script type="module" crossorigin src="/writing/nyc-marathon/assets/index-Dt8eCI2D.js"></script>
   <link rel="modulepreload" crossorigin href="/writing/nyc-marathon/assets/array-utils-flat-BL8Cekj1.js">
   <link rel="modulepreload" crossorigin href="/writing/nyc-marathon/assets/expression-E359vKZW.js">
   <link rel="modulepreload" crossorigin href="/writing/nyc-marathon/assets/get-attribute-from-layouts-Dd2gixpo.js">
-  <link rel="stylesheet" crossorigin href="/writing/nyc-marathon/assets/index-DLPaQa06.css">
+  <link rel="stylesheet" crossorigin href="/writing/nyc-marathon/assets/index-2SEXcIhU.css">
 
 <meta name="data-base" content="/writing/nyc-marathon/data/" />
 <link rel="canonical" href="https://ericli.io/writing/nyc-marathon" />
