@@ -9,12 +9,14 @@
   <script>
     // Design-option switches, applied before the first paint (the first value is the default):
     // ?w=400|450  ?fs=16|15|v1  ?cards=caption|float|plain|column  ?key=none|hud|bar|dots|inline
+    // ?layout=split|stack|strip|inline (where the live data sits: panels, in the caption card,
+    // a course strip along the bottom, or one line in the caption)
     // ?hud=profile|current|minimal  ?pal=gyor|gr|br|po|gyr|tgo (pace colours: green–yellow–orange–red,
     // green/red, blue/red, purple/orange, green–gold–red, teal–gold–orange)
     // plus ?theme=light|dark, ?still=<preset> and ?step=<1–13> (see main.js)
     (function () {
       var q = new URLSearchParams(location.search), d = document.documentElement.dataset;
-      var opt = { w: ["400", "450"], fs: ["16", "15", "v1"], cards: ["caption", "float", "plain", "column"], key: ["none", "hud", "bar", "dots", "inline"], hud: ["profile", "current", "minimal"], pal: ["gyor", "gr", "br", "po", "gyr", "tgo"] };
+      var opt = { w: ["400", "450"], fs: ["16", "15", "v1"], cards: ["caption", "float", "plain", "column"], key: ["none", "hud", "bar", "dots", "inline"], hud: ["profile", "current", "minimal"], layout: ["split", "stack", "strip", "inline"], pal: ["gyor", "gr", "br", "po", "gyr", "tgo"] };
       for (var k in opt) { var v = q.get(k); d[k] = opt[k].indexOf(v) >= 0 ? v : opt[k][0]; }
       var t = q.get("theme");
       if (t === "light" || t === "dark") d.theme = t;
@@ -22,11 +24,11 @@
       if (q.get("step") && "scrollRestoration" in history) history.scrollRestoration = "manual";
     })();
   </script>
-  <script type="module" crossorigin src="/writing/nyc-marathon/assets/index-CZUpqTo0.js"></script>
+  <script type="module" crossorigin src="/writing/nyc-marathon/assets/index-DCUOKa_j.js"></script>
   <link rel="modulepreload" crossorigin href="/writing/nyc-marathon/assets/array-utils-flat-BL8Cekj1.js">
   <link rel="modulepreload" crossorigin href="/writing/nyc-marathon/assets/expression-E359vKZW.js">
   <link rel="modulepreload" crossorigin href="/writing/nyc-marathon/assets/get-attribute-from-layouts-Dd2gixpo.js">
-  <link rel="stylesheet" crossorigin href="/writing/nyc-marathon/assets/index-Cesph0rc.css">
+  <link rel="stylesheet" crossorigin href="/writing/nyc-marathon/assets/index-DLPaQa06.css">
 
 <meta name="data-base" content="/writing/nyc-marathon/data/" />
 <link rel="canonical" href="https://ericli.io/writing/nyc-marathon" />
@@ -93,7 +95,7 @@
 </script>
   <header class="article-header">
     <h1>Where New York marathoners slow down</h1>
-    <p class="article-meta"><time datetime="2026-10-08">October 8, 2026</time><span id="read-time">5 min read</span></p>
+    <p class="article-meta"><time datetime="2026-10-08">October 8, 2026</time><span id="read-time">6 min read</span></p>
   </header>
 
   <article class="prose article-body">
@@ -125,8 +127,14 @@
       <div class="viz-overlay bottom-right legend-wrap">
         <div class="viz-panel scene-legend" id="scene-legend"></div>
       </div>
+      <div class="viz-overlay course-strip" id="course-strip" aria-hidden="true">
+        <div class="cs-text"></div>
+        <div class="cs-graphic"><div class="cs-profile"></div><svg class="cs-field"></svg></div>
+      </div>
       <div class="caption" aria-live="polite">
         <div class="cap-body"></div>
+        <div class="cap-data"></div>
+        <div class="cap-live"><span class="cl-text"></span><span class="cl-follow"> · Following <button type="button" class="sel" data-sel aria-haspopup="listbox" aria-expanded="false"><span class="sel-v">4:30</span></button></span></div>
         <span class="cap-bar" aria-hidden="true"><i></i></span>
       </div>
     </div>
@@ -184,8 +192,9 @@
   </section>
 
   <article class="prose after-story">
-    <h2>Who slowed down</h2>
-    <p>Comparing each runner with their own average pace puts fast and slow runners on the same scale. Among runners under three hours, <span data-f="ps_u3_share">85</span> percent ran the second half slower than the first, by a median of <span data-f="ps_u3_loss">3.0</span> minutes. Among runners who took five hours or more, <span data-f="ps_5p_share">97</span> percent did, by a median of about <span data-f="ps_5p_loss">26</span> minutes.</p>
+    <h2>Is New York a hard marathon?</h2>
+    <p>For most of its runners, yes. Of all finishers, <span data-f="pos_split_pct">92</span> percent ran the second half slower than the first, and the typical finisher took about <span data-f="median_loss">13</span> minutes longer on it.</p>
+    <p data-f="arc_sentence">Runners ran the first 13 miles 2 to 8 percent faster than their average pace, stayed within about 2 percent of it through mile 19, and ran every mile from 20 to 26 slower, by 4 to 11 percent.</p>
   </article>
   <figure class="fig">
     <figcaption class="fig-head"><span class="fig-title">Every group ran the second half slower, and faster runners slowed less.</span></figcaption>
@@ -193,23 +202,32 @@
   </figure>
 
   <article class="prose">
-    <h2>Where the hills mattered</h2>
-    <p>The biggest climb is the first one, about <span data-f="vz_climb">140</span> feet up the Verrazzano-Narrows Bridge, and runners ran it only about <span data-f="vz_excess">1</span> percent slower than the flat miles after it. The Queensboro Bridge climbs about <span data-f="qb_climb">100</span> feet, from mile <span data-f="qb_from">14.8</span> to <span data-f="qb_to">15.6</span>, and runners ran miles 15 and 16 about <span data-f="qb_excess">3</span> percent slower than miles 13 and 14. Fifth Avenue climbs about <span data-f="fifth_climb">90</span> feet in mile 24, which runners ran about <span data-f="fifth_excess">4</span> percent slower than the two miles before it.</p>
+    <h2>Is it the hills?</h2>
+    <p><span data-f="hills_lead">Not mostly.</span> <span data-f="halves_sentence">The two halves of the course climb about the same, about 430 feet in the first and 440 in the second.</span> Measured against the miles just before them, the two climbs of the second half, the Queensboro Bridge and Fifth Avenue, cost the typical finisher about <span data-f="climbs2_cost">a minute</span> between them, out of the <span data-f="median_loss">13</span> extra minutes their second half took.</p>
+    <p>Miles 21 to 23, from the Bronx through Harlem, are flat, and runners ran them about <span data-f="m21_23">7</span> percent slower than their average. That slowdown is fatigue, not hills.</p>
   </article>
   <figure class="fig fig-elev">
-    <figcaption class="fig-head"><span class="fig-title">The course’s biggest climb cost runners the least.</span></figcaption>
+    <figcaption class="fig-head"><span class="fig-title">Late in the race, runners ran flat miles slower than they had run the Verrazzano or the Queensboro.</span></figcaption>
     <div id="chart-elev"></div>
     <p class="fig-note">Pace is the typical runner’s in each split mile, compared with their own average for the race. Shading marks the climbs. Elevation is stretched vertically.</p>
   </figure>
+
   <article class="prose">
-    <p>Miles 21 to 23 have no hills, yet runners ran them about <span data-f="m21_23">7</span> percent slower than their average. The climb up Fifth Avenue came on top of that, which made mile 24 the slowest of the race.</p>
+    <h2>Which climbs cost the most?</h2>
+    <p>Fifth Avenue. In mile 24, after 23 miles of racing, the course climbs about <span data-f="fifth_climb">90</span> feet alongside Central Park, and runners ran it about <span data-f="fifth_excess">4</span> percent slower than the two miles before it. The Queensboro Bridge cost about <span data-f="qb_excess">3</span> percent. The Verrazzano-Narrows Bridge, the biggest climb on the course at about <span data-f="vz_climb">140</span> feet, cost about <span data-f="vz_excess">1</span> percent, at the start of the race.</p>
+    <p><span data-f="cps_sentence">Runners sped up near the finish, and ran mile 26, with its rise along Central Park South, faster than mile 23.</span> <span data-f="short_sentence">The Pulaski, Willis Avenue and Madison Avenue bridges are too short for the split times to measure.</span></p>
   </article>
+  <figure class="fig fig-climbs">
+    <figcaption class="fig-head"><span class="fig-title" data-f="climbs_title">The climb up Fifth Avenue cost runners the most.</span></figcaption>
+    <div id="chart-climbs"></div>
+    <p class="fig-note">Each climb’s cost is how much slower the typical runner ran the split miles that hold it than nearby flat miles, as a share of their own average pace. The comparison is with the miles just before the climb, or just after it for the Verrazzano. A climb is too short to measure when it covers less than 30 percent of the split miles around it.</p>
+  </figure>
 
   <footer class="about-data">
     <h2>About the data</h2>
     <p>Results and splits are from New York Road Runners’ public results for the 2025 TCS New York City Marathon<span data-f="list_phrase">. The official count is 59,122 finishers; the results list has 59,121 of them, and the counts on the race clock use that list</span>. The pace figures use the <span data-f="n_splits">58,721</span> finishers with complete split records, counting a record as complete when no more than four of its 25 timing-mat times are missing.</p>
     <p>Each mile is compared with the runner’s own average pace for the race. There are no timing mats at miles 1 and 2, so the first segment runs from the start to mile 3. The cards describe all finishers within five minutes of the chosen time, and the camera follows one of them, the runner whose pace by mile is closest to that group’s median.</p>
-    <p>Each dot starts at its wave’s scheduled time plus the gap between the runner’s gun and net times, and moves at an even pace between timing mats. A dot is gray within 2 percent of the runner’s average and fully colored at 10 percent faster or slower. The <span data-f="n_interp">400</span> runners with incomplete splits, most of them among the last to finish, are placed by even pace between the times that were recorded; the last finisher has no times after mile <span data-f="last_split">14</span>.<span data-f="tail_sampled"></span></p>
+    <p>Each dot starts at its wave’s scheduled time plus the gap between the runner’s gun and net times, and moves at an even pace between timing mats. A dot is yellow at the runner’s average pace and shades to green as they run faster, fully green at 8 percent faster, and through orange to red as they slow, fully red at 10 percent slower. The <span data-f="n_interp">400</span> runners with incomplete splits, most of them among the last to finish, are placed by even pace between the times that were recorded; the last finisher has no times after mile <span data-f="last_split">14</span>.<span data-f="tail_sampled"></span></p>
     <p>Buildings within 300 meters of the route are from the city’s Building Footprints dataset on NYC Open Data, drawn at their roof heights. The route is based on the 2023 course published on Strava and WNYC Data News’ course and mile-marker file, calibrated to the official miles. Elevation is from the U.S. Geological Survey’s 3D Elevation Program, with bridge decks at their modeled height. Land and borough lines are from the U.S. Census Bureau.</p>
     <p>The published data has no names, bib numbers, runner IDs or hometowns.</p>
   </footer>
