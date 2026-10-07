@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Where runners slow down in the New York City Marathon</title>
+  <title>Where New York marathoners slow down</title>
   <meta name="description" content="Mile splits from 58,721 finishers of the 2025 New York City Marathon show where on the course runners slowed down." />
   <link rel="preload" href="/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin />
   <script>
@@ -22,17 +22,17 @@
       if (q.get("step") && "scrollRestoration" in history) history.scrollRestoration = "manual";
     })();
   </script>
-  <script type="module" crossorigin src="/writing/nyc-marathon/assets/index-sn4yDrwF.js"></script>
+  <script type="module" crossorigin src="/writing/nyc-marathon/assets/index-CZUpqTo0.js"></script>
   <link rel="modulepreload" crossorigin href="/writing/nyc-marathon/assets/array-utils-flat-BL8Cekj1.js">
   <link rel="modulepreload" crossorigin href="/writing/nyc-marathon/assets/expression-E359vKZW.js">
   <link rel="modulepreload" crossorigin href="/writing/nyc-marathon/assets/get-attribute-from-layouts-Dd2gixpo.js">
-  <link rel="stylesheet" crossorigin href="/writing/nyc-marathon/assets/index-BxNAZl3L.css">
+  <link rel="stylesheet" crossorigin href="/writing/nyc-marathon/assets/index-Cesph0rc.css">
 
 <meta name="data-base" content="/writing/nyc-marathon/data/" />
 <link rel="canonical" href="https://ericli.io/writing/nyc-marathon" />
 <meta property="og:type" content="article" />
 <meta property="og:site_name" content="Eric Li" />
-<meta property="og:title" content="Where runners slow down in the New York City Marathon" />
+<meta property="og:title" content="Where New York marathoners slow down" />
 <meta property="og:description" content="Mile splits from 58,721 finishers of the 2025 New York City Marathon show where on the course runners slowed down." />
 <meta property="og:url" content="https://ericli.io/writing/nyc-marathon" />
 <meta property="og:image" content="https://ericli.io/writing/nyc-marathon/og.jpg" />
@@ -40,7 +40,7 @@
 <meta property="og:image:height" content="630" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:image" content="https://ericli.io/writing/nyc-marathon/og.jpg" />
-<meta name="twitter:title" content="Where runners slow down in the New York City Marathon" />
+<meta name="twitter:title" content="Where New York marathoners slow down" />
 <meta name="twitter:description" content="Mile splits from 58,721 finishers of the 2025 New York City Marathon show where on the course runners slowed down." />
 <link rel="icon" href="/favicon.ico" />
 <script>(function(){try{var d=matchMedia("(prefers-color-scheme: dark)").matches;document.documentElement.style.backgroundColor=d?"#0a0a0a":"#ffffff";}catch(e){}})();</script>
@@ -92,7 +92,7 @@
   })();
 </script>
   <header class="article-header">
-    <h1>Where runners slow down in the New York City Marathon</h1>
+    <h1>Where New York marathoners slow down</h1>
     <p class="article-meta"><time datetime="2026-10-08">October 8, 2026</time><span id="read-time">5 min read</span></p>
   </header>
 
@@ -107,14 +107,10 @@
       <div class="text-scrim" aria-hidden="true"></div>
       <div class="viz-overlay top-right hud-wrap hidden" id="hud-wrap">
         <div class="viz-panel race-hud" id="hud">
-          <span class="clock">9:10 a.m.</span>
-          <div class="counts">
-            <span>Not yet started</span><b>0</b>
-            <span>On the course</span><b>0</b>
-            <span>Finished</span><b>0</b>
-          </div>
+          <div class="rh-time">9:10 a.m.</div>
+          <div class="rh-counts"></div>
           <div class="hud-key"></div>
-          <div class="trackers"></div>
+          <svg class="rh-field" role="img" aria-label="Where the runners on the course are, from the start to the finish, with the two winners and the last finisher marked"></svg>
         </div>
       </div>
       <div class="viz-overlay top-right course-wrap hidden" id="course-wrap">
@@ -131,7 +127,7 @@
       </div>
       <div class="caption" aria-live="polite">
         <div class="cap-body"></div>
-        <div class="cap-meta"><span class="cap-count">1 of 13</span><span class="cap-bar"><i></i></span></div>
+        <span class="cap-bar" aria-hidden="true"><i></i></span>
       </div>
     </div>
     <div class="scrolly-steps">

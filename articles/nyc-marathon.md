@@ -1,5 +1,5 @@
 ---
-title: "Where runners slow down in the New York City Marathon"
+title: "Where New York marathoners slow down"
 description: "Mile splits from 58,721 finishers of the 2025 New York City Marathon show where on the course runners slowed down."
 date: "2026-10-08"
 image: "/writing/nyc-marathon/og.jpg"
