@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Where runners slow down in the New York City Marathon</title>
+  <meta name="description" content="Mile splits from 58,721 finishers of the 2025 New York City Marathon show where on the course runners slowed down." />
+  <link rel="preload" href="/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin />
+  <script>
+    // Design-option switches, applied before the first paint (the first value is the default):
+    // ?w=400|450  ?fs=16|15|v1  ?cards=caption|float|plain|column  ?key=none|hud|bar|dots|inline
+    // ?hud=profile|current|minimal  ?pal=gyor|gr|br|po|gyr|tgo (pace colours: green–yellow–orange–red,
+    // green/red, blue/red, purple/orange, green–gold–red, teal–gold–orange)
+    // plus ?theme=light|dark, ?still=<preset> and ?step=<1–13> (see main.js)
+    (function () {
+      var q = new URLSearchParams(location.search), d = document.documentElement.dataset;
+      var opt = { w: ["400", "450"], fs: ["16", "15", "v1"], cards: ["caption", "float", "plain", "column"], key: ["none", "hud", "bar", "dots", "inline"], hud: ["profile", "current", "minimal"], pal: ["gyor", "gr", "br", "po", "gyr", "tgo"] };
+      for (var k in opt) { var v = q.get(k); d[k] = opt[k].indexOf(v) >= 0 ? v : opt[k][0]; }
+      var t = q.get("theme");
+      if (t === "light" || t === "dark") d.theme = t;
+      if (q.get("still")) document.documentElement.classList.add("still");
+      if (q.get("step") && "scrollRestoration" in history) history.scrollRestoration = "manual";
+    })();
+  </script>
+  <script type="module" crossorigin src="/writing/nyc-marathon/assets/index-sn4yDrwF.js"></script>
+  <link rel="modulepreload" crossorigin href="/writing/nyc-marathon/assets/array-utils-flat-BL8Cekj1.js">
+  <link rel="modulepreload" crossorigin href="/writing/nyc-marathon/assets/expression-E359vKZW.js">
+  <link rel="modulepreload" crossorigin href="/writing/nyc-marathon/assets/get-attribute-from-layouts-Dd2gixpo.js">
+  <link rel="stylesheet" crossorigin href="/writing/nyc-marathon/assets/index-BxNAZl3L.css">
+
+<meta name="data-base" content="/writing/nyc-marathon/data/" />
+<link rel="canonical" href="https://ericli.io/writing/nyc-marathon" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Eric Li" />
+<meta property="og:title" content="Where runners slow down in the New York City Marathon" />
+<meta property="og:description" content="Mile splits from 58,721 finishers of the 2025 New York City Marathon show where on the course runners slowed down." />
+<meta property="og:url" content="https://ericli.io/writing/nyc-marathon" />
+<meta property="og:image" content="https://ericli.io/writing/nyc-marathon/og.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://ericli.io/writing/nyc-marathon/og.jpg" />
+<meta name="twitter:title" content="Where runners slow down in the New York City Marathon" />
+<meta name="twitter:description" content="Mile splits from 58,721 finishers of the 2025 New York City Marathon show where on the course runners slowed down." />
+<link rel="icon" href="/favicon.ico" />
+<script>(function(){try{var d=matchMedia("(prefers-color-scheme: dark)").matches;document.documentElement.style.backgroundColor=d?"#0a0a0a":"#ffffff";}catch(e){}})();</script>
+</head>
+<body>
+
+<style>
+  .site-menu-btn { position: fixed; top: 18px; left: 18px; z-index: 50; width: 28px; height: 28px; display: grid; place-items: center; background: none; border: 0; padding: 0; cursor: pointer; color: #0a0a0a; transition: opacity 200ms; }
+  .site-menu-btn:hover { opacity: .6; }
+  .site-menu-btn line { stroke: currentColor; transition: transform 300ms ease-out; transform-box: view-box; transform-origin: center; }
+  .site-menu-btn .l1 { transform: translateY(-3px); } .site-menu-btn .l2 { transform: translateY(3px); }
+  .site-menu-open .site-menu-btn .l1 { transform: rotate(45deg); } .site-menu-open .site-menu-btn .l2 { transform: rotate(-45deg); }
+  .site-menu { position: fixed; inset: 0; z-index: 40; opacity: 0; pointer-events: none; transition: opacity 300ms ease-out; background: rgb(255 255 255 / .6); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
+  .site-menu-open .site-menu { opacity: 1; pointer-events: auto; }
+  .site-menu nav { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; padding: 64px 0 0 24px; font: 450 14px/1.5 Inter, ui-sans-serif, system-ui, sans-serif; }
+  .site-menu nav div { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; margin-top: 12px; }
+  .site-menu a { color: rgb(10 10 10 / .5); text-decoration: none; transition: color 200ms; }
+  .site-menu a:hover, .site-menu a[aria-current] { color: #0a0a0a; }
+  @media (prefers-color-scheme: dark) {
+    .site-menu-btn { color: #fff; }
+    .site-menu { background: rgb(10 10 10 / .6); }
+    .site-menu a { color: rgb(255 255 255 / .6); }
+    .site-menu a:hover, .site-menu a[aria-current] { color: #fff; }
+  }
+</style>
+<button class="site-menu-btn" type="button" aria-label="Open menu" aria-expanded="false">
+  <svg width="14" height="12" viewBox="0 0 15 12" stroke-width="1.4" aria-hidden="true"><line class="l1" x1="0" y1="6" x2="15" y2="6"/><line class="l2" x1="0" y1="6" x2="15" y2="6"/></svg>
+</button>
+<div class="site-menu" inert>
+  <nav aria-label="Site">
+    <a href="/">Home</a>
+    <a href="/writing" aria-current="page">Writing</a>
+    <div><a href="https://getversive.com" target="_blank" rel="noopener noreferrer">Versive</a><a href="/scratch">Scratch</a><a href="https://juno.ericli.io" target="_blank" rel="noopener noreferrer">Juno</a></div>
+    <div><a href="https://linkedin.com/in/erictli" target="_blank" rel="noopener noreferrer">LinkedIn</a><a href="https://x.com/erictli" target="_blank" rel="noopener noreferrer">X</a></div>
+  </nav>
+</div>
+<script>
+  (function () {
+    var root = document.documentElement, btn = document.querySelector(".site-menu-btn"), menu = document.querySelector(".site-menu");
+    function set(open) {
+      root.classList.toggle("site-menu-open", open);
+      btn.setAttribute("aria-expanded", String(open));
+      btn.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+      if (open) menu.removeAttribute("inert"); else menu.setAttribute("inert", "");
+    }
+    btn.addEventListener("click", function () { set(!root.classList.contains("site-menu-open")); });
+    menu.addEventListener("click", function (e) { if (e.target === menu) set(false); });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") set(false); });
+  })();
+</script>
+  <header class="article-header">
+    <h1>Where runners slow down in the New York City Marathon</h1>
+    <p class="article-meta"><time datetime="2026-10-08">October 8, 2026</time><span id="read-time">5 min read</span></p>
+  </header>
+
+  <article class="prose article-body">
+    <p>Last year <span data-f="n_official">59,122</span> people finished the New York City Marathon, the most in the race’s history. This year’s race is on Sunday, Nov. 1.</p>
+    <p>Timing mats record every runner at each mile from mile 3 to the finish. I used the splits of <span data-f="splits_phrase">the 58,721 finishers with complete records</span> to see where runners slowed down, measuring each mile against the runner’s own average pace.</p>
+  </article>
+
+  <section class="scrolly" id="scrolly">
+    <div class="scrolly-sticky" id="scene">
+      <div class="loading">Loading the course…</div>
+      <div class="text-scrim" aria-hidden="true"></div>
+      <div class="viz-overlay top-right hud-wrap hidden" id="hud-wrap">
+        <div class="viz-panel race-hud" id="hud">
+          <span class="clock">9:10 a.m.</span>
+          <div class="counts">
+            <span>Not yet started</span><b>0</b>
+            <span>On the course</span><b>0</b>
+            <span>Finished</span><b>0</b>
+          </div>
+          <div class="hud-key"></div>
+          <div class="trackers"></div>
+        </div>
+      </div>
+      <div class="viz-overlay top-right course-wrap hidden" id="course-wrap">
+        <div class="viz-panel course-hud" id="course-hud">
+          <div class="ch-top"><span class="ch-mile">Mile 0.0</span><span class="ch-place"></span></div>
+          <div class="ch-pace"></div>
+          <div class="hud-key"></div>
+          <div class="ch-ctl">Following a runner who finished in <button type="button" class="sel" data-sel aria-haspopup="listbox" aria-expanded="false"><span class="sel-v">4:30</span></button></div>
+          <div class="ch-strip"></div>
+        </div>
+      </div>
+      <div class="viz-overlay bottom-right legend-wrap">
+        <div class="viz-panel scene-legend" id="scene-legend"></div>
+      </div>
+      <div class="caption" aria-live="polite">
+        <div class="cap-body"></div>
+        <div class="cap-meta"><span class="cap-count">1 of 13</span><span class="cap-bar"><i></i></span></div>
+      </div>
+    </div>
+    <div class="scrolly-steps">
+      <div class="step left" data-step="intro"><div class="step-card">
+        <p>Each dot is a finisher, <span data-pal-word="fast">green</span> when running faster than their own average and <span data-pal-word="slow">red</span> when slower, and the camera follows a runner who finished in <button type="button" class="sel" data-sel aria-haspopup="listbox" aria-expanded="false"><span class="sel-v">4:30</span></button>.</p>
+      </div></div>
+
+      <div class="step left step-chase" data-step="c-vz" data-from="0" data-to="2.3" style="--h:200vh"><div class="step-card">
+        <p data-cc="vz">The race starts on the Verrazzano-Narrows Bridge, the highest point of the course, and runners who finished near 4:30 ran the first three miles 7 percent faster than their average.</p>
+      </div></div>
+
+      <div class="step left step-chase" data-step="c-bk" data-from="2.3" data-to="12.9" style="--h:230vh"><div class="step-card">
+        <p data-cc="bk">Through the flat miles of Brooklyn, they kept running 3 to 8 percent faster than their average.</p>
+      </div></div>
+
+      <div class="step left step-chase" data-step="c-pul" data-from="12.9" data-to="14.75" style="--h:160vh"><div class="step-card">
+        <p data-cc="pul">They reached halfway, on the Pulaski Bridge, in 2:07:18, and the second half took them about 15 minutes longer.</p>
+      </div></div>
+
+      <div class="step left step-chase" data-step="c-qb" data-from="14.75" data-to="16.4" style="--h:240vh"><div class="step-card">
+        <p data-cc="qb">The climb over the Queensboro Bridge was the first mile they ran slower than their average, about 22 seconds slower than mile 14.</p>
+      </div></div>
+
+      <div class="step left step-chase" data-step="c-first" data-from="16.4" data-to="19.4" style="--h:180vh"><div class="step-card">
+        <p data-cc="first">On First Avenue they ran close to their average pace until mile 19, in East Harlem.</p>
+      </div></div>
+
+      <div class="step left step-chase" data-step="c-bx" data-from="19.4" data-to="23.0" style="--h:260vh"><div class="step-card">
+        <p data-cc="bx">Mile 20, over the Willis Avenue Bridge into the Bronx, was 9 percent slower than their average, and miles 21 to 23 stayed about that slow.</p>
+      </div></div>
+
+      <div class="step left step-chase" data-step="c-fifth" data-from="23.0" data-to="24.4" style="--h:240vh"><div class="step-card">
+        <p data-cc="fifth">The climb up Fifth Avenue in mile 24 was their slowest mile, 12 percent slower than their average.</p>
+      </div></div>
+
+      <div class="step left step-chase" data-step="c-fin" data-from="24.4" data-to="26.2188" style="--h:200vh"><div class="step-card">
+        <p data-cc="fin">They ran the rolling last two miles through Central Park, and the runner on the map finished in 4:29:12.</p>
+      </div></div>
+
+      <div class="step left step-river" data-step="leaders" data-t0="30" data-t1="123"><div class="step-card">
+        <p>Scroll to run the race clock to <span data-f="win_m_clock">11:13 a.m.</span>, when the men’s winner finished and <span data-f="not_started_at_mwin">14,976</span> runners had not yet started.</p>
+      </div></div>
+      <div class="step left step-river" data-step="handoff" data-t0="123" data-t1="123"><div class="step-card">
+        <p>When the men’s winner finished, the last finisher was at mile <span data-f="last_at_mi">5.1</span>, <span data-f="last_at_place">in Sunset Park, Brooklyn</span>, and would be on the course for another <span data-f="last_at_left">10 hours and 49 minutes</span>.</p>
+      </div></div>
+      <div class="step left step-river step-tail" data-step="tail" data-t0="123" data-t1="710"><div class="step-card">
+        <p>By 6 p.m., <span data-f="tail_n6">2,442</span> runners were left, spread over the last <span data-f="tail_span6">8.5</span> miles of the course.</p>
+        <figure class="tail-chart" aria-label="Where the runners still on the course were at each hour from 4 to 9 p.m."></figure>
+      </div></div>
+      <div class="step left step-river step-end" data-step="end"><div class="step-card">
+        <p>The last of the <span data-f="n_official">59,122</span> finishers crossed the line at <span data-f="last_finish_clock">10:01 p.m.</span>, <span data-f="last_dur">12 hours and 45 minutes</span> after starting.</p>
+      </div></div>
+    </div>
+  </section>
+
+  <article class="prose after-story">
+    <h2>Who slowed down</h2>
+    <p>Comparing each runner with their own average pace puts fast and slow runners on the same scale. Among runners under three hours, <span data-f="ps_u3_share">85</span> percent ran the second half slower than the first, by a median of <span data-f="ps_u3_loss">3.0</span> minutes. Among runners who took five hours or more, <span data-f="ps_5p_share">97</span> percent did, by a median of about <span data-f="ps_5p_loss">26</span> minutes.</p>
+  </article>
+  <figure class="fig">
+    <figcaption class="fig-head"><span class="fig-title">Every group ran the second half slower, and faster runners slowed less.</span></figcaption>
+    <div id="chart-profile"></div>
+  </figure>
+
+  <article class="prose">
+    <h2>Where the hills mattered</h2>
+    <p>The biggest climb is the first one, about <span data-f="vz_climb">140</span> feet up the Verrazzano-Narrows Bridge, and runners ran it only about <span data-f="vz_excess">1</span> percent slower than the flat miles after it. The Queensboro Bridge climbs about <span data-f="qb_climb">100</span> feet, from mile <span data-f="qb_from">14.8</span> to <span data-f="qb_to">15.6</span>, and runners ran miles 15 and 16 about <span data-f="qb_excess">3</span> percent slower than miles 13 and 14. Fifth Avenue climbs about <span data-f="fifth_climb">90</span> feet in mile 24, which runners ran about <span data-f="fifth_excess">4</span> percent slower than the two miles before it.</p>
+  </article>
+  <figure class="fig fig-elev">
+    <figcaption class="fig-head"><span class="fig-title">The course’s biggest climb cost runners the least.</span></figcaption>
+    <div id="chart-elev"></div>
+    <p class="fig-note">Pace is the typical runner’s in each split mile, compared with their own average for the race. Shading marks the climbs. Elevation is stretched vertically.</p>
+  </figure>
+  <article class="prose">
+    <p>Miles 21 to 23 have no hills, yet runners ran them about <span data-f="m21_23">7</span> percent slower than their average. The climb up Fifth Avenue came on top of that, which made mile 24 the slowest of the race.</p>
+  </article>
+
+  <footer class="about-data">
+    <h2>About the data</h2>
+    <p>Results and splits are from New York Road Runners’ public results for the 2025 TCS New York City Marathon<span data-f="list_phrase">. The official count is 59,122 finishers; the results list has 59,121 of them, and the counts on the race clock use that list</span>. The pace figures use the <span data-f="n_splits">58,721</span> finishers with complete split records, counting a record as complete when no more than four of its 25 timing-mat times are missing.</p>
+    <p>Each mile is compared with the runner’s own average pace for the race. There are no timing mats at miles 1 and 2, so the first segment runs from the start to mile 3. The cards describe all finishers within five minutes of the chosen time, and the camera follows one of them, the runner whose pace by mile is closest to that group’s median.</p>
+    <p>Each dot starts at its wave’s scheduled time plus the gap between the runner’s gun and net times, and moves at an even pace between timing mats. A dot is gray within 2 percent of the runner’s average and fully colored at 10 percent faster or slower. The <span data-f="n_interp">400</span> runners with incomplete splits, most of them among the last to finish, are placed by even pace between the times that were recorded; the last finisher has no times after mile <span data-f="last_split">14</span>.<span data-f="tail_sampled"></span></p>
+    <p>Buildings within 300 meters of the route are from the city’s Building Footprints dataset on NYC Open Data, drawn at their roof heights. The route is based on the 2023 course published on Strava and WNYC Data News’ course and mile-marker file, calibrated to the official miles. Elevation is from the U.S. Geological Survey’s 3D Elevation Program, with bridge decks at their modeled height. Land and borough lines are from the U.S. Census Bureau.</p>
+    <p>The published data has no names, bib numbers, runner IDs or hometowns.</p>
+  </footer>
+</body>
+</html>

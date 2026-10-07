@@ -12,6 +12,8 @@ export interface ArticleMetadata {
   slug: string;
   readTime: string;
   image?: string;
+  /** Built as its own page in public/writing/<slug>/ rather than rendered from this file. */
+  standalone?: boolean;
 }
 
 export interface Article extends ArticleMetadata {
@@ -41,6 +43,7 @@ export function getAllArticles(): ArticleMetadata[] {
         date: data.date,
         readTime: stats.text,
         image: data.image,
+        standalone: Boolean(data.standalone),
       };
     });
 
@@ -85,8 +88,9 @@ export function getAllSlugs(): string[] {
     return [];
   }
 
-  const fileNames = fs.readdirSync(articlesDirectory);
-  return fileNames
-    .filter((name) => name.endsWith(".md") || name.endsWith(".mdx"))
-    .map((name) => name.replace(/\.mdx?$/, ""));
+  // Standalone articles are static pages in public/, served by a rewrite in
+  // next.config.js, so they get no page rendered from markdown.
+  return getAllArticles()
+    .filter((article) => !article.standalone)
+    .map((article) => article.slug);
 }
