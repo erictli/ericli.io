@@ -57,7 +57,7 @@ export default function ArticleLayout({
             <img src={hero.src} alt={hero.alt} className="mb-8 block w-full" />
           )}
           <header className="mb-8">
-            <h1 className="text-2xl leading-tight font-normal tracking-[-0.015em]">
+            <h1 className="text-2xl leading-tight font-[450] tracking-[-0.015em]">
               {article.title}
             </h1>
             <div

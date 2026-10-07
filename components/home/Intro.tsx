@@ -22,7 +22,7 @@ export function Intro({
   const link = useLinkClass();
 
   return (
-    <div className={`flex flex-col gap-3 font-normal ${c.text} ${className}`}>
+    <div className={`flex flex-col gap-3 font-[450] ${c.text} ${className}`}>
       <p>
         Eric is the co-founder of{" "}
         <Link href="https://getversive.com" target="_blank" className={link}>
@@ -79,7 +79,7 @@ export function Contact({ className = "" }: { className?: string }) {
   return (
     <nav
       aria-label="Elsewhere"
-      className={`flex flex-wrap gap-x-4 gap-y-1 font-normal ${className}`}
+      className={`flex flex-wrap gap-x-4 gap-y-1 font-[450] ${className}`}
     >
       <Link
         href="https://linkedin.com/in/erictli"
