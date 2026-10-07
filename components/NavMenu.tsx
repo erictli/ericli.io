@@ -68,7 +68,7 @@ export default function NavMenu() {
           ? { target: "_blank", rel: "noopener noreferrer" }
           : {})}
         onClick={() => link.external && setOpen(false)}
-        className={`font-[450] transition-opacity duration-200 ${LINK} ${
+        className={`font-normal transition-opacity duration-200 ${LINK} ${
           isActive ? TEXT : `${MUTED} ${MUTED_HOVER}`
         }`}
       >

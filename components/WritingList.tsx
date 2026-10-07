@@ -27,7 +27,7 @@ function shortDate(date: string) {
 export default function WritingList({ articles }: WritingListProps) {
   return (
     <main
-      className={`min-h-screen w-full font-sans text-sm leading-[1.5] font-[450] ${TEXT}`}
+      className={`min-h-screen w-full font-sans text-sm leading-[1.5] font-normal ${TEXT}`}
     >
       <div className="mx-auto flex max-w-160 flex-col gap-4 p-6 pt-20 pb-32">
         <h1 className={MUTED}>Writing</h1>

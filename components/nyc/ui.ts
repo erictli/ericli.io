@@ -41,4 +41,4 @@ export const CARD_WIDTH = "w-72";
 
 /** A row in a card's list: the borough rows and the viewing banner's actions. */
 export const CARD_ROW =
-  "flex h-7 w-full cursor-pointer items-center gap-2.5 rounded-lg px-1.5 text-left text-sm font-[450] text-nyc-ink-2 transition-colors hover:bg-nyc-hover hover:text-nyc-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-nyc-ink-2";
+  "flex h-7 w-full cursor-pointer items-center gap-2.5 rounded-lg px-1.5 text-left text-sm font-normal text-nyc-ink-2 transition-colors hover:bg-nyc-hover hover:text-nyc-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-nyc-ink-2";

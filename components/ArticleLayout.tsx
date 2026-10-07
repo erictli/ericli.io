@@ -26,13 +26,13 @@ const PROSE_COLORS = [
 ].join(" ");
 
 const PROSE_SHAPE = [
-  "prose max-w-none text-base font-[450]",
-  "prose-headings:font-medium prose-headings:text-base prose-h2:mt-10 prose-h2:mb-3 prose-h3:mt-6 prose-h3:mb-2",
+  "prose max-w-none text-base font-normal",
+  "prose-headings:font-medium prose-headings:text-base prose-h2:text-lg prose-h2:leading-snug prose-h2:mt-12 prose-h2:mb-3 prose-h3:mt-6 prose-h3:mb-2",
   "prose-p:my-4 prose-p:leading-[1.7]",
-  "prose-a:no-underline prose-a:border-b prose-a:border-dotted prose-a:pb-0.5 prose-a:font-[425] prose-a:transition-opacity prose-a:hover:opacity-60 prose-a:focus-visible:outline-none",
+  "prose-a:no-underline prose-a:border-b prose-a:border-dotted prose-a:pb-0.5 prose-a:font-normal prose-a:transition-opacity prose-a:hover:opacity-60 prose-a:focus-visible:outline-none",
   "prose-strong:font-medium",
   "prose-ul:my-4 prose-ol:my-4 prose-ol:pl-5 prose-ul:pl-5 prose-li:pl-0.5 prose-li:my-2 prose-li:leading-[1.75]",
-  "prose-blockquote:font-[425] prose-blockquote:border-l-2 prose-blockquote:pl-4 prose-blockquote:my-6",
+  "prose-blockquote:font-normal prose-blockquote:border-l-2 prose-blockquote:pl-4 prose-blockquote:my-6",
   "prose-hr:my-8 prose-hr:border-dotted",
   "prose-video:my-8",
 ].join(" ");
@@ -57,11 +57,11 @@ export default function ArticleLayout({
             <img src={hero.src} alt={hero.alt} className="mb-8 block w-full" />
           )}
           <header className="mb-8">
-            <h1 className="text-lg leading-snug font-medium">
+            <h1 className="text-2xl leading-tight font-normal tracking-[-0.015em]">
               {article.title}
             </h1>
             <div
-              className={`mt-1 flex items-center gap-3 text-sm font-[450] tabular-nums ${MUTED}`}
+              className={`mt-2 flex items-center gap-3 text-sm font-normal tabular-nums ${MUTED}`}
             >
               {/* Dates are calendar days; read them as UTC so they don't slip a day west of Greenwich. */}
               <time dateTime={article.date}>
