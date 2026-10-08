@@ -45,3 +45,6 @@ temp-tailwind-output.css
 
 # Raw OpenStreetMap / elevation dumps for scripts/build-skyline.mjs (large; re-fetch)
 data/skyline/cache/
+
+# design-review screenshots (scripts/capture-variants.mjs, scripts/capture-og.mjs)
+/review/
