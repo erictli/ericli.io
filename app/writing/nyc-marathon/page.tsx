@@ -122,14 +122,13 @@ export default async function MarathonPage() {
       </p>
       <p>
         One unique thing about the NYC Marathon is that it’s one of few big
-        marathons that makes its detailed results available to download. Last
-        year {f.n_official} people finished the race, the most in the race’s
-        history.
+        marathons that makes detailed results available to download. Last year{" "}
+        {f.n_official} people finished the race, the most in the race’s history.
       </p>
       <p>
         Timing mats record every runner’s splits from mile 3 to the finish, and
-        the NYRR publishes the results. So, naturally I had to pull the data of{" "}
-        {f.splits_phrase} to visualize the race mile by mile.
+        the New York Road Runners publishes the results. So naturally, I had to
+        pull the data of {f.splits_phrase} to visualize the race mile by mile.
       </p>
     </>
   );

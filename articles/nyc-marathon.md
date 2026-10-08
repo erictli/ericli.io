@@ -13,9 +13,9 @@ standalone: true
 
 The New York City Marathon is right around the corner. The race is held annually on the first Sunday in November, which falls on November 1st in 2026. This year, I’ll be running it for the first time.
 
-One unique thing about the NYC Marathon is that it’s one of few big marathons that makes its detailed results available to download. Last year 59,122 people finished the race, the most in the race’s history.
+One unique thing about the NYC Marathon is that it’s one of few big marathons that makes detailed results available to download. Last year 59,122 people finished the race, the most in the race’s history.
 
-Timing mats record every runner’s splits from mile 3 to the finish, and the NYRR publishes the results. So, naturally I had to pull the data of the 58,721 finishers with complete records to visualize the race mile by mile.
+Timing mats record every runner’s splits from mile 3 to the finish, and the New York Road Runners publishes the results. So naturally, I had to pull the data of the 58,721 finishers with complete records to visualize the race mile by mile.
 
 Each dot is a finisher, green when running faster than their average pace and red when slower.
 
