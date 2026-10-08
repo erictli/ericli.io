@@ -10,8 +10,8 @@ const reducedMotion = () => matchMedia("(prefers-reduced-motion: reduce)").match
 
 /**
  * The caption card over the map: the step's sentence, then the live data under a hairline
- * (the followed runner in the flythrough, the race clock after it), then the story's progress
- * as a 2px bar along the bottom edge. Bottom left on desktop, 24px in; full width on phones.
+ * (the followed runner in the flythrough, the race clock after it). Bottom left on desktop, 24px
+ * in; full width on phones.
  *
  * Moving to another step fades the sentence out, swaps it and fades it back in (~250 ms);
  * when the card's contents change, its height eases to the new size (200 ms).
@@ -102,7 +102,6 @@ export default function Caption({ cards }: { cards: Record<string, React.ReactNo
         <RunnerPanel hidden={live !== "chase"} />
         <ClockPanel hidden={live !== "clock"} />
       </div>
-      <ProgressBar />
     </div>
   );
 }
@@ -157,23 +156,5 @@ function ClockPanel({ hidden }: { hidden: boolean }) {
         aria-label="Where the runners on the course are, from the start to the finish, with the two winners and the last finisher marked"
       />
     </div>
-  );
-}
-
-/** The story's progress, written straight to the bar's width on every scroll (no re-render). */
-function ProgressBar() {
-  const store = useMarathonStore();
-  const bar = useRef<HTMLElement>(null);
-  useEffect(() => {
-    const apply = (s: { progress: number }) => {
-      if (bar.current) bar.current.style.width = `${(s.progress * 100).toFixed(1)}%`;
-    };
-    apply(store.get());
-    return store.subscribe(apply);
-  }, [store]);
-  return (
-    <span aria-hidden="true" className="absolute inset-x-0 bottom-0 h-0.5 bg-marathon-ink/7">
-      <i ref={bar} className="absolute inset-y-0 left-0 w-0 bg-marathon-ink/35" />
-    </span>
   );
 }

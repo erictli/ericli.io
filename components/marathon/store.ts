@@ -28,8 +28,6 @@ export interface MarathonState {
   step: string;
   stepInstant: boolean;
   live: Live;
-  /** how far through the steps, 0–1 (the caption's progress bar) */
-  progress: number;
   /** the followed finish time: an index into cohortLabels */
   cohort: number;
   cohortLabels: string[];
@@ -51,7 +49,6 @@ export function createMarathonStore(init: { cohort: number; cohortLabels: string
     step: init.step,
     stepInstant: true,
     live: "none",
-    progress: 0,
     cohort: init.cohort,
     cohortLabels: init.cohortLabels,
     copy: null,
