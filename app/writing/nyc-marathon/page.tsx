@@ -2,7 +2,12 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getArticleBySlug } from "@/lib/articles";
 import { ArticleHeader, PROSE } from "@/components/ArticleLayout";
+import Caption from "@/components/marathon/Caption";
+import CohortCopy from "@/components/marathon/CohortCopy";
+import FinishTimeSelect from "@/components/marathon/FinishTimeSelect";
+import GroupLegend from "@/components/marathon/GroupLegend";
 import MarathonStory from "@/components/marathon/MarathonStory";
+import SceneLoading from "@/components/marathon/SceneLoading";
 import { readPublicJSON, readTimeOf } from "@/lib/stories/server";
 import { copyCheck } from "@/lib/stories/shared";
 import { buildFacts, clockRanges } from "@/lib/marathon/facts";
@@ -11,8 +16,9 @@ import { MUTED, TEXT } from "@/lib/theme-classes";
 import { cn } from "@/lib/utils";
 
 // A data story: the copy is here, rendered on the server with every number computed from the
-// story's data (lib/marathon/facts.js); MarathonStory mounts the 3D scene, the caption card and
-// the charts on top of it in the browser. See README, "Data stories".
+// story's data (lib/marathon/facts.js), along with the React UI that the client module drives
+// (the caption card, the finish-time menu, the chart key). MarathonStory mounts the 3D scene
+// and the charts in the browser. See README, "Data stories".
 
 const SLUG = "nyc-marathon";
 const URL = `https://ericli.io/writing/${SLUG}`;
@@ -52,20 +58,12 @@ const SMALL_PROSE = cn(
   "prose-a:text-inherit dark:prose-a:text-inherit",
 );
 
-/** The finish-time menu's trigger, as the cards carry it (lib/marathon/select.js runs it). */
-function FinishTime({ label }: { label: string }) {
-  return (
-    <button type="button" className="m-sel" data-sel aria-haspopup="listbox" aria-expanded="false">
-      <span className="m-sel-v">{label}</span>
-    </button>
-  );
-}
-
 /** A chart wider than the text column, drawn into its slot by the client module. */
-function Figure({ title, chart, note }: { title: string; chart: string; note?: string }) {
+function Figure({ title, chart, note, legend }: { title: string; chart: string; note?: string; legend?: React.ReactNode }) {
   return (
     <figure className="mx-auto my-12 max-w-190 px-6">
       <figcaption className="mb-3.5 block text-[15px] leading-[1.45] font-[450]">{title}</figcaption>
+      {legend}
       <div data-chart={chart} />
       {note && <p className={`mt-2 text-[13px] leading-normal ${MUTED}`}>{note}</p>}
     </figure>
@@ -77,7 +75,7 @@ export default async function MarathonPage() {
   if (!article) notFound();
 
   const [A, course, halves] = await Promise.all([
-    readPublicJSON<{ cohorts: { target: number }[] }>(`${DATA}analysis.json`),
+    readPublicJSON<{ cohorts: { target: number }[]; groups: { key: string; label: string }[] }>(`${DATA}analysis.json`),
     readPublicJSON(`${DATA}course.json`),
     readPublicJSON(`${DATA}halves.json`),
   ]);
@@ -85,10 +83,11 @@ export default async function MarathonPage() {
   const f = buildFacts(A, course, halves);
   checkCohorts(A);
   const { winHalfMin, winEndMin } = clockRanges(A);
-  // the flythrough's cards for the default finish time; the client rewrites them for others
-  const c0 = A.cohorts.find((c) => c.target === 4.5 * 3600) ?? A.cohorts[0];
-  const cc = cohortCopy(c0, A);
-  const sel = <FinishTime label={hmLabel(c0.target)} />;
+  // the flythrough's cards for the default finish time; the client module writes them for
+  // others (CohortCopy)
+  const i0 = Math.max(0, A.cohorts.findIndex((c) => c.target === 4.5 * 3600));
+  const cc = cohortCopy(A.cohorts[i0], A);
+  const sel = <FinishTimeSelect />;
 
   const intro = (
     <>
@@ -99,7 +98,7 @@ export default async function MarathonPage() {
   );
 
   // The scroll steps. Each is a stretch of scroll (its min-height) that drives the scene; its
-  // card is hidden and copied into the caption card as the step comes up. Flythrough steps
+  // card is hidden here and shown in the caption card as the step comes up. Flythrough steps
   // (data-from/to, in miles) follow the course; race-clock steps (data-t0/t1, minutes after
   // the Wave 1 gun) run the clock.
   const steps: {
@@ -112,14 +111,14 @@ export default async function MarathonPage() {
     card: React.ReactNode;
   }[] = [
     { id: "intro", h: "min-h-[120vh]", card: <p>Each dot is a finisher, green when running faster than their own average and red when slower, and the camera follows a runner who finished in {sel}.</p> },
-    { id: "c-vz", from: 0, to: 2.3, h: "min-h-[200vh]", card: <p data-cc="vz">{cc.vz}</p> },
-    { id: "c-bk", from: 2.3, to: 12.9, h: "min-h-[230vh]", card: <p data-cc="bk">{cc.bk}</p> },
-    { id: "c-pul", from: 12.9, to: 14.75, h: "min-h-[160vh]", card: <p data-cc="pul">{cc.pul}</p> },
-    { id: "c-qb", from: 14.75, to: 16.4, h: "min-h-[240vh]", card: <p data-cc="qb">{cc.qb}</p> },
-    { id: "c-first", from: 16.4, to: 19.4, h: "min-h-[180vh]", card: <p data-cc="first">{cc.first}</p> },
-    { id: "c-bx", from: 19.4, to: 23.0, h: "min-h-[260vh]", card: <p data-cc="bx">{cc.bx}</p> },
-    { id: "c-fifth", from: 23.0, to: 24.4, h: "min-h-[240vh]", card: <p data-cc="fifth">{cc.fifth}</p> },
-    { id: "c-fin", from: 24.4, to: 26.2188, h: "min-h-[200vh]", card: <p data-cc="fin">{cc.fin}</p> },
+    { id: "c-vz", from: 0, to: 2.3, h: "min-h-[200vh]", card: <p><CohortCopy k="vz">{cc.vz}</CohortCopy></p> },
+    { id: "c-bk", from: 2.3, to: 12.9, h: "min-h-[230vh]", card: <p><CohortCopy k="bk">{cc.bk}</CohortCopy></p> },
+    { id: "c-pul", from: 12.9, to: 14.75, h: "min-h-[160vh]", card: <p><CohortCopy k="pul">{cc.pul}</CohortCopy></p> },
+    { id: "c-qb", from: 14.75, to: 16.4, h: "min-h-[240vh]", card: <p><CohortCopy k="qb">{cc.qb}</CohortCopy></p> },
+    { id: "c-first", from: 16.4, to: 19.4, h: "min-h-[180vh]", card: <p><CohortCopy k="first">{cc.first}</CohortCopy></p> },
+    { id: "c-bx", from: 19.4, to: 23.0, h: "min-h-[260vh]", card: <p><CohortCopy k="bx">{cc.bx}</CohortCopy></p> },
+    { id: "c-fifth", from: 23.0, to: 24.4, h: "min-h-[240vh]", card: <p><CohortCopy k="fifth">{cc.fifth}</CohortCopy></p> },
+    { id: "c-fin", from: 24.4, to: 26.2188, h: "min-h-[200vh]", card: <p><CohortCopy k="fin">{cc.fin}</CohortCopy></p> },
     { id: "leaders", t0: 30, t1: winHalfMin, h: "min-h-[170vh]", card: <p>Next, the fastest and slowest runners. Scroll to run the race clock to {f.win_m_clock}, when the men’s winner finished and {f.not_started_at_mwin} runners had not yet started.</p> },
     { id: "front", t0: winHalfMin, t1: winEndMin, h: "min-h-[170vh]", card: <p>{f.winner_halves}</p> },
     { id: "handoff", t0: winEndMin, t1: winEndMin, h: "min-h-[170vh]", card: <p>When the men’s winner finished, the last finisher was at mile {f.last_at_mi}, {f.last_at_place}, and would be on the course for another {f.last_at_left}.</p> },
@@ -192,26 +191,26 @@ export default async function MarathonPage() {
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </div>
       <main className={`min-h-screen overflow-x-clip font-sans ${TEXT}`}>
-        <MarathonStory>
+        <MarathonStory cohort={i0} cohortLabels={A.cohorts.map((c) => hmLabel(c.target))} firstStep={steps[0].id}>
           <div className="mx-auto max-w-160 px-6 pt-20">
             <ArticleHeader article={{ title: article.title, date: article.date, readTime }} />
             <div className={PROSE}>{intro}</div>
           </div>
 
-          {/* The scene stays on screen while the steps scroll over it. */}
+          {/* The scene stays on screen while the steps scroll over it; a still frame (?still=)
+              fills the window with it. */}
           <section className="relative mt-10">
-            <div data-scene className="sticky top-0 h-svh w-full overflow-hidden bg-(--m-water)">
-              <div
-                data-loading
-                className="pointer-events-none absolute inset-0 z-3 grid place-items-center text-[13px] text-(--m-ink-3) transition-opacity duration-300 data-done:opacity-0"
-              >
-                Loading the course…
-              </div>
+            <div
+              data-scene
+              className="sticky top-0 h-svh w-full overflow-hidden bg-marathon-water group-data-[still]/story:fixed group-data-[still]/story:inset-0 group-data-[still]/story:z-100 group-data-[still]/story:h-screen group-data-[still]/story:w-screen"
+            >
+              <SceneLoading />
+              <Caption cards={Object.fromEntries(steps.map((s) => [s.id, s.card]))} />
             </div>
             <div data-steps className="pointer-events-none relative z-2 -mt-[100svh] pb-[10vh]">
               {steps.map((s) => (
                 <div key={s.id} data-step={s.id} data-from={s.from} data-to={s.to} data-t0={s.t0} data-t1={s.t1} className={s.h}>
-                  <div data-card className="invisible">{s.card}</div>
+                  <div className="invisible">{s.card}</div>
                 </div>
               ))}
             </div>
@@ -220,7 +219,7 @@ export default async function MarathonPage() {
           <div className="mx-auto mt-16 max-w-160 px-6">
             <div className={PROSE}>{after1}</div>
           </div>
-          <Figure title={fig1.title} chart="profile" />
+          <Figure title={fig1.title} chart="profile" legend={<GroupLegend groups={A.groups.map(({ key, label }) => ({ key, label }))} />} />
           <div className="mx-auto max-w-160 px-6">
             <div className={PROSE}>{after2}</div>
           </div>
