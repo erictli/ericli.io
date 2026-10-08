@@ -338,7 +338,7 @@ export const SearchPill = memo(function SearchPill({
 
       {open && (
         <div
-          className={`${SURFACE} absolute inset-x-0 z-40 max-h-[60dvh] overflow-y-auto rounded-2xl p-1.5 font-[450] text-nyc-ink ${
+          className={`${SURFACE} absolute inset-x-0 z-40 max-h-[60dvh] overflow-y-auto rounded-2xl p-1.5 font-normal text-nyc-ink ${
             openDirection === "up" ? "bottom-12" : "top-11"
           }`}
         >

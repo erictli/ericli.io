@@ -63,8 +63,8 @@ export const ProgressCard = memo(function ProgressCard({
 
   const header = (
     <>
-      <h4 className="text-sm font-[450] mb-2.5">Neighborhoods visited</h4>
-      <div className="flex items-end justify-between gap-2 font-[450] tabular-nums">
+      <h4 className="text-sm font-normal mb-2.5">Neighborhoods visited</h4>
+      <div className="flex items-end justify-between gap-2 font-normal tabular-nums">
         <div
           className={`flex items-end leading-none tracking-tight ${compact ? "text-2xl" : "text-3xl"}`}
         >

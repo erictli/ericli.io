@@ -75,6 +75,53 @@
   --shadow-nyc: var(--nyc-shadow);
 }
 
+/* NYC marathon story colors. Values live in app/writing/nyc-marathon/marathon.css and flip
+   for dark mode; these expose them as utilities like text-marathon-ink-3 and
+   fill-marathon-pace-fast. */
+@theme inline {
+  --color-marathon-page: var(--marathon-page);
+  --color-marathon-ink: var(--marathon-ink);
+  --color-marathon-body: var(--marathon-body);
+  --color-marathon-ink-2: var(--marathon-ink-2);
+  --color-marathon-ink-3: var(--marathon-ink-3);
+  --color-marathon-rule: var(--marathon-rule);
+  --color-marathon-axis: var(--marathon-axis);
+  --color-marathon-surface: var(--marathon-surface);
+  --color-marathon-surface-border: var(--marathon-surface-border);
+  --color-marathon-hairline: var(--marathon-hairline);
+  --color-marathon-pill: var(--marathon-pill);
+  --color-marathon-pill-hover: var(--marathon-pill-hover);
+  --color-marathon-option-hover: var(--marathon-option-hover);
+  --color-marathon-water: var(--marathon-water);
+  --color-marathon-pace-fast: var(--marathon-pace-fast);
+  --color-marathon-pace-even: var(--marathon-pace-even);
+  --color-marathon-pace-slower: var(--marathon-pace-slower);
+  --color-marathon-pace-slow: var(--marathon-pace-slow);
+  --color-marathon-group-1: var(--marathon-group-1);
+  --color-marathon-group-2: var(--marathon-group-2);
+  --color-marathon-group-3: var(--marathon-group-3);
+  --color-marathon-group-4: var(--marathon-group-4);
+  --shadow-marathon-card: var(--marathon-card-shadow);
+  --shadow-marathon-surface: var(--marathon-surface-shadow);
+  --shadow-marathon-menu: 0 4px 16px -4px rgb(0 0 0 / 12%), 0 1px 3px rgb(0 0 0 / 6%);
+}
+
+/* The marathon story's finish-time menu opening: animate-marathon-menu-in */
+@theme {
+  --animate-marathon-menu-in: marathon-menu-in 120ms ease;
+
+  @keyframes marathon-menu-in {
+    from {
+      opacity: 0;
+      transform: scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+
 /* NYC map animations: animate-nyc-toast-in, animate-nyc-expand, ... */
 @theme {
   --animate-nyc-toast-in: nyc-toast-in 220ms ease-out;

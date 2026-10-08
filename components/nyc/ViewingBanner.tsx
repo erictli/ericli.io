@@ -28,7 +28,7 @@ export function ViewingBanner({
 
   return (
     <section
-      className={`${SURFACE} w-full rounded-2xl font-sans font-[450] text-nyc-ink`}
+      className={`${SURFACE} w-full rounded-2xl font-sans font-normal text-nyc-ink`}
       role="status"
       aria-label="Viewing a shared map"
     >

@@ -146,9 +146,9 @@ export function Toolbar({
         <div
           role="dialog"
           aria-label="About the map"
-          className={`${SURFACE} absolute bottom-12 z-40 w-72 ${popoverAlign === "end" ? "right-0" : "left-0"} rounded-2xl p-4 text-[13px] leading-relaxed font-[450] text-nyc-muted`}
+          className={`${SURFACE} absolute bottom-12 z-40 w-72 ${popoverAlign === "end" ? "right-0" : "left-0"} rounded-2xl p-4 text-[13px] leading-relaxed font-normal text-nyc-muted`}
         >
-          <p className="text-sm font-[450] text-nyc-ink">About the map</p>
+          <p className="text-sm font-normal text-nyc-ink">About the map</p>
           <p className="mt-1.5">
             Neighborhood boundaries are drawn from{" "}
             <a className={LINK} href="https://github.com/chriswhong/nyc-neighborhood-boundaries" target="_blank" rel="noopener noreferrer">

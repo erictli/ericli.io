@@ -123,7 +123,7 @@ export function NeighborhoodDetail({
       tabIndex={-1}
       role={floating ? "menu" : "dialog"}
       aria-label={`${neighborhood.name} details`}
-      className={`${SURFACE} rounded-2xl font-sans font-[450] text-nyc-ink outline-none ${
+      className={`${SURFACE} rounded-2xl font-sans font-normal text-nyc-ink outline-none ${
         floating ? "absolute z-30 w-56" : ""
       }`}
       style={position}

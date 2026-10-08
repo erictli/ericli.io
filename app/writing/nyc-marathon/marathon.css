@@ -1,0 +1,158 @@
+/* ---- Color tokens ----------------------------------------------------------
+   Every color in the marathon story. Components use them through Tailwind
+   (text-marathon-ink-3, bg-marathon-surface, shadow-marathon-card, ...; registered in
+   app/globals.css) or as var(--marathon-*), and so do the classes the client module puts on
+   the SVG it draws. The client module also reads the map's colors, the pace scale and the
+   chart's group ramp from here (CourseScene.readTheme, charts.js). Dark values follow the
+   system scheme, like the rest of the site.
+
+   On <html> rather than the story's root so the finish-time menu, portalled to <body>, picks
+   them up too. Route CSS stays loaded after a client-side navigation away, so every name
+   carries the marathon- prefix and the rest of this file is scoped under .marathon.
+
+   The rest of this file is only for HTML the client module positions every frame (the
+   deck.gl canvas and the map labels). Anything else is styled with Tailwind. */
+:root {
+  --marathon-page: #ffffff;
+  --marathon-ink: #0a0a0a; /* headings and numbers */
+  --marathon-body: #0a0a0a; /* running text */
+  --marathon-ink-2: rgb(10 10 10 / 70%); /* secondary panel text */
+  --marathon-ink-3: rgb(10 10 10 / 50%); /* muted */
+  --marathon-rule: rgb(10 10 10 / 7%);
+  --marathon-axis: rgb(10 10 10 / 20%);
+  --marathon-surface: #ffffff;
+  --marathon-surface-border: rgb(0 0 0 / 8%);
+  --marathon-surface-shadow:
+    0 1px 3px rgb(0 0 0 / 4%), 0 4px 20px -4px rgb(0 0 0 / 8%);
+  --marathon-hairline: rgb(0 0 0 / 7%); /* the caption card's edge */
+  --marathon-card-shadow:
+    0 1px 2px rgb(0 0 0 / 5%), 0 6px 20px -6px rgb(0 0 0 / 12%);
+  --marathon-pill: rgb(0 0 0 / 5%);
+  --marathon-pill-hover: rgb(0 0 0 / 8%);
+  --marathon-option-hover: rgb(0 0 0 / 5%);
+  /* basemap: the /nyc map palette */
+  --marathon-water: #b1d5ee;
+  --marathon-land: #f0efeb;
+  --marathon-land-edge: #dcdbd5;
+  --marathon-park: #c6dfba;
+  --marathon-building: #e3e2dd;
+  --marathon-road: #e2e0da; /* the course: a street a few percent darker than land */
+  --marathon-road-edge: #d1cfc8;
+  /* pace against the runner's own average: 8% faster, even, 5% slower, 10% slower
+     (stops in lib/marathon/scene.js, interpolated in OKLCH) */
+  --marathon-pace-fast: #14663a;
+  --marathon-pace-even: #d9ad18;
+  --marathon-pace-slower: #ee8530;
+  --marathon-pace-slow: #f05a4a;
+  /* the four finish-time groups in the pace chart, fast → slow */
+  --marathon-group-1: #0d366b;
+  --marathon-group-2: #1c5cab;
+  --marathon-group-3: #3987e5;
+  --marathon-group-4: #6da7ec;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --marathon-page: #0a0a0a;
+    --marathon-ink: #ffffff;
+    --marathon-body: rgb(255 255 255 / 80%);
+    --marathon-ink-2: rgb(255 255 255 / 80%);
+    --marathon-ink-3: rgb(255 255 255 / 60%);
+    --marathon-rule: rgb(255 255 255 / 7%);
+    --marathon-axis: rgb(255 255 255 / 25%);
+    --marathon-surface: #1f2226;
+    --marathon-surface-border: rgb(255 255 255 / 10%);
+    --marathon-surface-shadow:
+      0 1px 3px rgb(0 0 0 / 30%), 0 4px 20px -4px rgb(0 0 0 / 40%);
+    --marathon-hairline: rgb(255 255 255 / 9%);
+    --marathon-card-shadow:
+      0 1px 2px rgb(0 0 0 / 30%), 0 6px 20px -6px rgb(0 0 0 / 50%);
+    --marathon-pill: rgb(255 255 255 / 9%);
+    --marathon-pill-hover: rgb(255 255 255 / 13%);
+    --marathon-option-hover: rgb(255 255 255 / 8%);
+    --marathon-water: #0d1117;
+    --marathon-land: #17191d;
+    --marathon-land-edge: #2a2d33;
+    --marathon-park: #1a2b22;
+    --marathon-building: #22252b;
+    --marathon-road: #25282d;
+    --marathon-road-edge: #31353b;
+    --marathon-pace-fast: #3fae66;
+    --marathon-pace-even: #e0b423;
+    --marathon-pace-slower: #f08a33;
+    --marathon-pace-slow: #c94032;
+    --marathon-group-1: #cde2fb;
+    --marathon-group-2: #86b6ef;
+    --marathon-group-3: #3987e5;
+    --marathon-group-4: #1c5cab;
+  }
+}
+
+/* ---- The map ----------------------------------------------------------------
+   deck.gl's canvas fills the sticky scene; the labels layer above it holds one element per
+   label, moved with a transform every frame (CourseScene._placeLabels). */
+.marathon .m-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.marathon .m-labels {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+  transition: opacity 250ms;
+}
+.marathon .m-labels.moving {
+  opacity: 0;
+  transition: opacity 120ms;
+}
+/* every map label: 12px, muted ink with a halo; places get a tick down to their spot,
+   runners a short leader */
+.marathon .m-label {
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 12px;
+  line-height: 1.2;
+  font-weight: 400;
+  color: var(--marathon-ink-3);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  text-shadow:
+    0 0 2px var(--marathon-page),
+    0 0 2px var(--marathon-page),
+    0 0 4px var(--marathon-page),
+    0 0 6px var(--marathon-page);
+  transition: opacity 200ms;
+  will-change: transform;
+}
+.marathon .m-label.bridge::after,
+.marathon .m-label.mile::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -6px;
+  width: 1px;
+  height: 6px;
+  background: var(--marathon-ink-3);
+}
+.marathon .m-label[data-anchor="left"]::after,
+.marathon .m-label[data-anchor="right"]::after {
+  display: none;
+}
+.marathon .m-label[data-anchor="below"]::after {
+  bottom: auto;
+  top: -6px;
+}
+.marathon .m-label.lead::before {
+  content: "";
+  position: absolute;
+  left: -9px;
+  top: 50%;
+  width: 6px;
+  height: 1px;
+  background: var(--marathon-ink-3);
+}
