@@ -24,11 +24,11 @@
       if (q.get("step") && "scrollRestoration" in history) history.scrollRestoration = "manual";
     })();
   </script>
-  <script type="module" crossorigin src="/writing/nyc-marathon/assets/index-B7gQ6oID.js"></script>
+  <script type="module" crossorigin src="/writing/nyc-marathon/assets/index-CF4l8n7k.js"></script>
   <link rel="modulepreload" crossorigin href="/writing/nyc-marathon/assets/array-utils-flat-BL8Cekj1.js">
   <link rel="modulepreload" crossorigin href="/writing/nyc-marathon/assets/expression-E359vKZW.js">
   <link rel="modulepreload" crossorigin href="/writing/nyc-marathon/assets/get-attribute-from-layouts-Dd2gixpo.js">
-  <link rel="stylesheet" crossorigin href="/writing/nyc-marathon/assets/index-Coa40XtM.css">
+  <link rel="stylesheet" crossorigin href="/writing/nyc-marathon/assets/index-Cbp9Awhf.css">
 
 <meta name="data-base" content="/writing/nyc-marathon/data/" />
 <link rel="canonical" href="https://ericli.io/writing/nyc-marathon" />
@@ -95,7 +95,7 @@
 </script>
   <header class="article-header">
     <h1>Where New York marathoners slow down</h1>
-    <p class="article-meta"><time datetime="2026-10-08">October 8, 2026</time><span id="read-time">6 min read</span></p>
+    <p class="article-meta"><time datetime="2026-10-08">October 8, 2026</time><span id="read-time">8 min read</span></p>
   </header>
 
   <article class="prose article-body">
@@ -196,7 +196,7 @@
 
   <article class="prose after-story">
     <h2>Is New York a hard marathon?</h2>
-    <p>For most of its runners, yes. Of all finishers, <span data-f="pos_split_pct">92</span> percent ran the second half slower than the first, and the typical finisher took about <span data-f="median_loss">13</span> minutes longer on it.</p>
+    <p>Not by how much its runners slowed down. Of all finishers, <span data-f="pos_split_pct">92</span> percent ran the second half slower than the first, and the typical finisher took about <span data-f="median_loss">13</span> minutes longer on it. That is common in big marathons. In Chicago in 2025, <span data-f="chi_pos">89</span> percent of finishers slowed in the second half, and in London it was <span data-f="lon_pos">between 92 and 99 percent in every race from 2014 to 2022</span>.</p>
     <p data-f="arc_sentence">Runners ran the first 13 miles 2 to 8 percent faster than their average pace, stayed within about 2 percent of it through mile 19, and ran every mile from 20 to 26 slower, by 4 to 11 percent.</p>
   </article>
   <figure class="fig">
@@ -205,9 +205,22 @@
   </figure>
 
   <article class="prose">
+    <p>Compared with runners who finished in the same times, runners in London and Boston slowed more than New York’s in every year we could check, and runners in Chicago about as much. Warm weather made a bigger difference than the course. <span data-f="hot_sentence">In London’s hottest race, in 2018, it was 70 degrees at the start, and runners ran the second half about 17 percent slower than the first; in New York in 2025 it was 49 degrees, and the figure was about 11 percent.</span></p>
+  </article>
+  <figure class="fig fig-majors">
+    <figcaption class="fig-head"><span class="fig-title">At similar temperatures, New York runners slowed less than London’s and Boston’s, and about as much as Chicago’s.</span></figcaption>
+    <div id="chart-majors"></div>
+    <p class="fig-note">Each dot is one race. The figure is the median second-half slowdown for runners with the same finish times as New York’s in 2025, so that faster and slower fields compare fairly. Results for Berlin, Tokyo and Sydney, and for London and Boston in 2025, were not available.</p>
+  </figure>
+
+  <article class="prose">
+    <p>What sets New York apart is its climbing. Its course climbs more than three times as much as Chicago’s and about as much as Boston’s.</p>
+
     <h2>Is it the hills?</h2>
-    <p><span data-f="hills_lead">Not mostly.</span> <span data-f="halves_sentence">The two halves of the course climb about the same, about 430 feet in the first and 440 in the second.</span> Measured against the miles just before them, the two climbs of the second half, the Queensboro Bridge and Fifth Avenue, cost the typical finisher about <span data-f="climbs2_cost">a minute</span> between them, out of the <span data-f="median_loss">13</span> extra minutes their second half took.</p>
-    <p>Miles 21 to 23, from the Bronx through Harlem, are flat, and runners ran them about <span data-f="m21_23">7</span> percent slower than their average. That slowdown is fatigue, not hills.</p>
+    <p><span data-f="hills_lead">Only a little.</span> <span data-f="halves_sentence">The two halves of the course climb about the same, about 430 feet in the first and 440 in the second.</span> Measured against the miles just before them, the two climbs of the second half, the Queensboro Bridge and Fifth Avenue, cost the typical finisher about <span data-f="climbs2_cost">a minute</span> between them, out of the <span data-f="median_loss">13</span> extra minutes their second half took.</p>
+    <p>Most of the slowdown late in the race happens on flat courses, too. Between 35 and 40 kilometers, around miles 22 to 25, New York runners were about <span data-f="km35_40">9</span> percent slower than their average pace, as were runners on the flat course in Buenos Aires.</p>
+    <p>In New York the slowdown starts earlier, around 30 kilometers, near mile 19. Between 30 and 35 kilometers, New York runners were <span data-f="km30_35_ny">7</span> percent slower than their average and Buenos Aires runners <span data-f="km30_35_ba">5</span> percent, though New York’s race was cooler. That fits the bridges and climbs wearing runners down, but the gap is smaller than the change in New York’s own figures from one year to the next.</p>
+    <p>About as many runners hit the wall in New York as on the flat course. A third of New York runners who finished in four to five hours ran a five-kilometer stretch at least 25 percent slower than their early pace, a common definition of hitting the wall. In Buenos Aires, <span data-f="wall_ba">32</span> percent did.</p>
   </article>
   <figure class="fig fig-elev">
     <figcaption class="fig-head"><span class="fig-title">Late in the race, runners ran flat miles slower than they had run the Verrazzano or the Queensboro.</span></figcaption>
@@ -226,6 +239,7 @@
     <p>Results and splits are from New York Road Runners’ public results for the 2025 TCS New York City Marathon<span data-f="list_phrase">. The official count is 59,122 finishers; the results list has 59,121 of them, and the counts on the race clock use that list</span>. The pace figures use the <span data-f="n_splits">58,721</span> finishers with complete split records, counting a record as complete when no more than four of its 25 timing-mat times are missing.</p>
     <p>Each mile is compared with the runner’s own average pace for the race. There are no timing mats at miles 1 and 2, so the first segment runs from the start to mile 3. The cards describe all finishers within five minutes of the chosen time, and the camera follows one of them, the runner whose pace by mile is closest to that group’s median.</p>
     <p>Each dot starts at its wave’s scheduled time plus the gap between the runner’s gun and net times, and moves at an even pace between timing mats. A dot is yellow at the runner’s average pace and shades to green as they run faster, fully green at 8 percent faster, and through orange to red as they slow, fully red at 10 percent slower. The <span data-f="n_interp">400</span> runners with incomplete splits, most of them among the last to finish, are placed by even pace between the times that were recorded; the last finisher has no times after mile <span data-f="last_split">14</span>.<span data-f="tail_sampled"></span></p>
+    <p>Results for the other races are from datasets published on Kaggle, compiled from each race’s official results: Chicago 2025 and Buenos Aires 2026 by ramostherunning (Chicago under the Open Database License), Boston 2015 to 2017 by rojour, and London 2014 to 2022 by kevinegan. New York’s 2023 and 2024 figures use random samples of 3,000 finishers from New York Road Runners’ results. Each race is compared in 10-minute bins of finish time, weighted by how many New York 2025 finishers were in each bin; the five-kilometer comparisons use the races with five-kilometer splits. Temperatures are from the nearest airport or park weather station at the first mass start, from the Iowa Environmental Mesonet. Course climbing is our measurement for New York and Boston and Runner’s World’s published figure for Chicago. Buenos Aires is not one of the World Marathon Majors; it is the only flat big-city marathon we found with published five-kilometer splits.</p>
     <p>Buildings within 300 meters of the route are from the city’s Building Footprints dataset on NYC Open Data, drawn at their roof heights. The route is based on the 2023 course published on Strava and WNYC Data News’ course and mile-marker file, calibrated to the official miles. Elevation is from the U.S. Geological Survey’s 3D Elevation Program, with bridge decks at their modeled height. Land and borough lines are from the U.S. Census Bureau.</p>
     <p>The published data has no names, bib numbers, runner IDs or hometowns.</p>
   </footer>
