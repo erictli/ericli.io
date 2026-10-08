@@ -6,7 +6,8 @@ import { cn } from "@/lib/utils";
 import FinishTimeSelect from "./FinishTimeSelect";
 import { useMarathon, useMarathonStore, type Live } from "./store";
 
-const reducedMotion = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
+const reducedMotion = () =>
+  matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 /**
  * The caption card over the map: the step's sentence, then the live data under a hairline
@@ -16,7 +17,11 @@ const reducedMotion = () => matchMedia("(prefers-reduced-motion: reduce)").match
  * Moving to another step fades the sentence out, swaps it and fades it back in (~250 ms);
  * when the card's contents change, its height eases to the new size (200 ms).
  */
-export default function Caption({ cards }: { cards: Record<string, React.ReactNode> }) {
+export default function Caption({
+  cards,
+}: {
+  cards: Record<string, React.ReactNode>;
+}) {
   const store = useMarathonStore();
   const ref = useRef<HTMLDivElement>(null);
   const [shown, setShown] = useState(() => store.get().step);
@@ -58,7 +63,8 @@ export default function Caption({ cards }: { cards: Record<string, React.ReactNo
 
   // ease the height from what it was to what the new contents need
   useLayoutEffect(() => {
-    const el = ref.current, h0 = easeFrom.current;
+    const el = ref.current,
+      h0 = easeFrom.current;
     easeFrom.current = null;
     if (!el || h0 == null || reducedMotion()) return;
     el.style.transition = "none";
@@ -84,13 +90,18 @@ export default function Caption({ cards }: { cards: Record<string, React.ReactNo
       aria-live="polite"
       className={cn(
         "absolute bottom-6 left-6 z-3 w-[min(380px,calc(100%-48px))] overflow-hidden",
-        "rounded-xl border border-marathon-hairline bg-marathon-surface px-4 py-3.5 shadow-marathon-card",
-        "text-[15px] leading-normal font-normal text-marathon-body",
+        "rounded-lg bg-marathon-surface px-4 py-3.5 shadow-marathon-card",
+        "text-sm leading-normal font-normal text-marathon-body",
         "max-[900px]:right-3 max-[900px]:bottom-3 max-[900px]:left-3 max-[900px]:w-auto",
         "group-data-[still]/story:hidden",
       )}
     >
-      <div className={cn("text-pretty transition-opacity duration-125 ease-[ease]", fading && "opacity-0")}>
+      <div
+        className={cn(
+          "text-pretty transition-opacity duration-125 ease-[ease]",
+          fading && "opacity-0",
+        )}
+      >
         {cards[shown]}
       </div>
       <div
@@ -113,12 +124,14 @@ function RunnerPanel({ hidden }: { hidden: boolean }) {
   const pace = useMarathon((s) => s.pace);
   return (
     <div className={cn("relative", hidden && "hidden")}>
-      <span className="text-[13px] leading-[1.4] font-medium text-marathon-ink tabular-nums">{place}</span>
-      <span className="tabular-nums">
-        <span className="text-marathon-ink-3">{" · "}</span>
+      <div className="text-sm leading-[1.4] text-marathon-ink tabular-nums flex items-center justify-between gap-1">
+        <div className="font-[450]">{place}</div>
+        {pace && <div>{pace.speed}/mi</div>}
+      </div>
+      <div className="tabular-nums mt-0.5">
+        <span className="text-marathon-ink-3"></span>
         {pace && (
           <>
-            {pace.speed}/mi,{" "}
             <span
               className="inline-block rounded-full bg-[color-mix(in_srgb,var(--c)_24%,var(--marathon-surface))] px-1.5 leading-normal whitespace-nowrap text-marathon-ink"
               style={{ "--c": pace.color } as React.CSSProperties}
@@ -128,11 +141,8 @@ function RunnerPanel({ hidden }: { hidden: boolean }) {
             {pace.relation} their {pace.avg} average
           </>
         )}
-      </span>
-      <div className="mt-1.5 text-marathon-ink-3">
-        Following a typical runner who finished in <FinishTimeSelect />
       </div>
-      <div data-strip className="mt-2 mb-0.5" />
+      <div data-strip className="mt-3.5" />
     </div>
   );
 }
@@ -144,11 +154,12 @@ function ClockPanel({ hidden }: { hidden: boolean }) {
   const counts = useMarathon((s) => s.counts);
   return (
     <div className={cn(hidden && "hidden")}>
-      <span className="text-[13px] leading-[1.35] font-medium text-marathon-ink tabular-nums">{clock}</span>
-      <span className="text-[13px] leading-[1.4] text-marathon-ink-3 tabular-nums">
-        {" · "}
+      <div className="text-sm leading-[1.35] font-medium text-marathon-ink tabular-nums">
+        {clock}
+      </div>
+      <div className="text-[13px] leading-[1.4] text-marathon-ink-3 tabular-nums">
         {counts}
-      </span>
+      </div>
       <svg
         data-field
         className="mt-2 block overflow-visible"

@@ -17,12 +17,15 @@ export default function FinishTimeSelect() {
   const labels = useMarathon((s) => s.cohortLabels);
   const label = labels[cohort] ?? "";
   return (
-    <Select.Root value={String(cohort)} onValueChange={(v) => store.set({ cohort: Number(v) })}>
+    <Select.Root
+      value={String(cohort)}
+      onValueChange={(v) => store.set({ cohort: Number(v) })}
+    >
       <Select.Trigger
         aria-label={`${LABEL}: ${label}`}
         className={[
-          "relative m-0 inline-flex cursor-pointer items-center gap-0.5 rounded-md bg-marathon-pill px-1.5 py-px align-baseline",
-          "leading-[inherit] font-medium text-marathon-ink tabular-nums [-webkit-tap-highlight-color:transparent]",
+          "text-sm font-[450] relative m-0 inline-flex cursor-pointer items-center gap-0.5 rounded-md bg-marathon-pill px-1.25 py-px align-baseline",
+          "leading-[inherit] text-marathon-ink tabular-nums [-webkit-tap-highlight-color:transparent]",
           "hover:bg-marathon-pill-hover data-[state=open]:bg-marathon-pill-hover",
           "focus-visible:bg-marathon-pill-hover focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-marathon-ink-3",
           // a bigger hit area than the pill, bigger still for fingers
@@ -32,8 +35,22 @@ export default function FinishTimeSelect() {
       >
         <Select.Value>{label}</Select.Value>
         <Select.Icon asChild>
-          <svg className="mt-px -mr-0.5 flex-none text-marathon-ink-3" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
-            <path d="m6 9 6 6 6-6" strokeWidth="1.5" vectorEffect="non-scaling-stroke" strokeLinecap="round" strokeLinejoin="round" />
+          <svg
+            className="mt-px -mr-0.5 flex-none text-marathon-ink"
+            width="13"
+            height="13"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              d="m6 9 6 6 6-6"
+              strokeWidth="1.4"
+              vectorEffect="non-scaling-stroke"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
           </svg>
         </Select.Icon>
       </Select.Trigger>
@@ -61,8 +78,21 @@ export default function FinishTimeSelect() {
               >
                 <span className="size-3 flex-none">
                   <Select.ItemIndicator>
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
-                      <path d="M20 6 9 17l-5-5" strokeWidth="1.5" vectorEffect="non-scaling-stroke" strokeLinecap="round" strokeLinejoin="round" />
+                    <svg
+                      width="12"
+                      height="12"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M20 6 9 17l-5-5"
+                        strokeWidth="1.5"
+                        vectorEffect="non-scaling-stroke"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
                     </svg>
                   </Select.ItemIndicator>
                 </span>

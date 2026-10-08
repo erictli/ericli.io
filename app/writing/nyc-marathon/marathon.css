@@ -22,9 +22,11 @@
   --marathon-axis: rgb(10 10 10 / 20%);
   --marathon-surface: #ffffff;
   --marathon-surface-border: rgb(0 0 0 / 8%);
-  --marathon-surface-shadow: 0 1px 3px rgb(0 0 0 / 4%), 0 4px 20px -4px rgb(0 0 0 / 8%);
+  --marathon-surface-shadow:
+    0 1px 3px rgb(0 0 0 / 4%), 0 4px 20px -4px rgb(0 0 0 / 8%);
   --marathon-hairline: rgb(0 0 0 / 7%); /* the caption card's edge */
-  --marathon-card-shadow: 0 1px 2px rgb(0 0 0 / 5%), 0 6px 20px -6px rgb(0 0 0 / 12%);
+  --marathon-card-shadow:
+    0 1px 2px rgb(0 0 0 / 5%), 0 6px 20px -6px rgb(0 0 0 / 12%);
   --marathon-pill: rgb(0 0 0 / 5%);
   --marathon-pill-hover: rgb(0 0 0 / 8%);
   --marathon-option-hover: rgb(0 0 0 / 5%);
@@ -60,9 +62,11 @@
     --marathon-axis: rgb(255 255 255 / 25%);
     --marathon-surface: #1f2226;
     --marathon-surface-border: rgb(255 255 255 / 10%);
-    --marathon-surface-shadow: 0 1px 3px rgb(0 0 0 / 30%), 0 4px 20px -4px rgb(0 0 0 / 40%);
+    --marathon-surface-shadow:
+      0 1px 3px rgb(0 0 0 / 30%), 0 4px 20px -4px rgb(0 0 0 / 40%);
     --marathon-hairline: rgb(255 255 255 / 9%);
-    --marathon-card-shadow: 0 1px 2px rgb(0 0 0 / 30%), 0 6px 20px -6px rgb(0 0 0 / 50%);
+    --marathon-card-shadow:
+      0 1px 2px rgb(0 0 0 / 30%), 0 6px 20px -6px rgb(0 0 0 / 50%);
     --marathon-pill: rgb(255 255 255 / 9%);
     --marathon-pill-hover: rgb(255 255 255 / 13%);
     --marathon-option-hover: rgb(255 255 255 / 8%);
@@ -117,7 +121,10 @@
   color: var(--marathon-ink-3);
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
-  text-shadow: 0 0 2px var(--marathon-page), 0 0 2px var(--marathon-page), 0 0 4px var(--marathon-page),
+  text-shadow:
+    0 0 2px var(--marathon-page),
+    0 0 2px var(--marathon-page),
+    0 0 4px var(--marathon-page),
     0 0 6px var(--marathon-page);
   transition: opacity 200ms;
   will-change: transform;
