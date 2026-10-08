@@ -5,7 +5,8 @@
 //     "scheme": "light|dark", "width": 375, "height": 812,
 //     "waitFor": "!!document.querySelector('[data-step-ready=\"1\"]')",
 //     "css": "optional injected CSS", "scrollY": 0, "scrollBy": 0, "scrollTo": "css selector",
-//     "settle": 1200, "fullPage": false } ] }
+//     "settle": 1200, "fullPage": false, "waitUntil": "networkidle0" } ] }
+// (waitUntil "load" for pages that keep the network busy, like the homepage's live harbor)
 // A data story's root sets data-step-ready="1" once a ?step=N deep link has settled.
 // review/ is gitignored.
 import puppeteer from "puppeteer-core";
@@ -25,7 +26,7 @@ try {
     const page = await browser.newPage();
     await page.setViewport({ width: shot.width || spec.width || 1280, height: shot.height || spec.height || 800, deviceScaleFactor: 2 });
     if (shot.scheme) await page.emulateMediaFeatures([{ name: "prefers-color-scheme", value: shot.scheme }]);
-    await page.goto(shot.url, { waitUntil: "networkidle0", timeout: 120000 });
+    await page.goto(shot.url, { waitUntil: shot.waitUntil || spec.waitUntil || "networkidle0", timeout: 120000 });
     if (shot.css) await page.addStyleTag({ content: shot.css });
     if (shot.waitFor) await page.waitForFunction(shot.waitFor, { timeout: 120000 });
     if (shot.scrollY) await page.evaluate((y) => window.scrollTo(0, y), shot.scrollY);
