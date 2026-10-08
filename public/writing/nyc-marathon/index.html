@@ -24,11 +24,11 @@
       if (q.get("step") && "scrollRestoration" in history) history.scrollRestoration = "manual";
     })();
   </script>
-  <script type="module" crossorigin src="/writing/nyc-marathon/assets/index-Dt8eCI2D.js"></script>
+  <script type="module" crossorigin src="/writing/nyc-marathon/assets/index-B7gQ6oID.js"></script>
   <link rel="modulepreload" crossorigin href="/writing/nyc-marathon/assets/array-utils-flat-BL8Cekj1.js">
   <link rel="modulepreload" crossorigin href="/writing/nyc-marathon/assets/expression-E359vKZW.js">
   <link rel="modulepreload" crossorigin href="/writing/nyc-marathon/assets/get-attribute-from-layouts-Dd2gixpo.js">
-  <link rel="stylesheet" crossorigin href="/writing/nyc-marathon/assets/index-2SEXcIhU.css">
+  <link rel="stylesheet" crossorigin href="/writing/nyc-marathon/assets/index-Coa40XtM.css">
 
 <meta name="data-base" content="/writing/nyc-marathon/data/" />
 <link rel="canonical" href="https://ericli.io/writing/nyc-marathon" />
@@ -176,7 +176,10 @@
       </div></div>
 
       <div class="step left step-river" data-step="leaders" data-t0="30" data-t1="123"><div class="step-card">
-        <p>Scroll to run the race clock to <span data-f="win_m_clock">11:13 a.m.</span>, when the men’s winner finished and <span data-f="not_started_at_mwin">14,976</span> runners had not yet started.</p>
+        <p>Next, the fastest and slowest runners. Scroll to run the race clock to <span data-f="win_m_clock">11:13 a.m.</span>, when the men’s winner finished and <span data-f="not_started_at_mwin">14,976</span> runners had not yet started.</p>
+      </div></div>
+      <div class="step left step-river" data-step="front"><div class="step-card">
+        <p data-f="winner_halves">Both winners ran the second half faster than the first. The women’s winner ran halves of 1:11:01 and 1:08:50, and the men’s winner 1:05:19 and 1:02:50.</p>
       </div></div>
       <div class="step left step-river" data-step="handoff" data-t0="123" data-t1="123"><div class="step-card">
         <p>When the men’s winner finished, the last finisher was at mile <span data-f="last_at_mi">5.1</span>, <span data-f="last_at_place">in Sunset Park, Brooklyn</span>, and would be on the course for another <span data-f="last_at_left">10 hours and 49 minutes</span>.</p>
@@ -186,7 +189,7 @@
         <figure class="tail-chart" aria-label="Where the runners still on the course were at each hour from 4 to 9 p.m."></figure>
       </div></div>
       <div class="step left step-river step-end" data-step="end"><div class="step-card">
-        <p>The last of the <span data-f="n_official">59,122</span> finishers crossed the line at <span data-f="last_finish_clock">10:01 p.m.</span>, <span data-f="last_dur">12 hours and 45 minutes</span> after starting.</p>
+        <p>The last of the <span data-f="n_official">59,122</span> finishers crossed the line at <span data-f="last_finish_clock">10:01 p.m.</span>, <span data-f="last_dur">12 hours and 45 minutes</span> after starting. <span data-f="last_halves">They ran the first half in about 6 hours and 14 minutes and the second in about 6 hours and 31 minutes.</span></p>
       </div></div>
     </div>
   </section>
@@ -215,13 +218,8 @@
   <article class="prose">
     <h2>Which climbs cost the most?</h2>
     <p>Fifth Avenue. In mile 24, after 23 miles of racing, the course climbs about <span data-f="fifth_climb">90</span> feet alongside Central Park, and runners ran it about <span data-f="fifth_excess">4</span> percent slower than the two miles before it. The Queensboro Bridge cost about <span data-f="qb_excess">3</span> percent. The Verrazzano-Narrows Bridge, the biggest climb on the course at about <span data-f="vz_climb">140</span> feet, cost about <span data-f="vz_excess">1</span> percent, at the start of the race.</p>
-    <p><span data-f="cps_sentence">Runners sped up near the finish, and ran mile 26, with its rise along Central Park South, faster than mile 23.</span> <span data-f="short_sentence">The Pulaski, Willis Avenue and Madison Avenue bridges are too short for the split times to measure.</span></p>
+    <p data-f="small_sentence">The course’s other rises, 55 feet or less, are too small for the split times to show what they cost.</p>
   </article>
-  <figure class="fig fig-climbs">
-    <figcaption class="fig-head"><span class="fig-title" data-f="climbs_title">The climb up Fifth Avenue cost runners the most.</span></figcaption>
-    <div id="chart-climbs"></div>
-    <p class="fig-note">Each climb’s cost is how much slower the typical runner ran the split miles that hold it than nearby flat miles, as a share of their own average pace. The comparison is with the miles just before the climb, or just after it for the Verrazzano. A climb is too short to measure when it covers less than 30 percent of the split miles around it.</p>
-  </figure>
 
   <footer class="about-data">
     <h2>About the data</h2>
