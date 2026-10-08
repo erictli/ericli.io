@@ -1,0 +1,238 @@
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { getArticleBySlug } from "@/lib/articles";
+import { ArticleHeader, PROSE } from "@/components/ArticleLayout";
+import MarathonStory from "@/components/marathon/MarathonStory";
+import { readPublicJSON, readTimeOf } from "@/lib/stories/server";
+import { copyCheck } from "@/lib/stories/shared";
+import { buildFacts, clockRanges } from "@/lib/marathon/facts";
+import { checkCohorts, cohortCopy, hmLabel } from "@/lib/marathon/cohort-copy";
+import { MUTED, TEXT } from "@/lib/theme-classes";
+import { cn } from "@/lib/utils";
+
+// A data story: the copy is here, rendered on the server with every number computed from the
+// story's data (lib/marathon/facts.js); MarathonStory mounts the 3D scene, the caption card and
+// the charts on top of it in the browser. See README, "Data stories".
+
+const SLUG = "nyc-marathon";
+const URL = `https://ericli.io/writing/${SLUG}`;
+const DATA = "writing/nyc-marathon/data/marathon/";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const article = await getArticleBySlug(SLUG);
+  if (!article) return { title: "Article Not Found" };
+  const image = article.image && { url: article.image, width: 1200, height: 630 };
+  return {
+    title: article.title,
+    description: article.description,
+    alternates: { canonical: URL },
+    openGraph: {
+      title: article.title,
+      description: article.description,
+      url: URL,
+      siteName: "Eric Li",
+      type: "article",
+      publishedTime: new Date(article.date).toISOString(),
+      ...(image && { images: [image] }),
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: article.title,
+      description: article.description,
+      ...(image && { images: [image] }),
+    },
+  };
+}
+
+/** "About the data": the site's small text, muted, under a body-size heading. */
+const SMALL_PROSE = cn(
+  PROSE,
+  "prose-h2:mt-0 prose-h2:mb-3 prose-h2:text-base prose-h2:leading-normal",
+  "prose-p:my-3 prose-p:text-sm prose-p:leading-[1.6] prose-p:text-neutral-950/50 dark:prose-p:text-white/60",
+  "prose-a:text-inherit dark:prose-a:text-inherit",
+);
+
+/** The finish-time menu's trigger, as the cards carry it (lib/marathon/select.js runs it). */
+function FinishTime({ label }: { label: string }) {
+  return (
+    <button type="button" className="m-sel" data-sel aria-haspopup="listbox" aria-expanded="false">
+      <span className="m-sel-v">{label}</span>
+    </button>
+  );
+}
+
+/** A chart wider than the text column, drawn into its slot by the client module. */
+function Figure({ title, chart, note }: { title: string; chart: string; note?: string }) {
+  return (
+    <figure className="mx-auto my-12 max-w-190 px-6">
+      <figcaption className="mb-3.5 block text-[15px] leading-[1.45] font-[450]">{title}</figcaption>
+      <div data-chart={chart} />
+      {note && <p className={`mt-2 text-[13px] leading-normal ${MUTED}`}>{note}</p>}
+    </figure>
+  );
+}
+
+export default async function MarathonPage() {
+  const article = await getArticleBySlug(SLUG);
+  if (!article) notFound();
+
+  const [A, course, halves] = await Promise.all([
+    readPublicJSON<{ cohorts: { target: number }[] }>(`${DATA}analysis.json`),
+    readPublicJSON(`${DATA}course.json`),
+    readPublicJSON(`${DATA}halves.json`),
+  ]);
+  // every number in the copy, with its [copy check]s (printed by `next build`)
+  const f = buildFacts(A, course, halves);
+  checkCohorts(A);
+  const { winHalfMin, winEndMin } = clockRanges(A);
+  // the flythrough's cards for the default finish time; the client rewrites them for others
+  const c0 = A.cohorts.find((c) => c.target === 4.5 * 3600) ?? A.cohorts[0];
+  const cc = cohortCopy(c0, A);
+  const sel = <FinishTime label={hmLabel(c0.target)} />;
+
+  const intro = (
+    <>
+      <p>Last year {f.n_official} people finished the New York City Marathon, the most in the race’s history. This year’s race is on Sunday, Nov. 1.</p>
+      <p>Timing mats record every runner at each mile from mile 3 to the finish, and New York Road Runners publishes the results. Few big marathons share this much: the other World Marathon Majors time runners every five kilometers, and their results sites don’t allow automated downloads.</p>
+      <p>I used the splits of {f.splits_phrase} to follow the race mile by mile, measuring each mile against the runner’s own average pace.</p>
+    </>
+  );
+
+  // The scroll steps. Each is a stretch of scroll (its min-height) that drives the scene; its
+  // card is hidden and copied into the caption card as the step comes up. Flythrough steps
+  // (data-from/to, in miles) follow the course; race-clock steps (data-t0/t1, minutes after
+  // the Wave 1 gun) run the clock.
+  const steps: {
+    id: string;
+    h: string;
+    from?: number;
+    to?: number;
+    t0?: number;
+    t1?: number;
+    card: React.ReactNode;
+  }[] = [
+    { id: "intro", h: "min-h-[120vh]", card: <p>Each dot is a finisher, green when running faster than their own average and red when slower, and the camera follows a runner who finished in {sel}.</p> },
+    { id: "c-vz", from: 0, to: 2.3, h: "min-h-[200vh]", card: <p data-cc="vz">{cc.vz}</p> },
+    { id: "c-bk", from: 2.3, to: 12.9, h: "min-h-[230vh]", card: <p data-cc="bk">{cc.bk}</p> },
+    { id: "c-pul", from: 12.9, to: 14.75, h: "min-h-[160vh]", card: <p data-cc="pul">{cc.pul}</p> },
+    { id: "c-qb", from: 14.75, to: 16.4, h: "min-h-[240vh]", card: <p data-cc="qb">{cc.qb}</p> },
+    { id: "c-first", from: 16.4, to: 19.4, h: "min-h-[180vh]", card: <p data-cc="first">{cc.first}</p> },
+    { id: "c-bx", from: 19.4, to: 23.0, h: "min-h-[260vh]", card: <p data-cc="bx">{cc.bx}</p> },
+    { id: "c-fifth", from: 23.0, to: 24.4, h: "min-h-[240vh]", card: <p data-cc="fifth">{cc.fifth}</p> },
+    { id: "c-fin", from: 24.4, to: 26.2188, h: "min-h-[200vh]", card: <p data-cc="fin">{cc.fin}</p> },
+    { id: "leaders", t0: 30, t1: winHalfMin, h: "min-h-[170vh]", card: <p>Next, the fastest and slowest runners. Scroll to run the race clock to {f.win_m_clock}, when the men’s winner finished and {f.not_started_at_mwin} runners had not yet started.</p> },
+    { id: "front", t0: winHalfMin, t1: winEndMin, h: "min-h-[170vh]", card: <p>{f.winner_halves}</p> },
+    { id: "handoff", t0: winEndMin, t1: winEndMin, h: "min-h-[170vh]", card: <p>When the men’s winner finished, the last finisher was at mile {f.last_at_mi}, {f.last_at_place}, and would be on the course for another {f.last_at_left}.</p> },
+    // the end-of-race card runs the clock from 11:13 a.m. to 9 p.m., so it gets more scroll
+    // (the last runner arrives about 60% of the way in; the view then holds)
+    { id: "tail", t0: winEndMin, t1: 710, h: "min-h-[320vh]", card: <p>By 6 p.m., {f.tail_n6} runners were left, spread over the last {f.tail_span6} miles of the course.</p> },
+    { id: "end", h: "min-h-[200vh]", card: <p>The last of the {f.n_official} finishers crossed the line at {f.last_finish_clock}, {f.last_dur} after starting. {f.last_halves}</p> },
+  ];
+
+  const after1 = (
+    <>
+      <h2>How much did runners slow down?</h2>
+      <p>Of all finishers, {f.pos_split_pct} percent ran the second half slower than the first, and the typical finisher took about {f.median_loss} minutes longer on it. {f.faster_half}</p>
+      <p>{f.arc_sentence}</p>
+    </>
+  );
+  const fig1 = { title: "Every group ran the second half slower, and faster runners slowed less." };
+  const after2 = (
+    <>
+      <h2>Is it the hills?</h2>
+      <p>{f.hills_lead} {f.halves_sentence} Measured against the miles just before them, the two climbs of the second half, the Queensboro Bridge and Fifth Avenue, cost the typical finisher about {f.climbs2_cost} between them, out of the {f.median_loss} extra minutes their second half took.</p>
+      <p>Miles 21 to 23, from the Bronx through Harlem, are flat, and runners ran them about {f.m21_23} percent slower than their average. That slowdown is fatigue, not hills.</p>
+    </>
+  );
+  const fig2 = {
+    title: "Late in the race, runners ran flat miles slower than they had run the Verrazzano or the Queensboro.",
+    note: "Pace is the typical runner’s in each split mile, compared with their own average for the race. Shading marks the climbs. Elevation is stretched vertically.",
+  };
+  const after3 = (
+    <>
+      <h2>Which climbs cost the most?</h2>
+      <p>Fifth Avenue. In mile 24, after 23 miles of racing, the course climbs about {f.fifth_climb} feet alongside Central Park, and runners ran it about {f.fifth_excess} percent slower than the two miles before it. The Queensboro Bridge cost about {f.qb_excess} percent. The Verrazzano-Narrows Bridge, the biggest climb on the course at about {f.vz_climb} feet, cost about {f.vz_excess} percent, at the start of the race.</p>
+      <p>{f.small_sentence}</p>
+    </>
+  );
+  const about = (
+    <>
+      <h2>About the data</h2>
+      <p>Results and splits are from New York Road Runners’ public results for the 2025 TCS New York City Marathon{f.list_phrase}. The pace figures use the {f.n_splits} finishers with complete split records, counting a record as complete when no more than four of its 25 timing-mat times are missing.</p>
+      <p>Each mile is compared with the runner’s own average pace for the race. There are no timing mats at miles 1 and 2, so the first segment runs from the start to mile 3. The cards describe all finishers within five minutes of the chosen time, and the camera follows one of them, the runner whose pace by mile is closest to that group’s median.</p>
+      <p>Each dot starts at its wave’s scheduled time plus the gap between the runner’s gun and net times, and moves at an even pace between timing mats. A dot is yellow at the runner’s average pace and shades to green as they run faster, fully green at 8 percent faster, and through orange to red as they slow, fully red at 10 percent slower. The {f.n_interp} runners with incomplete splits, most of them among the last to finish, are placed by even pace between the times that were recorded; the last finisher has no times after mile {f.last_split}.</p>
+      <p>The Chicago figures are from the race’s official 2025 results, as compiled in the <a href="https://www.kaggle.com/datasets/ramostherunning/chicago-marathon-2000-2025">Chicago Marathon Results 2000–2025</a> dataset by Victor Ramos, available under the <a href="https://opendatacommons.org/licenses/odbl/1-0/">Open Database License</a>. For both races, a runner’s second half is their net finish time minus their half-marathon time.</p>
+      <p>Buildings within 300 meters of the route are from the city’s Building Footprints dataset on NYC Open Data, drawn at their roof heights. The route is based on the 2023 course published on Strava and WNYC Data News’ course and mile-marker file, calibrated to the official miles. Elevation is from the U.S. Geological Survey’s 3D Elevation Program, with bridge decks at their modeled height. Land and borough lines are from the U.S. Census Bureau.</p>
+      <p>The published data has no names, bib numbers, runner IDs or hometowns.</p>
+    </>
+  );
+
+  // The read time counts the story's own words (the .md file is only a listing), at the site's
+  // rate. articles/nyc-marathon.md states it for the Writing list; check that they agree.
+  const readTime = readTimeOf(
+    article.title, intro, steps.map((s) => s.card), after1, fig1.title, after2, fig2.title, fig2.note, after3, about,
+  ).text;
+  copyCheck(article.readTime === readTime, `read time: the story's words take ${readTime}, articles/${SLUG}.md says ${article.readTime}`);
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: article.title,
+    description: article.description,
+    datePublished: new Date(article.date).toISOString(),
+    author: { "@type": "Person", name: "Eric Li", url: "https://ericli.io" },
+    url: URL,
+    ...(article.image && { image: `https://ericli.io${article.image}` }),
+  };
+
+  return (
+    <>
+      {/* Wrapped so it isn't a direct child of <body> (see app/writing/[slug]/page.tsx). */}
+      <div hidden>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      </div>
+      <main className={`min-h-screen overflow-x-clip font-sans ${TEXT}`}>
+        <MarathonStory>
+          <div className="mx-auto max-w-160 px-6 pt-20">
+            <ArticleHeader article={{ title: article.title, date: article.date, readTime }} />
+            <div className={PROSE}>{intro}</div>
+          </div>
+
+          {/* The scene stays on screen while the steps scroll over it. */}
+          <section className="relative mt-10">
+            <div data-scene className="sticky top-0 h-svh w-full overflow-hidden bg-(--m-water)">
+              <div
+                data-loading
+                className="pointer-events-none absolute inset-0 z-3 grid place-items-center text-[13px] text-(--m-ink-3) transition-opacity duration-300 data-done:opacity-0"
+              >
+                Loading the course…
+              </div>
+            </div>
+            <div data-steps className="pointer-events-none relative z-2 -mt-[100svh] pb-[10vh]">
+              {steps.map((s) => (
+                <div key={s.id} data-step={s.id} data-from={s.from} data-to={s.to} data-t0={s.t0} data-t1={s.t1} className={s.h}>
+                  <div data-card className="invisible">{s.card}</div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <div className="mx-auto mt-16 max-w-160 px-6">
+            <div className={PROSE}>{after1}</div>
+          </div>
+          <Figure title={fig1.title} chart="profile" />
+          <div className="mx-auto max-w-160 px-6">
+            <div className={PROSE}>{after2}</div>
+          </div>
+          <Figure title={fig2.title} chart="elevation" note={fig2.note} />
+          <div className="mx-auto max-w-160 px-6">
+            <div className={PROSE}>{after3}</div>
+          </div>
+          <footer className="mx-auto mt-10 max-w-160 px-6 pb-32 sm:pb-48">
+            <div className={SMALL_PROSE}>{about}</div>
+          </footer>
+        </MarathonStory>
+      </main>
+    </>
+  );
+}

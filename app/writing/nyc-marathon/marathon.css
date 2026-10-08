@@ -1,0 +1,636 @@
+/* The marathon story's colors, and styles for the HTML that its client module builds
+   (lib/marathon/): the caption card and its live panels, map labels, tooltips, the finish-time
+   menu and the d3 charts. Everything the page itself renders is styled with Tailwind.
+
+   All of it is scoped under .marathon (components/marathon/MarathonStory.tsx): route CSS stays
+   loaded after a client-side navigation away, so nothing here may reach other pages. Class
+   names carry an m- prefix so none of them is also a Tailwind utility. */
+
+/* ---- Color tokens ----------------------------------------------------------
+   The page uses them through Tailwind (bg-(--m-water), ...); the client module reads the map
+   and pace colors from here (CourseScene.readTheme) and the chart ramp (charts.js). Dark values
+   follow the system scheme, like the rest of the site. */
+.marathon {
+  --m-page: #ffffff;
+  --m-ink: #0a0a0a; /* headings and numbers */
+  --m-body: #0a0a0a; /* running text */
+  --m-ink-2: rgb(10 10 10 / 70%); /* secondary panel text */
+  --m-ink-3: rgb(10 10 10 / 50%); /* muted */
+  --m-rule: rgb(10 10 10 / 7%);
+  --m-axis: rgb(10 10 10 / 20%);
+  --m-surface: #ffffff;
+  --m-surface-border: rgb(0 0 0 / 8%);
+  --m-surface-shadow: 0 1px 3px rgb(0 0 0 / 4%), 0 4px 20px -4px rgb(0 0 0 / 8%);
+  --m-card-hairline: rgb(0 0 0 / 7%); /* the caption card */
+  --m-card-shadow: 0 1px 2px rgb(0 0 0 / 5%), 0 6px 20px -6px rgb(0 0 0 / 12%);
+  --m-pill: rgb(0 0 0 / 5%);
+  --m-pill-hover: rgb(0 0 0 / 8%);
+  --m-option-hover: rgb(0 0 0 / 5%);
+  /* basemap: the /nyc map palette */
+  --m-water: #b1d5ee;
+  --m-land: #f0efeb;
+  --m-land-edge: #dcdbd5;
+  --m-park: #c6dfba;
+  --m-building: #e3e2dd;
+  --m-road: #e2e0da; /* the course: a street a few percent darker than land */
+  --m-road-edge: #d1cfc8;
+  /* pace against the runner's own average: 8% faster, even, 5% slower, 10% slower
+     (stops in lib/marathon/scene.js, interpolated in OKLCH) */
+  --m-pace-fast: #14663a;
+  --m-pace-even: #d9ad18;
+  --m-pace-slower: #ee8530;
+  --m-pace-slow: #f05a4a;
+  /* the four finish-time groups in the pace chart, fast → slow */
+  --m-group-1: #0d366b;
+  --m-group-2: #1c5cab;
+  --m-group-3: #3987e5;
+  --m-group-4: #6da7ec;
+}
+
+@media (prefers-color-scheme: dark) {
+  .marathon {
+    --m-page: #0a0a0a;
+    --m-ink: #ffffff;
+    --m-body: rgb(255 255 255 / 80%);
+    --m-ink-2: rgb(255 255 255 / 80%);
+    --m-ink-3: rgb(255 255 255 / 60%);
+    --m-rule: rgb(255 255 255 / 7%);
+    --m-axis: rgb(255 255 255 / 25%);
+    --m-surface: #1f2226;
+    --m-surface-border: rgb(255 255 255 / 10%);
+    --m-surface-shadow: 0 1px 3px rgb(0 0 0 / 30%), 0 4px 20px -4px rgb(0 0 0 / 40%);
+    --m-card-hairline: rgb(255 255 255 / 9%);
+    --m-card-shadow: 0 1px 2px rgb(0 0 0 / 30%), 0 6px 20px -6px rgb(0 0 0 / 50%);
+    --m-pill: rgb(255 255 255 / 9%);
+    --m-pill-hover: rgb(255 255 255 / 13%);
+    --m-option-hover: rgb(255 255 255 / 8%);
+    --m-water: #0d1117;
+    --m-land: #17191d;
+    --m-land-edge: #2a2d33;
+    --m-park: #1a2b22;
+    --m-building: #22252b;
+    --m-road: #25282d;
+    --m-road-edge: #31353b;
+    --m-pace-fast: #3fae66;
+    --m-pace-even: #e0b423;
+    --m-pace-slower: #f08a33;
+    --m-pace-slow: #c94032;
+    --m-group-1: #cde2fb;
+    --m-group-2: #86b6ef;
+    --m-group-3: #3987e5;
+    --m-group-4: #1c5cab;
+  }
+}
+
+/* ---- The map ---------------------------------------------------------------- */
+.marathon .m-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* every map label: 12px, muted ink with a halo */
+.marathon .m-labels {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+  transition: opacity 250ms;
+}
+.marathon .m-labels.moving {
+  opacity: 0;
+  transition: opacity 120ms;
+}
+.marathon .m-label {
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 12px;
+  line-height: 1.2;
+  font-weight: 400;
+  color: var(--m-ink-3);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 0 2px var(--m-page), 0 0 2px var(--m-page), 0 0 4px var(--m-page), 0 0 6px var(--m-page);
+  transition: opacity 200ms;
+  will-change: transform;
+}
+.marathon .m-label.bridge::after,
+.marathon .m-label.mile::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -6px;
+  width: 1px;
+  height: 6px;
+  background: var(--m-ink-3);
+}
+.marathon .m-label[data-anchor="left"]::after,
+.marathon .m-label[data-anchor="right"]::after {
+  display: none;
+}
+.marathon .m-label[data-anchor="below"]::after {
+  bottom: auto;
+  top: -6px;
+}
+.marathon .m-label.lead::before {
+  content: "";
+  position: absolute;
+  left: -9px;
+  top: 50%;
+  width: 6px;
+  height: 1px;
+  background: var(--m-ink-3);
+}
+
+/* hovering the route: that mile's numbers (and the charts' tooltips) */
+.marathon .m-tooltip {
+  position: absolute;
+  z-index: 10;
+  max-width: 260px;
+  padding: 8px 12px;
+  border: 1px solid var(--m-surface-border);
+  border-radius: 12px;
+  background: var(--m-surface);
+  box-shadow: var(--m-surface-shadow);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.45;
+  color: var(--m-ink-3);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 120ms;
+}
+.marathon .m-tooltip.is-visible {
+  opacity: 1;
+}
+.marathon .m-tooltip strong {
+  font-weight: 400;
+  color: var(--m-ink);
+}
+
+/* ---- The caption card -------------------------------------------------------
+   One card at the bottom left (full width on phones) that cross-fades from step to step: the
+   step's sentence (copied from its hidden card on the page), then the live data, then the
+   story's progress as a 2px bar along its bottom edge. */
+.marathon .m-caption {
+  position: absolute;
+  z-index: 3;
+  left: 24px;
+  bottom: 24px;
+  width: min(380px, calc(100% - 48px));
+  overflow: hidden;
+  padding: 14px 16px;
+  border: 1px solid var(--m-card-hairline);
+  border-radius: 12px;
+  background: var(--m-surface);
+  box-shadow: var(--m-card-shadow);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--m-body);
+}
+@media (max-width: 899px) {
+  .marathon .m-caption {
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    width: auto;
+  }
+}
+.marathon .m-cap-body {
+  transition: opacity 125ms ease;
+}
+.marathon .m-cap-body.fading {
+  opacity: 0;
+}
+.marathon .m-cap-body p {
+  margin: 0;
+  text-wrap: pretty;
+}
+.marathon .m-cap-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: color-mix(in srgb, var(--m-ink) 7%, transparent);
+}
+.marathon .m-cap-bar i {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 0;
+  background: color-mix(in srgb, var(--m-ink) 35%, transparent);
+}
+
+/* the live data under a hairline: the runner panel in the flythrough, the race clock after it
+   (data-live on the caption) */
+.marathon .m-cap-data {
+  display: none;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--m-rule);
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--m-ink-2);
+}
+.marathon .m-caption:not([data-live="none"]) .m-cap-data {
+  display: block;
+}
+.marathon .m-caption:not([data-live="chase"]) .m-course-hud,
+.marathon .m-caption:not([data-live="clock"]) .m-race-hud {
+  display: none;
+}
+.marathon .m-panel {
+  position: relative;
+  text-align: left;
+}
+
+/* the followed runner: "Mile 17.9, First Avenue · 10:27/mi, [2% slower] than their 10:16
+   average", the menu, and the course profile */
+.marathon .m-ch-top,
+.marathon .m-ch-pace {
+  display: inline;
+}
+.marathon .m-ch-mile {
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--m-ink);
+  font-variant-numeric: tabular-nums;
+}
+.marathon .m-ch-pace {
+  color: var(--m-ink-2);
+  font-variant-numeric: tabular-nums;
+}
+.marathon .m-ch-pace::before,
+.marathon .m-rh-counts::before {
+  content: " · ";
+  color: var(--m-ink-3);
+}
+.marathon .m-chip {
+  display: inline-block;
+  padding: 0 6px;
+  border-radius: 999px;
+  line-height: 1.5;
+  color: var(--m-ink);
+  white-space: nowrap;
+  background: color-mix(in srgb, var(--c) 24%, var(--m-surface));
+}
+.marathon .m-ch-ctl {
+  margin-top: 6px;
+  color: var(--m-ink-3);
+}
+.marathon .m-ch-strip {
+  margin: 8px 0 2px;
+}
+.marathon .m-ch-strip svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+.marathon .m-strip-slice {
+  stroke: none;
+}
+.marathon .m-strip-top {
+  fill: none;
+  stroke: var(--m-ink-3);
+  stroke-width: 1;
+  stroke-opacity: 0.6;
+}
+.marathon .m-strip-base {
+  stroke: var(--m-rule);
+  stroke-width: 1;
+}
+.marathon .m-strip-tick {
+  font-size: 12px;
+  fill: var(--m-ink-3);
+}
+.marathon .m-strip-marker {
+  stroke: var(--m-ink);
+  stroke-width: 1.5;
+}
+.marathon .m-strip-dot {
+  fill: var(--m-ink);
+  stroke: var(--m-surface);
+  stroke-width: 2;
+}
+
+/* the race clock: "10:27 a.m. · 32,496 running · 26,625 yet to start", then where everyone is
+   along the course */
+.marathon .m-rh-time {
+  display: inline;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--m-ink);
+  font-variant-numeric: tabular-nums;
+}
+.marathon .m-rh-counts {
+  display: inline;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--m-ink-3);
+  font-variant-numeric: tabular-nums;
+}
+.marathon .m-rh-field {
+  display: block;
+  margin-top: 8px;
+  overflow: visible;
+}
+.marathon .m-rh-bars {
+  fill: var(--m-ink);
+  fill-opacity: 0.32;
+}
+.marathon .m-rh-axis {
+  stroke: color-mix(in srgb, var(--m-ink) 18%, transparent);
+  stroke-width: 1;
+}
+.marathon .m-rh-tick {
+  font-size: 12px;
+  fill: var(--m-ink-3);
+  font-variant-numeric: tabular-nums;
+  transition: opacity 150ms;
+}
+.marathon .m-rh-label {
+  font-size: 12px;
+  fill: var(--m-ink);
+  font-variant-numeric: tabular-nums;
+}
+.marathon .m-rh-leader {
+  stroke: var(--m-ink-3);
+  stroke-width: 1;
+}
+.marathon .m-rh-mark {
+  fill: var(--m-ink);
+  stroke: var(--m-surface);
+  stroke-width: 1.5;
+}
+.marathon .m-rh-mark.hollow {
+  fill: var(--m-surface);
+  stroke: var(--m-ink);
+}
+
+/* ---- The finish-time menu (lib/marathon/select.js) -------------------------
+   An inline trigger, a subtle filled pill that sits right against the next character, and a
+   popover in the style of shadcn/ui's Select. */
+.marathon .m-sel {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  vertical-align: baseline;
+  margin: 0;
+  padding: 1px 6px;
+  border: 0;
+  border-radius: 6px;
+  background: var(--m-pill);
+  color: var(--m-ink);
+  font: inherit;
+  font-weight: 500;
+  line-height: inherit;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.marathon .m-sel:hover,
+.marathon .m-sel[aria-expanded="true"] {
+  background: var(--m-pill-hover);
+}
+.marathon .m-sel:focus-visible {
+  background: var(--m-pill-hover);
+  outline: 2px solid var(--m-ink-3);
+  outline-offset: 1px;
+}
+.marathon .m-sel .m-sel-chev {
+  flex: none;
+  margin: 1px -2px 0 0;
+  color: var(--m-ink-3);
+}
+/* a bigger hit area than the pill */
+.marathon .m-sel::before {
+  content: "";
+  position: absolute;
+  inset: -6px -2px;
+}
+.marathon .m-sel-pop {
+  position: fixed;
+  z-index: 1000;
+  min-width: 120px;
+  max-height: min(420px, calc(100vh - 16px));
+  overflow-y: auto;
+  padding: 4px;
+  border: 1px solid var(--m-surface-border);
+  border-radius: 8px;
+  background: var(--m-surface);
+  box-shadow: 0 4px 16px -4px rgb(0 0 0 / 12%), 0 1px 3px rgb(0 0 0 / 6%);
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--m-ink);
+  outline: none;
+  opacity: 0;
+  transform: scale(0.96);
+  transform-origin: top left;
+  transition: opacity 120ms ease, transform 120ms ease;
+}
+.marathon .m-sel-pop[data-side="top"] {
+  transform-origin: bottom left;
+}
+.marathon .m-sel-pop.open {
+  opacity: 1;
+  transform: none;
+}
+.marathon .m-sel-pop.no-motion {
+  transition: none;
+}
+.marathon .m-sel-opt {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px;
+  border-radius: 4px;
+  line-height: 1.3;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  user-select: none;
+}
+.marathon .m-sel-opt.active {
+  background: var(--m-option-hover);
+}
+.marathon .m-sel-opt .m-sel-check {
+  flex: none;
+  visibility: hidden;
+}
+.marathon .m-sel-opt[aria-selected="true"] .m-sel-check {
+  visibility: visible;
+}
+@media (max-width: 899px), (pointer: coarse) {
+  .marathon .m-sel-opt {
+    min-height: 36px;
+  }
+  .marathon .m-sel::before {
+    inset: -10px -4px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .marathon .m-sel-pop {
+    transition: none;
+  }
+}
+
+/* ---- The charts after the story (lib/marathon/charts.js) ------------------- */
+.marathon .m-chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  margin: 0 0 8px;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--m-ink-3);
+}
+.marathon .m-chart-legend .key {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+.marathon .m-chart-legend .key:hover,
+.marathon .m-chart-legend .key[aria-pressed="true"] {
+  color: var(--m-ink);
+}
+.marathon .m-chart-legend .ln {
+  display: inline-block;
+  width: 14px;
+  height: 2px;
+  border-radius: 999px;
+}
+.marathon .m-chart {
+  position: relative;
+  width: 100%;
+}
+.marathon .m-chart svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+.marathon .m-chart text {
+  font-size: 13px;
+  font-weight: 400;
+  fill: var(--m-ink-3);
+}
+.marathon .m-chart .viz-axis text {
+  font-size: 12px; /* ticks */
+  font-variant-numeric: tabular-nums;
+}
+.marathon .m-chart .viz-axis line,
+.marathon .m-chart .viz-axis path,
+.marathon .m-chart .viz-grid line {
+  stroke: var(--m-rule);
+  shape-rendering: crispEdges;
+}
+.marathon .m-chart .viz-axis .domain,
+.marathon .m-chart .viz-grid .domain {
+  display: none;
+}
+.marathon .m-chart .zero {
+  stroke: var(--m-axis);
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
+.marathon .m-chart .series {
+  fill: none;
+  stroke-width: 2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  transition: stroke-opacity 150ms, stroke-width 150ms;
+}
+.marathon .m-chart .step-line {
+  fill: none;
+  stroke: var(--m-axis);
+  stroke-width: 1;
+}
+.marathon .m-chart .step-seg {
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+.marathon .m-chart .elev-area {
+  fill: var(--m-ink-3);
+  opacity: 0.16;
+}
+.marathon .m-chart .elev-line {
+  fill: none;
+  stroke: var(--m-ink-3);
+  stroke-width: 1;
+}
+.marathon .m-chart .hill-band {
+  fill: var(--m-rule);
+}
+.marathon .m-chart .end-label {
+  fill: var(--m-ink-2);
+}
+.marathon .m-chart .lab {
+  transition: opacity 150ms;
+}
+.marathon .m-chart .ylabel {
+  fill: var(--m-ink-3);
+}
+/* notes on the elevation chart, haloed in the page color */
+.marathon .m-chart .ann {
+  fill: var(--m-ink-2);
+  paint-order: stroke;
+  stroke: var(--m-page);
+  stroke-width: 4px;
+  stroke-linejoin: round;
+}
+.marathon .m-chart .ann-line {
+  stroke: var(--m-axis);
+  stroke-width: 1;
+}
+.marathon .m-chart .ann-dot {
+  fill: var(--m-ink);
+}
+.marathon .m-chart .hover-line {
+  stroke: var(--m-axis);
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
+.marathon .m-chart .hover-dot {
+  stroke: var(--m-page);
+  stroke-width: 2;
+}
+.marathon .m-chart .m-tooltip div {
+  white-space: nowrap;
+}
+.marathon .m-swatch {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin: 0 6px 0 0;
+  border-radius: 50%;
+  vertical-align: 0.05em;
+}
+
+/* ---- ?still=<preset>: only the map, full-screen, for the social card -------- */
+.marathon[data-still] [data-scene] {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  width: 100vw;
+  height: 100vh;
+}
+.marathon[data-still] [data-loading],
+.marathon[data-still] .m-caption,
+.marathon[data-still] .m-tooltip {
+  display: none;
+}
