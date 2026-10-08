@@ -74,13 +74,13 @@ export default async function MarathonPage() {
   const article = await getArticleBySlug(SLUG);
   if (!article) notFound();
 
-  const [A, course, halves] = await Promise.all([
+  const [A, course, compare] = await Promise.all([
     readPublicJSON<{ cohorts: { target: number }[]; groups: { key: string; label: string }[] }>(`${DATA}analysis.json`),
     readPublicJSON(`${DATA}course.json`),
-    readPublicJSON(`${DATA}halves.json`),
+    readPublicJSON(`${DATA}compare.json`),
   ]);
   // every number in the copy, with its [copy check]s (printed by `next build`)
-  const f = buildFacts(A, course, halves);
+  const f = buildFacts(A, course, compare);
   checkCohorts(A);
   const { winHalfMin, winEndMin } = clockRanges(A);
   // the flythrough's cards for the default finish time; the client module writes them for
@@ -130,8 +130,10 @@ export default async function MarathonPage() {
 
   const after1 = (
     <>
-      <h2>How much did runners slow down?</h2>
-      <p>Of all finishers, {f.pos_split_pct} percent ran the second half slower than the first, and the typical finisher took about {f.median_loss} minutes longer on it. {f.faster_half}</p>
+      <h2>How hard is New York?</h2>
+      <p>A little harder than Chicago, one of the flattest big marathons. The typical New York finisher took {f.ny_median} last year, {f.median_gap} minutes longer than the typical finisher in Chicago three weeks earlier.</p>
+      <p>Some of that gap is who runs each race. But studies that compare the same people across races find it too. <a href="https://doi.org/10.51224/SportRxiv.942">A 2026 analysis</a> of 1.2 million marathon finishes found New York’s 2025 race about 4 minutes slower than Chicago’s for a three-hour runner, and <a href="https://runningwithrock.com/six-star-finisher-follow-up/">Running with Rock</a> found that people who have run all six original World Marathon Majors were typically about 4 minutes slower in New York than at Chicago, Berlin and London. The weather doesn’t explain it, since Chicago’s race was a few degrees warmer and more humid.</p>
+      <p>New York runners also slowed more in the second half. Of all finishers, {f.pos_split_pct} percent ran it slower than the first, and the typical finisher took about {f.median_loss} minutes longer on it. {f.faster_half} {f.four_hour}</p>
       <p>{f.arc_sentence}</p>
     </>
   );
@@ -139,8 +141,8 @@ export default async function MarathonPage() {
   const after2 = (
     <>
       <h2>Is it the hills?</h2>
-      <p>{f.hills_lead} {f.halves_sentence} Measured against the miles just before them, the two climbs of the second half, the Queensboro Bridge and Fifth Avenue, cost the typical finisher about {f.climbs2_cost} between them, out of the {f.median_loss} extra minutes their second half took.</p>
-      <p>Miles 21 to 23, from the Bronx through Harlem, are flat, and runners ran them about {f.m21_23} percent slower than their average. That slowdown is fatigue, not hills.</p>
+      <p>{f.hills_lead} Most of the slowdown is fatigue that builds over the race, though the hills likely add to it. {f.halves_sentence} Measured against the miles just before them, the second half’s two climbs, the Queensboro Bridge and Fifth Avenue, cost the typical finisher about {f.climbs2_cost} between them, out of the {f.median_loss} extra minutes their second half took. And miles 21 to 23, from the Bronx through Harlem, are flat, but runners ran them about {f.m21_23} percent slower than their average.</p>
+      <p>The famous climbs aren’t the slowest miles. Runners ran the Verrazzano-Narrows Bridge, the biggest climb on the course at about {f.vz_climb} feet, only about {f.vz_excess} percent slower than the flat miles after it, and the Queensboro Bridge about {f.qb_excess} percent slower than the two miles before it. The exception is Fifth Avenue. Mile 24 climbs about {f.fifth_climb} feet alongside Central Park after 23 miles of racing, and it was the slowest mile of the race, about {f.fifth_excess} percent slower than the two miles before it. {f.small_sentence}</p>
     </>
   );
   const fig2 = {
@@ -149,9 +151,7 @@ export default async function MarathonPage() {
   };
   const after3 = (
     <>
-      <h2>Which climbs cost the most?</h2>
-      <p>Fifth Avenue. In mile 24, after 23 miles of racing, the course climbs about {f.fifth_climb} feet alongside Central Park, and runners ran it about {f.fifth_excess} percent slower than the two miles before it. The Queensboro Bridge cost about {f.qb_excess} percent. The Verrazzano-Narrows Bridge, the biggest climb on the course at about {f.vz_climb} feet, cost about {f.vz_excess} percent, at the start of the race.</p>
-      <p>{f.small_sentence}</p>
+      <p>I’ll try to update this story with the 2026 results after this year’s race. Good luck to everyone running.</p>
     </>
   );
   const about = (
@@ -160,7 +160,7 @@ export default async function MarathonPage() {
       <p>Results and splits are from New York Road Runners’ public results for the 2025 TCS New York City Marathon{f.list_phrase}. The pace figures use the {f.n_splits} finishers with complete split records, counting a record as complete when no more than four of its 25 timing-mat times are missing.</p>
       <p>Each mile is compared with the runner’s own average pace for the race. There are no timing mats at miles 1 and 2, so the first segment runs from the start to mile 3. The cards describe all finishers within five minutes of the chosen time, and the camera follows one of them, the runner whose pace by mile is closest to that group’s median.</p>
       <p>Each dot starts at its wave’s scheduled time plus the gap between the runner’s gun and net times, and moves at an even pace between timing mats. A dot is yellow at the runner’s average pace and shades to green as they run faster, fully green at 8 percent faster, and through orange to red as they slow, fully red at 10 percent slower. The {f.n_interp} runners with incomplete splits, most of them among the last to finish, are placed by even pace between the times that were recorded; the last finisher has no times after mile {f.last_split}.</p>
-      <p>The Chicago figures are from the race’s official 2025 results, as compiled in the <a href="https://www.kaggle.com/datasets/ramostherunning/chicago-marathon-2000-2025">Chicago Marathon Results 2000–2025</a> dataset by Victor Ramos, available under the <a href="https://opendatacommons.org/licenses/odbl/1-0/">Open Database License</a>. For both races, a runner’s second half is their net finish time minus their half-marathon time.</p>
+      <p>The Chicago figures are from the race’s official 2025 results, as compiled in the <a href="https://www.kaggle.com/datasets/ramostherunning/chicago-marathon-2000-2025">Chicago Marathon Results 2000–2025</a> dataset by Victor Ramos, available under the <a href="https://opendatacommons.org/licenses/odbl/1-0/">Open Database License</a>. Finish times are net times for every finisher in each race’s results, and a runner’s second half is their net finish time minus their half-marathon time. Temperatures and humidity are from the Central Park and Chicago Midway weather stations, through the Iowa Environmental Mesonet, at each race’s first start and three hours later. The 2026 analysis of the same runners across races is a preprint by Yi Hua Chang that has not been peer reviewed; its figures include each race’s weather.</p>
       <p>Buildings within 300 meters of the route are from the city’s Building Footprints dataset on NYC Open Data, drawn at their roof heights. The route is based on the 2023 course published on Strava and WNYC Data News’ course and mile-marker file, calibrated to the official miles. Elevation is from the U.S. Geological Survey’s 3D Elevation Program, with bridge decks at their modeled height. Land and borough lines are from the U.S. Census Bureau.</p>
       <p>The published data has no names, bib numbers, runner IDs or hometowns.</p>
     </>
