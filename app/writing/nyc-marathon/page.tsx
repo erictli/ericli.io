@@ -131,7 +131,7 @@ export default async function MarathonPage() {
   const after1 = (
     <>
       <h2>How hard is New York?</h2>
-      <p>A little harder than Chicago, one of the flattest big marathons. The typical New York finisher took {f.ny_median} last year, {f.median_gap} minutes longer than the typical finisher in Chicago three weeks earlier.</p>
+      <p>Most of the other major marathons don’t let their results be downloaded, so they’re hard to compare. But Chicago’s 2025 results are available, and next to Chicago, one of the flattest big marathons, New York looks a little harder. The typical New York finisher took {f.ny_median} last year, {f.median_gap} minutes longer than the typical finisher in Chicago three weeks earlier.</p>
       <p>Some of that gap is who runs each race. But studies that compare the same people across races find it too. <a href="https://doi.org/10.51224/SportRxiv.942">A 2026 analysis</a> of 1.2 million marathon finishes found New York’s 2025 race about 4 minutes slower than Chicago’s for a three-hour runner, and <a href="https://runningwithrock.com/six-star-finisher-follow-up/">Running with Rock</a> found that people who have run all six original World Marathon Majors were typically about 4 minutes slower in New York than at Chicago, Berlin and London. The weather doesn’t explain it, since Chicago’s race was a few degrees warmer and more humid.</p>
       <p>New York runners also slowed more in the second half. Of all finishers, {f.pos_split_pct} percent ran it slower than the first, and the typical finisher took about {f.median_loss} minutes longer on it. {f.faster_half} {f.four_hour}</p>
       <p>{f.arc_sentence}</p>
