@@ -44,6 +44,13 @@ const PROJECTS: Project[] = [
       "An offline-first markdown notes app for Mac, Windows and Linux. Open source and free to use.",
   },
   {
+    href: "https://potluck.ericli.io",
+    external: true,
+    name: "Potluck",
+    detail:
+      "A browser-based deck-building game where you run a restaurant serving up delicious stews.",
+  },
+  {
     href: "https://juno.ericli.io",
     external: true,
     name: "Juno",
@@ -89,7 +96,7 @@ function Poster({
       <div className="grid gap-12 p-6 pb-12 md:min-h-dvh md:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] md:grid-rows-[auto_minmax(0,1fr)_auto_auto_auto_auto] md:gap-x-12 md:gap-y-10 md:pb-6 min-[72rem]:h-dvh min-[72rem]:min-h-[640px] min-[72rem]:grid-cols-[minmax(0,1fr)_minmax(0,32rem)_minmax(0,1fr)] min-[72rem]:grid-rows-[auto_minmax(0,1fr)_auto] min-[72rem]:gap-y-6">
         {/* Below the menu button in the corner, which only phones get here. */}
         <div className="pt-7 md:col-start-1 md:row-start-1 md:pt-0">
-          <h1 className="font-medium">
+          <h1 className="font-[450]">
             Eric Li is a designer and builder
             <br />
             based in Brooklyn
@@ -137,9 +144,7 @@ function Poster({
             See all
           </Link>
         </Section>
-        <Contact
-          className="md:col-start-1 md:row-start-6 min-[72rem]:hidden"
-        />
+        <Contact className="md:col-start-1 md:row-start-6 min-[72rem]:hidden" />
       </div>
     </main>
   );

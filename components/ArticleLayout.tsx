@@ -48,11 +48,11 @@ export function ArticleHeader({
 }) {
   return (
     <header className="mb-8">
-      <h1 className="text-2xl leading-tight font-[450] tracking-[-0.015em]">
+      <h1 className="text-[28px] leading-tight font-[450] tracking-[-0.015em]">
         {article.title}
       </h1>
       <div
-        className={`mt-2 flex items-center gap-3 text-sm font-normal tabular-nums ${MUTED}`}
+        className={`mt-1.5 flex items-center gap-3 text-sm font-normal tabular-nums ${MUTED}`}
       >
         {/* Dates are calendar days; read them as UTC so they don't slip a day west of Greenwich. */}
         <time dateTime={article.date}>
