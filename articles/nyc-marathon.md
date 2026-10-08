@@ -1,6 +1,6 @@
 ---
-title: "Where New York marathoners slow down"
-description: "Mile splits from 58,721 finishers of the 2025 New York City Marathon show where on the course runners slowed down."
+title: "The New York City Marathon, mile by mile"
+description: "Mile splits from 58,721 finishers of the 2025 New York City Marathon show how the race unfolded, from the Verrazzano-Narrows Bridge to Central Park."
 date: "2026-10-08"
 image: "/writing/nyc-marathon/og.jpg"
 standalone: true
