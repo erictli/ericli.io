@@ -82,7 +82,7 @@ export default async function MarathonPage() {
   // every number in the copy, with its [copy check]s (printed by `next build`)
   const f = buildFacts(A, course, compare);
   checkCohorts(A);
-  const { winHalfMin, winEndMin } = clockRanges(A);
+  const { winHalfMin, firstFinishMin } = clockRanges(A);
   // the flythrough's cards for the default finish time; the client module writes them for
   // others (CohortCopy)
   const i0 = Math.max(0, A.cohorts.findIndex((c) => c.target === 4.5 * 3600));
@@ -119,12 +119,12 @@ export default async function MarathonPage() {
     { id: "c-bx", from: 19.4, to: 23.0, h: "min-h-[260vh]", card: <p><CohortCopy k="bx">{cc.bx}</CohortCopy></p> },
     { id: "c-fifth", from: 23.0, to: 24.4, h: "min-h-[240vh]", card: <p><CohortCopy k="fifth">{cc.fifth}</CohortCopy></p> },
     { id: "c-fin", from: 24.4, to: 26.2188, h: "min-h-[200vh]", card: <p><CohortCopy k="fin">{cc.fin}</CohortCopy></p> },
-    { id: "leaders", t0: 30, t1: winHalfMin, h: "min-h-[170vh]", card: <p>Next, the fastest and slowest runners. Scroll to run the race clock to {f.win_m_clock}, when the men’s winner finished and {f.not_started_at_mwin} runners had not yet started.</p> },
-    { id: "front", t0: winHalfMin, t1: winEndMin, h: "min-h-[170vh]", card: <p>{f.winner_halves}</p> },
-    { id: "handoff", t0: winEndMin, t1: winEndMin, h: "min-h-[170vh]", card: <p>When the men’s winner finished, the last finisher was at mile {f.last_at_mi}, {f.last_at_place}, and would be on the course for another {f.last_at_left}.</p> },
-    // the end-of-race card runs the clock from 11:13 a.m. to 9 p.m., so it gets more scroll
+    { id: "leaders", t0: 30, t1: winHalfMin, h: "min-h-[170vh]", card: <p>Next, the fastest and slowest runners. Scroll to run the race clock to {f.win_w_clock}, when the women’s winner became the first runner to finish and {f.not_started_at_wwin} runners had not yet started.</p> },
+    { id: "front", t0: winHalfMin, t1: firstFinishMin, h: "min-h-[170vh]", card: <p>{f.winner_halves}</p> },
+    { id: "handoff", t0: firstFinishMin, t1: firstFinishMin, h: "min-h-[170vh]", card: <p>When the women’s winner finished, the last finisher was at mile {f.last_at_mi}, {f.last_at_place}, and would be on the course for another {f.last_at_left}.</p> },
+    // the end-of-race card runs the clock from 10:54 a.m. to 9 p.m., so it gets more scroll
     // (the last runner arrives about 60% of the way in; the view then holds)
-    { id: "tail", t0: winEndMin, t1: 710, h: "min-h-[320vh]", card: <p>By 6 p.m., {f.tail_n6} runners were left, spread over the last {f.tail_span6} miles of the course.</p> },
+    { id: "tail", t0: firstFinishMin, t1: 710, h: "min-h-[320vh]", card: <p>By 6 p.m., {f.tail_n6} runners were left, spread over the last {f.tail_span6} miles of the course.</p> },
     { id: "end", h: "min-h-[200vh]", card: <p>The last of the {f.n_official} finishers crossed the line at {f.last_finish_clock}, {f.last_dur} after starting. {f.last_halves}</p> },
   ];
 
