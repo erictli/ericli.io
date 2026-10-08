@@ -130,7 +130,7 @@ function RunnerPanel({ hidden }: { hidden: boolean }) {
         )}
       </span>
       <div className="mt-1.5 text-marathon-ink-3">
-        Following a runner who finished in <FinishTimeSelect />
+        Following a typical runner who finished in <FinishTimeSelect />
       </div>
       <div data-strip className="mt-2 mb-0.5" />
     </div>
